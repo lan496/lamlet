@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "harbor": {
+    "version": "0.25.0",
+    "source_revision_reviewed": "2bc1a23bd961de0bec8742940f35ac9070c67815",
+    "repository": "https://github.com/harbor-framework/harbor"
+  },
+  "development_tasks": ["P1", "P2", "P3"],
+  "held_out_tasks": [],
+  "tasks": {
+    "P1": {
+      "name": "al-npt",
+      "prompt": "publication/agent_tests/opus47/al_npt_eval/al_npt_prompt.txt",
+      "prompt_blob": "ee0a7d5031a41224e0f63798b6913cd210177aca",
+      "potential": "publication/agent_tests/opus47/al_npt_eval/Al.eam.alloy",
+      "potential_blob": "efa5290331e3d781d159a847a5bcc6dd27f00429",
+      "criteria": ["structure", "potential", "ensemble", "temperature", "pressure", "duration", "damping"]
+    },
+    "P2": {
+      "name": "ni-heating",
+      "prompt": "publication/agent_tests/opus47/ni_melting_eval/ni_melting_prompt.txt",
+      "prompt_blob": "93e173df14f3eb754ce129c37040bff039e59fb5",
+      "potential": "publication/agent_tests/opus47/ni_melting_eval/Ni_Mishin_1999.eam.alloy",
+      "potential_blob": "458f550462147985aebc64bee947ca587bcb2200",
+      "criteria": ["structure", "potential", "initial_velocities", "ensemble", "pressure", "temperature_ramp", "duration"]
+    },
+    "P3": {
+      "name": "nb-impact",
+      "prompt": "publication/agent_tests/opus47/spall_nb_eval/spall_nb_prompt.txt",
+      "prompt_blob": "b499ba8fc181631242ea63b129324d0f8cb49f6f",
+      "potential": "publication/agent_tests/opus47/spall_nb_eval/prompt3.potential",
+      "potential_blob": "0e4f4e10c5f600e9a148e5e845df641b61f3e8b5",
+      "criteria": ["structure", "potential", "groups", "boundaries", "gap", "equilibration", "impact_velocity", "thermal_velocity_retained", "adiabatic_integration"]
+    }
+  }
+}

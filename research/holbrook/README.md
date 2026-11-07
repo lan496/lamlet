@@ -18,9 +18,10 @@ python3 tools/evaluation.py fetch
 
 The fetch uses a sparse Git checkout in `target/evaluation/upstream`. It includes
 240 one-shot scripts, six agent example scripts, the original method
-descriptions, and baseline implementation files. Upstream source is research
+descriptions, three pinned potential files for Harbor task preparation, and
+baseline implementation files. Upstream source is research
 data. The tool does not load the skill as instructions, execute upstream code,
-install Python packages, or fetch potential files.
+install Python packages, or run simulations.
 
 Git and network access are needed for fetch. Python 3.9 or later and the built
 Lamlet binary suffice for offline replay. The fetched artifact revision is a

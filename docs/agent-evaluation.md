@@ -115,6 +115,72 @@ artifact. Store scripts and tool outputs, rather than asking for private model
 reasoning. Tag infrastructure failures separately from incorrect submissions.
 Define exclusion and replacement rules before inspecting condition outcomes.
 
+## Harbor execution and benchmark maintenance
+
+Terminal-Bench motivates evaluating an agent system, including its tools and
+execution policy. It is not a LAMMPS benchmark. Harbor supplies the task format
+and runner for our domain-specific tasks. Its local task-directory option is
+`--path`; `--dataset` selects a named dataset. See the official
+[job guide](https://docs.harborframework.com/jobs/run-a-job).
+
+The [Harbor prototype](../research/harbor/README.md) prepares P1–P3 task templates
+for each A–D condition. It uses a separate verifier container, explicit artifact
+transfer, and an adapter for an independently implemented scientific oracle.
+The original method text stays intact. Common submission instructions and a
+condition-specific tool description are appended and hashed. Conditions share
+the final LAMMPS submission format, potential files, and required criteria.
+
+Task structure alone does not make tests inaccessible. Harbor defaults to a
+shared environment when no separate verifier is configured. The prototype
+explicitly requests separate verification and copies no tests into the agent
+image. Container separation and artifact tamper resistance still require live
+tests. See the official [separate verifier guide](https://docs.harborframework.com/tasks/separate-verifier).
+
+Scientific assessment is a separate outcome from the runner's reward. Missing
+oracle code, engine failures, incomplete evidence, and unresolved criteria must
+not become scientific successes. A missing submitted artifact is a task failure
+without a scientific assessment. Archive detailed assessment reports so an
+infrastructure error cannot disappear into an aggregate score.
+
+Benchmark revisions and resource limits are part of the experiment.
+Buchanan et al. report that repairing Terminal-Bench tasks and changing time
+budgets can change measured performance and comparisons between agent systems.
+That motivates versioning task instructions, images, required criteria, and
+tolerances together. A verifier repair requires regrading archived artifacts
+across all conditions where possible, with old and new labels retained. See
+[Benchmarks as Software](https://arxiv.org/html/2611.08417).
+
+Before admitting a task, require a reviewed reference submission to pass and
+targeted incorrect submissions to fail. Include wrong physical units, wrong
+geometry, removed velocity components, a substituted potential, and omitted
+equilibration. Also test valid alternative implementations, malicious or stale
+reward artifacts, missing outputs, and engine startup failures. Do not repair a
+verifier by merely accepting a script that the current agent happened to write.
+
+## Development and held-out evaluation
+
+All published P1–P3 tasks are development and replication tasks. The current
+manifest lists no held-out tasks. They cannot support a claim about unseen
+LAMMPS problems, even if a particular prompt has not been used in a local run.
+
+Wang et al. compare agent optimizers under fixed budgets and find that static
+gains do not consistently transfer to newly introduced tasks. This is evidence
+for testing transfer separately, not evidence about Lamlet's effectiveness.
+See [Do Agent Optimizers Compound?](https://arxiv.org/html/2607.14004).
+
+Freeze a held-out suite before final evaluation. Split by task family and source
+lineage, rather than placing minor numerical variants of the same script in
+both development and evaluation sets. Group related include trees, potential
+families, and repair templates to limit leakage. Hold out generation and repair
+tasks separately, and report their outcomes separately.
+
+Candidate repair families include changing units, switching integrators,
+adapting to missing packages, and extracting reusable modules. Restart and
+checkpoint tasks belong to a later language evaluation because Lamlet does not
+yet implement its proposed checkpoint guarantees. Freeze the checker, tool
+instructions, and budgets before using the held-out suite. Add regression cases
+to development after the study rather than tuning against the final test set.
+
 ## Independent correctness oracle
 
 Lamlet's exit code is agent feedback. It is never the final correctness label.
@@ -196,7 +262,8 @@ The next implementation sequence is:
 5. Add feature ablations and later multistage tasks for modules, restart, and
    checkpoint behavior. These remain separate hypotheses.
 
-No agent orchestration, scientific oracle, model API client, geometry solver,
-or new checkpoint implementation is included in this milestone. Those are
-explicit prerequisites or follow-up work, not capabilities implied by the
-offline replay.
+The offline replay and Harbor task preparation are implemented. Scientific
+oracles, audited reference solutions, validated runtime images, model trials,
+geometry checks, and checkpoint guarantees remain unimplemented. Harbor task
+templates and successful configuration parsing do not establish those
+capabilities.
