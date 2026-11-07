@@ -46,10 +46,49 @@ limit) bounds loops that emit no lines. Expressions allow 512 tokens and 128
 nested parser calls. Loops allow 64 nested blocks. These limits do not restrict
 identity compilation of large legacy files.
 
+## Conservative validation
+
+The schema registry declares argument counts, operands, keyword patterns, state
+effects, and partial coverage. The evaluated HIR keeps typed quantities separate
+from their formatted output so operand checks cannot confuse implicit legacy
+numbers with explicit dimensions. Fix keyword validation follows only the
+supported prefix. Once an opaque option appears, later tokens are not assigned
+invented keyword boundaries.
+
+The initial state uses LJ units, no box, atomic atom style, group `all`, no
+user fixes, and LAMMPS's three default thermo computes. ID inventories distinguish
+present, absent, and unknown, including an unknown fallback after a barrier.
+Reusing a fix ID is allowed. Thermostats weaken compute inventory knowledge
+because they can create internal computes. The defaults follow
+[LAMMPS thermo compute definitions](https://docs.lammps.org/thermo_style.html).
+
+All unregistered commands, including `include`, `if`, `jump`, and `next`, invalidate
+units, box existence, atom style, and ID inventories. Ambiguous token boundaries
+or unquoted runtime substitutions have the same effect. Group `all` remains
+predefined. An unknown fix or compute style invalidates state, then establishes
+the explicitly declared ID. Possible opaque callbacks also invalidate state at
+subsequent `run` commands. `run` options are opaque and invalidate state.
+
+`read_data` establishes a box but weakens group and fix inventories, since files
+and optional fix callbacks are not inspected. `read_restart` establishes a box
+and makes all other tracked facts unknown. `create_box` establishes a box.
+Later known commands can re-establish individual facts.
+
+This intentionally conservative policy means an ordinary command such as `region`
+or `variable` can make unit conversion unavailable until units are explicitly
+known again. Legacy output remains unchanged. A typed quantity is converted using
+state immediately before its command, including an opaque command, and that
+command's effects apply afterward. The compiler never opens referenced files.
+
+Strict mode requires schema proof for all newly interpolated operands, including
+dimensionless ones. `@unchecked` acknowledges an unverified operand and always
+warns. It bypasses operand checks, while unit conversion and definite global
+state errors still apply. Strict mode accepts opaque legacy commands and runtime
+values. Unknown findings do not establish validation success.
+
 ## Milestone status
 
-Milestones A and B implement identity compilation, logical lines, spans,
-diagnostics, atomic CLI output, typed expressions, lexical loops, and unit
-conversion. Command operand validation and conservative state analysis remain
-for milestone C. CLI capability descriptions, source maps, and final
+Milestones A through C implement compatibility, typed language constructs, unit
+conversion, operand checks, state analysis, strict mode, and the configurable
+expansion limit. CLI capability descriptions, source maps, and final
 documentation remain for milestone D.

@@ -1,8 +1,10 @@
 use crate::{
     Options,
+    analysis::{self, State},
     codegen::{ExpansionContext, Output},
     diagnostic::{Diagnostic, Severity},
     expr::{self, ExprError, Scope, Type, Value},
+    hir,
     source::{Source, Span},
     syntax::{Command, Node},
     units::target_scale,
@@ -15,7 +17,7 @@ pub(crate) struct Lowerer<'a> {
     pub diagnostics: Vec<Diagnostic>,
     scopes: Vec<Scope>,
     context: Vec<ExpansionContext>,
-    units: Option<String>,
+    state: State,
     expanded_lines: usize,
     expansion_steps: usize,
 }
@@ -29,7 +31,7 @@ impl<'a> Lowerer<'a> {
             diagnostics: vec![],
             scopes: vec![Scope::new()],
             context: vec![],
-            units: Some("lj".into()),
+            state: State::default(),
             expanded_lines: 0,
             expansion_steps: 0,
         }
@@ -142,15 +144,23 @@ impl<'a> Lowerer<'a> {
 
     fn command(&mut self, command: &Command) -> Result<(), ExprError> {
         let mut replacements = vec![];
+        let mut operands = vec![];
+        let mut resolved = command.clone();
         for arg in &command.arguments {
             if let Some(interpolation) = &arg.interpolation {
                 let value = expr::evaluate(&interpolation.expression, &self.scopes)?;
+                operands.push(hir::Operand {
+                    span: interpolation.expression.span,
+                    value: Some(value.clone()),
+                    introduced: true,
+                    unchecked: interpolation.unchecked,
+                });
                 let text = match value {
                     Value::Int(n) => n.to_string(),
                     Value::Float(n) => format_number(n),
                     Value::Bool(b) => b.to_string(),
                     Value::Quantity(n, dimension) => {
-                        let style = self.units.as_deref().unwrap_or("unknown");
+                        let style = self.state.units.as_deref().unwrap_or("unknown");
                         let scale = target_scale(style, dimension).ok_or_else(|| self.error("E_UNSUPPORTED_UNITS", format!("Cannot convert {} with active units '{style}'; declare units metal or units real", dimension.name()), interpolation.expression.span))?;
                         let n = n / scale;
                         if !n.is_finite() {
@@ -172,21 +182,34 @@ impl<'a> Lowerer<'a> {
                         "Explicit @unchecked interpolation bypasses operand verification",
                     ));
                 }
+                resolved.arguments[operands.len() - 1].text = text.clone();
                 replacements.push((interpolation.span, text));
+            } else {
+                let value = arg
+                    .text
+                    .parse::<i64>()
+                    .map(Value::Int)
+                    .ok()
+                    .or_else(|| arg.text.parse::<f64>().map(Value::Float).ok());
+                operands.push(hir::Operand {
+                    span: arg.span,
+                    value,
+                    introduced: false,
+                    unchecked: false,
+                });
             }
         }
-        if command.unambiguous
-            && command
-                .arguments
-                .first()
-                .is_some_and(|arg| arg.text == "units")
-        {
-            self.units = command
-                .arguments
-                .get(1)
-                .filter(|a| !a.dynamic && a.interpolation.is_none())
-                .map(|a| a.text.clone());
-        }
+        let hir = hir::Command {
+            syntax: &resolved,
+            operands,
+        };
+        analysis::analyze(
+            self.source,
+            &hir,
+            &mut self.state,
+            self.options.strict,
+            &mut self.diagnostics,
+        );
         let mut bytes = vec![];
         let mut cursor = command.line.span.start;
         for (span, replacement) in replacements {

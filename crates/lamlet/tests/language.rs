@@ -64,8 +64,8 @@ fn loops_scopes_and_order_golden() {
     has_error("@for i in [1, true] {\n}\n", "E_TYPE_MISMATCH");
     has_error("@for i in [1 fs, 1 K] {\n}\n", "E_TYPE_MISMATCH");
     assert_eq!(
-        output("@for n in [1, 2.5] {\nrun @{n * 2}\n}\n"),
-        "run 2\nrun 5\n"
+        output("@for n in [1, 2.5] {\nplugin @{n * 2}\n}\n"),
+        "plugin 2\nplugin 5\n"
     );
 }
 

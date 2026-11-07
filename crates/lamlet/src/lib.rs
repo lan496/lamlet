@@ -1,7 +1,10 @@
+pub mod analysis;
 pub mod codegen;
 pub mod diagnostic;
 pub mod expr;
+pub mod hir;
 mod lower;
+pub mod schema;
 pub mod source;
 pub mod syntax;
 pub mod units;
