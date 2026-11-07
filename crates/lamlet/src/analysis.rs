@@ -31,7 +31,7 @@ impl Inventory {
         self.facts.clear();
         self.fallback = Fact::Unknown;
     }
-    fn get(&self, id: &str) -> Fact {
+    pub(crate) fn get(&self, id: &str) -> Fact {
         self.facts.get(id).copied().unwrap_or(self.fallback)
     }
     fn set(&mut self, id: &str, fact: Fact) {
@@ -47,6 +47,8 @@ pub struct State {
     pub groups: Inventory,
     pub fixes: Inventory,
     pub computes: Inventory,
+    pub dumps: Inventory,
+    pub pair_style: Option<String>,
     opaque_callbacks: bool,
 }
 impl Default for State {
@@ -64,6 +66,8 @@ impl Default for State {
             groups,
             fixes: Inventory::empty(),
             computes,
+            dumps: Inventory::empty(),
+            pair_style: None,
             opaque_callbacks: false,
         }
     }
@@ -77,6 +81,8 @@ impl State {
         self.groups.set("all", Fact::Present);
         self.fixes.weaken();
         self.computes.weaken();
+        self.dumps.weaken();
+        self.pair_style = None;
         self.opaque_callbacks = true;
     }
 }
@@ -218,6 +224,7 @@ pub fn analyze(
     };
     let name = first.text.as_str();
     let base_schema = schema::find(name);
+    let path_slot = schema::path_operand(syntax, state.pair_style.as_deref());
     let mut requirements = vec![None; args.len()];
     let mut complete_prefix = true;
     let mut schema = base_schema;
@@ -305,7 +312,7 @@ pub fn analyze(
                     diagnostics,
                 );
             }
-        } else if operand.introduced {
+        } else if operand.introduced && !path_slot.is_some_and(|slot| slot.position == i) {
             let (severity, code) = if strict {
                 (Severity::Error, "E_UNVERIFIED_ARGUMENT")
             } else {
@@ -346,7 +353,20 @@ pub fn analyze(
         || schema.is_none()
         || matches!(
             name,
-            "compute" | "group" | "atom_style" | "read_data" | "read_restart" | "create_box"
+            "compute"
+                | "group"
+                | "atom_style"
+                | "read_data"
+                | "read_restart"
+                | "create_box"
+                | "pair_style"
+                | "pair_coeff"
+                | "dump"
+                | "undump"
+                | "include"
+                | "write_data"
+                | "write_restart"
+                | "log"
         )
         || (name == "run" && args.len() > 2)
     {
@@ -470,6 +490,25 @@ pub fn analyze(
             state.computes.set(&args[1].text, Fact::Absent);
         }
         "run" if args.len() > 2 || state.opaque_callbacks => state.weaken(),
+        "pair_style" => {
+            state.weaken();
+            state.pair_style = args.get(1).map(|a| a.text.clone());
+        }
+        "dump" if args.len() >= 6 => {
+            state.weaken();
+            state.dumps.set(&args[1].text, Fact::Present);
+        }
+        "undump" if args.len() == 2 => {
+            // Legacy dump validation is intentionally unchanged. Ownership of
+            // opt-in @with dumps is checked by the scope pass.
+            state.dumps.set(&args[1].text, Fact::Absent);
+        }
+        "pair_coeff" => {
+            let style = state.pair_style.clone();
+            state.weaken();
+            state.pair_style = style;
+        }
+        "include" | "write_data" | "write_restart" | "log" => state.weaken(),
         _ => {}
     }
 }

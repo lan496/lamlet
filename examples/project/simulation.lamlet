@@ -1,0 +1,14 @@
+@let dt = 2 fs
+@let structure = path("structure.data")
+units metal
+atom_style atomic
+read_data @{structure}
+timestep @{dt}
+pair_style zero 2.5
+pair_coeff * *
+@scope {
+    @compute T all temp
+    @fix integrate all nve
+    @dump trajectory all custom 1 @{output("results/traj.lammpstrj")} id type x y z
+    run 0
+}

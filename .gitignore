@@ -1,2 +1,6 @@
 /target/
 /tools/__pycache__/
+
+/.lamlet/
+/examples/project/.lamlet/
+/examples/project/results/

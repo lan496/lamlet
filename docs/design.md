@@ -40,10 +40,10 @@ Formatting uses Rust's shortest round-trip floating representation, with negativ
 zero emitted as zero. Conversion tests use relative tolerance 1e-12. This does
 not promise identical MD trajectories to scripts using other rounded constants.
 
-The default expansion limit counts physical lines emitted within loops, including
+The default expansion limit counts physical lines emitted within loops and managed acquisition/cleanup lines, including
 blank lines and comments. A second work limit of max(1024, 16 times the line
 limit) bounds loops that emit no lines. Expressions allow 512 tokens and 128
-nested parser calls. Loops allow 64 nested blocks. These limits do not restrict
+nested parser calls. Lamlet permits 64 nested loop/scope blocks. These limits do not restrict
 identity compilation of large legacy files.
 
 ## Conservative validation
@@ -86,7 +86,8 @@ This intentionally conservative policy means an ordinary command such as `region
 or `variable` can make unit conversion unavailable until units are explicitly
 known again. Legacy output remains unchanged. A typed quantity is converted using
 state immediately before its command, including an opaque command, and that
-command's effects apply afterward. The compiler never opens referenced files.
+command's effects apply afterward. Legacy paths are not inspected. Explicit typed resources opt into filesystem
+checks described in the [project guide](resources.md).
 
 Strict mode requires schema proof for all newly interpolated operands, including
 dimensionless ones. `@unchecked` acknowledges an unverified operand and always
@@ -108,7 +109,7 @@ continuation. Expansion context records each loop variable and zero-based
 iteration. Scripts contain no mapping comments.
 
 Builds prepare output and optional map temporary files before publishing either.
-Each destination is replaced atomically. The two-file publication is not a
+Each destination is replaced atomically. The multi-file publication is not a
 filesystem transaction: a filesystem error during the final rename can leave
 only one destination updated. Compilation errors never publish either file.
 Source paths and existing aliases cannot be output destinations.
@@ -116,8 +117,9 @@ Source paths and existing aliases cannot be output destinations.
 ## Coverage and remaining limitations
 
 Milestones A through D are implemented. The required automated acceptance cases
-run without LAMMPS. No required v0.1 language or CLI feature is intentionally
-deferred. State analysis remains deliberately incomplete as described above;
+run without LAMMPS. The original v0.1 requirements have no intentional feature deferrals.
+Later project-resource and scope extensions are documented in
+[resources](resources.md) and [scopes](scopes.md), including their deferred work. State analysis remains deliberately incomplete as described above;
 unsupported commands are accepted, not validated. The compiler currently stops
 at the first syntax or expression-evaluation error, while schema analysis can
 report multiple errors.

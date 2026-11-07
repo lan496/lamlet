@@ -47,6 +47,59 @@ pub static CODES: &[(&str, &str)] = &[
         "Strict mode requires schema proof or @unchecked",
     ),
     (
+        "E_EFFECT_CONFLICT",
+        "Known integrators conflict on the same group",
+    ),
+    ("E_EXECUTION", "LAMMPS could not start or returned failure"),
+    (
+        "E_INPUT_SCRIPT",
+        "Transitive Lamlet include compilation is not supported",
+    ),
+    (
+        "E_OUTPUT_COLLISION",
+        "Typed output aliases an input, source, or another writer",
+    ),
+    ("E_PATH_CONTEXT", "Runtime working directory is unknown"),
+    ("E_PATH_ESCAPE", "Typed path escapes its configured root"),
+    ("E_PATH_IO", "Typed path cannot be resolved"),
+    ("E_PATH_KIND", "Filesystem object has the wrong kind"),
+    ("E_PATH_NOT_FOUND", "Explicit input resource does not exist"),
+    ("E_PATH_SYNTAX", "Unsupported typed path syntax"),
+    ("E_PROJECT_CONFIG", "Invalid project configuration"),
+    (
+        "E_PROJECT_REQUIRED",
+        "Typed resources require a project context",
+    ),
+    (
+        "E_SCOPE_DEPENDENCY",
+        "Live resource still depends on the resource being released",
+    ),
+    (
+        "E_SCOPE_ESCAPE",
+        "Unstructured control flow can bypass resource cleanup",
+    ),
+    ("E_SCOPE_OWNERSHIP", "Managed resource ownership violation"),
+    (
+        "E_SCOPE_RESOURCE",
+        "Invalid managed resource declaration or ambiguous drop",
+    ),
+    (
+        "E_SCOPE_UNVERIFIED",
+        "Strict mode cannot verify resource effects",
+    ),
+    (
+        "E_SCOPE_USE_AFTER_FREE",
+        "Managed resource is outside its lifetime",
+    ),
+    (
+        "W_DYNAMIC_PATH",
+        "Runtime filename is not statically verified",
+    ),
+    (
+        "W_SCOPE_UNVERIFIED",
+        "Opaque command may invalidate resource ownership or cleanup",
+    ),
+    (
         "U_COMMAND_ORDER",
         "Box state is unknown at an ordering constraint",
     ),

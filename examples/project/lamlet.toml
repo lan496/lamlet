@@ -1,0 +1,7 @@
+[project]
+name = "scoped-demo"
+[paths]
+input_root = "."
+output_root = "results"
+[build]
+directory = ".lamlet/build"

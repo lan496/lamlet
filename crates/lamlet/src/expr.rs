@@ -1,4 +1,5 @@
 use crate::{
+    resources::{ResourceKind, ResourceValue},
     source::Span,
     units::{Dimension, unit},
 };
@@ -12,6 +13,7 @@ pub enum Type {
     Quantity(Dimension),
     List(Box<Type>),
     Unknown,
+    Resource(ResourceKind),
 }
 
 impl Type {
@@ -23,6 +25,7 @@ impl Type {
             Self::Quantity(d) => d.name(),
             Self::List(t) => format!("List({})", t.name()),
             Self::Unknown => "Unknown".into(),
+            Self::Resource(kind) => kind.name().into(),
         }
     }
 }
@@ -33,6 +36,7 @@ pub enum Value {
     Float(f64),
     Bool(bool),
     Quantity(f64, Dimension),
+    Resource(ResourceValue),
 }
 
 impl Value {
@@ -42,13 +46,14 @@ impl Value {
             Self::Float(_) => Type::Float,
             Self::Bool(_) => Type::Bool,
             Self::Quantity(_, d) => Type::Quantity(*d),
+            Self::Resource(value) => Type::Resource(value.kind),
         }
     }
     pub fn number(&self) -> Option<f64> {
         match self {
             Self::Int(n) => Some(*n as f64),
             Self::Float(n) | Self::Quantity(n, _) => Some(*n),
-            Self::Bool(_) => None,
+            Self::Bool(_) | Self::Resource(_) => None,
         }
     }
     pub fn dimension(&self) -> Dimension {
@@ -80,7 +85,7 @@ pub struct ExprError {
     pub span: Span,
 }
 impl ExprError {
-    fn new(code: &'static str, message: impl Into<String>, span: Span) -> Self {
+    pub(crate) fn new(code: &'static str, message: impl Into<String>, span: Span) -> Self {
         Self {
             code,
             message: message.into(),
@@ -93,6 +98,7 @@ impl ExprError {
 enum TokenKind {
     Number(String),
     Name(String),
+    Text(String),
     Punct(char),
     End,
 }
@@ -112,7 +118,44 @@ fn lex(text: &str, offset: usize) -> Result<Vec<Token>, ExprError> {
             continue;
         }
         let start = i;
-        let kind = if b[i].is_ascii_digit() || b[i] == b'.' {
+        let kind = if b[i] == b'"' {
+            i += 1;
+            let mut value = String::new();
+            let mut closed = false;
+            while i < b.len() {
+                let c = text[i..].chars().next().unwrap();
+                i += c.len_utf8();
+                match c {
+                    '"' => {
+                        closed = true;
+                        break;
+                    }
+                    '\\' => {
+                        let escaped = b.get(i).copied().ok_or_else(|| {
+                            ExprError::new(
+                                "E_EXPRESSION",
+                                "Unclosed path string",
+                                Span::new(offset + start, offset + i),
+                            )
+                        })?;
+                        value.push(match escaped {
+                            b'"' => '"', b'\\' => '\\',
+                            _ => return Err(ExprError::new("E_EXPRESSION", "Only escaped quotes and backslashes are supported in path strings", Span::new(offset + i - 1, offset + i + 1))),
+                        });
+                        i += 1;
+                    }
+                    _ => value.push(c),
+                }
+            }
+            if !closed {
+                return Err(ExprError::new(
+                    "E_EXPRESSION",
+                    "Unclosed path string",
+                    Span::new(offset + start, offset + i),
+                ));
+            }
+            TokenKind::Text(value)
+        } else if b[i].is_ascii_digit() || b[i] == b'.' {
             while i < b.len() && (b[i].is_ascii_digit() || b[i] == b'.') {
                 i += 1;
             }
@@ -270,10 +313,43 @@ impl Parser {
                 kind: ExprKind::Literal(Value::Bool(s == "true")),
                 span: token.span,
             },
-            TokenKind::Name(s) => Expr {
-                kind: ExprKind::Name(s),
-                span: token.span,
-            },
+            TokenKind::Name(s) => {
+                if matches!(self.peek().kind, TokenKind::Punct('(')) {
+                    let kind = match s.as_str() {
+                        "path" => ResourceKind::InputFile,
+                        "output" => ResourceKind::OutputFile,
+                        "dir" => ResourceKind::Directory,
+                        "pattern" => ResourceKind::InputPattern,
+                        "dynamic" => ResourceKind::DynamicPath,
+                        _ => {
+                            return Err(ExprError::new(
+                                "E_EXPRESSION",
+                                format!("Unknown built-in '{s}'"),
+                                token.span,
+                            ));
+                        }
+                    };
+                    self.take();
+                    let argument = self.take();
+                    let TokenKind::Text(path) = argument.kind else {
+                        return Err(ExprError::new(
+                            "E_EXPRESSION",
+                            "Resource constructors require one quoted literal",
+                            argument.span,
+                        ));
+                    };
+                    let end = self.punct(')')?.span.end;
+                    Expr {
+                        kind: ExprKind::Literal(Value::Resource(ResourceValue { kind, path })),
+                        span: Span::new(token.span.start, end),
+                    }
+                } else {
+                    Expr {
+                        kind: ExprKind::Name(s),
+                        span: token.span,
+                    }
+                }
+            }
             TokenKind::Punct('-') => {
                 let rhs = self.expression(5)?;
                 let span = Span::new(token.span.start, rhs.span.end);
@@ -386,7 +462,7 @@ pub fn evaluate(expr: &Expr, scopes: &[Scope]) -> Result<Value, ExprError> {
                 })?),
                 Value::Float(n) => Value::Float(-n),
                 Value::Quantity(n, d) => Value::Quantity(-n, d),
-                Value::Bool(_) => {
+                Value::Bool(_) | Value::Resource(_) => {
                     return Err(error(
                         "E_TYPE_MISMATCH",
                         "Unary minus requires a number".into(),
@@ -397,7 +473,10 @@ pub fn evaluate(expr: &Expr, scopes: &[Scope]) -> Result<Value, ExprError> {
                 let l = evaluate(lhs, scopes)?;
                 let r = evaluate(rhs, scopes)?;
                 let (a, b) = l.number().zip(r.number()).ok_or_else(|| {
-                    error("E_TYPE_MISMATCH", "Arithmetic does not accept Bool".into())
+                    error(
+                        "E_TYPE_MISMATCH",
+                        "Arithmetic requires numerical values".into(),
+                    )
                 })?;
                 if *op == '/' && b == 0.0 {
                     return Err(error(

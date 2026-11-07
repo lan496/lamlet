@@ -104,6 +104,7 @@ pub struct Command {
 pub enum Node {
     Let {
         name: String,
+        annotation: Option<crate::resources::ResourceKind>,
         expression: Expr,
         span: Span,
     },
@@ -114,6 +115,15 @@ pub enum Node {
         span: Span,
     },
     Command(Command),
+    Scope {
+        body: Vec<Node>,
+        end: Span,
+    },
+    Managed(Command),
+    Drop {
+        id: String,
+        span: Span,
+    },
 }
 
 fn syntax_error(message: impl Into<String>, span: Span) -> ExprError {
@@ -255,9 +265,7 @@ pub fn command(source: &[u8], line: LogicalLine, extended: bool) -> Result<Comma
                                 text.span(start, i + prefix),
                             ));
                         }
-                        let end = b[i + prefix..]
-                            .iter()
-                            .position(|c| *c == b'}')
+                        let end = unquoted_byte(&b[i + prefix..], b'}')
                             .map(|p| i + prefix + p)
                             .ok_or_else(|| {
                                 syntax_error("Unclosed interpolation", text.span(i, b.len()))
@@ -356,6 +364,37 @@ fn identifier(name: &str) -> bool {
         && chars.all(|c| c.is_ascii_alphanumeric() || c == b'_')
 }
 
+fn unquoted_byte(bytes: &[u8], target: u8) -> Option<usize> {
+    let mut quote = Quote::None;
+    let mut i = 0;
+    while i < bytes.len() {
+        match quote {
+            Quote::None if bytes[i] == target => return Some(i),
+            Quote::None if bytes[i..].starts_with(b"\"\"\"") => {
+                quote = Quote::Triple;
+                i += 3;
+                continue;
+            }
+            Quote::None if bytes[i] == b'"' => quote = Quote::Double,
+            Quote::None if bytes[i] == b'\'' => quote = Quote::Single,
+            Quote::Double if bytes[i] == b'\\' => {
+                i += 2;
+                continue;
+            }
+            Quote::Double if bytes[i] == b'"' => quote = Quote::None,
+            Quote::Single if bytes[i] == b'\'' => quote = Quote::None,
+            Quote::Triple if bytes[i..].starts_with(b"\"\"\"") => {
+                quote = Quote::None;
+                i += 3;
+                continue;
+            }
+            _ => {}
+        }
+        i += 1;
+    }
+    None
+}
+
 pub fn parse(source: &[u8], extended: bool) -> Result<Vec<Node>, ExprError> {
     let lines = logical_lines(source);
     let mut position = 0;
@@ -378,11 +417,7 @@ fn parse_block(
             .iter()
             .position(|c| !c.is_ascii_whitespace())
             .unwrap_or(text.bytes.len());
-        let content_end = text
-            .bytes
-            .iter()
-            .position(|c| *c == b'#')
-            .unwrap_or(text.bytes.len());
+        let content_end = unquoted_byte(&text.bytes, b'#').unwrap_or(text.bytes.len());
         let directive = text.bytes.get(trimmed_start) == Some(&b'@');
         if extended && content_end >= trimmed_start {
             let content = std::str::from_utf8(&text.bytes[trimmed_start..content_end]);
@@ -407,7 +442,15 @@ fn parse_block(
             let (name, expression_text) = binding
                 .split_once('=')
                 .ok_or_else(|| syntax_error("Expected @let NAME = EXPR", line.span))?;
-            let name = name.trim();
+            let (name, annotation) = if let Some((name, annotation)) = name.split_once(':') {
+                let kind =
+                    crate::resources::ResourceKind::parse(annotation.trim()).ok_or_else(|| {
+                        syntax_error("Expected a resource type annotation", line.span)
+                    })?;
+                (name.trim(), Some(kind))
+            } else {
+                (name.trim(), None)
+            };
             if !identifier(name) {
                 return Err(syntax_error("Invalid binding name", line.span));
             }
@@ -417,9 +460,46 @@ fn parse_block(
             text.map_expr(&mut expression);
             nodes.push(Node::Let {
                 name: name.into(),
+                annotation,
                 expression,
                 span: line.span,
             });
+        } else if content
+            .strip_suffix('{')
+            .is_some_and(|s| s.trim_end() == "@scope")
+        {
+            if depth >= 64 {
+                return Err(syntax_error("Block nesting exceeds 64 levels", line.span));
+            }
+            let body = parse_block(source, lines, position, extended, depth + 1)?;
+            let end = lines[*position - 1].span;
+            nodes.push(Node::Scope { body, end });
+        } else if let Some(id) = content
+            .strip_prefix("@drop ")
+            .or_else(|| content.strip_prefix("@drop\t"))
+        {
+            let id = id.trim();
+            if id.is_empty() || !id.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_') {
+                return Err(syntax_error("Expected @drop RESOURCE_ID", line.span));
+            }
+            nodes.push(Node::Drop {
+                id: id.into(),
+                span: line.span,
+            });
+        } else if ["@fix", "@compute", "@dump"].iter().any(|name| {
+            content
+                .strip_prefix(name)
+                .is_some_and(|s| s.starts_with(char::is_whitespace))
+        }) {
+            let header_span = Span::new(
+                text.span(trimmed_start, trimmed_start + 1).end,
+                line.span.end,
+            );
+            let header_line = LogicalLine {
+                span: header_span,
+                continuations: line.continuations.clone(),
+            };
+            nodes.push(Node::Managed(command(source, header_line, true)?));
         } else if let Some(header) = content
             .strip_prefix("@for ")
             .or_else(|| content.strip_prefix("@for\t"))
@@ -463,7 +543,7 @@ fn parse_block(
     }
     if depth > 0 {
         Err(syntax_error(
-            "Unclosed @for block",
+            "Unclosed Lamlet block",
             lines.last().map_or(Span::default(), |l| l.span),
         ))
     } else {

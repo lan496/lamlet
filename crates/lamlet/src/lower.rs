@@ -5,6 +5,8 @@ use crate::{
     diagnostic::{Diagnostic, Severity},
     expr::{self, ExprError, Scope, Type, Value},
     hir,
+    resources::{self, ResourceKind},
+    scoped::Action,
     source::{Source, Span},
     syntax::{Command, Node},
     units::target_scale,
@@ -20,6 +22,8 @@ pub(crate) struct Lowerer<'a> {
     state: State,
     expanded_lines: usize,
     expansion_steps: usize,
+    pub resources: resources::Resolver,
+    lifetimes: crate::scoped::Lifetimes,
 }
 
 impl<'a> Lowerer<'a> {
@@ -34,6 +38,8 @@ impl<'a> Lowerer<'a> {
             state: State::default(),
             expanded_lines: 0,
             expansion_steps: 0,
+            resources: resources::Resolver::new(options.project.clone(), source),
+            lifetimes: crate::scoped::Lifetimes::default(),
         }
     }
     fn error(&self, code: &'static str, message: impl Into<String>, span: Span) -> ExprError {
@@ -73,6 +79,7 @@ impl<'a> Lowerer<'a> {
             match node {
                 Node::Let {
                     name,
+                    annotation,
                     expression,
                     span,
                 } => {
@@ -84,7 +91,38 @@ impl<'a> Lowerer<'a> {
                             *span,
                         ));
                     }
-                    let value = expr::evaluate(expression, &self.scopes)?;
+                    let mut value = expr::evaluate(expression, &self.scopes)?;
+                    if let Some(annotation) = annotation {
+                        match &mut value {
+                            Value::Resource(resource) if annotation.accepts(resource.kind) => {}
+                            Value::Resource(resource)
+                                if resource.kind == ResourceKind::InputFile
+                                    && annotation.is_input_file() =>
+                            {
+                                resource.kind = *annotation
+                            }
+                            _ => {
+                                return Err(self.error(
+                                    "E_TYPE_MISMATCH",
+                                    format!(
+                                        "Expected {}, got {}",
+                                        annotation.name(),
+                                        value.ty().name()
+                                    ),
+                                    expression.span,
+                                ));
+                            }
+                        }
+                    }
+                    if let Value::Resource(resource) = &value {
+                        self.resources.declare(
+                            resource,
+                            self.source,
+                            expression.span,
+                            "file",
+                            false,
+                        )?;
+                    }
                     self.scopes.last_mut().unwrap().insert(name.clone(), value);
                 }
                 Node::For {
@@ -135,20 +173,70 @@ impl<'a> Lowerer<'a> {
                 }
                 Node::Command(command) => {
                     self.step(command.line.span)?;
-                    self.command(command)?;
+                    self.command(command, Emission::Original)?;
+                }
+                Node::Scope { body, end } => {
+                    self.lifetimes.enter_scope();
+                    self.scopes.push(Scope::new());
+                    let result = self.nodes(body);
+                    self.scopes.pop();
+                    result?;
+                    while let Some(cleanup) = self.lifetimes.cleanup(*end) {
+                        self.release(cleanup)?;
+                    }
+                    self.lifetimes.leave_scope();
+                }
+                Node::Managed(command) => {
+                    self.step(command.line.span)?;
+                    self.command(command, Emission::Acquire)?;
+                }
+                Node::Drop { id, span } => {
+                    self.step(*span)?;
+                    let cleanup = self.lifetimes.drop_command(id, *span)?;
+                    self.release(cleanup)?;
                 }
             }
         }
         Ok(())
     }
 
-    fn command(&mut self, command: &Command) -> Result<(), ExprError> {
+    fn release(&mut self, cleanup: Command) -> Result<(), ExprError> {
+        let text = format!(
+            "{} {}\n",
+            cleanup.arguments[0].text, cleanup.arguments[1].text
+        );
+        self.command(&cleanup, Emission::Release(&text))
+    }
+
+    fn command(&mut self, command: &Command, emission: Emission<'_>) -> Result<(), ExprError> {
         let mut replacements = vec![];
         let mut operands = vec![];
         let mut resolved = command.clone();
-        for arg in &command.arguments {
+        let path_slot = crate::schema::path_operand(command, self.state.pair_style.as_deref());
+        for (position, arg) in command.arguments.iter().enumerate() {
             if let Some(interpolation) = &arg.interpolation {
                 let value = expr::evaluate(&interpolation.expression, &self.scopes)?;
+                if let Some(slot) = path_slot.filter(|s| s.position == position) {
+                    let compatible = match &value {
+                        Value::Resource(resource) => {
+                            slot.resource_type.accepts(resource.kind)
+                                || slot.input_pattern && resource.kind == ResourceKind::InputPattern
+                                || resource.kind == ResourceKind::DynamicPath
+                        }
+                        _ => false,
+                    };
+                    if !compatible && !interpolation.unchecked {
+                        return Err(self.error(
+                            "E_TYPE_MISMATCH",
+                            format!(
+                                "Expected {} path, got {}",
+                                slot.resource_type.name(),
+                                value.ty().name()
+                            ),
+                            interpolation.expression.span,
+                        ));
+                    }
+                }
                 operands.push(hir::Operand {
                     span: interpolation.expression.span,
                     value: Some(value.clone()),
@@ -159,6 +247,32 @@ impl<'a> Lowerer<'a> {
                     Value::Int(n) => n.to_string(),
                     Value::Float(n) => format_number(n),
                     Value::Bool(b) => b.to_string(),
+                    Value::Resource(resource) => {
+                        let slot = path_slot.filter(|s| s.position == position);
+                        let role = slot.map_or("file", |s| s.kind);
+                        if role == "script" && resource.path.ends_with(".lamlet") {
+                            return Err(self.error("E_INPUT_SCRIPT", "Compile Lamlet include files separately; automatic transitive compilation is not supported", interpolation.expression.span));
+                        }
+                        let path = self.resources.declare(
+                            &resource,
+                            self.source,
+                            interpolation.expression.span,
+                            role,
+                            slot.is_some_and(|s| s.resource_type == ResourceKind::OutputFile)
+                                && resource.kind == ResourceKind::OutputFile,
+                        )?;
+                        if resource.kind == ResourceKind::DynamicPath {
+                            self.diagnostics.push(Diagnostic::new(self.source, interpolation.span,
+                                if self.options.strict && !interpolation.unchecked { Severity::Error } else { Severity::Warning },
+                                if self.options.strict && !interpolation.unchecked { "E_UNVERIFIED_ARGUMENT" } else { "W_DYNAMIC_PATH" },
+                                "Runtime path substitutions are not checked for existence, containment, or collisions"));
+                        }
+                        self.resources.render(
+                            &path,
+                            resource.kind,
+                            interpolation.expression.span,
+                        )?
+                    }
                     Value::Quantity(n, dimension) => {
                         let style = self.state.units.as_deref().unwrap_or("unknown");
                         let scale = target_scale(style, dimension).ok_or_else(|| self.error("E_UNSUPPORTED_UNITS", format!("Cannot convert {} with active units '{style}'; declare units metal or units real", dimension.name()), interpolation.expression.span))?;
@@ -186,7 +300,11 @@ impl<'a> Lowerer<'a> {
                         "Explicit @unchecked interpolation bypasses operand verification",
                     ));
                 }
-                resolved.arguments[operands.len() - 1].text = text.clone();
+                resolved.arguments[operands.len() - 1].text = text
+                    .strip_prefix('"')
+                    .and_then(|s| s.strip_suffix('"'))
+                    .unwrap_or(&text)
+                    .into();
                 replacements.push((interpolation.span, text));
             } else {
                 let value = arg
@@ -207,6 +325,13 @@ impl<'a> Lowerer<'a> {
             syntax: &resolved,
             operands,
         };
+        self.lifetimes.before(
+            &resolved,
+            emission.action(),
+            self.options.strict,
+            self.source,
+            &mut self.diagnostics,
+        )?;
         analysis::analyze(
             self.source,
             &hir,
@@ -214,6 +339,9 @@ impl<'a> Lowerer<'a> {
             self.options.strict,
             &mut self.diagnostics,
         );
+        self.lifetimes.after(&resolved, emission.action());
+        self.resources
+            .after_command(self.source, &resolved, path_slot);
         let mut bytes = vec![];
         let mut cursor = command.line.span.start;
         for (span, replacement) in replacements {
@@ -222,7 +350,13 @@ impl<'a> Lowerer<'a> {
             cursor = span.end;
         }
         bytes.extend_from_slice(&self.source.bytes[cursor..command.line.span.end]);
-        if !self.context.is_empty() {
+        match emission {
+            Emission::Acquire if !bytes.ends_with(b"\n") => bytes.push(b'\n'),
+            Emission::Acquire => {}
+            Emission::Release(text) => bytes = text.as_bytes().to_vec(),
+            Emission::Original => {}
+        }
+        if !self.context.is_empty() || !matches!(emission, Emission::Original) {
             self.expanded_lines += bytes.split_inclusive(|b| *b == b'\n').count();
             if self.expanded_lines > self.options.max_expanded_lines {
                 return Err(self.error(
@@ -238,6 +372,22 @@ impl<'a> Lowerer<'a> {
         self.output
             .emit(self.source, command.line.span, &bytes, &self.context);
         Ok(())
+    }
+}
+
+#[derive(Clone, Copy)]
+enum Emission<'a> {
+    Original,
+    Acquire,
+    Release(&'a str),
+}
+impl Emission<'_> {
+    fn action(self) -> Action {
+        match self {
+            Self::Original => Action::Plain,
+            Self::Acquire => Action::Acquire,
+            Self::Release(_) => Action::Release,
+        }
     }
 }
 

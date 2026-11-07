@@ -1,8 +1,9 @@
 # Lamlet
 
-Lamlet v0.1 adds compile-time bindings, loops, and physical units to LAMMPS input
+Lamlet v0.1 adds compile-time bindings, loops, physical units, typed file resources,
+and scoped fix/compute/dump management to LAMMPS input
 scripts. It emits ordinary LAMMPS scripts. Checking and compilation require no
-LAMMPS installation, simulation files, Python, or network access.
+LAMMPS installation, Python or network access. Explicit typed input paths require their files to exist.
 
 Legacy files remain unchanged. Commands outside Lamlet's partial schemas are
 accepted and reported as unverified. A successful check means no errors were
@@ -21,8 +22,8 @@ cargo build --release --locked
 
 The legacy output is byte-for-byte identical. The typed example emits
 `timestep 0.002` from `2 fs` in metal units and unrolls two zero-step runs.
-Both examples are standalone LAMMPS scripts after compilation. Lamlet never
-invokes LAMMPS itself.
+Both examples are standalone LAMMPS scripts after compilation. `check` and
+`build` never invoke LAMMPS. `run` explicitly builds and launches the engine.
 
 ```lamlet
 @let dt = 2 fs
@@ -48,7 +49,7 @@ exists when LAMMPS runs. Lamlet does not open it.
 ```
 
 JSON output contains exactly one object. Exit codes are 0 for no detected
-errors, 1 for validation errors, and 2 for CLI or filesystem errors. Warnings and
+errors, 1 for validation errors, 2 for CLI or filesystem errors, and 3 for engine failures. Warnings and
 unknown findings do not fail a compatible check. Strict mode requires schema
 verification or an explicit `@unchecked{EXPR}` for newly interpolated operands.
 
@@ -57,6 +58,19 @@ effects Lamlet has not modeled. Physical interpolation requires a known `metal`
 or `real` unit style. See the [reference](docs/reference.md) and
 [design decisions and limitations](docs/design.md) before using typed constructs
 in a large legacy script.
+
+## Resources and scopes
+
+Use `path("...")` / `output("...")` through `@{...}` for checked file resources.
+`lamlet inspect dependencies INPUT --format json` lists explicit dependencies.
+`lamlet build INPUT` writes the configured build directory and an execution
+manifest; `lamlet run INPUT` manages cwd and captures engine output. See the
+[project guide](docs/resources.md) and [working example](examples/project/simulation.lamlet).
+
+Use `@scope { ... }` with `@fix`, `@compute`, and `@dump` declarations for reverse
+cleanup at block exit. `@drop ID` releases a resource early. Ordinary LAMMPS
+resource commands retain manual lifetime management. See [scoped resources](docs/scopes.md)
+for ownership, dependency, and control-flow restrictions.
 
 ## Verify changes
 
@@ -96,4 +110,6 @@ or strict rejections at the pinned revisions. See the
 negative cases, and reproduction details. The [baseline JSON](tests/corpus/baseline.json)
 records the measured results; large local corpora and inventories stay ignored.
 
-The normative requirements are in [LAMLET_SPEC.md](LAMLET_SPEC.md).
+The original normative requirements are in [LAMLET_SPEC.md](LAMLET_SPEC.md).
+The project and scope guides document the subsequent requested extensions and
+their current boundaries.

@@ -5,10 +5,12 @@
 | Command | Behavior |
 | --- | --- |
 | `lamlet check INPUT` | Analyze without writing output or invoking LAMMPS |
-| `lamlet build INPUT -o OUTPUT` | Analyze and emit an ordinary LAMMPS script |
+| `lamlet build INPUT [-o OUTPUT]` | Analyze and emit an ordinary LAMMPS script |
+| `lamlet inspect dependencies INPUT` | List explicit resources and unresolved legacy paths |
+| `lamlet run INPUT` | Build and explicitly launch LAMMPS from the project root |
 | `lamlet schema [COMMAND]` | Describe capabilities and partial schema coverage |
 
-`check` and `build` accept `--language lammps` or `--language lamlet`, `--strict`,
+`check`, `build`, `run`, and `inspect dependencies` accept `--language lammps` or `--language lamlet`, `--strict`,
 `--max-expanded-lines N`, and `--format human` or `--format json`. The default
 line limit is 100000. A limit of zero prohibits lines emitted by loops but
 permits identity compilation.
@@ -17,7 +19,9 @@ permits identity compilation.
 distinct. Existing input aliases, including Unix hard links, are protected.
 Compilation errors leave existing output and map files untouched. Output uses
 temporary files in each destination directory followed by atomic replacement.
-The directories must already exist.
+Explicit output directories must already exist. Default builds create the
+configured build directory. See [projects and typed resources](resources.md) for
+configuration, manifests, cwd, and engine execution.
 
 `schema` accepts `--format human` or `--format json`. Queries use names such as
 `timestep`, `fix/nvt`, and `fix/npt`. Unregistered queries report `opaque`, which
@@ -46,8 +50,13 @@ Expressions support signed integers, finite floats with optional exponents,
 Booleans, quantities, names, parentheses, unary minus, and `+`, `-`, `*`, `/`.
 Multiplication and division bind more tightly than addition and subtraction.
 Integers use checked 64-bit arithmetic. Division returns Float. Bool is not
-numeric. Only loop iterables accept list literals. Strings, functions,
-comparisons, runtime LAMMPS expressions, and other operators are unavailable.
+numeric. Only loop iterables accept list literals. General strings, user functions, comparisons, runtime LAMMPS expressions, and
+other operators are unavailable. The resource constructors `path`, `output`,
+`dir`, `pattern`, and `dynamic` accept one quoted filename; see [resources](resources.md).
+Resource annotations use `@let NAME: ResourceType = EXPR`.
+
+`@scope`, `@fix`, `@compute`, `@dump`, and `@drop` manage explicitly owned
+resources; see [scope semantics](scopes.md).
 
 Quantities require whitespace between the number and unit. Addition and
 subtraction require matching dimensions. Multiplication and division compose
@@ -95,8 +104,9 @@ operand is still checked after an earlier state barrier.
 Standard mode warns on an interpolated operand without schema coverage. Strict
 mode makes this an error unless it uses `@unchecked`. Legacy plugin commands,
 unknown runtime operands, and unknown state findings remain accepted in strict
-mode. Neither mode validates external files, package availability, numerical
-stability, or physical correctness.
+mode. Explicit typed resources validate file existence/kind and roots. Legacy paths,
+package availability, numerical stability, and general physical correctness
+remain unverified.
 
 ## Diagnostic protocol
 

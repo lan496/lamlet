@@ -4,7 +4,9 @@ pub mod diagnostic;
 pub mod expr;
 pub mod hir;
 mod lower;
+pub mod resources;
 pub mod schema;
+mod scoped;
 pub mod source;
 pub mod syntax;
 pub mod units;
@@ -24,6 +26,7 @@ pub struct Compilation {
     pub output: Vec<u8>,
     pub diagnostics: Vec<Diagnostic>,
     pub mappings: Vec<codegen::LineMapping>,
+    pub resources: resources::Dependencies,
 }
 
 #[derive(Clone, Debug)]
@@ -31,6 +34,7 @@ pub struct Options {
     pub language: Language,
     pub strict: bool,
     pub max_expanded_lines: usize,
+    pub project: Option<resources::Project>,
 }
 impl Default for Options {
     fn default() -> Self {
@@ -38,6 +42,7 @@ impl Default for Options {
             language: Language::Lammps,
             strict: false,
             max_expanded_lines: 100_000,
+            project: None,
         }
     }
 }
@@ -87,5 +92,6 @@ pub fn compile_with_options(source: &Source, options: &Options) -> Compilation {
         } else {
             lowerer.output.mappings
         },
+        resources: lowerer.resources.dependencies,
     }
 }

@@ -499,3 +499,294 @@ fn optional_lammps_zero_step_integration() {
     }
     assert!(failures.is_empty(), "{}", failures.join("\n"));
 }
+
+fn resource_project(root: &Path) {
+    fs::create_dir(root.join("structures")).unwrap();
+    fs::write(root.join("structures/Si.data"), "input data").unwrap();
+    fs::write(root.join("lamlet.toml"), "[project]\nname='silicon'\n[paths]\ninput_root='.'\noutput_root='results'\n[build]\ndirectory='.lamlet/build'\n").unwrap();
+    fs::write(root.join("simulation.lamlet"), "@let data = path(\"structures/Si.data\")\nread_data @{data}\n@scope {\n@fix integrate all nve\n@dump traj all custom 100 @{output(\"results/traj.lammpstrj\")} id x y z\nrun 0\n}\n").unwrap();
+}
+
+#[test]
+fn project_check_and_dependency_inspection_are_read_only_and_deterministic() {
+    let dir = tempfile::tempdir().unwrap();
+    resource_project(dir.path());
+    json_output(
+        &cli(&["check", "simulation.lamlet", "--format=json"], dir.path()),
+        0,
+    );
+    let args = [
+        "inspect",
+        "dependencies",
+        "simulation.lamlet",
+        "--format=json",
+    ];
+    let first = cli(&args, dir.path());
+    assert_eq!(first.stdout, cli(&args, dir.path()).stdout);
+    let value = json_output(&first, 0);
+    let deps = &value["dependencies"];
+    assert_eq!(deps["complete"], false);
+    assert_eq!(deps["working_directory"], ".");
+    let data = deps["inputs"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|d| d["path"] == "structures/Si.data")
+        .unwrap();
+    assert_eq!(data["kind"], "data");
+    assert_eq!(data["exists"], true);
+    let trajectory = deps["outputs"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|d| d["path"] == "results/traj.lammpstrj")
+        .unwrap();
+    assert_eq!(trajectory["kind"], "trajectory");
+    assert_eq!(trajectory["exists"], false);
+    assert!(!dir.path().join("results").exists());
+    assert!(!dir.path().join(".lamlet").exists());
+}
+
+#[test]
+fn default_build_records_portable_execution_contract_and_preserves_source() {
+    let dir = tempfile::tempdir().unwrap();
+    resource_project(dir.path());
+    let source = fs::read(dir.path().join("simulation.lamlet")).unwrap();
+    let args = ["build", "simulation.lamlet", "--format=json"];
+    let first = cli(&args, dir.path());
+    let value = json_output(&first, 0);
+    assert_eq!(value["build"]["script"], ".lamlet/build/simulation.in");
+    assert_eq!(value["build"]["project_root"], "../..");
+    assert_eq!(value["build"]["working_directory"], ".");
+    let script = fs::read_to_string(dir.path().join(".lamlet/build/simulation.in")).unwrap();
+    assert_eq!(
+        script,
+        "read_data \"structures/Si.data\"\nfix integrate all nve\ndump traj all custom 100 \"results/traj.lammpstrj\" id x y z\nrun 0\nundump traj\nunfix integrate\n"
+    );
+    let manifest_path = dir.path().join(".lamlet/build/simulation.in.manifest.json");
+    let manifest = fs::read(&manifest_path).unwrap();
+    let parsed: Value = serde_json::from_slice(&manifest).unwrap();
+    assert_eq!(parsed["build"], value["build"]);
+    assert!(
+        !String::from_utf8(manifest.clone())
+            .unwrap()
+            .contains(dir.path().to_str().unwrap())
+    );
+    assert_eq!(first.stdout, cli(&args, dir.path()).stdout);
+    assert_eq!(fs::read(manifest_path).unwrap(), manifest);
+    assert_eq!(
+        fs::read(dir.path().join("simulation.lamlet")).unwrap(),
+        source
+    );
+    assert!(!dir.path().join("results").exists());
+}
+
+#[test]
+fn project_is_discovered_from_nested_sources_and_cli_working_directories() {
+    let dir = tempfile::tempdir().unwrap();
+    resource_project(dir.path());
+    fs::create_dir(dir.path().join("scripts")).unwrap();
+    fs::rename(
+        dir.path().join("simulation.lamlet"),
+        dir.path().join("scripts/test.sim.lamlet"),
+    )
+    .unwrap();
+    let value = json_output(
+        &cli(
+            &["build", "test.sim.lamlet", "--format=json"],
+            &dir.path().join("scripts"),
+        ),
+        0,
+    );
+    assert_eq!(value["build"]["script"], ".lamlet/build/test.sim.in");
+    assert!(
+        fs::read_to_string(dir.path().join(".lamlet/build/test.sim.in"))
+            .unwrap()
+            .starts_with("read_data \"structures/Si.data\"\n")
+    );
+}
+
+#[test]
+fn malformed_projects_do_not_change_legacy_explicit_builds() {
+    let dir = tempfile::tempdir().unwrap();
+    fs::write(dir.path().join("lamlet.toml"), "invalid = [").unwrap();
+    fs::write(dir.path().join("x.lamlet"), "run 0\n").unwrap();
+    fs::write(dir.path().join("old.in"), "read_data missing.data\n").unwrap();
+    let value = json_output(&cli(&["check", "x.lamlet", "--format=json"], dir.path()), 2);
+    assert!(
+        value["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|d| d["code"] == "E_PROJECT_CONFIG")
+    );
+    json_output(
+        &cli(
+            &["build", "old.in", "-o", "copy.in", "--format=json"],
+            dir.path(),
+        ),
+        0,
+    );
+    assert_eq!(
+        fs::read(dir.path().join("copy.in")).unwrap(),
+        b"read_data missing.data\n"
+    );
+}
+
+#[test]
+fn build_artifacts_cannot_replace_typed_inputs_outputs_or_project_config() {
+    let dir = tempfile::tempdir().unwrap();
+    resource_project(dir.path());
+    let data = fs::read(dir.path().join("structures/Si.data")).unwrap();
+    let config = fs::read(dir.path().join("lamlet.toml")).unwrap();
+    fs::create_dir(dir.path().join("results")).unwrap();
+    for target in [
+        "structures/Si.data",
+        "results/traj.lammpstrj",
+        "lamlet.toml",
+    ] {
+        json_output(
+            &cli(
+                &["build", "simulation.lamlet", "-o", target, "--format=json"],
+                dir.path(),
+            ),
+            2,
+        );
+    }
+    json_output(
+        &cli(
+            &[
+                "build",
+                "simulation.lamlet",
+                "-o",
+                "out.in",
+                "--source-map",
+                "structures/Si.data",
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        2,
+    );
+    assert_eq!(
+        fs::read(dir.path().join("structures/Si.data")).unwrap(),
+        data
+    );
+    assert_eq!(fs::read(dir.path().join("lamlet.toml")).unwrap(), config);
+    assert!(!dir.path().join("out.in").exists());
+    assert!(!dir.path().join("results/traj.lammpstrj").exists());
+}
+
+#[cfg(unix)]
+#[test]
+fn run_owns_working_directory_and_captures_engine_output_in_one_json_report() {
+    use std::os::unix::fs::PermissionsExt;
+    let dir = tempfile::tempdir().unwrap();
+    resource_project(dir.path());
+    fs::create_dir(dir.path().join("caller")).unwrap();
+    let engine = dir.path().join("fake-engine");
+    fs::write(&engine, "#!/bin/sh\npwd\nprintf '%s\\n' \"$@\"\nprintf 'engine stderr\\n' >&2\ntest -f structures/Si.data || exit 9\ntest -d results || exit 10\nexit 0\n").unwrap();
+    fs::set_permissions(&engine, fs::Permissions::from_mode(0o755)).unwrap();
+    let args = [
+        "run",
+        "../simulation.lamlet",
+        "--lammps-bin",
+        "../fake-engine",
+        "--format=json",
+    ];
+    let value = json_output(&cli(&args, &dir.path().join("caller")), 0);
+    assert_eq!(value["execution"]["exit_code"], 0);
+    let stdout = fs::read_to_string(dir.path().join(".lamlet/build/simulation.in.stdout")).unwrap();
+    assert_eq!(
+        stdout,
+        format!(
+            "{}\n-in\n.lamlet/build/simulation.in\n-log\n.lamlet/build/simulation.in.log\n-screen\nnone\n",
+            fs::canonicalize(dir.path()).unwrap().display()
+        )
+    );
+    assert_eq!(
+        fs::read_to_string(dir.path().join(".lamlet/build/simulation.in.stderr")).unwrap(),
+        "engine stderr\n"
+    );
+    fs::write(&engine, "#!/bin/sh\nexit 7\n").unwrap();
+    let value = json_output(&cli(&args, &dir.path().join("caller")), 3);
+    assert_eq!(value["execution"]["exit_code"], 7);
+    assert!(
+        value["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|d| d["code"] == "E_EXECUTION")
+    );
+}
+
+#[test]
+fn invalid_input_never_starts_engine_and_missing_engine_is_reported() {
+    let dir = tempfile::tempdir().unwrap();
+    resource_project(dir.path());
+    fs::write(
+        dir.path().join("bad.lamlet"),
+        "read_data @{path(\"missing\")}\n",
+    )
+    .unwrap();
+    json_output(
+        &cli(
+            &[
+                "run",
+                "bad.lamlet",
+                "--lammps-bin",
+                "not-an-engine",
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        1,
+    );
+    assert!(!dir.path().join(".lamlet").exists());
+    let value = json_output(
+        &cli(
+            &[
+                "run",
+                "simulation.lamlet",
+                "--lammps-bin",
+                dir.path().join("absent-engine").to_str().unwrap(),
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        3,
+    );
+    assert!(
+        value["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|d| d["code"] == "E_EXECUTION")
+    );
+}
+
+#[test]
+fn project_example_checks_and_builds_without_starting_lammps() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../examples/project");
+    let dir = tempfile::tempdir().unwrap();
+    for name in ["lamlet.toml", "structure.data", "simulation.lamlet"] {
+        fs::copy(root.join(name), dir.path().join(name)).unwrap();
+    }
+    json_output(
+        &cli(
+            &["check", "simulation.lamlet", "--strict", "--format=json"],
+            dir.path(),
+        ),
+        0,
+    );
+    json_output(
+        &cli(&["build", "simulation.lamlet", "--format=json"], dir.path()),
+        0,
+    );
+    assert!(
+        fs::read_to_string(dir.path().join(".lamlet/build/simulation.in"))
+            .unwrap()
+            .contains("timestep 0.002\n")
+    );
+    assert!(!dir.path().join("results").exists());
+}
