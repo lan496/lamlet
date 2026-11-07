@@ -1,0 +1,30 @@
+Large-scale Atomic/Molecular Massively Parallel Simulator - 22 Jul 2025 - Update 4
+
+Installed packages:
+
+MANYBODY MOLECULE
+
+List of individual style options included in this LAMMPS executable
+
+* Atom styles:
+atomic full hybrid
+* Pair styles:
+lj/cut eam/alloy hybrid hybrid/overlay hybrid/scaled zero
+* Fix styles
+nve nvt npt langevin
+* Compute styles:
+temp temp/com
+* Dump styles:
+custom atom
+* Bond styles:
+hybrid harmonic zero
+* Angle styles:
+hybrid harmonic zero
+* Integrate styles:
+verlet respa
+* Minimize styles:
+cg fire
+* Region styles:
+block sphere
+* Command styles
+run read_data

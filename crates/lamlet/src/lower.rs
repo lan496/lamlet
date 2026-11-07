@@ -25,6 +25,7 @@ pub(crate) struct Lowerer<'a> {
     pub resources: resources::Resolver,
     lifetimes: crate::scoped::Lifetimes,
     pub semantics: crate::semantics::Engine,
+    pub capabilities: crate::capability::Checker,
 }
 
 impl<'a> Lowerer<'a> {
@@ -42,6 +43,7 @@ impl<'a> Lowerer<'a> {
             resources: resources::Resolver::new(options.project.clone(), source),
             lifetimes: crate::scoped::Lifetimes::default(),
             semantics: crate::semantics::Engine::default(),
+            capabilities: crate::capability::Checker::new(options.capabilities.clone()),
         }
     }
     fn error(&self, code: &'static str, message: impl Into<String>, span: Span) -> ExprError {
@@ -52,6 +54,25 @@ impl<'a> Lowerer<'a> {
         }
     }
     pub fn run(&mut self, nodes: &[Node]) {
+        if let Some(profile) = &self.options.capabilities {
+            if let Err(error) = profile.validate() {
+                self.diagnostics.push(Diagnostic::new(
+                    self.source,
+                    Span::default(),
+                    Severity::Error,
+                    "E_TARGET_PROFILE",
+                    error,
+                ));
+                return;
+            }
+            if let Some(project) = &self.options.project {
+                self.diagnostics.extend(crate::capability::check_project(
+                    self.source,
+                    profile,
+                    &project.lammps.requirements,
+                ));
+            }
+        }
         if let Err(error) = self.nodes(nodes) {
             self.diagnostics.push(Diagnostic::new(
                 self.source,
@@ -345,6 +366,8 @@ impl<'a> Lowerer<'a> {
         self.resources
             .after_command(self.source, &resolved, path_slot);
         self.semantics
+            .command(self.source, &resolved, &mut self.diagnostics);
+        self.capabilities
             .command(self.source, &resolved, &mut self.diagnostics);
         let mut bytes = vec![];
         let mut cursor = command.line.span.start;

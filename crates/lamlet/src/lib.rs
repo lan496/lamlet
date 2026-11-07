@@ -1,4 +1,5 @@
 pub mod analysis;
+pub mod capability;
 pub mod codegen;
 pub mod diagnostic;
 pub mod expr;
@@ -29,6 +30,7 @@ pub struct Compilation {
     pub mappings: Vec<codegen::LineMapping>,
     pub resources: resources::Dependencies,
     pub physical_findings: Vec<semantics::Finding>,
+    pub requirements: Vec<capability::Requirement>,
 }
 
 #[derive(Clone, Debug)]
@@ -37,6 +39,7 @@ pub struct Options {
     pub strict: bool,
     pub max_expanded_lines: usize,
     pub project: Option<resources::Project>,
+    pub capabilities: Option<capability::Profile>,
 }
 impl Default for Options {
     fn default() -> Self {
@@ -45,6 +48,7 @@ impl Default for Options {
             strict: false,
             max_expanded_lines: 100_000,
             project: None,
+            capabilities: None,
         }
     }
 }
@@ -98,5 +102,6 @@ pub fn compile_with_options(source: &Source, options: &Options) -> Compilation {
         },
         resources: lowerer.resources.dependencies,
         physical_findings: lowerer.semantics.findings,
+        requirements: lowerer.capabilities.requirements,
     }
 }

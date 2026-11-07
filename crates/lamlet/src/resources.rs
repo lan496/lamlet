@@ -68,6 +68,8 @@ pub struct Project {
     pub output_root: PathBuf,
     pub build_directory: PathBuf,
     pub name: Option<String>,
+    pub lammps: crate::capability::TargetConfig,
+    pub validation: crate::capability::Validation,
 }
 
 #[derive(Default, Deserialize)]
@@ -76,6 +78,8 @@ struct Config {
     project: ProjectConfig,
     paths: PathConfig,
     build: BuildConfig,
+    lammps: crate::capability::TargetConfig,
+    validation: crate::capability::Validation,
 }
 #[derive(Default, Deserialize)]
 #[serde(default, deny_unknown_fields)]
@@ -219,12 +223,18 @@ impl Project {
                 return Err("Output and build roots must name directories".into());
             }
         }
+        resolve(&config.lammps.profile)?;
+        if let Some(version) = &config.lammps.requirements.version {
+            crate::capability::validate_version_constraint(version)?;
+        }
         Ok(Self {
             root,
             input_root,
             output_root,
             build_directory,
             name: config.project.name,
+            lammps: config.lammps,
+            validation: config.validation,
         })
     }
     pub fn resolve(&self, value: &ResourceValue, span: Span) -> Result<PathBuf, ExprError> {
@@ -383,6 +393,12 @@ impl Resolver {
             .and_then(|p| fs::canonicalize(p.root.join("lamlet.toml")).ok())
         {
             protected.push(config);
+        }
+        if let Some(profile) = project
+            .as_ref()
+            .and_then(|p| fs::canonicalize(p.root.join(&p.lammps.profile)).ok())
+        {
+            protected.push(profile);
         }
         Self {
             dependencies: Dependencies::default(),

@@ -833,3 +833,266 @@ fn physical_findings_include_outcome_evidence_actions_and_rule_metadata() {
             .any(|r| r["id"] == "LML-PHYS-002" && r["autofix"] == false)
     );
 }
+
+fn write_target_profile(root: &Path) {
+    let profile = lamlet::capability::parse_help(
+        include_str!("../../../tests/fixtures/lammps-help.txt"),
+        "/remote/target/lmp".into(),
+    )
+    .unwrap();
+    fs::create_dir_all(root.join(".lamlet")).unwrap();
+    fs::write(
+        root.join(".lamlet/target.json"),
+        serde_json::to_vec_pretty(&profile).unwrap(),
+    )
+    .unwrap();
+}
+#[test]
+fn saved_capability_queries_explain_metadata_and_unknown_categories() {
+    let dir = tempfile::tempdir().unwrap();
+    write_target_profile(dir.path());
+    let value = json_output(
+        &cli(
+            &["target", "list", "--category", "pair", "--format=json"],
+            dir.path(),
+        ),
+        0,
+    );
+    assert!(
+        value["styles"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|s| s["style"] == "eam/alloy" && s["availability"] == "built_in")
+    );
+    let args = [
+        "target",
+        "explain",
+        "--category",
+        "pair",
+        "--style",
+        "eam/alloy",
+        "--format=json",
+    ];
+    let first = cli(&args, dir.path());
+    assert_eq!(first.stdout, cli(&args, dir.path()).stdout);
+    let value = json_output(&first, 0);
+    assert_eq!(value["metadata"]["required_package"], "MANYBODY");
+    assert_eq!(value["cmake_option"], "-D PKG_MANYBODY=yes");
+    assert_eq!(value["schema"]["name"], "pair_coeff/eam/alloy");
+    let value = json_output(
+        &cli(
+            &[
+                "target",
+                "check",
+                "--category",
+                "pair",
+                "--style",
+                "absent",
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        1,
+    );
+    assert_eq!(value["availability"], "unavailable");
+    let value = json_output(
+        &cli(
+            &[
+                "target",
+                "check",
+                "--category",
+                "future",
+                "--style",
+                "absent",
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        0,
+    );
+    assert_eq!(value["availability"], "unknown");
+}
+#[test]
+fn configured_capability_validation_applies_to_legacy_and_typed_sources() {
+    let dir = tempfile::tempdir().unwrap();
+    write_target_profile(dir.path());
+    fs::write(dir.path().join("lamlet.toml"), "[lammps]\nexecutable='/remote/target/lmp'\n[validation]\ncheck_capabilities=true\nstrict=true\n").unwrap();
+    for name in ["x.in", "x.lamlet"] {
+        fs::write(dir.path().join(name), "pair_style absent/style\n").unwrap();
+        let args = ["check", name, "--format=json"];
+        let value = json_output(&cli(&args, dir.path()), 1);
+        assert!(
+            value["diagnostics"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|d| d["code"] == "LML-CAP-001")
+        );
+        assert!(
+            value["target_requirements"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|r| r["style"] == "absent/style" && r["availability"] == "unavailable")
+        );
+        fs::write(dir.path().join(name), "pair_style eam/alloy\n").unwrap();
+        json_output(&cli(&args, dir.path()), 0);
+    }
+    let saved_profile = fs::read(dir.path().join(".lamlet/target.json")).unwrap();
+    for destination in [".lamlet/target.json", "lamlet.toml"] {
+        json_output(
+            &cli(
+                &["build", "x.in", "-o", destination, "--format=json"],
+                dir.path(),
+            ),
+            2,
+        );
+    }
+    assert_eq!(
+        fs::read(dir.path().join(".lamlet/target.json")).unwrap(),
+        saved_profile
+    );
+    fs::write(dir.path().join("lamlet.toml"), "[lammps.requirements]\nversion='>=2026-01-01'\npackages=['RIGID']\n[validation]\ncheck_capabilities=true\n").unwrap();
+    let value = json_output(&cli(&["check", "x.lamlet", "--format=json"], dir.path()), 1);
+    for code in ["LML-CAP-003", "LML-CAP-004"] {
+        assert!(
+            value["diagnostics"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|d| d["code"] == code)
+        );
+    }
+}
+#[test]
+fn target_requirements_work_offline_and_expose_dynamic_hybrid_limits() {
+    let dir = tempfile::tempdir().unwrap();
+    fs::write(
+        dir.path().join("x.lamlet"),
+        "pair_style hybrid eam/alloy lj/cut 2.5\n@scope {\n@fix f all nve\nrun 0\n}\n",
+    )
+    .unwrap();
+    let args = ["target", "requirements", "x.lamlet", "--format=json"];
+    let value = json_output(&cli(&args, dir.path()), 0);
+    assert!(!dir.path().join(".lamlet").exists());
+    assert!(
+        value["requirements"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|r| r["category"] == "pair"
+                && r["style"] == "eam/alloy"
+                && r["availability"] == "unknown")
+    );
+    write_target_profile(dir.path());
+    let value = json_output(&cli(&args, dir.path()), 0);
+    assert!(
+        value["requirements"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|r| r["style"] == "eam/alloy" && r["availability"] == "built_in")
+    );
+}
+#[test]
+fn missing_or_invalid_profile_is_an_explicit_environment_error() {
+    let dir = tempfile::tempdir().unwrap();
+    fs::write(
+        dir.path().join("lamlet.toml"),
+        "[validation]\ncheck_capabilities=true\n",
+    )
+    .unwrap();
+    fs::write(dir.path().join("x.lamlet"), "run 0\n").unwrap();
+    let value = json_output(&cli(&["check", "x.lamlet", "--format=json"], dir.path()), 2);
+    assert!(
+        value["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|d| d["code"] == "E_TARGET_PROFILE")
+    );
+    assert!(!dir.path().join(".lamlet").exists());
+    fs::create_dir(dir.path().join(".lamlet")).unwrap();
+    fs::write(dir.path().join(".lamlet/target.json"), "not json").unwrap();
+    json_output(
+        &cli(
+            &[
+                "target",
+                "check",
+                "--category",
+                "fix",
+                "--style",
+                "nvt",
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        2,
+    );
+}
+#[cfg(unix)]
+#[test]
+fn capability_probe_persists_only_complete_success_and_binds_binary_identity() {
+    use std::os::unix::fs::PermissionsExt;
+    let dir = tempfile::tempdir().unwrap();
+    let engine = dir.path().join("fake-engine");
+    let help = include_str!("../../../tests/fixtures/lammps-help.txt");
+    let script = format!(
+        "#!/bin/sh\nif [ \"$1\" = '-h' ]; then\ncat <<'LAMLET_HELP'\n{help}LAMLET_HELP\nexit 0\nfi\nexit 0\n"
+    );
+    fs::write(&engine, script).unwrap();
+    fs::set_permissions(&engine, fs::Permissions::from_mode(0o755)).unwrap();
+    fs::write(
+        dir.path().join("lamlet.toml"),
+        "[lammps]\nexecutable='./fake-engine'\n[validation]\ncheck_capabilities=true\n",
+    )
+    .unwrap();
+    let args = ["target", "inspect", "--format=json"];
+    let first = cli(&args, dir.path());
+    let value = json_output(&first, 0);
+    assert_eq!(value["profile"]["lammps_version"], "2025-07-22");
+    assert_eq!(first.stdout, cli(&args, dir.path()).stdout);
+    let saved = fs::read(dir.path().join(".lamlet/target.json")).unwrap();
+    fs::write(dir.path().join("x.lamlet"), "fix f all nve\nrun 0\n").unwrap();
+    json_output(&cli(&["check", "x.lamlet", "--format=json"], dir.path()), 0);
+    json_output(&cli(&["run", "x.lamlet", "--format=json"], dir.path()), 0);
+    json_output(
+        &cli(
+            &[
+                "run",
+                "x.lamlet",
+                "--lammps-bin",
+                "/bin/false",
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        2,
+    );
+    fs::write(
+        &engine,
+        format!("#!/bin/sh\ncat <<'LAMLET_HELP'\n{help}LAMLET_HELP\nexit 7\n"),
+    )
+    .unwrap();
+    let value = json_output(&cli(&args, dir.path()), 2);
+    assert!(
+        value["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|d| d["code"] == "E_TARGET_PROBE")
+    );
+    assert_eq!(
+        fs::read(dir.path().join(".lamlet/target.json")).unwrap(),
+        saved
+    );
+    let value = json_output(&cli(&["check", "x.lamlet", "--format=json"], dir.path()), 2);
+    assert!(
+        value["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|d| d["code"] == "E_TARGET_PROFILE")
+    );
+}

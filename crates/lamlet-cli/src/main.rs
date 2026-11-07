@@ -1,3 +1,5 @@
+mod target;
+
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use lamlet::{
     Language, Options, compile_with_options,
@@ -41,6 +43,10 @@ enum Command {
         #[command(subcommand)]
         query: Inspect,
     },
+    Target {
+        #[command(subcommand)]
+        command: target::Command,
+    },
     Schema {
         query: Option<String>,
         #[arg(long, value_enum, default_value = "human")]
@@ -72,7 +78,7 @@ enum Action {
     },
     Inspect,
     Run {
-        engine: OsString,
+        engine: Option<OsString>,
     },
 }
 
@@ -141,7 +147,7 @@ fn schema(query: Option<&str>, format: Format) -> io::Result<u8> {
         .iter()
         .filter(|s| query.is_none_or(|q| s.name == q))
         .collect();
-    let codes: Vec<_> = lamlet::diagnostic::CODES.iter().map(|(code, description)| serde_json::json!({ "code": code, "description": description, "severity": match code.as_bytes()[0] { b'E' => "error", b'W' | b'L' => "warning", _ => "unknown" } })).collect();
+    let codes: Vec<_> = lamlet::diagnostic::CODES.iter().map(|(code, description)| serde_json::json!({ "code": code, "description": description, "severity": if code.starts_with("LML-CAP-") { "error" } else { match code.as_bytes()[0] { b'E' => "error", b'W' | b'L' => "warning", _ => "unknown" } } })).collect();
     let value = serde_json::json!({
         "schema_version": 1,
         "compiler_version": env!("CARGO_PKG_VERSION"),
@@ -157,6 +163,8 @@ fn schema(query: Option<&str>, format: Format) -> io::Result<u8> {
         "commands": commands,
         "diagnostic_codes": codes,
         "physical_rules": lamlet::semantics::RULES,
+        "capability_metadata": lamlet::capability::METADATA,
+        "capability_states": ["built_in", "plugin", "unavailable", "unknown"],
         "defaults": { "language": "lammps, except .lamlet", "units": "lj", "max_expanded_lines": 100_000 },
         "spans": { "byte_offsets": "zero-based, half-open", "lines": "one-based", "columns": "one-based Unicode scalar values" },
         "validation_guarantee": "No detected errors is not proof of runtime or physical correctness",
@@ -247,6 +255,9 @@ fn write_outputs(
         protected.push(lamlet::resources::resolved_destination(
             &project.root.join("lamlet.toml"),
         )?);
+        protected.push(lamlet::resources::resolved_destination(
+            &target::profile_path(project),
+        )?);
         for dependency in compilation
             .resources
             .inputs
@@ -268,6 +279,11 @@ fn write_outputs(
     }
     let info = if let Some(project) = project {
         let script = destination(output)?;
+        if script.components().next() != project.root.components().next() {
+            return Err(io::Error::other(
+                "Portable project builds require script and project on the same filesystem volume",
+            ));
+        }
         let manifest = sidecar(output, ".manifest.json");
         let info = BuildInfo {
             script: portable(&relative(&project.root, &script)),
@@ -278,6 +294,7 @@ fn write_outputs(
         let value = serde_json::json!({
             "schema_version": 1, "compiler_version": env!("CARGO_PKG_VERSION"),
             "build": info, "dependencies": compilation.resources,
+            "target_profile": if project.validation.check_capabilities { Some(&project.lammps.profile) } else { None },
         });
         payloads.push((manifest, serde_json::to_vec_pretty(&value)?));
         Some(info)
@@ -359,18 +376,12 @@ fn run(cli: Cli) -> io::Result<u8> {
                 map: source_map,
             },
         ),
-        Command::Run { common, lammps_bin } => (
-            common,
-            Action::Run {
-                engine: lammps_bin
-                    .or_else(|| std::env::var_os("LAMLET_LAMMPS_BIN"))
-                    .unwrap_or_else(|| "lmp".into()),
-            },
-        ),
+        Command::Run { common, lammps_bin } => (common, Action::Run { engine: lammps_bin }),
         Command::Inspect {
             query: Inspect::Dependencies(common),
         } => (common, Action::Inspect),
         Command::Schema { query, format } => return schema(query.as_deref(), format),
+        Command::Target { command } => return target::run(command),
     };
     let InputOptions {
         input,
@@ -428,8 +439,52 @@ fn run(cli: Cli) -> io::Result<u8> {
             }
         }
     } else {
-        None
+        // Legacy opt-in profiles apply only when their configuration parses and
+        // explicitly requests validation; unrelated/broken configs stay irrelevant.
+        lamlet::resources::Project::discover(&input)
+            .ok()
+            .filter(|p| p.validation.strict || p.validation.check_capabilities)
     };
+    let capabilities =
+        if let Some(project) = project.as_ref().filter(|p| p.validation.check_capabilities) {
+            match target::load(project) {
+                Ok(profile) => Some(profile),
+                Err(error) => {
+                    emit_report(
+                        &source,
+                        &[Diagnostic::new(
+                            &source,
+                            Span::default(),
+                            Severity::Error,
+                            "E_TARGET_PROFILE",
+                            error,
+                        )],
+                        format,
+                    )?;
+                    return Ok(2);
+                }
+            }
+        } else {
+            None
+        };
+    if let (Action::Run { engine }, Some(profile)) = (&action, &capabilities) {
+        let selected = target::engine(project.as_ref().unwrap(), engine.as_ref());
+        if let Err(error) = target::verify_runtime(profile, &selected) {
+            emit_report(
+                &source,
+                &[Diagnostic::new(
+                    &source,
+                    Span::default(),
+                    Severity::Error,
+                    "E_TARGET_PROFILE",
+                    error,
+                )],
+                format,
+            )?;
+            return Ok(2);
+        }
+    }
+    let strict = strict || project.as_ref().is_some_and(|p| p.validation.strict);
     let mut compilation = compile_with_options(
         &source,
         &Options {
@@ -437,6 +492,7 @@ fn run(cli: Cli) -> io::Result<u8> {
             strict,
             max_expanded_lines,
             project: project.clone(),
+            capabilities,
         },
     );
     let mut code = if compilation.has_errors() { 1 } else { 0 };
@@ -453,7 +509,7 @@ fn run(cli: Cli) -> io::Result<u8> {
             sidecar(&project.as_ref().unwrap().build_directory.join(stem), ".in")
         });
         let engine = if let Action::Run { engine } = &action {
-            Some(engine)
+            Some(target::engine(project.as_ref().unwrap(), engine.as_ref()))
         } else {
             None
         };
@@ -465,7 +521,12 @@ fn run(cli: Cli) -> io::Result<u8> {
         } else {
             vec![]
         };
-        let metadata_project = if default_output || compilation.resources.typed {
+        let metadata_project = if default_output
+            || compilation.resources.typed
+            || project
+                .as_ref()
+                .is_some_and(|p| p.validation.check_capabilities)
+        {
             project.as_ref()
         } else {
             None
@@ -488,7 +549,7 @@ fn run(cli: Cli) -> io::Result<u8> {
             Ok(info) => {
                 build = info;
                 if let Some(engine) = engine {
-                    match launch_engine(engine, project.as_ref().unwrap(), &output, &compilation) {
+                    match launch_engine(&engine, project.as_ref().unwrap(), &output, &compilation) {
                         Ok(result) => {
                             if result["success"] != true {
                                 compilation.diagnostics.push(Diagnostic::new(
@@ -529,6 +590,12 @@ fn run(cli: Cli) -> io::Result<u8> {
     }
     if matches!(format, Format::Json) {
         let mut report = serde_json::to_value(compilation.report(&source))?;
+        if project
+            .as_ref()
+            .is_some_and(|p| p.validation.check_capabilities)
+        {
+            report["target_requirements"] = serde_json::to_value(&compilation.requirements)?;
+        }
         if matches!(action, Action::Inspect) {
             report["dependencies"] = serde_json::to_value(&compilation.resources)?;
         }

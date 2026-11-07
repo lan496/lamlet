@@ -4,6 +4,24 @@ use serde::Serialize;
 /// Stable public diagnostic codes, also exposed by `lamlet schema`.
 pub static CODES: &[(&str, &str)] = &[
     (
+        "LML-CAP-001",
+        "Style unavailable in the selected target inventory",
+    ),
+    (
+        "LML-CAP-003",
+        "Target version does not satisfy the project requirement",
+    ),
+    ("LML-CAP-004", "Required package is absent from the target"),
+    (
+        "E_TARGET_PROFILE",
+        "Missing, stale, invalid, or mismatched target profile",
+    ),
+    ("E_TARGET_PROBE", "Official LAMMPS capability probe failed"),
+    (
+        "U_TARGET_CAPABILITY",
+        "Target availability cannot be proved statically",
+    ),
+    (
         "LML-PHYS-002",
         "Conditional thermostat/thermo temperature-definition mismatch",
     ),
