@@ -94,3 +94,17 @@ be shared as a single offline file.
 
 Use the [presenter runbook](../demo/README.md) for the sequence and the
 [getting-started guide](getting-started.md) for hands-on use.
+
+## The research pitch
+
+Can compiler feedback help an AI agent produce scientifically correct molecular
+dynamics inputs within a fixed budget? Lamlet makes that question testable on
+ordinary LAMMPS scripts. Compare its diagnostics with a published AST-based
+skill, keep the coding model and resources fixed, and judge the resulting
+simulations with an independent evaluator. Test typed Lamlet separately so the
+value of the checker and the value of the language remain distinct questions.
+
+This is a research hypothesis, with no measured improvement claimed. The
+[protocol](agent-evaluation.md) lists the controlled comparison, oracle
+requirements, and current gaps. The [offline pilot](../research/holbrook/README.md)
+replays published inputs without model calls or MD execution.

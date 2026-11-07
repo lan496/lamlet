@@ -33,6 +33,8 @@ jobs:
       - run: python3 -m unittest discover -s tools -p 'test_*.py'
       - run: python3 tools/corpus.py fetch
       - run: python3 tools/corpus.py audit --inventory target/corpus/inventory.json
+      - run: python3 tools/evaluation.py fetch
+      - run: python3 tools/evaluation.py replay
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -40,4 +42,5 @@ jobs:
           path: |
             target/corpus/report.json
             target/corpus/inventory.json
+            target/evaluation/replay.json
           if-no-files-found: warn

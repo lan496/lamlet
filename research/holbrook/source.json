@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/ethanholbrook/LAMMPS-AST.git",
+  "commit": "05fa329f175a8d50a1ac938ac55cc59791fd3e4c",
+  "paper": "https://arxiv.org/abs/2603.20630",
+  "groups": {
+    "published": {"expected_files": 240, "expected_per_task": 80},
+    "agent": {"expected_files": 6, "expected_per_task": 2}
+  },
+  "sparse": [
+    "/publication/pipeline/generated_scripts/",
+    "/publication/agent_tests/*/*/*.in",
+    "/publication/agent_tests/*/*/*_prompt.txt",
+    "/ez-pipeline/pipeline/pipeline_config.py",
+    "/lammps-ast-eval/SKILL.md",
+    "/lammps-ast-eval/REFERENCE.md",
+    "/lammps-ast-eval/scripts/",
+    "/lammps_ast/",
+    "/requirements.txt",
+    "/setup.py",
+    "/pyproject.toml"
+  ]
+}
