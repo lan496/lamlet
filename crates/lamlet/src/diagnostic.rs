@@ -4,6 +4,10 @@ use serde::Serialize;
 /// Stable public diagnostic codes, also exposed by `lamlet schema`.
 pub static CODES: &[(&str, &str)] = &[
     (
+        "LML-PHYS-002",
+        "Conditional thermostat/thermo temperature-definition mismatch",
+    ),
+    (
         "E_ARGUMENT_COUNT",
         "Wrong argument count in a schema-covered form",
     ),
@@ -143,6 +147,10 @@ pub struct Diagnostic {
     pub actual: Option<String>,
     pub notes: Vec<String>,
     pub suggestion: Option<String>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub evidence: Vec<crate::semantics::Evidence>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub suggested_actions: Vec<String>,
 }
 
 impl Diagnostic {
@@ -163,6 +171,8 @@ impl Diagnostic {
             actual: None,
             notes: vec![],
             suggestion: None,
+            evidence: vec![],
+            suggested_actions: vec![],
         }
     }
 }
@@ -181,6 +191,8 @@ pub struct Report<'a> {
     pub input: &'a str,
     pub diagnostics: &'a [Diagnostic],
     pub summary: Summary,
+    #[serde(skip_serializing_if = "<[crate::semantics::Finding]>::is_empty")]
+    pub physical_findings: &'a [crate::semantics::Finding],
 }
 
 impl<'a> Report<'a> {
@@ -206,6 +218,7 @@ impl<'a> Report<'a> {
             input,
             diagnostics,
             summary,
+            physical_findings: &[],
         }
     }
 }

@@ -7,6 +7,7 @@ mod lower;
 pub mod resources;
 pub mod schema;
 mod scoped;
+pub mod semantics;
 pub mod source;
 pub mod syntax;
 pub mod units;
@@ -27,6 +28,7 @@ pub struct Compilation {
     pub diagnostics: Vec<Diagnostic>,
     pub mappings: Vec<codegen::LineMapping>,
     pub resources: resources::Dependencies,
+    pub physical_findings: Vec<semantics::Finding>,
 }
 
 #[derive(Clone, Debug)]
@@ -49,7 +51,9 @@ impl Default for Options {
 
 impl Compilation {
     pub fn report<'a>(&'a self, source: &'a Source) -> Report<'a> {
-        Report::new(&source.path, &self.diagnostics)
+        let mut report = Report::new(&source.path, &self.diagnostics);
+        report.physical_findings = &self.physical_findings;
+        report
     }
     pub fn has_errors(&self) -> bool {
         self.diagnostics
@@ -93,5 +97,6 @@ pub fn compile_with_options(source: &Source, options: &Options) -> Compilation {
             lowerer.output.mappings
         },
         resources: lowerer.resources.dependencies,
+        physical_findings: lowerer.semantics.findings,
     }
 }

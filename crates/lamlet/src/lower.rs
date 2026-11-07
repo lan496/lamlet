@@ -24,6 +24,7 @@ pub(crate) struct Lowerer<'a> {
     expansion_steps: usize,
     pub resources: resources::Resolver,
     lifetimes: crate::scoped::Lifetimes,
+    pub semantics: crate::semantics::Engine,
 }
 
 impl<'a> Lowerer<'a> {
@@ -40,6 +41,7 @@ impl<'a> Lowerer<'a> {
             expansion_steps: 0,
             resources: resources::Resolver::new(options.project.clone(), source),
             lifetimes: crate::scoped::Lifetimes::default(),
+            semantics: crate::semantics::Engine::default(),
         }
     }
     fn error(&self, code: &'static str, message: impl Into<String>, span: Span) -> ExprError {
@@ -342,6 +344,8 @@ impl<'a> Lowerer<'a> {
         self.lifetimes.after(&resolved, emission.action());
         self.resources
             .after_command(self.source, &resolved, path_slot);
+        self.semantics
+            .command(self.source, &resolved, &mut self.diagnostics);
         let mut bytes = vec![];
         let mut cursor = command.line.span.start;
         for (span, replacement) in replacements {

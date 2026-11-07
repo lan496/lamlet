@@ -159,3 +159,10 @@ validation logs stay under ignored `target/validation/`.
 - C added declarative operand schemas, abstract state, and strict mode.
 - D added capability queries, complete JSON reporting, source maps, acceptance
   tests, examples, CI, and reference documentation.
+
+## Physical rule layer
+
+The independent semantic engine consumes resolved commands and records known
+temperature facts and three-valued rule findings at run sites. It never rewrites
+physics. Rule metadata, warning evidence, scope, and unimplemented idioms are
+documented in [physical semantics](semantics.md).

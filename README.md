@@ -72,6 +72,11 @@ cleanup at block exit. `@drop ID` releases a resource early. Ordinary LAMMPS
 resource commands retain manual lifetime management. See [scoped resources](docs/scopes.md)
 for ownership, dependency, and control-flow restrictions.
 
+Physical rules are independent of types and ownership. The initial temperature
+consistency rule reports conditional warnings with evidence and suggested actions;
+Unknown stays nonfatal. It never changes DOF or temperature definitions. See
+[physical semantics](docs/semantics.md).
+
 ## Verify changes
 
 ```sh

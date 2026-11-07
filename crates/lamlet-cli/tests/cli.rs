@@ -790,3 +790,46 @@ fn project_example_checks_and_builds_without_starting_lammps() {
     );
     assert!(!dir.path().join("results").exists());
 }
+
+#[test]
+fn physical_findings_include_outcome_evidence_actions_and_rule_metadata() {
+    let dir = tempfile::tempdir().unwrap();
+    fs::write(
+        dir.path().join("physics.lamlet"),
+        "compute T all temp/com\nfix t all nvt temp 300 300 0.1\nfix_modify t temp T\nrun 0\n",
+    )
+    .unwrap();
+    let args = ["check", "physics.lamlet", "--strict", "--format=json"];
+    let first = cli(&args, dir.path());
+    assert_eq!(first.stdout, cli(&args, dir.path()).stdout);
+    let value = json_output(&first, 0);
+    assert!(
+        value["physical_findings"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|f| f["rule_id"] == "LML-PHYS-002" && f["outcome"] == "violated")
+    );
+    let diagnostic = value["diagnostics"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|d| d["code"] == "LML-PHYS-002")
+        .unwrap();
+    assert_eq!(diagnostic["severity"], "warning");
+    assert_eq!(diagnostic["evidence"].as_array().unwrap().len(), 2);
+    assert!(
+        !diagnostic["suggested_actions"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
+    let schema = json_output(&cli(&["schema", "--format=json"], dir.path()), 0);
+    assert!(
+        schema["physical_rules"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|r| r["id"] == "LML-PHYS-002" && r["autofix"] == false)
+    );
+}

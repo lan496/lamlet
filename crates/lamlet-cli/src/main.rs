@@ -141,7 +141,7 @@ fn schema(query: Option<&str>, format: Format) -> io::Result<u8> {
         .iter()
         .filter(|s| query.is_none_or(|q| s.name == q))
         .collect();
-    let codes: Vec<_> = lamlet::diagnostic::CODES.iter().map(|(code, description)| serde_json::json!({ "code": code, "description": description, "severity": match code.as_bytes()[0] { b'E' => "error", b'W' => "warning", _ => "unknown" } })).collect();
+    let codes: Vec<_> = lamlet::diagnostic::CODES.iter().map(|(code, description)| serde_json::json!({ "code": code, "description": description, "severity": match code.as_bytes()[0] { b'E' => "error", b'W' | b'L' => "warning", _ => "unknown" } })).collect();
     let value = serde_json::json!({
         "schema_version": 1,
         "compiler_version": env!("CARGO_PKG_VERSION"),
@@ -156,6 +156,7 @@ fn schema(query: Option<&str>, format: Format) -> io::Result<u8> {
         "managed_resource_syntax": ["@scope", "@fix", "@compute", "@dump", "@drop"],
         "commands": commands,
         "diagnostic_codes": codes,
+        "physical_rules": lamlet::semantics::RULES,
         "defaults": { "language": "lammps, except .lamlet", "units": "lj", "max_expanded_lines": 100_000 },
         "spans": { "byte_offsets": "zero-based, half-open", "lines": "one-based", "columns": "one-based Unicode scalar values" },
         "validation_guarantee": "No detected errors is not proof of runtime or physical correctness",
