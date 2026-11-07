@@ -2,6 +2,11 @@
 
 ## Compatibility foundation
 
+The [programming model](programming-model.md) explains the distinction between
+legacy acceptance, typed semantic checks, and future checked module and stage
+boundaries. It includes the language precedents and decisions for bounded
+evaluation, constraint composition, effects, and artifact identity.
+
 The workspace has a compiler library and a CLI. Separate library modules keep
 source handling, parsing, semantic analysis, and output independent without
 adding a crate for every compiler stage.

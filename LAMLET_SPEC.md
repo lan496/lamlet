@@ -416,3 +416,22 @@ separate guarantees; neither promises bitwise identical trajectories. The
 [module and stage design](docs/modules-and-stages.md) specifies the intended
 boundaries and records unresolved invocation/restoration contracts. The proposed
 module/stage/checkpoint syntax and commands are not implemented yet.
+
+### 11.1 Programming-model boundaries
+
+Lamlet separates legacy LAMMPS acceptance, typed semantics, stage/artifact
+contracts, and the LAMMPS backend. Preserving an opaque legacy command does not
+prove that command satisfies a checked module or stage contract. Unknown effects
+must remain explicit and cannot establish independent execution.
+
+Compile-time user evaluation remains bounded and deterministic given resolved
+inputs and options. Host filesystem resolution and explicit target probing have
+separate dependency contracts. Constraint composition applies to facts at one
+program point; it does not reorder LAMMPS state transitions. A future task key,
+run identity, and output-content identity have different meanings. Effects and
+ownership also remain distinct checks.
+
+[Programming model and language precedents](docs/programming-model.md) records
+the supporting primary sources and the design decisions informed by Starlark,
+Nix, CUE, Modelica, Koka, and Sorbet. It defines planned boundaries, not new syntax
+or additional guarantees in the current compiler.

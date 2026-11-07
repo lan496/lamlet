@@ -4,6 +4,11 @@ Status: accepted design direction; syntax, invocation, lowering, and execution
 are not implemented. The examples in the design discussion are proposals, not
 accepted compiler syntax. Existing single-file execution remains supported.
 
+The [programming model and language precedents](programming-model.md) separates
+legacy, typed, stage/artifact, and backend responsibilities. It records which
+ideas from Starlark, Nix, CUE, Modelica, and Koka inform these contracts without
+adding their runtimes or promising their guarantees.
+
 ## Independent execution
 
 Every Lamlet stage must be independently executable from explicitly declared
