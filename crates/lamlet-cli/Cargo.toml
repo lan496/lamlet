@@ -1,0 +1,15 @@
+[package]
+name = "lamlet-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "lamlet"
+path = "src/main.rs"
+
+[dependencies]
+lamlet = { path = "../lamlet" }
+clap.workspace = true
+serde_json.workspace = true
+tempfile.workspace = true
