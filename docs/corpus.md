@@ -189,9 +189,9 @@ The evaluator requires Git, Python 3.9 or newer, and the release Lamlet CLI.
 Python is a development-tool dependency; the compiler itself has no Python
 dependency. Fetching requires network access. Inputs stay in ignored `target/`
 directories, retain their upstream licenses, and are not vendored into this
-repository. The compiler revision used for the baseline is `3f9e2e2`, including
-typed resources, scopes, physical semantics, and explicit target support; the report
-also records the exact executable's SHA-256 digest.
+repository. The compiler revision used for the baseline is `e2164c0`, including
+typed resources, scopes, physical semantics, explicit targets, modules, and
+independent stages. The report also records the exact executable's SHA-256 digest.
 
 ```sh
 cargo build --release --locked
@@ -212,17 +212,17 @@ local artifacts. `--limit N` evaluates a deterministic prefix for a pilot and
 records the limit; a limited run is not a full compatibility result. Input
 enumeration and digest verification still cover the pinned selection.
 
-The pilot processed one file in 0.039 seconds for three CLI invocations. Its
-derived budget for the 998 selected files was approximately 39 seconds. The
-full 998-file processing pass measured 15.445 seconds on the local macOS host,
+The pilot processed one file in 0.034 seconds for three CLI invocations. Its
+derived budget for the 998 selected files was approximately 34 seconds. The
+full 998-file processing pass measured 15.595 seconds on the local macOS host,
 excluding download, initial enumeration, and negative-fixture checks. This is
 one measured pass, not a comparative performance benchmark. Timings and absolute
 cache paths are omitted from JSON so repeated evaluation with the same binary,
 sources, and evaluator produces identical reports and inventories.
 
-Revalidation with the later compiler reproduced all prior selection, rejection,
-diagnostic-count, frequency, and negative-case outcomes; only the executable
-digest in the baseline changed. No target profile was enabled for this legacy
+Revalidation after the module and stage additions reproduced all prior selection,
+rejection, diagnostic-count, frequency, and negative-case outcomes; only the
+executable digest in the baseline changed. No target profile was enabled for this legacy
 compatibility measurement. Capability errors from an explicitly selected target
 are evaluated separately by the Rust tests, not counted as compatibility errors.
 
