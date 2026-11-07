@@ -1,6 +1,76 @@
 use crate::source::{LocatedSpan, Source, Span};
 use serde::Serialize;
 
+/// Stable public diagnostic codes, also exposed by `lamlet schema`.
+pub static CODES: &[(&str, &str)] = &[
+    (
+        "E_ARGUMENT_COUNT",
+        "Wrong argument count in a schema-covered form",
+    ),
+    ("E_CLI", "Invalid command-line arguments"),
+    ("E_COMMAND_ORDER", "Definitely invalid command ordering"),
+    ("E_DIMENSION_MISMATCH", "Incompatible physical dimensions"),
+    ("E_DIVISION_BY_ZERO", "Compile-time division by zero"),
+    (
+        "E_DUPLICATE_BINDING",
+        "Redefinition in the same lexical scope",
+    ),
+    (
+        "E_EXPANSION_LIMIT",
+        "Compile-time expansion line or work limit exceeded",
+    ),
+    ("E_EXPRESSION", "Malformed or unsupported Lamlet expression"),
+    ("E_IO", "Input or output filesystem error"),
+    (
+        "E_NUMERIC_OVERFLOW",
+        "Integer overflow or nonfinite numerical result",
+    ),
+    (
+        "E_REFINEMENT",
+        "Known value violates a numerical refinement",
+    ),
+    (
+        "E_RESOURCE_LIMIT",
+        "Expression size or nesting limit exceeded",
+    ),
+    ("E_SYNTAX", "Malformed Lamlet syntax"),
+    ("E_TYPE_MISMATCH", "Incompatible source-language types"),
+    ("E_UNBOUND_NAME", "Compile-time binding is not in scope"),
+    ("E_UNKNOWN_ID", "Referenced ID is definitely absent"),
+    ("E_UNKNOWN_UNIT", "Unknown explicit unit symbol"),
+    (
+        "E_UNSUPPORTED_UNITS",
+        "Physical conversion requires known metal or real units",
+    ),
+    (
+        "E_UNVERIFIED_ARGUMENT",
+        "Strict mode requires schema proof or @unchecked",
+    ),
+    (
+        "U_COMMAND_ORDER",
+        "Box state is unknown at an ordering constraint",
+    ),
+    ("U_ID_STATE", "ID existence is unknown"),
+    (
+        "U_OPAQUE_COMMAND",
+        "Command boundaries or effects are not verified by Lamlet",
+    ),
+    ("U_PARTIAL_COMMAND", "Only part of the command is covered"),
+    (
+        "U_RUNTIME_VALUE",
+        "Operand value is not known at compile time",
+    ),
+    ("U_UNIT_STYLE", "Unit style is not recognized by Lamlet"),
+    (
+        "W_UNCHECKED_INTERPOLATION",
+        "Explicit operand validation escape hatch",
+    ),
+    (
+        "W_UNVERIFIED_ARGUMENT",
+        "Interpolated operand is not covered by a schema",
+    ),
+];
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Severity {

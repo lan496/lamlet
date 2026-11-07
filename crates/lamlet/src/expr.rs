@@ -201,7 +201,15 @@ impl Parser {
                 self.peek().span,
             ));
         }
-        let token = self.take();
+        let mut token = self.take();
+        // The minimum signed integer's positive magnitude is one beyond i64::MAX.
+        if matches!(token.kind, TokenKind::Punct('-'))
+            && matches!(&self.peek().kind, TokenKind::Number(s) if s == "9223372036854775808")
+        {
+            let magnitude = self.take();
+            token.kind = TokenKind::Number(i64::MIN.to_string());
+            token.span.end = magnitude.span.end;
+        }
         let mut lhs = match token.kind {
             TokenKind::Number(s) => {
                 let value = if s.contains(['.', 'e', 'E']) {

@@ -72,6 +72,11 @@ fn loops_scopes_and_order_golden() {
 #[test]
 fn precedence_type_and_dimension_algebra() {
     assert_eq!(
+        output("plugin @{-9223372036854775808}\n"),
+        "plugin -9223372036854775808\n"
+    );
+    has_error("@let bad = -(-9223372036854775808)\n", "E_NUMERIC_OVERFLOW");
+    assert_eq!(
         output("plugin @{1 + 2 * 3} @{-(3 + 4) / 2} @{true}\n"),
         "plugin 7 -3.5 true\n"
     );
@@ -90,23 +95,30 @@ fn precedence_type_and_dimension_algebra() {
 
 #[test]
 fn centralized_constants_and_derived_units() {
-    for style in ["metal", "real"] {
-        for symbol in [
-            "fs", "ps", "ns", "s", "angstrom", "nm", "m", "K", "Pa", "bar", "atm", "eV", "kcal/mol",
-        ] {
-            let (dimension, factor) = units::unit(symbol).unwrap();
-            let scale = units::target_scale(style, dimension).unwrap();
+    for (symbol, metal, real) in [
+        ("fs", 0.002, 2.0),
+        ("ps", 2.0, 2000.0),
+        ("ns", 2000.0, 2e6),
+        ("s", 2e12, 2e15),
+        ("angstrom", 2.0, 2.0),
+        ("nm", 20.0, 20.0),
+        ("m", 2e10, 2e10),
+        ("K", 2.0, 2.0),
+        ("Pa", 0.00002, 0.000019738465334320256),
+        ("bar", 2.0, 1.9738465334320256),
+        ("atm", 2.0265, 2.0),
+        ("eV", 2.0, 46.12109566123806),
+        ("kcal/mol", 0.08672820848360188, 2.0),
+    ] {
+        for (style, expected) in [("metal", metal), ("real", real)] {
             let text = output(&format!("units {style}\nplugin @{{2 {symbol}}}\n"));
             let n = text
                 .lines()
-                .find(|s| s.starts_with("plugin "))
-                .unwrap()
-                .split_whitespace()
-                .nth(1)
+                .find_map(|s| s.strip_prefix("plugin "))
                 .unwrap()
                 .parse::<f64>()
                 .unwrap();
-            near(n, 2.0 * factor / scale);
+            near(n, expected);
         }
     }
     let expr = expr::parse("1 eV / (1 angstrom * 1 angstrom * 1 angstrom)", 0).unwrap();
@@ -145,10 +157,7 @@ fn syntax_errors_never_pass_through() {
 #[test]
 fn comments_quotes_and_logical_commands_shield_extensions() {
     let script = "# @let x = 2 @{bad}\nprint '@{bad}'\nprint \"@unchecked{bad}\"\nprint \"\"\"\n@let x = 2\n@{bad}\n}\n\"\"\"\nprint hello &\n  @let x = 2\n";
-    // A directive-looking continuation is ordinary command text, not a directive.
-    // Its literal @let is outside quotes, so use a quoted argument in that command.
-    let script = script.replace("  @let x = 2", "  '@let x = 2'");
-    assert_eq!(output(&script), script);
+    assert_eq!(output(script), script);
     assert_eq!(
         output("@let x = 2 # comment\nrun @{x} # @{missing}\n"),
         "run 2 # @{missing}\n"

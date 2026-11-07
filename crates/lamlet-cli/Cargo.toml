@@ -12,4 +12,5 @@ path = "src/main.rs"
 lamlet = { path = "../lamlet" }
 clap.workspace = true
 serde_json.workspace = true
+serde.workspace = true
 tempfile.workspace = true

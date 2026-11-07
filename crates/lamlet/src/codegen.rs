@@ -14,6 +14,14 @@ pub struct LineMapping {
     pub expansion: Vec<ExpansionContext>,
 }
 
+#[derive(Debug, Serialize)]
+pub struct SourceMap<'a> {
+    pub format_version: u32,
+    pub original_source: &'a str,
+    pub output: &'a str,
+    pub lines: &'a [LineMapping],
+}
+
 #[derive(Debug, Default)]
 pub struct Output {
     pub bytes: Vec<u8>,
@@ -28,20 +36,15 @@ impl Output {
         bytes: &[u8],
         context: &[ExpansionContext],
     ) {
-        // Each command starts on a line boundary; command text retains physical lines.
-        let mut original_line = span.start;
+        // A whole logical-command span remains accurate when interpolation removes
+        // continuation line breaks. No generated sentinel text is needed.
         for part in bytes.split_inclusive(|b| *b == b'\n') {
-            let end = source.bytes[original_line..span.end]
-                .iter()
-                .position(|b| *b == b'\n')
-                .map_or(span.end, |p| original_line + p + 1);
             self.mappings.push(LineMapping {
                 generated_line: self.mappings.len() + 1,
-                source: source.located(Span::new(original_line, end)),
+                source: source.located(span),
                 expansion: context.to_vec(),
             });
             self.bytes.extend_from_slice(part);
-            original_line = end;
         }
     }
 }

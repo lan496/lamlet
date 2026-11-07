@@ -162,15 +162,19 @@ impl<'a> Lowerer<'a> {
                     Value::Quantity(n, dimension) => {
                         let style = self.state.units.as_deref().unwrap_or("unknown");
                         let scale = target_scale(style, dimension).ok_or_else(|| self.error("E_UNSUPPORTED_UNITS", format!("Cannot convert {} with active units '{style}'; declare units metal or units real", dimension.name()), interpolation.expression.span))?;
-                        let n = n / scale;
-                        if !n.is_finite() {
+                        let converted = n / scale;
+                        if !scale.is_finite()
+                            || scale == 0.0
+                            || !converted.is_finite()
+                            || (n != 0.0 && converted == 0.0)
+                        {
                             return Err(self.error(
                                 "E_NUMERIC_OVERFLOW",
-                                "Unit conversion produces a nonfinite value",
+                                "Unit conversion overflows or underflows the finite numeric range",
                                 interpolation.expression.span,
                             ));
                         }
-                        format_number(n)
+                        format_number(converted)
                     }
                 };
                 if interpolation.unchecked {

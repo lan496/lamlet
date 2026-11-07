@@ -1,0 +1,13 @@
+# Provide structure.data to LAMMPS at execution time.
+@let dt = 2 fs
+@let tdamp = 100 fs
+@let steps = 10000
+units metal
+atom_style atomic
+read_data structure.data
+timestep @{dt}
+@for target in [300 K, 400 K, 500 K] {
+    fix thermostat all nvt temp @{target} @{target} @{tdamp}
+    run @{steps}
+    unfix thermostat
+}

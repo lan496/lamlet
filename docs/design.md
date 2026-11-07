@@ -86,9 +86,61 @@ warns. It bypasses operand checks, while unit conversion and definite global
 state errors still apply. Strict mode accepts opaque legacy commands and runtime
 values. Unknown findings do not establish validation success.
 
-## Milestone status
+## Output and diagnostics
 
-Milestones A through C implement compatibility, typed language constructs, unit
-conversion, operand checks, state analysis, strict mode, and the configurable
-expansion limit. CLI capability descriptions, source maps, and final
-documentation remain for milestone D.
+The CLI publishes one versioned JSON object after analysis and output handling.
+This also covers CLI and filesystem errors, which return exit code 2. The schema
+command exposes the actual declarative registry and a stable diagnostic catalog.
+Diagnostics and generated lines follow execution order. Hash iteration does not
+affect output.
+
+Source maps point each generated physical line at the whole original logical
+command. This avoids inaccurate line offsets when an interpolation consumes a
+continuation. Expansion context records each loop variable and zero-based
+iteration. Scripts contain no mapping comments.
+
+Builds prepare output and optional map temporary files before publishing either.
+Each destination is replaced atomically. The two-file publication is not a
+filesystem transaction: a filesystem error during the final rename can leave
+only one destination updated. Compilation errors never publish either file.
+Source paths and existing aliases cannot be output destinations.
+
+## Coverage and remaining limitations
+
+Milestones A through D are implemented. The required automated acceptance cases
+run without LAMMPS. No required v0.1 language or CLI feature is intentionally
+deferred. State analysis remains deliberately incomplete as described above;
+unsupported commands are accepted, not validated. The compiler currently stops
+at the first syntax or expression-evaluation error, while schema analysis can
+report multiple errors.
+
+The thermostat example assumes an external structure file and illustrates the
+specification's typed syntax. The standalone legacy and typed examples use
+`pair_style zero` and zero-step runs and need no external data.
+
+The optional local engine check reached a completed zero-step legacy run using
+LAMMPS 22 Jul 2025 Update 4, then failed in MPICH/libfabric finalization on `utun7`.
+An unsandboxed retry also failed. A TCP loopback attempt failed during MPI
+initialization. This is not counted as a passing integration check. The
+automated Rust suite and CI do not require an engine or MPI.
+
+CI is configured for stable Rust on Linux, macOS, and Windows. Only the local
+macOS toolchain was exercised during implementation; hosted CI has not been run.
+
+Each milestone passed `cargo fmt --all`,
+`cargo clippy --workspace --all-targets -- -D warnings`, and
+`cargo test --workspace`, all with exit code 0. Test counts at the milestone
+gates were 4, 14, 23, and 40. The final suite has one ignored optional engine
+test. `cargo build --release --locked` also passed. Running the release CLI on
+both standalone examples succeeded, and `cmp examples/legacy.in
+target/validation/legacy.in` confirmed byte identity. Generated files and local
+validation logs stay under ignored `target/validation/`.
+
+## Milestone history
+
+- A established byte-preserving compilation, logical lines, spans, and atomic
+  CLI output.
+- B added typed expressions, lexical bindings, compile-time loops, and units.
+- C added declarative operand schemas, abstract state, and strict mode.
+- D added capability queries, complete JSON reporting, source maps, acceptance
+  tests, examples, CI, and reference documentation.

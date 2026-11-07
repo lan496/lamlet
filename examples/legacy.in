@@ -1,0 +1,13 @@
+# Ordinary LAMMPS input. Lamlet preserves every byte.
+units metal
+atom_style atomic
+timestep 0.002
+region box block 0 5 0 5 0 5
+create_box 1 box
+create_atoms 1 single 2.5 2.5 2.5
+mass 1 40.0
+pair_style zero 3.0
+pair_coeff * *
+fix integrate all nve
+run 0
+unfix integrate
