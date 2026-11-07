@@ -26,6 +26,9 @@ pub(crate) struct Lowerer<'a> {
     lifetimes: crate::scoped::Lifetimes,
     pub semantics: crate::semantics::Engine,
     pub capabilities: crate::capability::Checker,
+    modules: crate::module::Registry,
+    effects: crate::module::Effects,
+    checked_depth: usize,
 }
 
 impl<'a> Lowerer<'a> {
@@ -44,6 +47,9 @@ impl<'a> Lowerer<'a> {
             lifetimes: crate::scoped::Lifetimes::default(),
             semantics: crate::semantics::Engine::default(),
             capabilities: crate::capability::Checker::new(options.capabilities.clone()),
+            modules: crate::module::Registry::default(),
+            effects: crate::module::Effects::default(),
+            checked_depth: 0,
         }
     }
     fn error(&self, code: &'static str, message: impl Into<String>, span: Span) -> ExprError {
@@ -73,7 +79,11 @@ impl<'a> Lowerer<'a> {
                 ));
             }
         }
-        if let Err(error) = self.nodes(nodes) {
+        let result = crate::module::Registry::collect(nodes).and_then(|registry| {
+            self.modules = registry;
+            self.nodes(nodes)
+        });
+        if let Err(error) = result {
             self.diagnostics.push(Diagnostic::new(
                 self.source,
                 error.span,
@@ -218,6 +228,79 @@ impl<'a> Lowerer<'a> {
                     let cleanup = self.lifetimes.drop_command(id, *span)?;
                     self.release(cleanup)?;
                 }
+                Node::Module { span, .. } if self.checked_depth == 0 => {
+                    self.step(*span)?;
+                }
+                Node::Module { span, .. }
+                | Node::Function(crate::module::Function { span, .. }) => {
+                    return Err(self.error("E_MODULE_DEFINITION", "Module definitions belong at the source boundary and functions inside modules", *span));
+                }
+                Node::Call {
+                    name,
+                    arguments,
+                    span,
+                } => {
+                    self.step(*span)?;
+                    if self.checked_depth >= 64 {
+                        return Err(self.error(
+                            "E_MODULE_RECURSION",
+                            "Module expansion exceeds 64 call levels",
+                            *span,
+                        ));
+                    }
+                    let function = self.modules.functions.get(name).cloned().ok_or_else(|| {
+                        self.error(
+                            "E_MODULE_CALL",
+                            format!("Unknown module function '{name}'"),
+                            *span,
+                        )
+                    })?;
+                    if arguments.len() != function.parameters.len() {
+                        return Err(self.error(
+                            "E_ARGUMENT_COUNT",
+                            format!("'{name}' expects {} arguments", function.parameters.len()),
+                            *span,
+                        ));
+                    }
+                    let mut parameters = Scope::new();
+                    for (parameter, expression) in function.parameters.iter().zip(arguments) {
+                        let value = crate::module::bind(
+                            parameter,
+                            expr::evaluate(expression, &self.scopes)?,
+                            expression.span,
+                        )?;
+                        if let Value::Resource(resource) = &value {
+                            self.resources.declare(
+                                resource,
+                                self.source,
+                                expression.span,
+                                "file",
+                                false,
+                            )?;
+                        }
+                        parameters.insert(parameter.name.clone(), value);
+                    }
+                    self.effects.require(&function.requires, *span)?;
+                    // Calls see only their explicit parameters, never caller-local bindings.
+                    let caller_scopes = std::mem::replace(&mut self.scopes, vec![parameters]);
+                    self.checked_depth += 1;
+                    self.context.push(ExpansionContext {
+                        variable: format!("@call {name}"),
+                        iteration: 0,
+                    });
+                    self.lifetimes.enter_scope();
+                    let result = self.nodes(&function.body).and_then(|()| {
+                        while let Some(cleanup) = self.lifetimes.cleanup(function.end) {
+                            self.release(cleanup)?;
+                        }
+                        self.effects.require(&function.ensures, *span)
+                    });
+                    self.lifetimes.leave_scope();
+                    self.context.pop();
+                    self.checked_depth -= 1;
+                    self.scopes = caller_scopes;
+                    result?;
+                }
             }
         }
         Ok(())
@@ -297,7 +380,12 @@ impl<'a> Lowerer<'a> {
                         )?
                     }
                     Value::Quantity(n, dimension) => {
-                        let style = self.state.units.as_deref().unwrap_or("unknown");
+                        let style = if self.checked_depth > 0 {
+                            self.effects.units.as_deref()
+                        } else {
+                            self.state.units.as_deref()
+                        }
+                        .unwrap_or("unknown");
                         let scale = target_scale(style, dimension).ok_or_else(|| self.error("E_UNSUPPORTED_UNITS", format!("Cannot convert {} with active units '{style}'; declare units metal or units real", dimension.name()), interpolation.expression.span))?;
                         let converted = n / scale;
                         if !scale.is_finite()
@@ -348,6 +436,7 @@ impl<'a> Lowerer<'a> {
             syntax: &resolved,
             operands,
         };
+        self.effects.command(&resolved, self.checked_depth > 0)?;
         self.lifetimes.before(
             &resolved,
             emission.action(),

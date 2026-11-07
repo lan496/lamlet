@@ -1,8 +1,66 @@
 # Modules, stages, and checkpoint contracts
 
-Status: accepted design direction; syntax, invocation, lowering, and execution
-are not implemented. The examples in the design discussion are proposals, not
-accepted compiler syntax. Existing single-file execution remains supported.
+Status: same-source modules and checked calls are implemented. Stage execution
+and checkpoint restoration remain design requirements. Existing single-file
+execution remains supported.
+
+## Implemented module syntax
+
+```lamlet
+@module dynamics {
+    @fn sample(steps: Int) requires [AtomsDefined, ModelDefined] ensures [AtomsDefined, ModelDefined] {
+        @fix integrate all nve
+        run @{steps}
+    }
+}
+# Construct the system and pair model before calling this operation.
+@call dynamics.sample(1000)
+```
+
+Modules contain function declarations and comments. Definitions are available
+throughout the source. Calls use qualified names and positional expressions.
+Parameters accept Int, Float, Bool, Time, Length, Temperature, Pressure, Energy,
+and the existing resource types. Float accepts Int, and file resource subtyping
+follows typed path bindings. Calls cannot capture caller bindings. Pass each
+value explicitly. External module imports and value-returning functions are
+not implemented.
+
+The compiler rejects duplicate definitions, unresolved calls, recursion, and
+call graphs deeper than 64 levels, including unused definitions. Expansion uses
+the existing line and work bounds. Every instantiated call checks its arguments,
+preconditions, sequential command effects, and postconditions. Uncalled function
+bodies do not undergo expression or state-contract checking. A function's
+`ensures` list is checked against its resulting state; it cannot assert a fact
+into existence. Source maps retain definition locations and call expansion names.
+
+Functions own an implicit resource scope. Managed resources are released before
+postconditions are checked. Plain fix/compute/dump commands retain manual
+lifetime management and may intentionally affect the caller. Modules therefore
+do not automatically claim reentrancy.
+
+State facts are separate from LAMMPS operand schemas:
+
+| Fact | Evidence tracked in the initial subset |
+| --- | --- |
+| BoxDefined | create_box or read_data |
+| AtomsDefined | create_atoms or read_data |
+| ModelDefined | Supported literal pair_style followed by pair_coeff * * |
+| IntegratorConfigured | Active nve/nvt/npt fix on group all |
+
+AtomsDefined records an atom construction command, not a measured nonzero atom
+count. ModelDefined records a model declaration, not proof of force-field
+correctness or complete coefficients for every type. Pair styles are currently
+lj/cut, eam, and eam/alloy. Clearing state removes facts; changing pair_style
+invalidates ModelDefined. Releasing an integrator updates IntegratorConfigured.
+Opaque legacy commands weaken facts to Unknown. Neither Unknown nor Absent
+satisfies a required fact.
+
+Inside a called function, unsupported effects, runtime substitutions, external
+includes, shell operations, runtime control flow, plugins, and run callbacks are
+errors even without --strict. The finite command/style subset is defined in
+`module::Effects`. This is an intentionally conservative boundary, separate from
+legacy acceptance. Its facts establish command ordering and declared setup;
+they do not certify numerical or physical correctness.
 
 The [programming model and language precedents](programming-model.md) separates
 legacy, typed, stage/artifact, and backend responsibilities. It records which
@@ -101,6 +159,6 @@ The following decisions are required before stage syntax can be implemented:
 - Output selection: how a stage with multiple artifacts names its outputs and
   how a checkpoint is exported before managed resources are released.
 
-`@module`, `@fn`, `@stage`, `@system`, `@resume`, `@output`, stage selection,
+`@stage`, `@system`, `@resume`, `@output`, stage selection,
 workflow JSON, and checkpoint manifests are therefore unavailable in this
 release. They are not silently treated as verified module boundaries.

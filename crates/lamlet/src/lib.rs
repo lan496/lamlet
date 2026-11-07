@@ -5,6 +5,7 @@ pub mod diagnostic;
 pub mod expr;
 pub mod hir;
 mod lower;
+pub mod module;
 pub mod resources;
 pub mod schema;
 mod scoped;

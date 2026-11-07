@@ -4,6 +4,23 @@ use serde::Serialize;
 /// Stable public diagnostic codes, also exposed by `lamlet schema`.
 pub static CODES: &[(&str, &str)] = &[
     (
+        "E_MODULE_DEFINITION",
+        "Invalid or duplicate module/function definition",
+    ),
+    ("E_MODULE_CALL", "Unknown module function"),
+    (
+        "E_MODULE_RECURSION",
+        "Recursive or excessively deep module call graph",
+    ),
+    (
+        "E_STATE_CONTRACT",
+        "Required state fact is absent or unknown",
+    ),
+    (
+        "E_UNVERIFIED_EFFECT",
+        "Command effects cannot be verified at a typed boundary",
+    ),
+    (
         "LML-CAP-001",
         "Style unavailable in the selected target inventory",
     ),

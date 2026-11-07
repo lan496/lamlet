@@ -415,7 +415,8 @@ independent execution tasks. Reentrancy and checkpoint-based resumability are
 separate guarantees; neither promises bitwise identical trajectories. The
 [module and stage design](docs/modules-and-stages.md) specifies the intended
 boundaries and records unresolved invocation/restoration contracts. The proposed
-module/stage/checkpoint syntax and commands are not implemented yet.
+Same-source module calls and state contracts are implemented as documented there;
+stage/checkpoint syntax and commands are not implemented yet.
 
 ### 11.1 Programming-model boundaries
 

@@ -124,6 +124,17 @@ pub enum Node {
         id: String,
         span: Span,
     },
+    Module {
+        name: String,
+        body: Vec<Node>,
+        span: Span,
+    },
+    Function(crate::module::Function),
+    Call {
+        name: String,
+        arguments: Vec<Expr>,
+        span: Span,
+    },
 }
 
 fn syntax_error(message: impl Into<String>, span: Span) -> ExprError {
@@ -356,7 +367,7 @@ pub fn command(source: &[u8], line: LogicalLine, extended: bool) -> Result<Comma
     })
 }
 
-fn identifier(name: &str) -> bool {
+pub(crate) fn identifier(name: &str) -> bool {
     let mut chars = name.bytes();
     chars
         .next()
@@ -435,7 +446,91 @@ fn parse_block(
         let content = std::str::from_utf8(&text.bytes[trimmed_start..content_end])
             .map_err(|_| syntax_error("Lamlet directives must be UTF-8", line.span))?
             .trim_end();
-        if let Some(binding) = content
+        if let Some(header) = content.strip_prefix("@module ") {
+            let name = header
+                .strip_suffix('{')
+                .map(str::trim)
+                .filter(|name| identifier(name))
+                .ok_or_else(|| syntax_error("Expected @module NAME {", line.span))?;
+            if depth >= 64 {
+                return Err(syntax_error("Block nesting exceeds 64 levels", line.span));
+            }
+            let body = parse_block(source, lines, position, extended, depth + 1)?;
+            nodes.push(Node::Module {
+                name: name.into(),
+                body,
+                span: line.span,
+            });
+        } else if let Some(header) = content.strip_prefix("@fn ") {
+            let (name, rest) = header
+                .split_once('(')
+                .filter(|(name, _)| identifier(name.trim()))
+                .ok_or_else(|| {
+                    syntax_error(
+                        "Expected @fn NAME(PARAM: TYPE, ...) requires [...] ensures [...] {",
+                        line.span,
+                    )
+                })?;
+            let (parameters, rest) = rest
+                .split_once(')')
+                .ok_or_else(|| syntax_error("Unclosed parameter list", line.span))?;
+            let parameters = parse_parameters(parameters, line.span)?;
+            let rest = rest
+                .trim()
+                .strip_prefix("requires")
+                .ok_or_else(|| syntax_error("Expected requires [FACT, ...]", line.span))?;
+            let (requires, rest) = parse_facts(rest, line.span)?;
+            let rest = rest
+                .trim()
+                .strip_prefix("ensures")
+                .ok_or_else(|| syntax_error("Expected ensures [FACT, ...]", line.span))?;
+            let (ensures, rest) = parse_facts(rest, line.span)?;
+            if rest.trim() != "{" {
+                return Err(syntax_error(
+                    "Expected '{' after the function contract",
+                    line.span,
+                ));
+            }
+            if depth >= 64 {
+                return Err(syntax_error("Block nesting exceeds 64 levels", line.span));
+            }
+            let body = parse_block(source, lines, position, extended, depth + 1)?;
+            nodes.push(Node::Function(crate::module::Function {
+                name: name.trim().into(),
+                parameters,
+                requires,
+                ensures,
+                body,
+                span: line.span,
+                end: lines[*position - 1].span,
+            }));
+        } else if let Some(call) = content.strip_prefix("@call ") {
+            let (name, rest) = call.split_once('(').ok_or_else(|| {
+                syntax_error("Expected @call MODULE.FUNCTION(EXPR, ...)", line.span)
+            })?;
+            let name = name.trim();
+            let parts: Vec<_> = name.split('.').collect();
+            if parts.len() != 2 || !parts.iter().all(|name| identifier(name)) {
+                return Err(syntax_error(
+                    "Expected a qualified module function name",
+                    line.span,
+                ));
+            }
+            let arguments = rest
+                .strip_suffix(')')
+                .ok_or_else(|| syntax_error("Expected ')' after call arguments", line.span))?;
+            let offset = trimmed_start + content.len() - 1 - arguments.len();
+            let mut arguments = expr::parse_list(&format!("[{arguments}]"), offset - 1)
+                .map_err(|e| text.map_error(e))?;
+            for expression in &mut arguments {
+                text.map_expr(expression);
+            }
+            nodes.push(Node::Call {
+                name: name.into(),
+                arguments,
+                span: line.span,
+            });
+        } else if let Some(binding) = content
             .strip_prefix("@let ")
             .or_else(|| content.strip_prefix("@let\t"))
         {
@@ -549,4 +644,50 @@ fn parse_block(
     } else {
         Ok(nodes)
     }
+}
+
+pub(crate) fn parse_parameters(
+    text: &str,
+    span: Span,
+) -> Result<Vec<crate::module::Parameter>, ExprError> {
+    let mut parameters = vec![];
+    for part in text.split(',').map(str::trim).filter(|p| !p.is_empty()) {
+        let (name, ty) = part
+            .split_once(':')
+            .ok_or_else(|| syntax_error("Expected NAME: TYPE", span))?;
+        let name = name.trim();
+        let ty = crate::module::parameter_type(ty.trim())
+            .ok_or_else(|| syntax_error("Unknown parameter type", span))?;
+        if !identifier(name)
+            || parameters
+                .iter()
+                .any(|p: &crate::module::Parameter| p.name == name)
+        {
+            return Err(syntax_error("Invalid or duplicate parameter name", span));
+        }
+        parameters.push(crate::module::Parameter {
+            name: name.into(),
+            ty,
+        });
+    }
+    Ok(parameters)
+}
+
+fn parse_facts(text: &str, span: Span) -> Result<(Vec<crate::module::StateFact>, &str), ExprError> {
+    let text = text
+        .trim()
+        .strip_prefix('[')
+        .ok_or_else(|| syntax_error("Expected a list of state facts", span))?;
+    let (facts, rest) = text
+        .split_once(']')
+        .ok_or_else(|| syntax_error("Unclosed state fact list", span))?;
+    let mut result = vec![];
+    for name in facts.split(',').map(str::trim).filter(|p| !p.is_empty()) {
+        let fact = crate::module::StateFact::parse(name)
+            .ok_or_else(|| syntax_error("Unknown state fact", span))?;
+        if !result.contains(&fact) {
+            result.push(fact);
+        }
+    }
+    Ok((result, rest))
 }

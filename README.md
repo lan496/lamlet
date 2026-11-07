@@ -83,8 +83,9 @@ saved profile without launching LAMMPS during compilation. Agents can query
 `target list`, `target check`, `target explain`, and `target requirements`.
 See [explicit targets](docs/capabilities.md) for configuration and plugin limits.
 
-Modules, independently executable stages, and checkpoint restoration are the
-next design layer. Their [contracts and open decisions](docs/modules-and-stages.md)
+Same-source modules support typed calls and checked state contracts. Independently
+executable stages and checkpoint restoration are the next design layer. Their
+[syntax, contracts, and open decisions](docs/modules-and-stages.md)
 are documented; their proposed syntax is not implemented.
 The [programming model](docs/programming-model.md) explains the layer boundaries
 and the design lessons drawn from Starlark, Nix, CUE, Modelica, and Koka.
