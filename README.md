@@ -1,8 +1,8 @@
 # Lamlet
 
 Lamlet v0.1 adds compile-time bindings, loops, physical units, typed file resources,
-scoped fix/compute/dump management, and explicit target checks to LAMMPS input
-scripts. It emits ordinary LAMMPS scripts. Checking and compilation require no
+scoped fix/compute/dump management, modules, independent stages, and explicit
+target checks to LAMMPS input scripts. It emits ordinary LAMMPS scripts. Checking and compilation require no
 LAMMPS installation, Python or network access. Explicit typed input paths require their files to exist.
 
 Legacy files remain unchanged. Commands outside Lamlet's partial schemas are
@@ -83,10 +83,11 @@ saved profile without launching LAMMPS during compilation. Agents can query
 `target list`, `target check`, `target explain`, and `target requirements`.
 See [explicit targets](docs/capabilities.md) for configuration and plugin limits.
 
-Same-source modules support typed calls and checked state contracts. Independently
-executable stages and checkpoint restoration are the next design layer. Their
-[syntax, contracts, and open decisions](docs/modules-and-stages.md)
-are documented; their proposed syntax is not implemented.
+Same-source modules support typed calls and checked state contracts. Stages bind
+typed inputs and outputs, build individually with `--stage`, and run in dedicated
+directories and fresh processes. See the [stage example](examples/project/stages.lamlet)
+and [syntax and contracts](docs/modules-and-stages.md). Checkpoint restoration,
+workflow invocation graphs, and full provenance remain unimplemented.
 The [programming model](docs/programming-model.md) explains the layer boundaries
 and the design lessons drawn from Starlark, Nix, CUE, Modelica, and Koka.
 

@@ -18,15 +18,15 @@ modes. Some existing compiler modules already implement parts of this design.
 | Layer | Responsibility | Current boundary |
 | --- | --- | --- |
 | Legacy LAMMPS | Preserve command bytes and order; check only definite errors | Implemented, with partial schemas and Unknown barriers |
-| Typed Lamlet | Quantities, resources, state transitions, ownership, and physical constraints | Quantities, paths, local ownership, partial state analysis, and one physical rule exist; module contracts remain planned |
-| Stage and artifact | Explicit inputs and outputs, independent execution, environment and restoration contracts | Design only; current build manifests are not stage or checkpoint manifests |
+| Typed Lamlet | Quantities, resources, state transitions, ownership, and physical constraints | Quantities, paths, local ownership, partial state analysis, checked module calls, and one physical rule exist |
+| Stage and artifact | Explicit inputs and outputs, independent execution, environment and restoration contracts | Individual stages compile and run with explicit bindings and a fresh process; artifact identity, provenance, and restoration remain planned |
 | LAMMPS backend | Emit ordinary input files and record their execution contract | Script generation, source maps, project cwd, and explicit engine execution exist |
 
 Legacy preservation and strict module guarantees apply at different boundaries.
-An opaque command remains acceptable legacy input. A future module may expose
+An opaque command remains acceptable legacy input. A checked module may expose
 only facts supported by its analysis. A stage that needs an unknown prerequisite
 must not be labeled independently executable. The extension `.lamlet` alone does
-not imply these future guarantees.
+not imply these guarantees.
 
 ## Compile-time evaluation: Starlark
 
@@ -40,9 +40,10 @@ properties do not make every embedding free of external effects.
 
 Lamlet adopts the restriction of compile-time computation to bounded expression
 evaluation and finite expansion. Current immutable bindings, finite `@for`
-lists, and expansion limits already support that direction. Future reusable
-compile-time functions should have an acyclic call graph, immutable exports,
-and predictable collection iteration. Finite evaluation still needs work and
+lists, acyclic module calls, and expansion limits support that direction.
+Module calls expand command bodies and do not return expression values. Future
+value-returning functions need the same bounds and predictable collection
+iteration. Finite evaluation still needs work and
 size limits because nested finite expansions can exhaust resources.
 
 Host operations need a separate contract. Typed paths currently consult the
@@ -171,13 +172,15 @@ unresolved effects and cannot present them as verified independence.
 `@unchecked` currently acknowledges operand validation only. It cannot establish
 module preconditions, complete dependencies, resumability, or stage isolation.
 
-The next implementation should first define and test module preconditions and
-effect composition for supported commands, then define concrete stage invocation
-and artifact binding. Required boundary tests should distinguish a proven
-postcondition, an invalidated fact, and an unknown effect; exercise repeated
-resource IDs with separate lifetimes; and run a stage in a fresh directory and
-process using only declared inputs. These are planned acceptance criteria, not
-tests already present in the repository.
+The initial boundary tests now distinguish a proven postcondition, an invalidated
+fact, and an unknown effect; exercise repeated resource IDs; and run stage
+instances in separate directories and processes using declared inputs. See
+[module tests](../crates/lamlet/tests/modules.rs),
+[stage tests](../crates/lamlet/tests/stages.rs), and the
+[CLI integration tests](../crates/lamlet-cli/tests/cli.rs). Engine execution tests
+use a fake executable and do not validate molecular dynamics. Producer identity,
+checkpoint restoration, and full provenance still need their own acceptance
+criteria.
 
 The [module and stage contract](modules-and-stages.md) records the remaining
 syntax and checkpoint decisions. No external language runtime, solver, cache,

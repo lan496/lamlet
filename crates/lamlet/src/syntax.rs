@@ -130,6 +130,7 @@ pub enum Node {
         span: Span,
     },
     Function(crate::module::Function),
+    Stage(crate::stage::Definition),
     Call {
         name: String,
         arguments: Vec<Expr>,
@@ -446,7 +447,35 @@ fn parse_block(
         let content = std::str::from_utf8(&text.bytes[trimmed_start..content_end])
             .map_err(|_| syntax_error("Lamlet directives must be UTF-8", line.span))?
             .trim_end();
-        if let Some(header) = content.strip_prefix("@module ") {
+        if let Some(header) = content.strip_prefix("@stage ") {
+            let (name, rest) = header
+                .split_once('(')
+                .filter(|(name, _)| identifier(name.trim()))
+                .ok_or_else(|| {
+                    syntax_error("Expected @stage NAME(PARAM: TYPE, ...) {", line.span)
+                })?;
+            let (parameters, rest) = rest
+                .split_once(')')
+                .ok_or_else(|| syntax_error("Unclosed stage parameter list", line.span))?;
+            if rest.trim() != "{" {
+                return Err(syntax_error(
+                    "Stage outputs are named OutputFile parameters; expected '{'",
+                    line.span,
+                ));
+            }
+            let parameters = parse_parameters(parameters, line.span)?;
+            if depth >= 64 {
+                return Err(syntax_error("Block nesting exceeds 64 levels", line.span));
+            }
+            let body = parse_block(source, lines, position, extended, depth + 1)?;
+            nodes.push(Node::Stage(crate::stage::Definition {
+                name: name.trim().into(),
+                parameters,
+                body,
+                span: line.span,
+                end: lines[*position - 1].span,
+            }));
+        } else if let Some(header) = content.strip_prefix("@module ") {
             let name = header
                 .strip_suffix('{')
                 .map(str::trim)
@@ -651,7 +680,11 @@ pub(crate) fn parse_parameters(
     span: Span,
 ) -> Result<Vec<crate::module::Parameter>, ExprError> {
     let mut parameters = vec![];
-    for part in text.split(',').map(str::trim).filter(|p| !p.is_empty()) {
+    let mut parts = text.split(',').map(str::trim).peekable();
+    while let Some(part) = parts.next() {
+        if part.is_empty() && parts.peek().is_none() {
+            break;
+        }
         let (name, ty) = part
             .split_once(':')
             .ok_or_else(|| syntax_error("Expected NAME: TYPE", span))?;
@@ -682,7 +715,11 @@ fn parse_facts(text: &str, span: Span) -> Result<(Vec<crate::module::StateFact>,
         .split_once(']')
         .ok_or_else(|| syntax_error("Unclosed state fact list", span))?;
     let mut result = vec![];
-    for name in facts.split(',').map(str::trim).filter(|p| !p.is_empty()) {
+    let mut names = facts.split(',').map(str::trim).peekable();
+    while let Some(name) = names.next() {
+        if name.is_empty() && names.peek().is_none() {
+            break;
+        }
         let fact = crate::module::StateFact::parse(name)
             .ok_or_else(|| syntax_error("Unknown state fact", span))?;
         if !result.contains(&fact) {

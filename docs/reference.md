@@ -7,7 +7,8 @@
 | `lamlet check INPUT` | Analyze without writing output or invoking LAMMPS |
 | `lamlet build INPUT [-o OUTPUT]` | Analyze and emit an ordinary LAMMPS script |
 | `lamlet inspect dependencies INPUT` | List explicit resources and unresolved legacy paths |
-| `lamlet run INPUT` | Build and explicitly launch LAMMPS from the project root |
+| `lamlet inspect stages INPUT` | List stage definitions and parameter directions without binding files |
+| `lamlet run INPUT` | Build and launch LAMMPS from the project root or selected stage directory |
 | `lamlet schema [COMMAND]` | Describe capabilities and partial schema coverage |
 | `lamlet target inspect` | Probe an explicitly selected engine and save its profile |
 | `lamlet target list/check/explain` | Query a saved target by category/style |
@@ -17,6 +18,12 @@
 `--max-expanded-lines N`, and `--format human` or `--format json`. The default
 line limit is 100000. A limit of zero prohibits lines emitted by loops but
 permits identity compilation.
+
+`--stage NAME`, optional `--instance ID`, and repeated `--arg NAME=EXPR` select
+and bind an individual stage for check/build/run, dependency inspection, and
+target requirement inspection. Stage sources require an explicit selection.
+Stage input/output resolution, target selection, and guarantees are defined in
+[modules and stages](modules-and-stages.md).
 
 `build` also accepts `--source-map PATH`. Source, output, and map paths must be
 distinct. Existing input aliases, including Unix hard links, are protected.
@@ -55,13 +62,19 @@ Expressions support signed integers, finite floats with optional exponents,
 Booleans, quantities, names, parentheses, unary minus, and `+`, `-`, `*`, `/`.
 Multiplication and division bind more tightly than addition and subtraction.
 Integers use checked 64-bit arithmetic. Division returns Float. Bool is not
-numeric. Only loop iterables accept list literals. General strings, user functions, comparisons, runtime LAMMPS expressions, and
+numeric. Only loop iterables accept list literals. General strings, value-returning functions, comparisons, runtime LAMMPS expressions, and
 other operators are unavailable. The resource constructors `path`, `output`,
 `dir`, `pattern`, and `dynamic` accept one quoted filename; see [resources](resources.md).
 Resource annotations use `@let NAME: ResourceType = EXPR`.
 
 `@scope`, `@fix`, `@compute`, `@dump`, and `@drop` manage explicitly owned
 resources; see [scope semantics](scopes.md).
+
+`@module`, `@fn ... requires [...] ensures [...]`, and `@call MODULE.FUNCTION(...)`
+provide typed command expansion and sequential state contracts. `@stage` names
+an execution body with explicitly bound parameters and file resources. These
+boundaries reject unsupported effects even without `--strict`, while ordinary
+legacy command streams retain partial validation.
 
 Quantities require whitespace between the number and unit. Addition and
 subtraction require matching dimensions. Multiplication and division compose
@@ -149,13 +162,16 @@ The optional JSON map has `format_version: 1`, `original_source`, `output`, and
 span, and `expansion` array. Source spans cover the full original logical command,
 which remains accurate when interpolation collapses a continuation. Expansion
 entries identify the loop `variable` and zero-based `iteration`, outermost first.
+Module calls and stages use `@call MODULE.FUNCTION` and `@stage NAME` context
+labels with iteration zero. Their command locations point to the body definition;
+managed cleanup points to its closing brace.
 The generated script contains no hidden mapping comments.
 
 ## Resource limits
 
-The line limit counts physical lines generated inside loops, including blank
+The line limit counts physical lines generated inside loops, calls, and stages, including blank
 lines and comments, and managed acquisition/cleanup lines. Unexpanded legacy
 lines do not consume it. A work
 limit of max(1024, 16 times the line limit) bounds empty nested expansions.
 Expression limits are 512 tokens and 128 nested parser calls. Loop/scope nesting
-is limited to 64 levels. Errors produce no compiled output.
+is limited to 64 levels, as are module call chains. Errors produce no compiled output.

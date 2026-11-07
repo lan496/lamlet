@@ -413,10 +413,11 @@ inputs, without relying on hidden state left by previous stages.
 Modules reuse stateful code under preconditions and effects. Stages define
 independent execution tasks. Reentrancy and checkpoint-based resumability are
 separate guarantees; neither promises bitwise identical trajectories. The
-[module and stage design](docs/modules-and-stages.md) specifies the intended
-boundaries and records unresolved invocation/restoration contracts. The proposed
-Same-source module calls and state contracts are implemented as documented there;
-stage/checkpoint syntax and commands are not implemented yet.
+[module and stage contract](docs/modules-and-stages.md) defines implemented
+same-source module calls, sequential state contracts, named stage inputs/outputs,
+individual stage selection, and fresh-process execution. These concrete forms
+resolve the earlier invocation sketches. Checkpoint restoration, invocation DAGs,
+and full provenance remain unimplemented.
 
 ### 11.1 Programming-model boundaries
 

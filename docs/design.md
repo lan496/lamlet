@@ -3,7 +3,7 @@
 ## Compatibility foundation
 
 The [programming model](programming-model.md) explains the distinction between
-legacy acceptance, typed semantic checks, and future checked module and stage
+legacy acceptance, typed semantic checks, and checked module and stage
 boundaries. It includes the language precedents and decisions for bounded
 evaluation, constraint composition, effects, and artifact identity.
 
@@ -181,14 +181,29 @@ selection, or unsupported hybrid syntax stays Unknown. See
 [capabilities](capabilities.md) for snapshot identity, diagnostics, and deferred
 live-library/plugin support.
 
-The next architectural boundary separates stateful code reuse from independently
-executable computation. [Modules and stages](modules-and-stages.md) records the
-accepted direction, revised priorities, checkpoint guarantees, and the invocation
-and restoration decisions that precede implementation.
+The module registry resolves same-source functions and rejects cyclic call graphs.
+Called bodies use explicit parameter scopes and a separate sequential effect
+analysis; contracts check observed facts rather than asserting them. Stage
+selection binds one body into a fresh analysis state, confines outputs to its
+instance directory, and applies the existing ownership pass. The CLI emits a
+bound stage manifest and starts a new process with that cwd. See
+[modules and stages](modules-and-stages.md) for supported facts, invocation
+syntax, and deferred checkpoint/provenance requirements.
 
 The resource, scope, physical-rule, and target additions passed the same
 formatter, clippy, and workspace-test gates. The resulting local Rust suite
-has 88 passing tests and one ignored optional engine test. Probe tests use an
+had 88 passing tests and one ignored optional engine test. Probe tests use an
 explicit synthetic help fixture and a fake executable. The installed engine's
 `-h` invocation also failed in MPICH/libfabric, including an elevated retry;
 its help text was not accepted as a successful target inventory.
+
+The module milestone passed the formatter, clippy, and workspace-test gates
+with 92 passing tests and one ignored engine test. The stage milestone passed
+the same gates with 100 passing tests and one ignored engine test, and
+`cargo build --release --locked` exited 0. Local logs are in
+`target/validation/modules-stages/{fmt,clippy,test,build}.log`.
+The shipped stage example was inspected, checked with `--strict`, and built
+through the release CLI, all with exit 0. Tests use synthetic engines to verify
+fresh processes, isolated directories, declared inputs/outputs, missing-output
+failures, and executable selection before cwd changes. These checks do not
+validate a numerical LAMMPS calculation.

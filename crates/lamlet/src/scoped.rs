@@ -169,6 +169,7 @@ impl Lifetimes {
         command: &Command,
         action: Action,
         strict: bool,
+        verified_effects: bool,
         source: &Source,
         diagnostics: &mut Vec<Diagnostic>,
     ) -> Result<(), ExprError> {
@@ -314,7 +315,8 @@ impl Lifetimes {
         let barrier = !command.unambiguous
             || matches!(name, "include" | "if" | "python" | "next")
             || name == "run" && args.len() > 2
-            || crate::schema::find(name).is_none()
+            || !verified_effects
+                && crate::schema::find(name).is_none()
                 && !matches!(
                     name,
                     "fix_modify"
@@ -377,7 +379,7 @@ impl Lifetimes {
         }
         Ok(())
     }
-    pub fn after(&mut self, command: &Command, action: Action) {
+    pub fn after(&mut self, command: &Command, action: Action, verified_effects: bool) {
         let acquire = action == Action::Acquire;
         let release = action == Action::Release;
         let args = &command.arguments;
@@ -386,7 +388,8 @@ impl Lifetimes {
                 matches!(
                     a.text.as_str(),
                     "include" | "jump" | "if" | "python" | "clear"
-                ) || crate::schema::find(&a.text).is_none()
+                ) || !verified_effects
+                    && crate::schema::find(&a.text).is_none()
                     && !matches!(
                         a.text.as_str(),
                         "fix"

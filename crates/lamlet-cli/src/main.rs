@@ -56,6 +56,7 @@ enum Command {
 #[derive(Subcommand)]
 enum Inspect {
     Dependencies(InputOptions),
+    Stages(InputOptions),
 }
 #[derive(Args)]
 struct InputOptions {
@@ -68,6 +69,15 @@ struct InputOptions {
     strict: bool,
     #[arg(long, default_value_t = 100_000)]
     max_expanded_lines: usize,
+    /// Select one independently compiled stage.
+    #[arg(long)]
+    stage: Option<String>,
+    /// Separate working-directory identity (defaults to the stage name).
+    #[arg(long, requires = "stage")]
+    instance: Option<String>,
+    /// Bind a stage parameter using a closed Lamlet expression.
+    #[arg(long = "arg", requires = "stage")]
+    arguments: Vec<String>,
 }
 
 enum Action {
@@ -77,6 +87,7 @@ enum Action {
         map: Option<PathBuf>,
     },
     Inspect,
+    InspectStages,
     Run {
         engine: Option<OsString>,
     },
@@ -237,7 +248,7 @@ struct BuildInfo {
     manifest: String,
     /// Relative to the directory containing the script and manifest.
     project_root: String,
-    working_directory: &'static str,
+    working_directory: String,
 }
 
 fn write_outputs(
@@ -289,11 +300,14 @@ fn write_outputs(
             script: portable(&relative(&project.root, &script)),
             manifest: portable(&relative(&project.root, &destination(&manifest)?)),
             project_root: portable(&relative(script.parent().unwrap(), &project.root)),
-            working_directory: ".",
+            working_directory: compilation
+                .stage
+                .as_ref()
+                .map_or_else(|| ".".into(), |stage| stage.working_directory.clone()),
         };
         let value = serde_json::json!({
             "schema_version": 1, "compiler_version": env!("CARGO_PKG_VERSION"),
-            "build": info, "dependencies": compilation.resources,
+            "build": info, "dependencies": compilation.resources, "stage": compilation.stage,
             "target_profile": if project.validation.check_capabilities { Some(&project.lammps.profile) } else { None },
         });
         payloads.push((manifest, serde_json::to_vec_pretty(&value)?));
@@ -325,6 +339,10 @@ fn launch_engine(
     compilation: &lamlet::Compilation,
 ) -> io::Result<serde_json::Value> {
     use lamlet::resources::{portable, relative};
+    let cwd = compilation.stage.as_ref().map_or_else(
+        || project.root.clone(),
+        |stage| project.root.join(&stage.working_directory),
+    );
     for dependency in &compilation.resources.outputs {
         let target = project.root.join(&dependency.path);
         if let Some(parent) = target.parent() {
@@ -333,29 +351,23 @@ fn launch_engine(
     }
     let stdout_path = sidecar(script, ".stdout");
     let stderr_path = sidecar(script, ".stderr");
-    // A relative executable containing separators is relative to the caller,
-    // while a bare executable is searched in PATH by the operating system.
-    let executable = Path::new(engine);
-    let executable = if executable.is_relative() && executable.components().count() > 1 {
-        std::env::current_dir()?.join(executable).into_os_string()
-    } else {
-        engine.clone()
-    };
+    // Resolve relative PATH entries before changing to the execution directory.
+    let executable = target::executable(engine).map_err(io::Error::other)?;
     let script = destination(script)?;
     let log = sidecar(&script, ".log");
     let status = std::process::Command::new(executable)
         .arg("-in")
-        .arg(relative(&project.root, &script))
+        .arg(relative(&cwd, &script))
         .arg("-log")
-        .arg(relative(&project.root, &log))
+        .arg(relative(&cwd, &log))
         .args(["-screen", "none"])
-        .current_dir(&project.root)
+        .current_dir(&cwd)
         .stdin(Stdio::null())
         .stdout(Stdio::from(fs::File::create(&stdout_path)?))
         .stderr(Stdio::from(fs::File::create(&stderr_path)?))
         .status()?;
     Ok(serde_json::json!({
-        "exit_code": status.code(), "success": status.success(), "working_directory": ".",
+        "exit_code": status.code(), "success": status.success(), "working_directory": portable(&relative(&project.root, &cwd)),
         "stdout": portable(&relative(&project.root, &destination(&stdout_path)?)),
         "stderr": portable(&relative(&project.root, &destination(&stderr_path)?)),
         "log": portable(&relative(&project.root, &log)),
@@ -380,6 +392,9 @@ fn run(cli: Cli) -> io::Result<u8> {
         Command::Inspect {
             query: Inspect::Dependencies(common),
         } => (common, Action::Inspect),
+        Command::Inspect {
+            query: Inspect::Stages(common),
+        } => (common, Action::InspectStages),
         Command::Schema { query, format } => return schema(query.as_deref(), format),
         Command::Target { command } => return target::run(command),
     };
@@ -389,6 +404,9 @@ fn run(cli: Cli) -> io::Result<u8> {
         format,
         strict,
         max_expanded_lines,
+        stage,
+        instance,
+        arguments,
     } = common;
     let language = match language {
         Some(LanguageArg::Lammps) => Language::Lammps,
@@ -415,6 +433,64 @@ fn run(cli: Cli) -> io::Result<u8> {
         }
     };
     let source = Source::new(input.to_string_lossy(), bytes);
+    if matches!(action, Action::InspectStages) {
+        let result = if language != Language::Lamlet || stage.is_some() {
+            Err(lamlet::expr::ExprError {
+                code: "E_STAGE_SELECTION",
+                message: "inspect stages requires Lamlet source and no selected invocation".into(),
+                span: Span::default(),
+            })
+        } else {
+            lamlet::stage::inspect(&source)
+        };
+        return match result {
+            Ok(stages) => {
+                write_json(
+                    &serde_json::json!({"schema_version": 1, "status": "ok", "input": source.path, "stages": stages}),
+                )?;
+                Ok(0)
+            }
+            Err(error) => {
+                emit_report(
+                    &source,
+                    &[Diagnostic::new(
+                        &source,
+                        error.span,
+                        Severity::Error,
+                        error.code,
+                        error.message,
+                    )],
+                    format,
+                )?;
+                Ok(1)
+            }
+        };
+    }
+    let invocation = match stage
+        .as_deref()
+        .map(|stage| lamlet::stage::Invocation::parse(stage, instance.as_deref(), &arguments))
+        .transpose()
+    {
+        Ok(invocation) if invocation.is_none() || language == Language::Lamlet => invocation,
+        result => {
+            let message = result.err().map_or_else(
+                || "Stage selection requires Lamlet language mode".into(),
+                |error| error.message,
+            );
+            emit_report(
+                &source,
+                &[Diagnostic::new(
+                    &source,
+                    Span::default(),
+                    Severity::Error,
+                    "E_STAGE_ARGUMENT",
+                    message,
+                )],
+                format,
+            )?;
+            return Ok(1);
+        }
+    };
     let needs_project = language == Language::Lamlet
         || matches!(
             action,
@@ -485,6 +561,25 @@ fn run(cli: Cli) -> io::Result<u8> {
         }
     }
     let strict = strict || project.as_ref().is_some_and(|p| p.validation.strict);
+    if invocation.is_some()
+        && matches!(&action, Action::Run { engine: None })
+        && project
+            .as_ref()
+            .is_none_or(|project| project.lammps.executable.is_none())
+    {
+        emit_report(
+            &source,
+            &[Diagnostic::new(
+                &source,
+                Span::default(),
+                Severity::Error,
+                "E_STAGE_TARGET",
+                "Stage execution requires --lammps-bin or an explicit [lammps].executable",
+            )],
+            format,
+        )?;
+        return Ok(2);
+    }
     let mut compilation = compile_with_options(
         &source,
         &Options {
@@ -493,6 +588,7 @@ fn run(cli: Cli) -> io::Result<u8> {
             max_expanded_lines,
             project: project.clone(),
             capabilities,
+            stage: invocation.clone(),
         },
     );
     let mut code = if compilation.has_errors() { 1 } else { 0 };
@@ -505,6 +601,14 @@ fn run(cli: Cli) -> io::Result<u8> {
         };
         let default_output = explicit_output.is_none();
         let output = explicit_output.unwrap_or_else(|| {
+            if let Some(stage) = &compilation.stage {
+                return project
+                    .as_ref()
+                    .unwrap()
+                    .root
+                    .join(&stage.working_directory)
+                    .join("simulation.in");
+            }
             let stem = input.file_stem().unwrap_or_default();
             sidecar(&project.as_ref().unwrap().build_directory.join(stem), ".in")
         });
@@ -533,7 +637,16 @@ fn run(cli: Cli) -> io::Result<u8> {
         };
         let result = (|| -> io::Result<Option<BuildInfo>> {
             if default_output {
-                fs::create_dir_all(&project.as_ref().unwrap().build_directory)?;
+                fs::create_dir_all(output.parent().unwrap())?;
+            }
+            if let Some(stage) = &compilation.stage {
+                fs::create_dir_all(
+                    project
+                        .as_ref()
+                        .unwrap()
+                        .root
+                        .join(&stage.working_directory),
+                )?;
             }
             write_outputs(
                 &input,
@@ -550,7 +663,7 @@ fn run(cli: Cli) -> io::Result<u8> {
                 build = info;
                 if let Some(engine) = engine {
                     match launch_engine(&engine, project.as_ref().unwrap(), &output, &compilation) {
-                        Ok(result) => {
+                        Ok(mut result) => {
                             if result["success"] != true {
                                 compilation.diagnostics.push(Diagnostic::new(
                                     &source,
@@ -560,6 +673,24 @@ fn run(cli: Cli) -> io::Result<u8> {
                                     "LAMMPS returned a failure status; see captured engine output",
                                 ));
                                 code = 3;
+                            }
+                            if compilation.stage.is_some() {
+                                let project = project.as_ref().unwrap();
+                                let outputs: Vec<_> = compilation.resources.outputs.iter().map(|output| serde_json::json!({ "path": output.path, "exists": project.root.join(&output.path).is_file() })).collect();
+                                if result["success"] == true
+                                    && outputs.iter().any(|output| output["exists"] != true)
+                                {
+                                    compilation.diagnostics.push(Diagnostic::new(
+                                        &source,
+                                        Span::default(),
+                                        Severity::Error,
+                                        "E_STAGE_OUTPUT",
+                                        "LAMMPS succeeded but a declared output file is missing",
+                                    ));
+                                    result["success"] = false.into();
+                                    code = 3;
+                                }
+                                result["observed_outputs"] = outputs.into();
                             }
                             execution = Some(result);
                         }
@@ -590,9 +721,10 @@ fn run(cli: Cli) -> io::Result<u8> {
     }
     if matches!(format, Format::Json) {
         let mut report = serde_json::to_value(compilation.report(&source))?;
-        if project
-            .as_ref()
-            .is_some_and(|p| p.validation.check_capabilities)
+        if compilation.stage.is_some()
+            || project
+                .as_ref()
+                .is_some_and(|p| p.validation.check_capabilities)
         {
             report["target_requirements"] = serde_json::to_value(&compilation.requirements)?;
         }
@@ -601,6 +733,9 @@ fn run(cli: Cli) -> io::Result<u8> {
         }
         if let Some(build) = &build {
             report["build"] = serde_json::to_value(build)?;
+        }
+        if let Some(stage) = &compilation.stage {
+            report["stage"] = serde_json::to_value(stage)?;
         }
         if let Some(execution) = execution {
             report["execution"] = execution;
@@ -613,8 +748,8 @@ fn run(cli: Cli) -> io::Result<u8> {
         }
         if let Some(build) = build {
             eprintln!(
-                "Built {}; run from the project root ({} relative to the script directory); manifest: {}",
-                build.script, build.project_root, build.manifest
+                "Built {}; project root: {} relative to the script directory; working directory: {} relative to project; manifest: {}",
+                build.script, build.project_root, build.working_directory, build.manifest
             );
         }
     }

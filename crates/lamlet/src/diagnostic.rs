@@ -4,6 +4,30 @@ use serde::Serialize;
 /// Stable public diagnostic codes, also exposed by `lamlet schema`.
 pub static CODES: &[(&str, &str)] = &[
     (
+        "E_STAGE_DEFINITION",
+        "Invalid or duplicate stage definition",
+    ),
+    (
+        "E_STAGE_SELECTION",
+        "Stage selection is required or invalid",
+    ),
+    (
+        "E_STAGE_ARGUMENT",
+        "Missing, duplicate, or invalid stage argument",
+    ),
+    (
+        "E_STAGE_RESOURCE",
+        "Stage resource is implicit, dynamic, or undeclared",
+    ),
+    (
+        "E_STAGE_OUTPUT",
+        "Declared stage output has no generating command",
+    ),
+    (
+        "E_STAGE_TARGET",
+        "Stage execution needs an explicitly selected executable",
+    ),
+    (
         "E_MODULE_DEFINITION",
         "Invalid or duplicate module/function definition",
     ),

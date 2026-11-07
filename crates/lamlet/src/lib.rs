@@ -11,6 +11,7 @@ pub mod schema;
 mod scoped;
 pub mod semantics;
 pub mod source;
+pub mod stage;
 pub mod syntax;
 pub mod units;
 
@@ -32,6 +33,7 @@ pub struct Compilation {
     pub resources: resources::Dependencies,
     pub physical_findings: Vec<semantics::Finding>,
     pub requirements: Vec<capability::Requirement>,
+    pub stage: Option<stage::Plan>,
 }
 
 #[derive(Clone, Debug)]
@@ -41,6 +43,7 @@ pub struct Options {
     pub max_expanded_lines: usize,
     pub project: Option<resources::Project>,
     pub capabilities: Option<capability::Profile>,
+    pub stage: Option<stage::Invocation>,
 }
 impl Default for Options {
     fn default() -> Self {
@@ -50,6 +53,7 @@ impl Default for Options {
             max_expanded_lines: 100_000,
             project: None,
             capabilities: None,
+            stage: None,
         }
     }
 }
@@ -93,6 +97,9 @@ pub fn compile_with_options(source: &Source, options: &Options) -> Compilation {
         .diagnostics
         .iter()
         .any(|d| d.severity == diagnostic::Severity::Error);
+    if failed {
+        lowerer.resources.dependencies.complete = false;
+    }
     Compilation {
         output: if failed { vec![] } else { lowerer.output.bytes },
         diagnostics: lowerer.diagnostics,
@@ -104,5 +111,9 @@ pub fn compile_with_options(source: &Source, options: &Options) -> Compilation {
         resources: lowerer.resources.dependencies,
         physical_findings: lowerer.semantics.findings,
         requirements: lowerer.capabilities.requirements,
+        stage: lowerer.stage.map(|mut plan| {
+            plan.independent_execution &= !failed;
+            plan
+        }),
     }
 }

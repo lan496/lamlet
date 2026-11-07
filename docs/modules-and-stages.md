@@ -1,7 +1,8 @@
 # Modules, stages, and checkpoint contracts
 
-Status: same-source modules and checked calls are implemented. Stage execution
-and checkpoint restoration remain design requirements. Existing single-file
+Status: same-source modules, checked calls, typed stage bindings, individual
+stage builds, and fresh-process execution are implemented. Checkpoint restoration
+and workflow invocation graphs remain design requirements. Existing single-file
 execution remains supported.
 
 ## Implemented module syntax
@@ -32,6 +33,8 @@ preconditions, sequential command effects, and postconditions. Uncalled function
 bodies do not undergo expression or state-contract checking. A function's
 `ensures` list is checked against its resulting state; it cannot assert a fact
 into existence. Source maps retain definition locations and call expansion names.
+Signatures are therefore checked at instantiation, not universal proofs for all
+possible arguments. Symbolic, standalone module-body checking remains unimplemented.
 
 Functions own an implicit resource scope. Managed resources are released before
 postconditions are checked. Plain fix/compute/dump commands retain manual
@@ -71,6 +74,95 @@ adding their runtimes or promising their guarantees.
 
 Every Lamlet stage must be independently executable from explicitly declared
 inputs, without relying on hidden state left by previous stages.
+
+## Implemented stage syntax and execution
+
+```lamlet
+@stage relax(structure: InputFile, relaxed: OutputFile) {
+    units metal
+    atom_style atomic
+    read_data @{structure} nocoeff
+    pair_style lj/cut 2.5
+    pair_coeff * * 1 1
+    minimize 1e-8 1e-10 100 1000
+    write_data @{relaxed}
+}
+```
+
+Named OutputFile parameters declare outputs. This initial syntax supports multiple
+outputs without an implicit `@output` or a return-type alias. Numeric and quantity
+parameters use the same types as module calls. Stage file parameters are limited
+to InputFile, PotentialFile, and OutputFile. Patterns, directories, scripts, and
+dynamic paths cannot establish this initial independent-execution contract.
+
+From the repository root, the complete [stage example](../examples/project/stages.lamlet)
+can be inspected, checked, and built without launching LAMMPS:
+
+```sh
+cargo run -- inspect stages examples/project/stages.lamlet --format json
+cargo run -- check examples/project/stages.lamlet --stage relax --arg 'structure=path("structure.data")' --arg 'relaxed=output("relaxed.data")' --format json
+cargo run -- build examples/project/stages.lamlet --stage relax --instance relax_a --arg 'structure=path("structure.data")' --arg 'relaxed=output("relaxed.data")' --format json
+```
+
+`--arg NAME=EXPR` evaluates a closed expression. Bind every parameter exactly once;
+unknown names, missing arguments, duplicate arguments, and type mismatches fail.
+`--instance` is an identifier and defaults to the stage name. Each instance uses
+`<build.directory>/stages/<instance>/` as its working directory. The default script
+is `simulation.in` there. Input paths resolve from the project root under the
+configured input root. Output paths resolve inside the instance directory,
+independently of the legacy `[paths].output_root`. Output escapes, symlink aliases
+of instance directories, source/input collisions, and collisions with generated
+scripts or sidecars are rejected. Use separate instance names for separate tasks.
+Operations on the same instance must be serialized by the caller; Lamlet is not
+a concurrent workflow scheduler.
+
+`lamlet run` with the same bindings builds and starts a fresh process in that
+directory. Stage execution requires an explicit `--lammps-bin` or configured
+`[lammps].executable`. It does not select an engine through the legacy environment
+fallback. The executable is resolved before entering the instance directory,
+including relative PATH entries. Saved capability validation applies when enabled
+in the project.
+Offline check/build does not require a target profile; `target_profile_selected`
+and `target_requirements` make missing availability evidence explicit. An
+independent command stream does not certify an available target, MPI/GPU setup,
+or a hermetic operating-system environment.
+
+Each selected stage starts from empty simulation state. Stage files may contain
+only stage definitions, module definitions, and comments at top level. Parameters
+are the only incoming bindings. The stage body has an implicit resource scope,
+so `@fix`, `@compute`, and `@dump` release in reverse acquisition order after the
+body. Plain legacy declarations retain manual lifetimes. `write_restart` executes
+where written, before later cleanup, but produces an ordinary file with no
+resumability guarantee.
+
+The bounded effect subset rejects opaque commands and runtime control flow.
+`run` and `minimize` require AtomsDefined and ModelDefined; positive runs also
+require an integrator on group all. `run 0` does not require an integrator.
+File operands must interpolate declared resource parameters, including inside
+called modules. Constructing an undeclared resource or using `@unchecked` fails.
+Every declared output needs a generating command. Input data is read with
+`nocoeff` so coefficient sections are not applied; see the official
+[read_data specification](https://docs.lammps.org/read_data.html). The model and
+potential dependencies must be declared in the source instead.
+
+`check`, `inspect dependencies`, `build`, and `target requirements` accept the
+same stage selection and bindings. `inspect stages` lists sorted definitions,
+parameter types, and input/output directions without binding files or claiming
+that unselected bodies were verified. Selected compilation checks one body and
+its module calls. All definition names and module call graphs are checked.
+`check` without a stage selection rejects a source containing stages.
+
+JSON reports and build manifests include the bound `stage`, instance cwd,
+arguments, dependencies, and target profile reference. Quantity argument values
+use the compiler's fs/angstrom/K/eV bases and dimensional type names. A successful
+selected compilation sets `independent_execution: true` for the supported command
+and file-resource subset. File dependency completeness is scoped to those
+declared resources, not input-file contents or the execution environment.
+`resumable` is always false. After execution, `observed_outputs` reports which
+declared regular files exist; a missing file turns an otherwise successful run
+into exit code 3. Existing files do not prove freshness or provenance. Repeating
+an instance may overwrite its declared outputs; no caching or content identity
+is implied.
 
 The implementation order for the next language extensions is compatibility;
 typed inputs, outputs, units, and paths; modules and static effects; stages and
@@ -148,17 +240,11 @@ Caching cannot assume that stage syntax denotes a pure function: seeds,
 execution environment, and calculation conditions belong in provenance and
 any future cache policy.
 
-The following decisions are required before stage syntax can be implemented:
-
-- Invocation and artifact binding: how a reusable stage definition receives
-  concrete files, quantities, and outputs, and how dependencies connect.
-- Module exports and effect declarations: the syntax and the supported facts
-  that a caller can require or establish.
-- State construction and restoration: the exact contracts for `@system`,
-  `@resume`, and resource persistence, including unsupported styles.
-- Output selection: how a stage with multiple artifacts names its outputs and
-  how a checkpoint is exported before managed resources are released.
-
-`@stage`, `@system`, `@resume`, `@output`, stage selection,
-workflow JSON, and checkpoint manifests are therefore unavailable in this
-release. They are not silently treated as verified module boundaries.
+Cross-stage artifact identities, invocation DAGs, content hashes, full provenance,
+checkpoint manifests, restoration contracts, and caching are not implemented.
+The current interface exports individual definitions and bound tasks. External
+tools can connect explicitly named file outputs and inputs, but Lamlet does not
+yet verify their producer identity or export an invocation graph. `@system`,
+`@resume`, implicit `@output`, Structure/Restart/Checkpoint type aliases, external
+module imports, user contexts, and generic effect/constraint solvers remain
+unavailable. They are not silently treated as verified boundaries.

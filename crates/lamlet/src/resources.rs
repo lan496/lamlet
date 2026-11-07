@@ -349,7 +349,7 @@ pub struct Unresolved {
 #[derive(Clone, Debug, Serialize)]
 pub struct Dependencies {
     pub schema_version: u32,
-    pub working_directory: &'static str,
+    pub working_directory: String,
     pub complete: bool,
     pub coverage: &'static str,
     pub inputs: Vec<Dependency>,
@@ -364,7 +364,7 @@ impl Default for Dependencies {
     fn default() -> Self {
         Self {
             schema_version: 1,
-            working_directory: ".",
+            working_directory: ".".into(),
             complete: false,
             coverage: "explicit typed references; legacy and transitive dependencies are not verified",
             inputs: vec![],
@@ -383,6 +383,7 @@ pub(crate) struct Resolver {
     cwd: Option<PathBuf>,
     writers: Vec<PathBuf>,
     protected: Vec<PathBuf>,
+    stage_directory: Option<PathBuf>,
 }
 impl Resolver {
     pub fn new(project: Option<Project>, source: &Source) -> Self {
@@ -406,7 +407,23 @@ impl Resolver {
             cwd,
             writers: vec![],
             protected,
+            stage_directory: None,
         }
+    }
+    pub fn stage_directory(&mut self, directory: PathBuf) {
+        if let Some(project) = &mut self.project {
+            project.output_root = directory.clone();
+            self.dependencies.working_directory = portable(&relative(&project.root, &directory));
+        }
+        self.cwd = Some(directory.clone());
+        self.stage_directory = Some(directory);
+    }
+    pub fn output_was_written(&self, path: &str) -> bool {
+        self.project.as_ref().is_some_and(|project| {
+            self.writers
+                .iter()
+                .any(|writer| portable(&relative(&project.root, writer)) == path)
+        })
     }
     pub fn declare(
         &mut self,
@@ -423,7 +440,20 @@ impl Resolver {
                 span,
             )
         })?;
-        let path = project.resolve(value, span)?;
+        let mut value = value.clone();
+        if value.kind == ResourceKind::OutputFile {
+            if let Some(directory) = &self.stage_directory {
+                if value.path.contains(['*', '%', '$']) {
+                    return Err(failure(
+                        "E_STAGE_RESOURCE",
+                        "Stage output names must be concrete files",
+                        span,
+                    ));
+                }
+                value.path = portable(&relative(&project.root, &directory.join(&value.path)));
+            }
+        }
+        let path = project.resolve(&value, span)?;
         self.dependencies.typed = true;
         if value.kind.is_input_file() {
             if self

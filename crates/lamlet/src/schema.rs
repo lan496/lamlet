@@ -19,6 +19,7 @@ pub fn path_operand(
     }
     let name = command.arguments.first()?.text.as_str();
     let key = match name {
+        "pair_coeff" if pair_style == Some("eam") => "pair_coeff/eam",
         "pair_coeff" if pair_style == Some("eam/alloy") => "pair_coeff/eam/alloy",
         "shell" if command.arguments.get(1).is_some_and(|a| a.text == "cd") => "shell/cd",
         _ => name,
@@ -59,6 +60,23 @@ pub struct CommandSchema {
 }
 
 pub static SCHEMAS: &[CommandSchema] = &[
+    CommandSchema {
+        name: "pair_coeff/eam",
+        coverage: "partial",
+        min_arguments: 0,
+        max_arguments: None,
+        operands: &[],
+        keywords: &[],
+        paths: &[PathOperandSchema {
+            position: 3,
+            resource_type: ResourceKind::InputFile,
+            input_pattern: false,
+            kind: "potential",
+        }],
+        state_effect: "partial resource tracking",
+        limitations: "Only the potential filename is tracked; coefficient semantics remain unverified",
+        lammps_version: None,
+    },
     CommandSchema {
         name: "include",
         coverage: "partial",

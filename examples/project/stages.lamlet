@@ -1,0 +1,16 @@
+# Input paths are relative to the project root; outputs belong to the instance.
+@module model {
+    @fn setup() requires [BoxDefined] ensures [ModelDefined] {
+        pair_style lj/cut 2.5
+        pair_coeff * * 1 1
+    }
+}
+
+@stage relax(structure: InputFile, relaxed: OutputFile) {
+    units metal
+    atom_style atomic
+    read_data @{structure} nocoeff
+    @call model.setup()
+    minimize 1e-8 1e-10 100 1000
+    write_data @{relaxed}
+}

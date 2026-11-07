@@ -29,6 +29,9 @@ pub(crate) struct Lowerer<'a> {
     modules: crate::module::Registry,
     effects: crate::module::Effects,
     checked_depth: usize,
+    call_depth: usize,
+    pub stage: Option<crate::stage::Plan>,
+    stage_resources: Vec<resources::ResourceValue>,
 }
 
 impl<'a> Lowerer<'a> {
@@ -50,6 +53,9 @@ impl<'a> Lowerer<'a> {
             modules: crate::module::Registry::default(),
             effects: crate::module::Effects::default(),
             checked_depth: 0,
+            call_depth: 0,
+            stage: None,
+            stage_resources: vec![],
         }
     }
     fn error(&self, code: &'static str, message: impl Into<String>, span: Span) -> ExprError {
@@ -81,7 +87,15 @@ impl<'a> Lowerer<'a> {
         }
         let result = crate::module::Registry::collect(nodes).and_then(|registry| {
             self.modules = registry;
-            self.nodes(nodes)
+            let stages = crate::stage::collect(nodes)?;
+            if let Some(invocation) = &self.options.stage {
+                let definition = stages.get(&invocation.stage).ok_or_else(|| self.error("E_STAGE_SELECTION", format!("Unknown stage '{}'", invocation.stage), Span::default()))?;
+                self.stage_body(definition, invocation)
+            } else if !stages.is_empty() {
+                Err(self.error("E_STAGE_SELECTION", "Select an explicit stage and bind its parameters with --stage and --arg; inspect stages lists definitions", Span::default()))
+            } else {
+                self.nodes(nodes)
+            }
         });
         if let Err(error) = result {
             self.diagnostics.push(Diagnostic::new(
@@ -92,6 +106,102 @@ impl<'a> Lowerer<'a> {
                 error.message,
             ));
         }
+    }
+    fn stage_body(
+        &mut self,
+        definition: &crate::stage::Definition,
+        invocation: &crate::stage::Invocation,
+    ) -> Result<(), ExprError> {
+        let project = self.options.project.as_ref().ok_or_else(|| {
+            self.error(
+                "E_PROJECT_REQUIRED",
+                "Stage compilation requires a project",
+                definition.span,
+            )
+        })?;
+        let directory = invocation.directory(project)?;
+        if invocation.arguments.len() != definition.parameters.len()
+            || invocation
+                .arguments
+                .keys()
+                .any(|name| !definition.parameters.iter().any(|p| p.name == *name))
+        {
+            return Err(self.error(
+                "E_STAGE_ARGUMENT",
+                "Bind exactly the declared stage parameters",
+                definition.span,
+            ));
+        }
+        let mut bindings = Scope::new();
+        for parameter in &definition.parameters {
+            let value = crate::module::bind(
+                parameter,
+                invocation.arguments[&parameter.name].clone(),
+                definition.span,
+            )?;
+            if let Value::Resource(resource) = &value {
+                self.stage_resources.push(resource.clone());
+            }
+            bindings.insert(parameter.name.clone(), value);
+        }
+        self.resources.stage_directory(directory.clone());
+        self.stage = Some(crate::stage::Plan::new(
+            invocation, project, &directory, &bindings,
+        ));
+        for resource in &self.stage_resources {
+            self.resources
+                .declare(resource, self.source, definition.span, "file", false)?;
+        }
+        self.scopes = vec![bindings];
+        self.checked_depth = 1;
+        self.context.push(ExpansionContext {
+            variable: format!("@stage {}", invocation.stage),
+            iteration: 0,
+        });
+        self.lifetimes.enter_scope();
+        self.nodes(&definition.body)?;
+        while let Some(cleanup) = self.lifetimes.cleanup(definition.end) {
+            self.release(cleanup)?;
+        }
+        self.lifetimes.leave_scope();
+        for output in &self.resources.dependencies.outputs {
+            if !self.resources.output_was_written(&output.path) {
+                return Err(self.error(
+                    "E_STAGE_OUTPUT",
+                    format!(
+                        "Declared output '{}' has no generating command",
+                        output.path
+                    ),
+                    definition.span,
+                ));
+            }
+        }
+        self.stage.as_mut().unwrap().independent_execution = true;
+        self.stage.as_mut().unwrap().target_profile_selected = self.options.capabilities.is_some();
+        self.resources.dependencies.complete = true;
+        self.resources.dependencies.coverage =
+            "declared stage file resources; file contents and runtime environment are not analyzed";
+        Ok(())
+    }
+    fn stage_resource(
+        &self,
+        resource: &resources::ResourceValue,
+        span: Span,
+    ) -> Result<(), ExprError> {
+        if self.stage.is_some()
+            && !self.stage_resources.iter().any(|declared| {
+                declared.path == resource.path
+                    && (declared.kind.accepts(resource.kind)
+                        || resource.kind.accepts(declared.kind))
+            })
+        {
+            return Err(self.error(
+                "E_STAGE_RESOURCE",
+                "Stage file dependencies must come from declared resource parameters",
+                span,
+            ));
+        }
+        Ok(())
     }
     fn step(&mut self, span: Span) -> Result<(), ExprError> {
         if !self.context.is_empty() {
@@ -148,6 +258,7 @@ impl<'a> Lowerer<'a> {
                         }
                     }
                     if let Value::Resource(resource) = &value {
+                        self.stage_resource(resource, expression.span)?;
                         self.resources.declare(
                             resource,
                             self.source,
@@ -232,7 +343,8 @@ impl<'a> Lowerer<'a> {
                     self.step(*span)?;
                 }
                 Node::Module { span, .. }
-                | Node::Function(crate::module::Function { span, .. }) => {
+                | Node::Function(crate::module::Function { span, .. })
+                | Node::Stage(crate::stage::Definition { span, .. }) => {
                     return Err(self.error("E_MODULE_DEFINITION", "Module definitions belong at the source boundary and functions inside modules", *span));
                 }
                 Node::Call {
@@ -241,7 +353,7 @@ impl<'a> Lowerer<'a> {
                     span,
                 } => {
                     self.step(*span)?;
-                    if self.checked_depth >= 64 {
+                    if self.call_depth >= 64 {
                         return Err(self.error(
                             "E_MODULE_RECURSION",
                             "Module expansion exceeds 64 call levels",
@@ -270,6 +382,7 @@ impl<'a> Lowerer<'a> {
                             expression.span,
                         )?;
                         if let Value::Resource(resource) = &value {
+                            self.stage_resource(resource, expression.span)?;
                             self.resources.declare(
                                 resource,
                                 self.source,
@@ -284,6 +397,7 @@ impl<'a> Lowerer<'a> {
                     // Calls see only their explicit parameters, never caller-local bindings.
                     let caller_scopes = std::mem::replace(&mut self.scopes, vec![parameters]);
                     self.checked_depth += 1;
+                    self.call_depth += 1;
                     self.context.push(ExpansionContext {
                         variable: format!("@call {name}"),
                         iteration: 0,
@@ -298,8 +412,11 @@ impl<'a> Lowerer<'a> {
                     self.lifetimes.leave_scope();
                     self.context.pop();
                     self.checked_depth -= 1;
+                    self.call_depth -= 1;
                     self.scopes = caller_scopes;
                     result?;
+                    self.state.units = self.effects.units.clone();
+                    self.state.pair_style = self.effects.pair_style.clone();
                 }
             }
         }
@@ -318,9 +435,44 @@ impl<'a> Lowerer<'a> {
         let mut replacements = vec![];
         let mut operands = vec![];
         let mut resolved = command.clone();
-        let path_slot = crate::schema::path_operand(command, self.state.pair_style.as_deref());
+        let pair_style = if self.checked_depth > 0 {
+            self.effects.pair_style.as_deref()
+        } else {
+            self.state.pair_style.as_deref()
+        };
+        let path_slot = crate::schema::path_operand(command, pair_style);
+        if self.stage.is_some() {
+            if command
+                .arguments
+                .first()
+                .is_some_and(|a| a.text == "read_data")
+                && (command.arguments.len() != 3 || command.arguments[2].text != "nocoeff")
+            {
+                return Err(self.error("E_UNVERIFIED_EFFECT", "Stage read_data requires nocoeff; declare the model and potential dependencies explicitly", command.line.span));
+            }
+            if let Some(slot) = path_slot {
+                if !command
+                    .arguments
+                    .get(slot.position)
+                    .is_some_and(|arg| arg.interpolation.is_some())
+                {
+                    return Err(self.error(
+                        "E_STAGE_RESOURCE",
+                        "Stage file operands must interpolate declared typed resources",
+                        command.line.span,
+                    ));
+                }
+            }
+        }
         for (position, arg) in command.arguments.iter().enumerate() {
             if let Some(interpolation) = &arg.interpolation {
+                if self.stage.is_some() && interpolation.unchecked {
+                    return Err(self.error(
+                        "E_STAGE_RESOURCE",
+                        "Unchecked operands cannot establish an independent stage contract",
+                        interpolation.span,
+                    ));
+                }
                 let value = expr::evaluate(&interpolation.expression, &self.scopes)?;
                 if let Some(slot) = path_slot.filter(|s| s.position == position) {
                     let compatible = match &value {
@@ -354,6 +506,16 @@ impl<'a> Lowerer<'a> {
                     Value::Float(n) => format_number(n),
                     Value::Bool(b) => b.to_string(),
                     Value::Resource(resource) => {
+                        self.stage_resource(&resource, interpolation.expression.span)?;
+                        if self.stage.is_some()
+                            && path_slot.is_none_or(|slot| slot.position != position)
+                        {
+                            return Err(self.error(
+                                "E_STAGE_RESOURCE",
+                                "Resource used outside a modeled file operand",
+                                interpolation.span,
+                            ));
+                        }
                         let slot = path_slot.filter(|s| s.position == position);
                         let role = slot.map_or("file", |s| s.kind);
                         if role == "script" && resource.path.ends_with(".lamlet") {
@@ -437,10 +599,15 @@ impl<'a> Lowerer<'a> {
             operands,
         };
         self.effects.command(&resolved, self.checked_depth > 0)?;
+        if self.checked_depth > 0 {
+            self.state.units = self.effects.units.clone();
+            self.state.pair_style = self.effects.pair_style.clone();
+        }
         self.lifetimes.before(
             &resolved,
             emission.action(),
             self.options.strict,
+            self.checked_depth > 0,
             self.source,
             &mut self.diagnostics,
         )?;
@@ -451,7 +618,8 @@ impl<'a> Lowerer<'a> {
             self.options.strict,
             &mut self.diagnostics,
         );
-        self.lifetimes.after(&resolved, emission.action());
+        self.lifetimes
+            .after(&resolved, emission.action(), self.checked_depth > 0);
         self.resources
             .after_command(self.source, &resolved, path_slot);
         self.semantics

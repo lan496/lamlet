@@ -64,6 +64,13 @@ pub(crate) fn bind(
     mut value: Value,
     span: Span,
 ) -> Result<Value, ExprError> {
+    if value.number().is_some_and(|n| !n.is_finite()) {
+        return Err(ExprError::new(
+            "E_NUMERIC_OVERFLOW",
+            "Module and stage arguments must be finite",
+            span,
+        ));
+    }
     let actual = value.ty();
     match (&parameter.ty, &mut value) {
         (Type::Float, Value::Int(n)) => value = Value::Float(*n as f64),
@@ -142,6 +149,10 @@ impl Registry {
             .iter()
             .filter(|node| !matches!(node, Node::Module { .. }))
         {
+            if let Node::Stage(stage) = node {
+                registry.visit_body(&stage.body, &mut vec![], &mut BTreeSet::new())?;
+                continue;
+            }
             registry.visit_body(
                 std::slice::from_ref(node),
                 &mut vec![],
@@ -193,7 +204,9 @@ impl Registry {
                 Node::Scope { body, .. } | Node::For { body, .. } => {
                     self.visit_body(body, stack, done)?
                 }
-                Node::Module { span, .. } | Node::Function(Function { span, .. }) => {
+                Node::Module { span, .. }
+                | Node::Function(Function { span, .. })
+                | Node::Stage(crate::stage::Definition { span, .. }) => {
                     return Err(ExprError::new(
                         "E_MODULE_DEFINITION",
                         "Definitions must appear at their module boundary",
@@ -210,7 +223,7 @@ impl Registry {
 /// Facts describe command effects, not file contents or physical completeness.
 pub(crate) struct Effects {
     facts: BTreeMap<StateFact, Fact>,
-    pair_style: Option<String>,
+    pub pair_style: Option<String>,
     integrators: BTreeSet<String>,
     pub units: Option<String>,
 }
@@ -272,7 +285,8 @@ impl Effects {
                 "lattice" => matches!(literal(1), "sc" | "bcc" | "fcc" | "diamond"),
                 "create_box" => args.len() == 3,
                 "create_atoms" => matches!(literal(2), "box" | "region" | "single"),
-                "read_data" | "write_data" | "write_restart" => args.len() == 2,
+                "read_data" => args.len() == 2 || args.len() == 3 && literal(2) == "nocoeff",
+                "write_data" | "write_restart" => args.len() == 2,
                 "pair_style" => matches!(literal(1), "lj/cut" | "eam" | "eam/alloy"),
                 "pair_coeff" => self.pair_style.is_some(),
                 "fix" => matches!(literal(3), "nve" | "nvt" | "npt" | "langevin"),
@@ -297,6 +311,17 @@ impl Effects {
             };
         }
         if checked {
+            if name == "fix"
+                && literal(2) == "all"
+                && matches!(literal(3), "nve" | "nvt" | "npt")
+                && self.integrators.iter().any(|id| id != literal(1))
+            {
+                return Err(ExprError::new(
+                    "E_EFFECT_CONFLICT",
+                    "Multiple known time integrators act on group all at this boundary",
+                    command.line.span,
+                ));
+            }
             match name {
                 "create_atoms" | "mass" | "fix" | "compute" | "dump" | "velocity"
                 | "pair_coeff" => self.require(&[BoxDefined], command.line.span)?,

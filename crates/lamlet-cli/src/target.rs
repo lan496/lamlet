@@ -71,7 +71,7 @@ pub(super) fn engine(project: &Project, explicit: Option<&OsString>) -> OsString
     }
     std::env::var_os("LAMLET_LAMMPS_BIN").unwrap_or_else(|| "lmp".into())
 }
-fn executable(name: &OsStr) -> Result<PathBuf, String> {
+pub(super) fn executable(name: &OsStr) -> Result<PathBuf, String> {
     let name = Path::new(name);
     if name.is_absolute() || name.components().count() > 1 {
         return fs::canonicalize(name).map_err(|e| e.to_string());
@@ -301,6 +301,23 @@ fn requirements(common: InputOptions) -> io::Result<u8> {
             max_expanded_lines: common.max_expanded_lines,
             project: Some(project.clone()),
             capabilities,
+            stage: match common
+                .stage
+                .as_deref()
+                .map(|name| {
+                    lamlet::stage::Invocation::parse(
+                        name,
+                        common.instance.as_deref(),
+                        &common.arguments,
+                    )
+                })
+                .transpose()
+            {
+                Ok(invocation) => invocation,
+                Err(error) => {
+                    return fail(&source, "E_STAGE_ARGUMENT", error.message, common.format);
+                }
+            },
         },
     );
     let mut value = serde_json::to_value(c.report(&source))?;

@@ -28,6 +28,215 @@ fn json_output(output: &Output, code: i32) -> Value {
     value
 }
 
+const STAGE_SOURCE: &str = "@stage relax(structure: InputFile, result: OutputFile) {\nunits metal\natom_style atomic\nread_data @{structure} nocoeff\npair_style lj/cut 2.5\npair_coeff * * 1 1\nminimize 1e-8 1e-10 10 100\nwrite_data @{result}\n}\n@stage invalid() {\nrun 100\n}\n";
+fn stage_project(path: &Path) {
+    fs::write(path.join("workflow.lamlet"), STAGE_SOURCE).unwrap();
+    fs::write(path.join("atoms.data"), "explicit input fixture").unwrap();
+    fs::write(path.join("ambient.marker"), "must not be read implicitly").unwrap();
+}
+fn stage_args(action: &str) -> Vec<&str> {
+    vec![
+        action,
+        "workflow.lamlet",
+        "--stage",
+        "relax",
+        "--arg",
+        "structure=path(\"atoms.data\")",
+        "--arg",
+        "result=output(\"relaxed.data\")",
+        "--format=json",
+    ]
+}
+
+#[test]
+fn stage_inspection_checks_and_builds_are_deterministic_and_selective() {
+    let dir = tempfile::tempdir().unwrap();
+    stage_project(dir.path());
+    let first = cli(
+        &["inspect", "stages", "workflow.lamlet", "--format=json"],
+        dir.path(),
+    );
+    let second = cli(
+        &["inspect", "stages", "workflow.lamlet", "--format=json"],
+        dir.path(),
+    );
+    assert_eq!(first.stdout, second.stdout);
+    let definitions = json_output(&first, 0);
+    assert!(definitions["stages"].as_array().unwrap().iter().any(|s| {
+        s["name"] == "relax"
+            && s["parameters"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|p| p["name"] == "result" && p["direction"] == "output")
+    }));
+    let checked = json_output(&cli(&stage_args("check"), dir.path()), 0);
+    assert_eq!(checked["stage"]["independent_execution"], true);
+    assert_eq!(checked["stage"]["resumable"], false);
+    assert!(!dir.path().join(".lamlet").exists());
+    let built = json_output(&cli(&stage_args("build"), dir.path()), 0);
+    assert_eq!(
+        built["build"]["working_directory"],
+        ".lamlet/build/stages/relax"
+    );
+    let script = dir.path().join(".lamlet/build/stages/relax/simulation.in");
+    assert!(
+        fs::read_to_string(&script)
+            .unwrap()
+            .contains("read_data \"../../../../atoms.data\" nocoeff\n")
+    );
+    let manifest: Value = serde_json::from_slice(
+        &fs::read(script.with_file_name("simulation.in.manifest.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(manifest["stage"], built["stage"]);
+    assert_eq!(manifest["dependencies"]["unresolved"], json!([]));
+    json_output(
+        &cli(&["check", "workflow.lamlet", "--format=json"], dir.path()),
+        1,
+    );
+    let invalid = json_output(
+        &cli(
+            &[
+                "check",
+                "workflow.lamlet",
+                "--stage",
+                "invalid",
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        1,
+    );
+    assert!(
+        invalid["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|d| d["code"] == "E_STATE_CONTRACT")
+    );
+    for argument in [
+        "result=output(\"simulation.in\")",
+        "result=output(\"simulation.in.manifest.json\")",
+        "result=output(\"../escape.data\")",
+    ] {
+        let mut args = stage_args("build");
+        let output_binding = args
+            .iter_mut()
+            .find(|arg| arg.starts_with("result="))
+            .unwrap();
+        *output_binding = argument;
+        let result = cli(&args, dir.path());
+        assert!(!result.status.success());
+        serde_json::from_slice::<Value>(&result.stdout).unwrap();
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn stages_run_in_separate_processes_and_working_directories_from_declared_inputs() {
+    use std::os::unix::fs::PermissionsExt;
+    let dir = tempfile::tempdir().unwrap();
+    stage_project(dir.path());
+    fs::create_dir(dir.path().join("caller")).unwrap();
+    let engine = dir.path().join("stage-engine");
+    fs::write(&engine, "#!/bin/sh\ntest ! -e ambient.marker || exit 11\ntest -f ../../../../atoms.data || exit 12\ntest -f simulation.in || exit 13\nprintf '%s\\n' \"$$\"\npwd\nprintf 'artifact\\n' > relaxed.data\n").unwrap();
+    fs::set_permissions(&engine, fs::Permissions::from_mode(0o755)).unwrap();
+    let mut ids = std::collections::BTreeSet::new();
+    for instance in ["first", "second", "first"] {
+        let args = [
+            "run",
+            "../workflow.lamlet",
+            "--stage",
+            "relax",
+            "--instance",
+            instance,
+            "--arg",
+            "structure=path(\"atoms.data\")",
+            "--arg",
+            "result=output(\"relaxed.data\")",
+            "--lammps-bin",
+            "../stage-engine",
+            "--format=json",
+        ];
+        let value = json_output(&cli(&args, &dir.path().join("caller")), 0);
+        assert_eq!(
+            value["execution"]["working_directory"],
+            format!(".lamlet/build/stages/{instance}")
+        );
+        let directory = dir.path().join(format!(".lamlet/build/stages/{instance}"));
+        let stdout = fs::read_to_string(directory.join("simulation.in.stdout")).unwrap();
+        ids.insert(stdout.lines().next().unwrap().to_owned());
+        assert!(stdout.contains(directory.canonicalize().unwrap().to_str().unwrap()));
+        assert_eq!(
+            fs::read(directory.join("relaxed.data")).unwrap(),
+            b"artifact\n"
+        );
+    }
+    assert_eq!(ids.len(), 3);
+    // Relative PATH entries select the caller's engine before changing cwd.
+    let directory = dir.path().join(".lamlet/build/stages/path_lookup");
+    fs::create_dir_all(&directory).unwrap();
+    let shadow = directory.join("stage-engine");
+    fs::write(&shadow, "#!/bin/sh\nexit 19\n").unwrap();
+    fs::set_permissions(&shadow, fs::Permissions::from_mode(0o755)).unwrap();
+    let mut args = stage_args("run");
+    args.extend(["--instance", "path_lookup", "--lammps-bin", "stage-engine"]);
+    let output = Command::new(env!("CARGO_BIN_EXE_lamlet"))
+        .args(args)
+        .current_dir(dir.path())
+        .env("PATH", ".")
+        .output()
+        .unwrap();
+    json_output(&output, 0);
+    assert_eq!(
+        fs::read(directory.join("relaxed.data")).unwrap(),
+        b"artifact\n"
+    );
+    assert_eq!(
+        fs::read(dir.path().join("atoms.data")).unwrap(),
+        b"explicit input fixture"
+    );
+    assert!(!dir.path().join("relaxed.data").exists());
+    let missing_target = json_output(&cli(&stage_args("run"), dir.path()), 2);
+    assert!(
+        missing_target["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|d| d["code"] == "E_STAGE_TARGET")
+    );
+    // A successful process status alone cannot establish an output artifact.
+    fs::write(&engine, "#!/bin/sh\nexit 0\n").unwrap();
+    let mut args = stage_args("run");
+    args.extend([
+        "--instance",
+        "missing_output",
+        "--lammps-bin",
+        "./stage-engine",
+    ]);
+    let missing = json_output(&cli(&args, dir.path()), 3);
+    assert_eq!(missing["execution"]["exit_code"], 0);
+    assert_eq!(missing["execution"]["success"], false);
+    assert!(
+        missing["execution"]["observed_outputs"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(
+                |o| o["path"] == ".lamlet/build/stages/missing_output/relaxed.data"
+                    && o["exists"] == false
+            )
+    );
+    assert!(
+        missing["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|d| d["code"] == "E_STAGE_OUTPUT")
+    );
+}
+
 #[test]
 fn deterministic_json_error_golden() {
     let dir = tempfile::tempdir().unwrap();
@@ -769,7 +978,12 @@ fn invalid_input_never_starts_engine_and_missing_engine_is_reported() {
 fn project_example_checks_and_builds_without_starting_lammps() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../examples/project");
     let dir = tempfile::tempdir().unwrap();
-    for name in ["lamlet.toml", "structure.data", "simulation.lamlet"] {
+    for name in [
+        "lamlet.toml",
+        "structure.data",
+        "simulation.lamlet",
+        "stages.lamlet",
+    ] {
         fs::copy(root.join(name), dir.path().join(name)).unwrap();
     }
     json_output(
@@ -789,6 +1003,20 @@ fn project_example_checks_and_builds_without_starting_lammps() {
             .contains("timestep 0.002\n")
     );
     assert!(!dir.path().join("results").exists());
+    let args = [
+        "check",
+        "stages.lamlet",
+        "--stage",
+        "relax",
+        "--arg",
+        "structure=path(\"structure.data\")",
+        "--arg",
+        "relaxed=output(\"relaxed.data\")",
+        "--strict",
+        "--format=json",
+    ];
+    let stage = json_output(&cli(&args, dir.path()), 0);
+    assert_eq!(stage["stage"]["independent_execution"], true);
 }
 
 #[test]

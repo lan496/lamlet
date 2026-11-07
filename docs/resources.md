@@ -53,7 +53,7 @@ Runtime filesystem changes after checking remain outside the guarantee.
 
 The initial path schemas cover `read_data`, `read_restart`, `include`, `dump`,
 `write_data`, `write_restart`, `log`, `shell cd`, and the file operand of
-`pair_coeff` under a known `pair_style eam/alloy`. Generic pair styles and
+`pair_coeff` under a known `pair_style eam` or `eam/alloy`. Generic pair styles and
 optional filename operands remain unverified. `read_restart` accepts InputPattern.
 The registry is available through `lamlet schema --format json`.
 
