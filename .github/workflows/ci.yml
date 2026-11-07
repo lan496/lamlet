@@ -16,3 +16,20 @@ jobs:
       - run: cargo fmt --all --check
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
       - run: cargo test --workspace --locked
+  corpus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo build --release --locked
+      - run: python3 -m unittest discover -s tools -p 'test_*.py'
+      - run: python3 tools/corpus.py fetch
+      - run: python3 tools/corpus.py audit --inventory target/corpus/inventory.json
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: corpus-evaluation
+          path: |
+            target/corpus/report.json
+            target/corpus/inventory.json
+          if-no-files-found: warn

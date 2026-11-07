@@ -1,0 +1,30 @@
+{
+  "format_version": 1,
+  "sources": [
+    {
+      "id": "lammps",
+      "url": "https://github.com/lammps/lammps.git",
+      "commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+      "sparse": ["/examples/**/in.*", "/bench/**/in.*", "/unittest/commands/*.cpp", "/LICENSE", "/examples/README"],
+      "groups": [
+        {"id": "examples", "prefix": "examples/", "basename_prefix": "in."},
+        {"id": "bench", "prefix": "bench/", "basename_prefix": "in."}
+      ],
+      "exclude": {
+        "examples/COUPLE/lammps_spparks/in.spparks": "SPPARKS input, identified by its header and app_style/create_sites/solve_style commands; not a LAMMPS script"
+      }
+    },
+    {
+      "id": "lammpstutorials-inputs",
+      "url": "https://github.com/lammpstutorials/lammpstutorials-inputs.git",
+      "commit": "dd3dce70b883af02df293ce52491beabd8e01928",
+      "sparse": ["/**/*.lmp", "/**/*.lammps", "/**/*.inc", "/LICENSE"],
+      "groups": [
+        {"id": "tutorials", "suffixes": [".lmp", ".lammps", ".inc"]}
+      ],
+      "exclude": {
+        "tutorial4/videos/minimization/data.lammps": "LAMMPS atom data written by write_data, not an input script"
+      }
+    }
+  ]
+}

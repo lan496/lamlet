@@ -76,4 +76,24 @@ cargo test -p lamlet-cli --test cli optional_lammps_zero_step_integration -- --i
 Set `LAMLET_LAMMPS_BIN` to choose a binary other than `lmp`. The optional test
 requires a working local LAMMPS and MPI installation.
 
+## Evaluate upstream compatibility
+
+The optional corpus evaluator fetches pinned input scripts from LAMMPS and
+LAMMPS Tutorials, measures byte preservation and static rejection separately,
+and writes deterministic JSON with command frequencies and syntax inventories:
+
+```sh
+cargo build --release --locked
+python3 tools/corpus.py fetch
+python3 tools/corpus.py audit --inventory target/corpus/inventory.json
+```
+
+This development tool requires Git and Python 3.9+. Fetching requires network
+access; it does not run simulations. The selected 893 official examples, 29
+benchmarks, and 76 tutorial inputs all round-trip exactly and have no standard
+or strict rejections at the pinned revisions. See the
+[evaluation methods and results](docs/corpus.md) for exclusions, uncovered
+negative cases, and reproduction details. The [baseline JSON](tests/corpus/baseline.json)
+records the measured results; large local corpora and inventories stay ignored.
+
 The normative requirements are in [LAMLET_SPEC.md](LAMLET_SPEC.md).

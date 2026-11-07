@@ -134,6 +134,11 @@ automated Rust suite and CI do not require an engine or MPI.
 
 CI is configured for stable Rust on Linux, macOS, and Windows. Only the local
 macOS toolchain was exercised during implementation; hosted CI has not been run.
+An independent corpus CI job fetches pinned inputs and evaluates preservation
+and rejection. Its methods, exclusions, and coverage boundaries are documented
+in [the corpus evaluation](corpus.md). The later compatibility correction adds
+three Rust tests, bringing the local suite to 43 passing tests and one ignored
+engine test.
 
 Each milestone passed `cargo fmt --all`,
 `cargo clippy --workspace --all-targets -- -D warnings`, and

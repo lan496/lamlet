@@ -1,0 +1,714 @@
+{
+  "compiler": {
+    "binary_sha256": "b6f8f46404decfcd1ad2290bc4f24ecf3e224043d823b4e6e684c9bad512baaf",
+    "version": "0.1.0"
+  },
+  "focus_subsets": {
+    "ELASTIC": {
+      "files": 1,
+      "round_trip_identical": 1,
+      "static_rejected": 0
+    },
+    "MC-LOOP": {
+      "files": 1,
+      "round_trip_identical": 1,
+      "static_rejected": 0
+    },
+    "PACKAGES": {
+      "files": 420,
+      "round_trip_identical": 420,
+      "static_rejected": 0
+    },
+    "UNITS": {
+      "files": 3,
+      "round_trip_identical": 3,
+      "static_rejected": 0
+    }
+  },
+  "format_version": 1,
+  "groups": {
+    "bench": {
+      "build_rejected": 0,
+      "bytes": 17015,
+      "command_candidates": 546,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 5,
+        "if": 0,
+        "include": 0,
+        "jump": 0,
+        "next": 0,
+        "triple_quotes": 0,
+        "variable_substitution": 7
+      },
+      "files": 29,
+      "round_trip_different": 0,
+      "round_trip_identical": 29,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "variable",
+          "count": 46
+        },
+        {
+          "command": "fix",
+          "count": 44
+        },
+        {
+          "command": "pair_coeff",
+          "count": 33
+        },
+        {
+          "command": "units",
+          "count": 32
+        },
+        {
+          "command": "atom_style",
+          "count": 29
+        },
+        {
+          "command": "neigh_modify",
+          "count": 29
+        },
+        {
+          "command": "pair_style",
+          "count": 29
+        },
+        {
+          "command": "run",
+          "count": 29
+        },
+        {
+          "command": "timestep",
+          "count": 26
+        },
+        {
+          "command": "neighbor",
+          "count": 25
+        },
+        {
+          "command": "velocity",
+          "count": 20
+        },
+        {
+          "command": "read_data",
+          "count": 17
+        },
+        {
+          "command": "thermo",
+          "count": 16
+        },
+        {
+          "command": "region",
+          "count": 14
+        },
+        {
+          "command": "create_atoms",
+          "count": 12
+        },
+        {
+          "command": "create_box",
+          "count": 12
+        },
+        {
+          "command": "lattice",
+          "count": 12
+        },
+        {
+          "command": "thermo_style",
+          "count": 11
+        },
+        {
+          "command": "compute",
+          "count": 10
+        },
+        {
+          "command": "mass",
+          "count": 10
+        },
+        {
+          "command": "group",
+          "count": 9
+        },
+        {
+          "command": "bond_style",
+          "count": 7
+        },
+        {
+          "command": "replicate",
+          "count": 7
+        },
+        {
+          "command": "special_bonds",
+          "count": 7
+        },
+        {
+          "command": "comm_modify",
+          "count": 6
+        },
+        {
+          "command": "pair_modify",
+          "count": 6
+        },
+        {
+          "command": "thermo_modify",
+          "count": 5
+        },
+        {
+          "command": "angle_style",
+          "count": 4
+        },
+        {
+          "command": "basis",
+          "count": 4
+        },
+        {
+          "command": "bond_coeff",
+          "count": 4
+        },
+        {
+          "command": "boundary",
+          "count": 4
+        },
+        {
+          "command": "dihedral_style",
+          "count": 4
+        },
+        {
+          "command": "improper_style",
+          "count": 4
+        },
+        {
+          "command": "kspace_style",
+          "count": 4
+        },
+        {
+          "command": "set",
+          "count": 4
+        },
+        {
+          "command": "atom_modify",
+          "count": 3
+        },
+        {
+          "command": "newton",
+          "count": 3
+        },
+        {
+          "command": "z",
+          "count": 3
+        },
+        {
+          "command": "angle_coeff",
+          "count": 1
+        },
+        {
+          "command": "compute_modify",
+          "count": 1
+        }
+      ],
+      "unknowns": 453,
+      "warnings": 0
+    },
+    "examples": {
+      "build_rejected": 0,
+      "bytes": 1499377,
+      "command_candidates": 28532,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 344,
+        "if": 26,
+        "include": 62,
+        "jump": 14,
+        "next": 14,
+        "triple_quotes": 11,
+        "variable_substitution": 415
+      },
+      "files": 893,
+      "round_trip_different": 0,
+      "round_trip_identical": 893,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "variable",
+          "count": 4243
+        },
+        {
+          "command": "pair_coeff",
+          "count": 2412
+        },
+        {
+          "command": "fix",
+          "count": 2195
+        },
+        {
+          "command": "compute",
+          "count": 1187
+        },
+        {
+          "command": "run",
+          "count": 1135
+        },
+        {
+          "command": "pair_style",
+          "count": 874
+        },
+        {
+          "command": "thermo",
+          "count": 859
+        },
+        {
+          "command": "units",
+          "count": 816
+        },
+        {
+          "command": "region",
+          "count": 801
+        },
+        {
+          "command": "atom_style",
+          "count": 788
+        },
+        {
+          "command": "neigh_modify",
+          "count": 725
+        },
+        {
+          "command": "group",
+          "count": 712
+        },
+        {
+          "command": "thermo_style",
+          "count": 693
+        },
+        {
+          "command": "timestep",
+          "count": 616
+        },
+        {
+          "command": "neighbor",
+          "count": 610
+        },
+        {
+          "command": "velocity",
+          "count": 607
+        },
+        {
+          "command": "boundary",
+          "count": 525
+        },
+        {
+          "command": "create_atoms",
+          "count": 518
+        },
+        {
+          "command": "mass",
+          "count": 512
+        },
+        {
+          "command": "read_data",
+          "count": 434
+        },
+        {
+          "command": "create_box",
+          "count": 413
+        },
+        {
+          "command": "set",
+          "count": 413
+        },
+        {
+          "command": "lattice",
+          "count": 393
+        },
+        {
+          "command": "print",
+          "count": 369
+        },
+        {
+          "command": "thermo_modify",
+          "count": 310
+        },
+        {
+          "command": "dimension",
+          "count": 278
+        },
+        {
+          "command": "bond_style",
+          "count": 225
+        },
+        {
+          "command": "atom_modify",
+          "count": 201
+        },
+        {
+          "command": "basis",
+          "count": 196
+        },
+        {
+          "command": "bond_coeff",
+          "count": 191
+        },
+        {
+          "command": "comm_modify",
+          "count": 188
+        },
+        {
+          "command": "unfix",
+          "count": 184
+        },
+        {
+          "command": "dump",
+          "count": 173
+        },
+        {
+          "command": "special_bonds",
+          "count": 152
+        },
+        {
+          "command": "angle_style",
+          "count": 151
+        },
+        {
+          "command": "kspace_style",
+          "count": 151
+        },
+        {
+          "command": "angle_coeff",
+          "count": 144
+        },
+        {
+          "command": "fix_modify",
+          "count": 135
+        },
+        {
+          "command": "pair_modify",
+          "count": 135
+        },
+        {
+          "command": "newton",
+          "count": 113
+        }
+      ],
+      "unknowns": 25760,
+      "warnings": 0
+    },
+    "tutorials": {
+      "build_rejected": 0,
+      "bytes": 302736,
+      "command_candidates": 2491,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 19,
+        "if": 0,
+        "include": 26,
+        "jump": 6,
+        "next": 6,
+        "triple_quotes": 0,
+        "variable_substitution": 31
+      },
+      "files": 76,
+      "round_trip_different": 0,
+      "round_trip_identical": 76,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "variable",
+          "count": 291
+        },
+        {
+          "command": "fix",
+          "count": 290
+        },
+        {
+          "command": "group",
+          "count": 136
+        },
+        {
+          "command": "run",
+          "count": 111
+        },
+        {
+          "command": "pair_coeff",
+          "count": 109
+        },
+        {
+          "command": "thermo",
+          "count": 71
+        },
+        {
+          "command": "region",
+          "count": 70
+        },
+        {
+          "command": "dump",
+          "count": 67
+        },
+        {
+          "command": "mass",
+          "count": 66
+        },
+        {
+          "command": "pair_style",
+          "count": 64
+        },
+        {
+          "command": "atom_style",
+          "count": 63
+        },
+        {
+          "command": "units",
+          "count": 63
+        },
+        {
+          "command": "timestep",
+          "count": 57
+        },
+        {
+          "command": "create_atoms",
+          "count": 53
+        },
+        {
+          "command": "compute",
+          "count": 52
+        },
+        {
+          "command": "angle_coeff",
+          "count": 51
+        },
+        {
+          "command": "velocity",
+          "count": 48
+        },
+        {
+          "command": "boundary",
+          "count": 47
+        },
+        {
+          "command": "acolor",
+          "count": 46
+        },
+        {
+          "command": "read_data",
+          "count": 43
+        },
+        {
+          "command": "bond_coeff",
+          "count": 39
+        },
+        {
+          "command": "bond_style",
+          "count": 36
+        },
+        {
+          "command": "include",
+          "count": 36
+        },
+        {
+          "command": "angle_style",
+          "count": 33
+        },
+        {
+          "command": "thermo_style",
+          "count": 33
+        },
+        {
+          "command": "fix_modify",
+          "count": 30
+        },
+        {
+          "command": "dihedral_coeff",
+          "count": 26
+        },
+        {
+          "command": "unfix",
+          "count": 26
+        },
+        {
+          "command": "kspace_style",
+          "count": 25
+        },
+        {
+          "command": "dump_modify",
+          "count": 24
+        },
+        {
+          "command": "reset_timestep",
+          "count": 24
+        },
+        {
+          "command": "minimize",
+          "count": 21
+        },
+        {
+          "command": "molecule",
+          "count": 21
+        },
+        {
+          "command": "create_box",
+          "count": 20
+        },
+        {
+          "command": "dihedral_style",
+          "count": 19
+        },
+        {
+          "command": "set",
+          "count": 17
+        },
+        {
+          "command": "special_bonds",
+          "count": 17
+        },
+        {
+          "command": "thermo_modify",
+          "count": 14
+        },
+        {
+          "command": "adiam",
+          "count": 13
+        },
+        {
+          "command": "write_data",
+          "count": 13
+        }
+      ],
+      "unknowns": 2248,
+      "warnings": 0
+    }
+  },
+  "negative_tests": {
+    "cases": [
+      {
+        "expected_error": "E_ARGUMENT_COUNT",
+        "id": "timestep_missing",
+        "passed": true
+      },
+      {
+        "expected_error": "E_ARGUMENT_COUNT",
+        "id": "timestep_extra",
+        "passed": true
+      },
+      {
+        "expected_error": "E_TYPE_MISMATCH",
+        "id": "timestep_not_numeric",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "negative_step_number",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "unknown_command",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "quit_not_integer",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "run_opaque_option",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "unknown_units",
+        "passed": true
+      }
+    ],
+    "covered": 3,
+    "outside_coverage": 5,
+    "provenance": {
+      "commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+      "path": "unittest/commands/test_simple_commands.cpp",
+      "source": "lammps"
+    }
+  },
+  "selection": {
+    "bench": {
+      "candidates": 29,
+      "excluded": {}
+    },
+    "examples": {
+      "candidates": 894,
+      "excluded": {
+        "examples/COUPLE/lammps_spparks/in.spparks": "SPPARKS input, identified by its header and app_style/create_sites/solve_style commands; not a LAMMPS script"
+      }
+    },
+    "tutorials": {
+      "candidates": 77,
+      "excluded": {
+        "tutorial4/videos/minimization/data.lammps": "LAMMPS atom data written by write_data, not an input script"
+      }
+    }
+  },
+  "selection_limit": null,
+  "semantic_regression": {
+    "reason": "No LAMMPS engine was invoked",
+    "status": "not_run"
+  },
+  "sources": [
+    {
+      "commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+      "exclude": {
+        "examples/COUPLE/lammps_spparks/in.spparks": "SPPARKS input, identified by its header and app_style/create_sites/solve_style commands; not a LAMMPS script"
+      },
+      "groups": [
+        {
+          "basename_prefix": "in.",
+          "id": "examples",
+          "prefix": "examples/"
+        },
+        {
+          "basename_prefix": "in.",
+          "id": "bench",
+          "prefix": "bench/"
+        }
+      ],
+      "id": "lammps",
+      "sparse": [
+        "/examples/**/in.*",
+        "/bench/**/in.*",
+        "/unittest/commands/*.cpp",
+        "/LICENSE",
+        "/examples/README"
+      ],
+      "url": "https://github.com/lammps/lammps.git"
+    },
+    {
+      "commit": "dd3dce70b883af02df293ce52491beabd8e01928",
+      "exclude": {
+        "tutorial4/videos/minimization/data.lammps": "LAMMPS atom data written by write_data, not an input script"
+      },
+      "groups": [
+        {
+          "id": "tutorials",
+          "suffixes": [
+            ".lmp",
+            ".lammps",
+            ".inc"
+          ]
+        }
+      ],
+      "id": "lammpstutorials-inputs",
+      "sparse": [
+        "/**/*.lmp",
+        "/**/*.lammps",
+        "/**/*.inc",
+        "/LICENSE"
+      ],
+      "url": "https://github.com/lammpstutorials/lammpstutorials-inputs.git"
+    }
+  ],
+  "validity": "Upstream inputs and fragments; runtime validity was not established"
+}
