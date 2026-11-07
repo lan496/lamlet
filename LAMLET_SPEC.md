@@ -379,3 +379,40 @@ Implement in incremental, testable changes rather than writing everything in one
 - LAMMPS fix semantics: https://docs.lammps.org/fix.html
 
 This specification targets the LAMMPS documentation available in **November 2026**. The compiler should record an explicitly declared LAMMPS target version in future releases; do not silently infer the local engine's features in v0.1.
+
+## 11. Subsequent requested design additions
+
+The original milestones above remain the implementation history. Later explicit
+user requirements extend v0.1 as documented below; they take precedence where
+they change an earlier restriction. Existing LAMMPS syntax remains accepted.
+
+- Paths are typed resources, not strings, in the new typed syntax. Legacy string
+  paths remain legal. Project roots, typed path kinds, dependency inspection,
+  portable build manifests, and managed run directories follow
+  [the resource contract](docs/resources.md).
+- Managed resources use `@scope`, `@fix`/`@compute`/`@dump`, and `@drop`, replacing
+  the earlier `@with` proposal. Ordinary resource commands retain their LAMMPS
+  behavior. Ownership and control-flow restrictions follow
+  [the scope contract](docs/scopes.md).
+- Physical semantics is separate from type checking. Rules carry evidence and
+  applicability metadata, use Satisfied/Violated/Unknown outcomes, and never
+  silently change the physical model. Current coverage is defined in
+  [physical semantics](docs/semantics.md).
+- Explicit target profiles are part of v0.1. This supersedes the deferral in
+  Section 10: features are inspected only by an explicit target operation, then
+  checked from a saved profile. Schema coverage and runtime availability are
+  distinct. See [the capability contract](docs/capabilities.md).
+
+The next language-design priorities are compatibility; typed inputs, outputs,
+units and paths; modules with static effects; independently executable stages;
+local scoped resources; checkpoint/provenance; and physical semantic rules.
+
+Every Lamlet stage must be independently executable from explicitly declared
+inputs, without relying on hidden state left by previous stages.
+
+Modules reuse stateful code under preconditions and effects. Stages define
+independent execution tasks. Reentrancy and checkpoint-based resumability are
+separate guarantees; neither promises bitwise identical trajectories. The
+[module and stage design](docs/modules-and-stages.md) specifies the intended
+boundaries and records unresolved invocation/restoration contracts. The proposed
+module/stage/checkpoint syntax and commands are not implemented yet.

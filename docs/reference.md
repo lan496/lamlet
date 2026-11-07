@@ -9,6 +9,9 @@
 | `lamlet inspect dependencies INPUT` | List explicit resources and unresolved legacy paths |
 | `lamlet run INPUT` | Build and explicitly launch LAMMPS from the project root |
 | `lamlet schema [COMMAND]` | Describe capabilities and partial schema coverage |
+| `lamlet target inspect` | Probe an explicitly selected engine and save its profile |
+| `lamlet target list/check/explain` | Query a saved target by category/style |
+| `lamlet target requirements INPUT` | Extract partial style requirements, with optional offline profile |
 
 `check`, `build`, `run`, and `inspect dependencies` accept `--language lammps` or `--language lamlet`, `--strict`,
 `--max-expanded-lines N`, and `--format human` or `--format json`. The default
@@ -26,6 +29,8 @@ configuration, manifests, cwd, and engine execution.
 `schema` accepts `--format human` or `--format json`. Queries use names such as
 `timestep`, `fix/nvt`, and `fix/npt`. Unregistered queries report `opaque`, which
 describes Lamlet's coverage and says nothing about LAMMPS availability.
+The [target guide](capabilities.md) describes separate availability queries and
+the `[lammps]`, `[lammps.requirements]`, and `[validation]` configuration tables.
 
 The `.lamlet` extension selects extended mode. All other explicitly passed
 files default to legacy mode. `--language` overrides the extension. Legacy mode
@@ -104,9 +109,10 @@ operand is still checked after an earlier state barrier.
 Standard mode warns on an interpolated operand without schema coverage. Strict
 mode makes this an error unless it uses `@unchecked`. Legacy plugin commands,
 unknown runtime operands, and unknown state findings remain accepted in strict
-mode. Explicit typed resources validate file existence/kind and roots. Legacy paths,
-package availability, numerical stability, and general physical correctness
-remain unverified.
+mode. Explicit typed resources validate file existence/kind and roots. Explicit
+target profiles validate covered style positions and declared requirements.
+Legacy paths, unresolved runtime capabilities, numerical stability, and general
+physical correctness remain unverified.
 
 ## Diagnostic protocol
 
@@ -117,7 +123,10 @@ unknowns exist, and `ok` otherwise. Summary contains `errors`, `warnings`, and
 
 Every diagnostic has `severity`, `code`, `message`, `file`, `span`, `expected`,
 `actual`, `notes`, and `suggestion`. Optional values are JSON null. Codes use
-`E_`, `W_`, and `U_` prefixes. `schema` publishes each code and its meaning.
+`E_`, `W_`, and `U_` prefixes in the original protocol. Later physical/capability
+rules also use `LML-PHYS-*` and `LML-CAP-*`; consumers must read `severity`.
+`schema` publishes each code and its meaning. Physical warnings may include
+`evidence` and `suggested_actions`; `physical_findings` records tri-state results.
 Diagnostics follow deterministic expansion and analysis order. Repeated loop
 instances may point at the same original span.
 
@@ -130,7 +139,8 @@ location exists. CLI argument errors use an empty input path.
 JSON mode writes exactly one object to stdout, without ANSI escapes or progress
 messages. Human mode writes diagnostic reports to stderr. Schema descriptions,
 help, and version text go to stdout. Exit codes are 0 for no errors, 1 for
-validation failure, and 2 for CLI or I/O failure.
+validation failure, 2 for CLI, configuration, probe, or I/O failure, and 3 for
+an explicitly launched engine failure.
 
 ## Source maps
 
@@ -143,8 +153,9 @@ The generated script contains no hidden mapping comments.
 
 ## Resource limits
 
-The line limit counts only physical lines generated inside loops, including
-blank lines and comments. Unexpanded legacy lines do not consume it. A work
+The line limit counts physical lines generated inside loops, including blank
+lines and comments, and managed acquisition/cleanup lines. Unexpanded legacy
+lines do not consume it. A work
 limit of max(1024, 16 times the line limit) bounds empty nested expansions.
-Expression limits are 512 tokens and 128 nested parser calls. Loop nesting is
-limited to 64 levels. Errors produce no compiled output.
+Expression limits are 512 tokens and 128 nested parser calls. Loop/scope nesting
+is limited to 64 levels. Errors produce no compiled output.

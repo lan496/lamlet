@@ -139,8 +139,8 @@ macOS toolchain was exercised during implementation; hosted CI has not been run.
 An independent corpus CI job fetches pinned inputs and evaluates preservation
 and rejection. Its methods, exclusions, and coverage boundaries are documented
 in [the corpus evaluation](corpus.md). The later compatibility correction adds
-three Rust tests, bringing the local suite to 43 passing tests and one ignored
-engine test.
+three Rust tests, bringing that historical suite to 43 passing tests and one
+ignored engine test. Subsequent extensions have additional tests.
 
 Each milestone passed `cargo fmt --all`,
 `cargo clippy --workspace --all-targets -- -D warnings`, and
@@ -166,3 +166,24 @@ The independent semantic engine consumes resolved commands and records known
 temperature facts and three-valued rule findings at run sites. It never rewrites
 physics. Rule metadata, warning evidence, scope, and unimplemented idioms are
 documented in [physical semantics](semantics.md).
+
+## Target and execution boundaries
+
+Target inventories are explicit snapshots independent of operand schemas and
+physical facts. The executable `-h` probe avoids a library/MPI link dependency;
+ordinary analysis reads a saved profile. Missing proof from plugins, dynamic
+selection, or unsupported hybrid syntax stays Unknown. See
+[capabilities](capabilities.md) for snapshot identity, diagnostics, and deferred
+live-library/plugin support.
+
+The next architectural boundary separates stateful code reuse from independently
+executable computation. [Modules and stages](modules-and-stages.md) records the
+accepted direction, revised priorities, checkpoint guarantees, and the invocation
+and restoration decisions that precede implementation.
+
+The resource, scope, physical-rule, and target additions passed the same
+formatter, clippy, and workspace-test gates. The resulting local Rust suite
+has 88 passing tests and one ignored optional engine test. Probe tests use an
+explicit synthetic help fixture and a fake executable. The installed engine's
+`-h` invocation also failed in MPICH/libfabric, including an elevated retry;
+its help text was not accepted as a successful target inventory.

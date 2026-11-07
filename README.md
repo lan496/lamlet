@@ -1,7 +1,7 @@
 # Lamlet
 
 Lamlet v0.1 adds compile-time bindings, loops, physical units, typed file resources,
-and scoped fix/compute/dump management to LAMMPS input
+scoped fix/compute/dump management, and explicit target checks to LAMMPS input
 scripts. It emits ordinary LAMMPS scripts. Checking and compilation require no
 LAMMPS installation, Python or network access. Explicit typed input paths require their files to exist.
 
@@ -77,6 +77,16 @@ consistency rule reports conditional warnings with evidence and suggested action
 Unknown stays nonfatal. It never changes DOF or temperature definitions. See
 [physical semantics](docs/semantics.md).
 
+For a selected engine, `lamlet target inspect --format json` records compiled
+packages/styles. Enable `[validation].check_capabilities` to check against that
+saved profile without launching LAMMPS during compilation. Agents can query
+`target list`, `target check`, `target explain`, and `target requirements`.
+See [explicit targets](docs/capabilities.md) for configuration and plugin limits.
+
+Modules, independently executable stages, and checkpoint restoration are the
+next design layer. Their [contracts and open decisions](docs/modules-and-stages.md)
+are documented; their proposed syntax is not implemented.
+
 ## Verify changes
 
 ```sh
@@ -116,5 +126,4 @@ negative cases, and reproduction details. The [baseline JSON](tests/corpus/basel
 records the measured results; large local corpora and inventories stay ignored.
 
 The original normative requirements are in [LAMLET_SPEC.md](LAMLET_SPEC.md).
-The project and scope guides document the subsequent requested extensions and
-their current boundaries.
+The guides document subsequent requested extensions and their current boundaries.
