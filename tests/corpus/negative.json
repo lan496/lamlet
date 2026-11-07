@@ -1,0 +1,15 @@
+{
+  "source": "lammps",
+  "commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+  "path": "unittest/commands/test_simple_commands.cpp",
+  "cases": [
+    {"id": "timestep_missing", "upstream_case": "TimeStep", "anchor": "command(\"timestep\")", "script": "timestep\n", "error": "E_ARGUMENT_COUNT"},
+    {"id": "timestep_extra", "upstream_case": "TimeStep", "anchor": "command(\"timestep 1.0 2.0\")", "script": "timestep 1.0 2.0\n", "error": "E_ARGUMENT_COUNT"},
+    {"id": "timestep_not_numeric", "upstream_case": "TimeStep", "anchor": "command(\"timestep xxx\")", "script": "timestep xxx\n", "error": "E_TYPE_MISMATCH"},
+    {"id": "negative_step_number", "upstream_case": "ResetTimestep", "anchor": "command(\"reset_timestep -10\")", "script": "reset_timestep -10\n", "error": null},
+    {"id": "unknown_command", "upstream_case": "UnknownCommand", "anchor": "command(\"XXX one two\")", "script": "XXX one two\n", "error": null},
+    {"id": "quit_not_integer", "upstream_case": "Quit", "anchor": "command(\"quit xxx\")", "script": "quit xxx\n", "error": null},
+    {"id": "run_opaque_option", "upstream_case": "run", "anchor": "command(\"run 10 start\")", "script": "run 10 start\n", "error": null},
+    {"id": "unknown_units", "upstream_case": "Units", "anchor": "command(\"units unknown\")", "script": "units unknown\n", "error": null}
+  ]
+}

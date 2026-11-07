@@ -84,7 +84,7 @@ arrays list the arguments immediately following that keyword.
 | `fix` with `nvt`, `npt` | `temp`: Temperature, Temperature, PositiveTime |
 | `fix` with `npt` | `iso`: Pressure, Pressure, PositiveTime |
 | `compute`, `uncompute` | Clearly defined or removed compute IDs |
-| `timestep` | Positive Time quantity or positive implicit-unit number |
+| `timestep` | Positive Time for Lamlet expressions; legacy zero and negative scalars preserved |
 | `run` | First operand is a nonnegative Int, including zero |
 
 Fix keyword checking stops at the first unrecognized option. Other styles and

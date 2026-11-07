@@ -58,9 +58,8 @@ fn dimension_errors_have_exact_original_ranges() {
 #[test]
 fn refinements_numeric_types_and_bare_units() {
     for text in [
-        "timestep 0\n",
-        "timestep -1\n",
         "timestep @{0}\n",
+        "timestep @{-1}\n",
         "run -1\n",
         "fix t all nvt temp 300 300 -1\n",
     ] {
@@ -127,7 +126,7 @@ fn definite_and_uncertain_ordering_are_distinct() {
                 .any(|d| d.code == "U_COMMAND_ORDER")
         );
     }
-    error("plugin x\ntimestep -1\n", "E_REFINEMENT");
+    error("plugin x\ntimestep @{-1}\n", "E_REFINEMENT");
 }
 
 #[test]

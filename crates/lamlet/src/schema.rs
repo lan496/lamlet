@@ -211,7 +211,7 @@ pub static SCHEMAS: &[CommandSchema] = &[
         }],
         keywords: &[],
         state_effect: "preserve tracked state",
-        limitations: "Runtime expressions are unknown",
+        limitations: "Runtime expressions are unknown; PositiveTime applies to Lamlet expressions; legacy zero and negative timesteps are preserved",
         lammps_version: None,
     },
     CommandSchema {

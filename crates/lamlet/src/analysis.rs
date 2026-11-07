@@ -95,6 +95,7 @@ fn requirement(
     source: &Source,
     operand: &hir::Operand,
     req: Requirement,
+    allow_nonpositive_time: bool,
     diagnostics: &mut Vec<Diagnostic>,
 ) {
     if operand.unchecked {
@@ -160,7 +161,7 @@ fn requirement(
         return;
     }
     let invalid = match req {
-        Requirement::PositiveTime => n <= 0.0,
+        Requirement::PositiveTime => !allow_nonpositive_time && n <= 0.0,
         Requirement::NonNegativeInt => n < 0.0,
         _ => false,
     };
@@ -278,7 +279,32 @@ pub fn analyze(
             continue;
         }
         if let Some(req) = requirements[i] {
-            requirement(source, operand, req, diagnostics);
+            let arg = &args[i];
+            if matches!(name, "timestep" | "run")
+                && operand.value.is_none()
+                && !arg.quoted
+                && !arg.dynamic
+                && !arg.text.contains('$')
+                && !arg.text.starts_with('@')
+            {
+                diagnostics.push(diagnostic(
+                    source,
+                    operand.span,
+                    Severity::Error,
+                    "E_TYPE_MISMATCH",
+                    "Expected a numeric literal or runtime substitution",
+                ));
+            } else {
+                // LAMMPS permits zero and negative legacy timesteps. Lamlet's
+                // PositiveTime contract applies to newly introduced expressions.
+                requirement(
+                    source,
+                    operand,
+                    req,
+                    name == "timestep" && !operand.introduced,
+                    diagnostics,
+                );
+            }
         } else if operand.introduced {
             let (severity, code) = if strict {
                 (Severity::Error, "E_UNVERIFIED_ARGUMENT")

@@ -55,6 +55,14 @@ numbers with explicit dimensions. Fix keyword validation follows only the
 supported prefix. Once an opaque option appears, later tokens are not assigned
 invented keyword boundaries.
 
+Legacy `timestep` literals may be zero or negative. LAMMPS's pinned upstream
+`TimeStep` unit test explicitly accepts both. The later compatibility requirement
+takes precedence over the positive-legacy-scalar rule in spec Section 5.1;
+`PositiveTime` remains enforced for Lamlet interpolations and covered damping
+operands. Literal nonnumeric `timestep` and `run` arguments are errors, while
+quoted runtime substitutions remain unknown. The upstream fixture provenance is
+recorded in `tests/corpus/negative.json`.
+
 The initial state uses LJ units, no box, atomic atom style, group `all`, no
 user fixes, and LAMMPS's three default thermo computes. ID inventories distinguish
 present, absent, and unknown, including an unknown fallback after a barrier.
