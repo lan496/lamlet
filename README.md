@@ -9,6 +9,12 @@ Legacy files remain unchanged. Commands outside Lamlet's partial schemas are
 accepted and reported as unverified. A successful check means no errors were
 detected, not that a simulation is physically meaningful or will run.
 
+## Start here
+
+- [The pitch](docs/pitch.md): a 30-second introduction and three-minute spoken pitch.
+- [The demo](demo/README.md): six verified CLI scenes and a standalone HTML presentation.
+- [Getting started](docs/getting-started.md): build an existing script, add units, and compile two stage instances.
+
 ## Build and use
 
 Install a stable Rust toolchain, then build the CLI:

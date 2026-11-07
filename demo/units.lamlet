@@ -1,0 +1,6 @@
+@let dt = 2 fs
+units metal
+timestep @{dt}
+@for steps in [0, 100] {
+    run @{steps}
+}

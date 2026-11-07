@@ -1,0 +1,19 @@
+# A small demonstration model, not a validated materials calculation.
+@module model {
+    @fn setup() requires [BoxDefined] ensures [ModelDefined] {
+        pair_style lj/cut 8.5
+        pair_coeff * * 0.0103 3.4
+    }
+}
+
+@stage sample(structure: InputFile, trajectory: OutputFile, temperature: Temperature) {
+    units metal
+    atom_style atomic
+    read_data @{structure} nocoeff
+    @call model.setup()
+    timestep @{2 fs}
+    velocity all create 85 190734
+    @fix thermostat all nvt temp @{temperature} @{temperature} @{100 fs}
+    @dump traj all custom 100 @{trajectory} id type x y z
+    run 200
+}

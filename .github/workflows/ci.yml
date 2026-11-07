@@ -22,6 +22,14 @@ jobs:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo build --release --locked
+      - run: python3 demo/run.py
+      - uses: actions/upload-artifact@v7
+        with:
+          name: lamlet-demo
+          path: |
+            target/demo/index.html
+            target/demo/report.json
+          if-no-files-found: error
       - run: python3 -m unittest discover -s tools -p 'test_*.py'
       - run: python3 tools/corpus.py fetch
       - run: python3 tools/corpus.py audit --inventory target/corpus/inventory.json
