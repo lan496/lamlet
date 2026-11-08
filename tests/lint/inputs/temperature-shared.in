@@ -1,0 +1,5 @@
+compute thermal all temp/com
+fix ensemble all nvt temp 300 300 0.1
+fix_modify ensemble temp thermal
+thermo_modify temp thermal
+run 10

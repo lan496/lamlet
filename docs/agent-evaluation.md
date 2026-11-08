@@ -402,6 +402,11 @@ after the A/C pilot and its archived replay. Those measurements describe the
 earlier binary identified in the pilot manifest. They do not measure the new
 rules or establish an improvement in agent performance.
 
+The separate [lint-condition evaluation](lint-evaluation.md) now records
+detection, false warnings, and Unknown outcomes on a fixed engineering corpus.
+Its labels and measurements concern selected diagnostic conditions, without
+assigning scientific correctness to the pilot submissions.
+
 The next implementation sequence is:
 
 1. Replay the released artifacts and audit a labeled subset. Preserve raw inputs

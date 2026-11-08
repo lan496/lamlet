@@ -1,0 +1,4 @@
+fix first all nve
+unfix first
+fix second all nvt temp 300 300 0.1
+run 10

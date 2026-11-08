@@ -1,0 +1,3 @@
+kspace_style pppm 1e-4
+neigh_modify exclude type ${type} 2
+run 0

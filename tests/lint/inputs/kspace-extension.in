@@ -1,0 +1,3 @@
+kspace_style extension/solver 1e-4
+neigh_modify exclude type 1 2
+run 0

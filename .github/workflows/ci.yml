@@ -47,6 +47,9 @@ jobs:
             target/demo/report.json
           if-no-files-found: error
       - run: python3 -m unittest discover -s tools -p 'test_*.py'
+      - run: python3 tools/lint_evaluation.py --baseline docs/assets/lint-evaluation/report.json
+      - run: python3 tools/lint_evaluation.py --report target/lint-evaluation/repeated.json
+      - run: cmp target/lint-evaluation/report.json target/lint-evaluation/repeated.json
       - run: python3 tools/corpus.py fetch
       - run: git fetch --depth 1 origin 0165101ce505734e8fb249694b22e295a7ab4182
         working-directory: target/corpus/sources/lammps
@@ -65,4 +68,5 @@ jobs:
             target/corpus/inventory.json
             target/evaluation/replay.json
             target/harbor-preview/C/preparation.json
+            target/lint-evaluation/report.json
           if-no-files-found: warn

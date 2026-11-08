@@ -1,0 +1,835 @@
+{
+  "case_count": 45,
+  "cases": [
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "averaging-boundary",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "The window equals the output frequency. Equality is allowed, so a strict less-than rule would be overbroad.",
+      "rule_id": "LML-MAN-AVE-TIME",
+      "sha256": "e689eda0a38bb059cc68be67c68251f91ec8a0a4cc81cdab77d2bf972be5f708"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-AVE-TIME"
+        ]
+      },
+      "id": "averaging-divisibility",
+      "label": "positive",
+      "mutation": {
+        "after": "ave/time 3 2 10",
+        "base": "averaging-spaced",
+        "before": "ave/time 2 2 10"
+      },
+      "rationale": "The window still fits, but 10 is not divisible by the new stride 3.",
+      "rule_id": "LML-MAN-AVE-TIME",
+      "sha256": "799c36d39953d4acf74674d4cbbf5b5cba8c4ee033b1a10362989300fbfd4eb5"
+    },
+    {
+      "expected": {
+        "outcomes": [],
+        "warnings": []
+      },
+      "id": "averaging-other-style",
+      "label": "out_of_scope",
+      "mutation": null,
+      "rationale": "For default ave one, ave/correlate requires (Nrepeat-1)*Nevery <= Nfreq. Here 10 <= 10 is valid, although the same counts would violate ave/time. The ave/time finding must be absent.",
+      "rule_id": "LML-MAN-AVE-TIME",
+      "sha256": "1a358832346a21c3df30b2f1065f1a6b6ea64511e20e76334d3f07c336983c43"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "averaging-runtime-repeat",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "The missing repeat count prevents deciding positivity or the window bound.",
+      "rule_id": "LML-MAN-AVE-TIME",
+      "sha256": "ac3e973044c87fe0378eae94b43beee89456c0665a2fe2644d07d258e5490f45"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "averaging-runtime-stride",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "The missing runtime stride prevents deciding divisibility or the window bound.",
+      "rule_id": "LML-MAN-AVE-TIME",
+      "sha256": "eed02f7479d72f5ffb02b03d10409d493dbc26e4f6b0b323fb4bcbe7614aeb09"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "averaging-spaced",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "All counts are positive, 10 is divisible by 2, and the four-step sampling window fits within ten steps.",
+      "rule_id": "LML-MAN-AVE-TIME",
+      "sha256": "c4b7f4fd7e3f978d52ef3afad7c50cdeabc2960c26819b6c315f32ef6041fde4"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-AVE-TIME"
+        ]
+      },
+      "id": "averaging-window",
+      "label": "positive",
+      "mutation": {
+        "after": "ave/time 2 6 10",
+        "base": "averaging-boundary",
+        "before": "ave/time 2 5 10"
+      },
+      "rationale": "The frequency remains divisible by the stride, but the twelve-step window exceeds ten steps.",
+      "rule_id": "LML-MAN-AVE-TIME",
+      "sha256": "b2756ba191b154f5dbb07b0a7e1fa026b264264168082f9cafd071c6d2b49082"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "drag-default",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "No drag keyword uses the documented zero default.",
+      "rule_id": "LML-MAN-NH-DRAG",
+      "sha256": "a7d992d74f54716675db29101a8b8e6c202c7908eab52021b734ad13f1da7ee1"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "drag-extension",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "The unreviewed option prevents identifying argument roles reliably.",
+      "rule_id": "LML-MAN-NH-DRAG",
+      "sha256": "39f087d2f4de51875617ef41985aac352142d274973d234948ca69b194e66543"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-NH-DRAG"
+        ]
+      },
+      "id": "drag-fractional",
+      "label": "positive",
+      "mutation": {
+        "after": "drag 0.1",
+        "base": "drag-zero",
+        "before": "drag 0"
+      },
+      "rationale": "A small positive drag still modifies nominal sampling; magnitude is not an exemption.",
+      "rule_id": "LML-MAN-NH-DRAG",
+      "sha256": "c3a45c37e38aef91126354f69d6cd120d96ae32b645534b351306ead0ecf0df8"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "drag-group-name",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "Here drag names the externally supplied dilate group, not a drag keyword.",
+      "rule_id": "LML-MAN-NH-DRAG",
+      "sha256": "f43e388093831885cb41840507f1eed16b3ebceba4d90a8b2d3b63fe9e1528d2"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-NH-DRAG"
+        ]
+      },
+      "id": "drag-nonzero",
+      "label": "positive",
+      "mutation": {
+        "after": "drag 1",
+        "base": "drag-zero",
+        "before": "drag 0"
+      },
+      "rationale": "Nonzero drag changes the nominal ensemble distribution. The advisory does not label the physical intent incorrect.",
+      "rule_id": "LML-MAN-NH-DRAG",
+      "sha256": "ce6d2b371098a909c5bdef43c83983cd75798608f825318ceccac37c385c4174"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "drag-runtime",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "The drag factor is not statically supplied.",
+      "rule_id": "LML-MAN-NH-DRAG",
+      "sha256": "8eac19d482c6a20ef08190beaf91ec4a12886e297fbacbc7503b26ae47d00124"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "drag-zero",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "A zero drag factor contributes no additional drag term.",
+      "rule_id": "LML-MAN-NH-DRAG",
+      "sha256": "a21f7654ff2b5a7be76e769a453383a8c6f92170fa600b5c1114242031099d37"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "integers-axis",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "The orient direction is the integer triple (1,0,0).",
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+      "sha256": "fb9e6856cdb3f6db60c7b5f84872e53dab7fa4ac773760fe0d0ae4d24756594d"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENT-INTEGERS"
+        ]
+      },
+      "id": "integers-decimal",
+      "label": "positive",
+      "mutation": {
+        "after": "orient x 1.5 0 0",
+        "base": "integers-axis",
+        "before": "orient x 1 0 0"
+      },
+      "rationale": "A nonintegral decimal component cannot specify an integer lattice direction.",
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+      "sha256": "40a4692ea1eccaee8da20b7d5aa32e41f1708596ea117a7bc0a221b7ab13183b"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "integers-extension",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "An unreviewed extension style may define different arguments; core lattice rules cannot establish validity.",
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+      "sha256": "f8316f50867568476d35c72dad9d0d3f0e3bf720ee910fcd7d5b27725981634f"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENT-INTEGERS"
+        ]
+      },
+      "id": "integers-fraction",
+      "label": "positive",
+      "mutation": {
+        "after": "orient x 0.8 0 0",
+        "base": "integers-axis",
+        "before": "orient x 1 0 0"
+      },
+      "rationale": "A fractional orient component violates the documented integer requirement.",
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+      "sha256": "26f63fd15945e0776d9e64c271fa977c4d649fb358c3f218ff0cb66053e43a0f"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "integers-primitive",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "Primitive vectors may have real and nonorthogonal components; the integer restriction concerns orient.",
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+      "sha256": "57ee970d9774246d8c711395727fbdd65fb42f1d6483e263b171360f1cb0a9bc"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "integers-runtime",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "The runtime expansion may be either integer or fractional; no value is supplied.",
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+      "sha256": "a83821b59289275091a47983ab9b67e40c377402dbfc187d988588a34471b0b5"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-001"
+        ]
+      },
+      "id": "integration-barostat",
+      "label": "positive",
+      "mutation": {
+        "after": "nph iso 0 0 1",
+        "base": "integration-langevin",
+        "before": "langevin 300 300 0.1 12345"
+      },
+      "rationale": "Replacing force-only Langevin with time-integrating nph makes both active fixes integrate all atoms.",
+      "rule_id": "LML-PHYS-001",
+      "sha256": "646c79293797f06a27c6be72d28433b4d598938371ba3ce839e8ad07a4607e9b"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-001"
+        ]
+      },
+      "id": "integration-duplicate",
+      "label": "positive",
+      "mutation": {
+        "after": "",
+        "base": "integration-sequential",
+        "before": "unfix first\n"
+      },
+      "rationale": "Both nve and nvt update the same nonempty all group during the positive run.",
+      "rule_id": "LML-PHYS-001",
+      "sha256": "57a71dca44163ebf5545c84f153066f25eae5b1de0d6ad63574ee7bf9aaeea82"
+    },
+    {
+      "expected": {
+        "outcomes": [],
+        "warnings": []
+      },
+      "id": "integration-langevin",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "Langevin modifies forces and requires an integrator; combining it with nve does not integrate twice.",
+      "rule_id": "LML-PHYS-001",
+      "sha256": "4541d1533e80e1753d89f91a85e256d91d4d4230fadbbbdd9f2eaaa7f5f0c8f0"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "integration-membership",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "The externally supplied left and right groups may overlap; their membership is unspecified.",
+      "rule_id": "LML-PHYS-001",
+      "sha256": "564936a6effde134d70b163fb6e90e3038efe42bf959483aa061e6d0cb35789c"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "integration-plugin",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "The unreviewed callback may change integration state; an ordinary overlap conclusion requires known effects.",
+      "rule_id": "LML-PHYS-001",
+      "sha256": "47659903bdd2354fb4f58a66eafdb780721a345a0964009d90eb0049a6849146"
+    },
+    {
+      "expected": {
+        "outcomes": [],
+        "warnings": []
+      },
+      "id": "integration-sequential",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "The first integrator is removed before the second is defined; no simultaneous duplicate exists.",
+      "rule_id": "LML-PHYS-001",
+      "sha256": "c4082e24925dfb7030b80fcf3b4e6bc4a4374d562feeaed1fcb542698c6209dc"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-KSPACE-EXCLUSIONS"
+        ]
+      },
+      "id": "kspace-active",
+      "label": "positive",
+      "mutation": {
+        "after": "",
+        "base": "kspace-cleared",
+        "before": "neigh_modify exclude none\n"
+      },
+      "rationale": "Removing the reset leaves excluded type pairs with active PPPM; the manual warns that long-range pair corrections are not provided by exclude.",
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS",
+      "sha256": "b786a51dd6fcfa0542970e8cfdfebabc03f2dc0fe8383abdbc5657e60a48f8f5"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "kspace-cleared",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "exclude none removes all exclusions before the execution boundary.",
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS",
+      "sha256": "da38b9d59cf39f97da0f040b45204dc1e81377b3f7ab2f38472b3fb7ba9ca552"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "kspace-disabled",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "No active long-range solver remains, so this particular warning condition is absent.",
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS",
+      "sha256": "691ea6d7976630e8a71820730ab967b93e3804fa3161ca30eaa36a3a06906a53"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-KSPACE-EXCLUSIONS"
+        ]
+      },
+      "id": "kspace-ewald",
+      "label": "positive",
+      "mutation": {
+        "after": "kspace_style ewald 1e-4",
+        "base": "kspace-disabled",
+        "before": "kspace_style none"
+      },
+      "rationale": "Activating Ewald while retaining excluded type pairs introduces the documented correction concern.",
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS",
+      "sha256": "a1b5e1ea8a666e6ca388ab8a85e1a4f00fef9aaffb242b4f2c82d2135e29d127"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "kspace-extension",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "An unreviewed solver need not use the Ewald or PPPM correction scheme.",
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS",
+      "sha256": "46014fbd6c2c2fac9bd8a852a059fac38f8aa7e5186eaef1666bdff0fbd627f0"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "kspace-runtime",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "An unresolved type expansion prevents establishing the final exclusions.",
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS",
+      "sha256": "eb99f3d1350257574b2bf1b7097ac0042d434fdadf870511429c7686f54c8da5"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-default",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "Default orientation is the right-handed identity basis.",
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+      "sha256": "456ec078775d0f52ed346d2b108807b3576797a899ff2d525c7e704e55270a15"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-large",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "The mathematical basis is orthogonal and right-handed, but its determinant exceeds checked i128 arithmetic. This is an explicit analysis limit, not a physical defect.",
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+      "sha256": "bd3e68f1c58f8b00145ae6a08800b62261c63f14918c10b45b60c571be8d7f48"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-last-option",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "The last x orientation restores the identity basis; earlier integer values do not set the final geometry.",
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+      "sha256": "dc2e10fd9cef8a3b2b1c5100625fa6dee71eb8986cf434145d2e00524ae3c01a"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENTATION"
+        ]
+      },
+      "id": "orientation-left-handed",
+      "label": "positive",
+      "mutation": {
+        "after": "lattice fcc 4.05 orient z 0 0 -1",
+        "base": "orientation-default",
+        "before": "lattice fcc 4.05"
+      },
+      "rationale": "The determinant changes from +1 to -1 while pairwise orthogonality is preserved.",
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+      "sha256": "18e94c297e4f740482f542bd1a1a6bf3a4cb8a31a31548c94ba7c11319e68157"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENTATION"
+        ]
+      },
+      "id": "orientation-oblique",
+      "label": "positive",
+      "mutation": {
+        "after": "orient y -2 4 0",
+        "base": "orientation-rotated",
+        "before": "orient y -3 4 0"
+      },
+      "rationale": "The modified x-y dot product is 4, so the final directions are not orthogonal.",
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+      "sha256": "1d32f203bc339f0415c72062dc67bdb87f6f5fbb84283f7c08a1cc5de6ab9f2b"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-rotated",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "The x-y dot product is zero and the determinant is 175, so the integer basis is right-handed.",
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+      "sha256": "45976a3f67ecfa2f492fd5297d6f9b1dc310af53099ba4a13650608c81ec5649"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-runtime",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "The unknown component controls orthogonality; no value is supplied.",
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+      "sha256": "3522dbe2e0c6e477de0e3d39eaa6b6e83286eeb9fa56a37b221116c2ed1bebdb"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-002"
+        ]
+      },
+      "id": "temperature-default-output",
+      "label": "positive",
+      "mutation": {
+        "after": "thermo_modify temp thermo_temp",
+        "base": "temperature-shared",
+        "before": "thermo_modify temp thermal"
+      },
+      "rationale": "The thermostat subtracts COM velocity while the default output temperature does not. Intentional differences remain allowed.",
+      "rule_id": "LML-PHYS-002",
+      "sha256": "15c1b3921ab92435c53ca5be082ab0f5e7158b8f1df1a105174fcaaabd94fe0b"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-002"
+        ]
+      },
+      "id": "temperature-distinct-bias",
+      "label": "positive",
+      "mutation": {
+        "after": "compute observed all temp",
+        "base": "temperature-equivalent",
+        "before": "compute observed all temp/com"
+      },
+      "rationale": "The displayed compute now uses a different velocity bias definition on the same group.",
+      "rule_id": "LML-PHYS-002",
+      "sha256": "62adb4df8b56b1bb040b5a41d066e04139b611520898d5186f879c153b59c5c7"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "temperature-equivalent",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "Different compute IDs with the same group and unmodified temp/com definition have equivalent modeled velocity bias.",
+      "rule_id": "LML-PHYS-002",
+      "sha256": "8f0162d69317d5d26f45119d86c9cd905262781a8e1cc1dc47ee70f540e6e4f3"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "temperature-extension",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "Partial-component temperature is a valid documented alternative but is outside the modeled temp and temp/com comparison.",
+      "rule_id": "LML-PHYS-002",
+      "sha256": "770ddf40f8cbf2a4c74ba63462af9996b1b3e84c12e0fb3ef5c31ff08a7e0341"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "temperature-modified",
+      "label": "unknown",
+      "mutation": null,
+      "rationale": "A compute_modify change alters a temperature definition outside this check's modeled policy.",
+      "rule_id": "LML-PHYS-002",
+      "sha256": "6917ff011cd9991f3a1588151b1f89f1c77ce50115dc5d14e4571ece69efa82c"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "temperature-shared",
+      "label": "negative",
+      "mutation": null,
+      "rationale": "Both thermostat and displayed temperature select the same COM-subtracted compute.",
+      "rule_id": "LML-PHYS-002",
+      "sha256": "3363effe60458462818bdfcde07bf7fa73b1ad53bf54c83a43882fc46a445daa"
+    }
+  ],
+  "manual_revision": "0165101ce505734e8fb249694b22e295a7ab4182",
+  "review": {
+    "independent_human_review": false,
+    "independent_of_checker_output": true,
+    "method": "Case labels were derived from pinned official-manual requirements and explicit integer arithmetic before executing the checker.",
+    "scope": "Constraint-specific command fragments with declared surrounding prerequisites, not runnable complete simulations. Positive advisory labels mean a documented review condition, not a scientific error."
+  },
+  "rules": {
+    "LML-MAN-AVE-TIME": {
+      "applicability": "Positive sampling intervals, Nfreq divisible by Nevery, and Nevery*Nrepeat <= Nfreq for ave/time.",
+      "kind": "constraint",
+      "sources": [
+        {
+          "path": "fix_ave_time.rst",
+          "sha256": "034028817518dfeb2f6f9139758a38f58000e66faea318a234681eeb811455f3",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/fix_ave_time.rst"
+        },
+        {
+          "path": "fix_ave_correlate.rst",
+          "sha256": "f5916069752fe52b4d874fef029555b26997c5292d94442175bcb7c98f790b34",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/fix_ave_correlate.rst"
+        }
+      ]
+    },
+    "LML-MAN-KSPACE-EXCLUSIONS": {
+      "applicability": "Active neighbor exclusions with reviewed Ewald or PPPM at execution require long-range correction review.",
+      "kind": "advisory",
+      "sources": [
+        {
+          "path": "neigh_modify.rst",
+          "sha256": "93efff503d9c425999a3ff2da5e3054082031f43ddd6119bde32cfed8b283670",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/neigh_modify.rst"
+        },
+        {
+          "path": "kspace_style.rst",
+          "sha256": "641ebaae7483fb41f6b04ef4e6e3d0d574dce0353f6cd9182be2219228f1bd61",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/kspace_style.rst"
+        }
+      ]
+    },
+    "LML-MAN-LATTICE-ORIENT-INTEGERS": {
+      "applicability": "Integer lexical directions in orient, distinct from real primitive vectors.",
+      "kind": "constraint",
+      "sources": [
+        {
+          "path": "lattice.rst",
+          "sha256": "ca564e5e56c894d8cd9439d347ab33e8aad997d927194c38e8580374ce95aadf",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/lattice.rst"
+        }
+      ]
+    },
+    "LML-MAN-LATTICE-ORIENTATION": {
+      "applicability": "Orthogonal, right-handed integer orient triples.",
+      "kind": "constraint",
+      "sources": [
+        {
+          "path": "lattice.rst",
+          "sha256": "ca564e5e56c894d8cd9439d347ab33e8aad997d927194c38e8580374ce95aadf",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/lattice.rst"
+        }
+      ]
+    },
+    "LML-MAN-NH-DRAG": {
+      "applicability": "Nonzero drag changes nominal Nose-Hoover sampling; intentional drag remains valid.",
+      "kind": "advisory",
+      "sources": [
+        {
+          "path": "fix_nh.rst",
+          "sha256": "4dc2494c1e863568486db21b9496a4bb3bf162b3f2a7eb0827833a0864be07e3",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/fix_nh.rst"
+        }
+      ]
+    },
+    "LML-PHYS-001": {
+      "applicability": "Ordinary integrators on known nonempty overlapping groups during a positive run; specialized schemes require review.",
+      "kind": "advisory",
+      "sources": [
+        {
+          "path": "fix_nve.rst",
+          "sha256": "0f2b352562a1e6754418ff50b925159964932bcc307dc1983dc247fbd1b40ff3",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/fix_nve.rst"
+        },
+        {
+          "path": "fix_nh.rst",
+          "sha256": "4dc2494c1e863568486db21b9496a4bb3bf162b3f2a7eb0827833a0864be07e3",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/fix_nh.rst"
+        },
+        {
+          "path": "fix_langevin.rst",
+          "sha256": "ba1e8a756c8471d01546107ac8210800e55108d4e4dd1829d0aebae8f8db5851",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/fix_langevin.rst"
+        }
+      ]
+    },
+    "LML-PHYS-002": {
+      "applicability": "Same-group thermostat and displayed temperature use known but different velocity bias definitions.",
+      "kind": "advisory",
+      "sources": [
+        {
+          "path": "compute_temp.rst",
+          "sha256": "98637a6b155b9d33242ca46c68d6be70bdabbcf5223b5b18f40ec71274e8b095",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/compute_temp.rst"
+        },
+        {
+          "path": "compute_temp_com.rst",
+          "sha256": "5f5cfc216059396c45467b91c8eec6f317d8c800fafd48b3f58454abfb5c266c",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/compute_temp_com.rst"
+        },
+        {
+          "path": "fix_modify.rst",
+          "sha256": "40c4cde9d5886307550d2b021a6b9a5fdfa1978da4d11ce93b43984f179b57e2",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/fix_modify.rst"
+        },
+        {
+          "path": "thermo_modify.rst",
+          "sha256": "12ead71e14028340147519a9eb402bceeb77f04c5aeb392f1e3c46fc9e0cbe94",
+          "source_url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/thermo_modify.rst"
+        }
+      ]
+    }
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,1544 @@
+{
+  "agent_trials": 0,
+  "binary": {
+    "sha256": "d9261a7998a85e4ec2c2ef5f42f900c28b231165ab20ecc17ba82ccf73ed172e",
+    "version": "lamlet-cli 0.1.0"
+  },
+  "by_rule": {
+    "LML-MAN-AVE-TIME": {
+      "cases": 7,
+      "detection": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "false_warning": {
+        "denominator": 2,
+        "numerator": 0,
+        "rate": 0.0
+      },
+      "legacy": {
+        "build_accepted": 7,
+        "byte_identical": 7,
+        "diagnostics_agree": 7,
+        "normal_accepted": 7,
+        "strict_accepted": 7
+      },
+      "not_evaluated": 1,
+      "passed": 7,
+      "unknown": {
+        "denominator": 7,
+        "numerator": 2,
+        "rate": 0.2857142857142857
+      },
+      "unknown_recognition": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "unknown_warned": 0
+    },
+    "LML-MAN-KSPACE-EXCLUSIONS": {
+      "cases": 6,
+      "detection": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "false_warning": {
+        "denominator": 2,
+        "numerator": 0,
+        "rate": 0.0
+      },
+      "legacy": {
+        "build_accepted": 6,
+        "byte_identical": 6,
+        "diagnostics_agree": 6,
+        "normal_accepted": 6,
+        "strict_accepted": 6
+      },
+      "not_evaluated": 0,
+      "passed": 6,
+      "unknown": {
+        "denominator": 6,
+        "numerator": 2,
+        "rate": 0.3333333333333333
+      },
+      "unknown_recognition": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "unknown_warned": 0
+    },
+    "LML-MAN-LATTICE-ORIENT-INTEGERS": {
+      "cases": 6,
+      "detection": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "false_warning": {
+        "denominator": 2,
+        "numerator": 0,
+        "rate": 0.0
+      },
+      "legacy": {
+        "build_accepted": 6,
+        "byte_identical": 6,
+        "diagnostics_agree": 6,
+        "normal_accepted": 6,
+        "strict_accepted": 6
+      },
+      "not_evaluated": 0,
+      "passed": 6,
+      "unknown": {
+        "denominator": 6,
+        "numerator": 2,
+        "rate": 0.3333333333333333
+      },
+      "unknown_recognition": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "unknown_warned": 0
+    },
+    "LML-MAN-LATTICE-ORIENTATION": {
+      "cases": 7,
+      "detection": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "false_warning": {
+        "denominator": 3,
+        "numerator": 0,
+        "rate": 0.0
+      },
+      "legacy": {
+        "build_accepted": 7,
+        "byte_identical": 7,
+        "diagnostics_agree": 7,
+        "normal_accepted": 7,
+        "strict_accepted": 7
+      },
+      "not_evaluated": 0,
+      "passed": 7,
+      "unknown": {
+        "denominator": 7,
+        "numerator": 2,
+        "rate": 0.2857142857142857
+      },
+      "unknown_recognition": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "unknown_warned": 0
+    },
+    "LML-MAN-NH-DRAG": {
+      "cases": 7,
+      "detection": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "false_warning": {
+        "denominator": 3,
+        "numerator": 0,
+        "rate": 0.0
+      },
+      "legacy": {
+        "build_accepted": 7,
+        "byte_identical": 7,
+        "diagnostics_agree": 7,
+        "normal_accepted": 7,
+        "strict_accepted": 7
+      },
+      "not_evaluated": 0,
+      "passed": 7,
+      "unknown": {
+        "denominator": 7,
+        "numerator": 2,
+        "rate": 0.2857142857142857
+      },
+      "unknown_recognition": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "unknown_warned": 0
+    },
+    "LML-PHYS-001": {
+      "cases": 6,
+      "detection": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "false_warning": {
+        "denominator": 2,
+        "numerator": 0,
+        "rate": 0.0
+      },
+      "legacy": {
+        "build_accepted": 6,
+        "byte_identical": 6,
+        "diagnostics_agree": 6,
+        "normal_accepted": 6,
+        "strict_accepted": 6
+      },
+      "not_evaluated": 2,
+      "passed": 6,
+      "unknown": {
+        "denominator": 6,
+        "numerator": 2,
+        "rate": 0.3333333333333333
+      },
+      "unknown_recognition": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "unknown_warned": 0
+    },
+    "LML-PHYS-002": {
+      "cases": 6,
+      "detection": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "false_warning": {
+        "denominator": 2,
+        "numerator": 0,
+        "rate": 0.0
+      },
+      "legacy": {
+        "build_accepted": 6,
+        "byte_identical": 6,
+        "diagnostics_agree": 6,
+        "normal_accepted": 6,
+        "strict_accepted": 6
+      },
+      "not_evaluated": 0,
+      "passed": 6,
+      "unknown": {
+        "denominator": 6,
+        "numerator": 2,
+        "rate": 0.3333333333333333
+      },
+      "unknown_recognition": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "unknown_warned": 0
+    }
+  },
+  "cases": [
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "averaging-boundary",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "93d0735caf135f8bdbb947ff78f416e4e3e9ec62578397b92a3c1efa34f3a2b1",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-AVE-TIME"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-AVE-TIME"
+        ]
+      },
+      "id": "averaging-divisibility",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "d35d54e4c89956e82d7de67033257e7f5ba4880c645e15bb85da4176574a28ee",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-AVE-TIME"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-AVE-TIME"
+    },
+    {
+      "expected": {
+        "outcomes": [],
+        "warnings": []
+      },
+      "id": "averaging-other-style",
+      "label": "out_of_scope",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "ca1a37913761605dd74214fea75efb017b389ab24f096d7aca1f08ef8339d55c",
+        "errors": [],
+        "outcomes": [],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-AVE-TIME"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "averaging-runtime-repeat",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "e27e471b3409976ee0239b140e88eedb11b8518ea67e96c2385377244ce1927f",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-AVE-TIME"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "averaging-runtime-stride",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "d98bf5b44e0a321f77a2e6dc57eb1126323e884eddccfc415251df33ec51f490",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-AVE-TIME"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "averaging-spaced",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "a62eb1a18d769a61e5a54988ffed43665bfc9a7cc91b26187077869ee524c9bd",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-AVE-TIME"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-AVE-TIME"
+        ]
+      },
+      "id": "averaging-window",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "a4ebd7e8da88d8eca7ebcca221b07c3227d68ad028975f0fffbb7ee36c8d0e4b",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-AVE-TIME"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-AVE-TIME"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "drag-default",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "924f1195ba806df0ee31e82348c5e7998b6e2eb08a7f751d6853cade26533831",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-NH-DRAG"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "drag-extension",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "411d261094ae2e2801a78bb04364d0c9cf26d8a916ff70344ae488c8d454e1b3",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-NH-DRAG"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-NH-DRAG"
+        ]
+      },
+      "id": "drag-fractional",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "7f6144fc5e244025b8fec498e3a8cc9677e71bff8c584761e2da6f00c0d1753b",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-NH-DRAG"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-NH-DRAG"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "drag-group-name",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "918787c0631d0bb7b9707714d242c65bf165c06e28082d460c2f2b0743443a75",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-NH-DRAG"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-NH-DRAG"
+        ]
+      },
+      "id": "drag-nonzero",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "40026c92cdcd1b0b1f391a3feb895119f970cba83883928b80bee3cf68c46893",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-NH-DRAG"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-NH-DRAG"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "drag-runtime",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "78957a275b45affb44e6075ca6af2ffea8cd4c3c16c3996790b1004ebb3a72f4",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-NH-DRAG"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "drag-zero",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "6f16bd051512953cc2c1321e6025f21c8b1cf36ec58f27343df0adcf02696b7c",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-NH-DRAG"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "integers-axis",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "74c1f47e50a15de3c7cafaafc03c2c834ad39c12ac3dca8820247a9abda94617",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENT-INTEGERS"
+        ]
+      },
+      "id": "integers-decimal",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "bcbed544e61f49a20b47d0c7d53abf6d505971b84cc7a9d0b4003dc037b5c5a0",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENT-INTEGERS"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "integers-extension",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "1da656378a7c1e393519bbd162278f9bd240ce81a8fc1d37ddc64d53c0f6e516",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENT-INTEGERS"
+        ]
+      },
+      "id": "integers-fraction",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "f804fcc76646081771455e85e54b34d056724f294162ead62da4f4eb4fa57168",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENT-INTEGERS"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "integers-primitive",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "cb628b25cf3b33e96e618d9ae85a886586150958bca5d0d452082b27770c8671",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "integers-runtime",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "0cc6266b0aac29c83f81e4b64581b062441b6d01afdb66743f21179942ce5064",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-001"
+        ]
+      },
+      "id": "integration-barostat",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "8418810ccded5aef2bec47382d7584bb5e00d9cd5264696f81b4ca3b0b78c510",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-001"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-001"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-001"
+        ]
+      },
+      "id": "integration-duplicate",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "a88e5c8203b3531ed41b9878130ad047785995d780b21ff417d6439c412ac607",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-001"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-001"
+    },
+    {
+      "expected": {
+        "outcomes": [],
+        "warnings": []
+      },
+      "id": "integration-langevin",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "a03b5ab7d7bcca9724c74fadcb0b3cb2c432dc5e76ed5ba720f4e9c63833af81",
+        "errors": [],
+        "outcomes": [],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-001"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "integration-membership",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "a16e3fe8eb2bb46018d71cb497365f39ff1c2370d65c538d192aeeffbc328ba1",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-001"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "integration-plugin",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "91e88f4775bf5c26409b1e22d422113ba393cde3972a8e3dd519739bd43af46a",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-001"
+    },
+    {
+      "expected": {
+        "outcomes": [],
+        "warnings": []
+      },
+      "id": "integration-sequential",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "9bb39105d9c37464bf2115e6ecd9cf1a5efe1489671c9f5a2bf0d89774689e23",
+        "errors": [],
+        "outcomes": [],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-001"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-KSPACE-EXCLUSIONS"
+        ]
+      },
+      "id": "kspace-active",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "538647264bab03f1e0d3b30c5df7da6592809351b61b5c40185f05efbd357933",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-KSPACE-EXCLUSIONS"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "kspace-cleared",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "992a974d9e2f22be42b60584b4fc91249af4f4be310718105c4745f4065bc2fa",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "kspace-disabled",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "e0c8eafe1d4ea12890209e938a9f81fc1a5ec80b483af67285fc8a9762458e4a",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-KSPACE-EXCLUSIONS"
+        ]
+      },
+      "id": "kspace-ewald",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "97083ef5d9b5711e1cd83be9582bad8fa452e286cfd27bd7161f01d4dbfde7c3",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-KSPACE-EXCLUSIONS"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "kspace-extension",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "7da8de841088c73931754059588ffe815adde1d0a40b3934768e69dd21065e2c",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "kspace-runtime",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "56e9833b37d59b21213b78b040382f272b61cb27a9c21967ee1914868b07b635",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-KSPACE-EXCLUSIONS"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-default",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "3227c71eeba260d5ac78e37528be69f1e4dfe546e73ef588445e08295ff66895",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-large",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "8596b4fbde9e80b8ebd0afd2c690226873da0e372d6b71f39cafb8a58145e5be",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-last-option",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "5990c157ab5e212cf71bf0dc04760e4cf5cda4cf499f065bced1425fb0ca4d39",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENTATION"
+        ]
+      },
+      "id": "orientation-left-handed",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "0180d8cb48ee1e3c25f85acea57684d6c3f0e578e17b6763d4215a0d1e25a1ff",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENTATION"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENTATION"
+        ]
+      },
+      "id": "orientation-oblique",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "906e20bbb7eb242b2326f2a81192488d8085e12a69eea6a8c30ff12bcf63e892",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENTATION"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-rotated",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "bbe75da1270a7130203f9affc5e0452659984266367c058709a26f253dc182e2",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "orientation-runtime",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "0f6cd583a90b329ca950796d83d0578dfb730014edf4f298fec6f7cc98696196",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-MAN-LATTICE-ORIENTATION"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-002"
+        ]
+      },
+      "id": "temperature-default-output",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "94730b81d8ce1d473f365ee3236d06e525f946d4c5ca2de5829c614b24ed09cb",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-002"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-002"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-002"
+        ]
+      },
+      "id": "temperature-distinct-bias",
+      "label": "positive",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "3eddf7aa2a1ba634cdf8acc88654436c6ec873c1834152b82737b527b407a42c",
+        "errors": [],
+        "outcomes": [
+          "violated"
+        ],
+        "warnings": [
+          "LML-PHYS-002"
+        ]
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-002"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "temperature-equivalent",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "b00c78bfbb5e81273a9420d2aec9799006e49ee719f4fe5fd9e86ecfaef284d9",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-002"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "temperature-extension",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "4a2639f86bb7c82804bd1d99debfd6f0237ff8b28f33ded28bce8aae318a878b",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-002"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "id": "temperature-modified",
+      "label": "unknown",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "00f97da729599860ccb50fa25cc3f1ee3647c3f88592e1b9a52d3f52845d3687",
+        "errors": [],
+        "outcomes": [
+          "unknown"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-002"
+    },
+    {
+      "expected": {
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "id": "temperature-shared",
+      "label": "negative",
+      "legacy": {
+        "build_accepted": true,
+        "byte_identical": true,
+        "diagnostics_agree": true,
+        "normal_accepted": true,
+        "strict_accepted": true
+      },
+      "observed": {
+        "diagnostics_sha256": "77d4582eb8df44a6eeaa19547000a657fcbbfe3b3105ad99f02fe24bf2a44228",
+        "errors": [],
+        "outcomes": [
+          "satisfied"
+        ],
+        "warnings": []
+      },
+      "passed": true,
+      "rule_id": "LML-PHYS-002"
+    }
+  ],
+  "corpus_sha256": "9cc6acce877677ded13d0ea56a4bd2072e790071326d38949a25e62590e37060",
+  "experiment": "lint_condition_mutations",
+  "lammps_launches": 0,
+  "manual_revision": "0165101ce505734e8fb249694b22e295a7ab4182",
+  "schema_version": 1,
+  "scientific_correctness": null,
+  "selection": {
+    "case": null,
+    "complete": true
+  },
+  "summary": {
+    "cases": 45,
+    "detection": {
+      "denominator": 14,
+      "numerator": 14,
+      "rate": 1.0
+    },
+    "false_warning": {
+      "denominator": 16,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "legacy": {
+      "build_accepted": 45,
+      "byte_identical": 45,
+      "diagnostics_agree": 45,
+      "normal_accepted": 45,
+      "strict_accepted": 45
+    },
+    "not_evaluated": 3,
+    "passed": 45,
+    "unknown": {
+      "denominator": 45,
+      "numerator": 14,
+      "rate": 0.3111111111111111
+    },
+    "unknown_recognition": {
+      "denominator": 14,
+      "numerator": 14,
+      "rate": 1.0
+    },
+    "unknown_warned": 0
+  }
+}
