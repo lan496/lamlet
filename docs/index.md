@@ -19,6 +19,7 @@ structured diagnostics before execution.
 <div class="lamlet-actions" markdown>
 
 [Get started](getting-started.md){ .md-button .md-button--primary }
+[Gallery](gallery.md)
 [32s demo](demo.md)
 [CLI reference](reference.md)
 [GitHub](https://github.com/lan496/lamlet)
