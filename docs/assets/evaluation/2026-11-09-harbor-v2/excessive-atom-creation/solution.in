@@ -1,0 +1,31 @@
+# P3 reference, protocol v1. Gap means initial outermost atomic-plane distance.
+units metal
+atom_style atomic
+boundary p p s
+variable a equal 3.3079
+lattice bcc ${a}
+region box block 0 20 0 20 -10 1000 units lattice
+create_box 1 box
+# Exclude the upper boundary plane to obtain exactly 2*Nx*Ny*Nz atoms.
+region target_region block 0 20 0 20 0 999.999999 units lattice
+region projectile_region block 0 20 0 20 60 79.999999 units lattice
+create_atoms 1 region target_region
+create_atoms 1 region projectile_region
+group target region target_region
+group projectile region projectile_region
+variable shift equal 39.5*v_a+15-60*v_a
+displace_atoms projectile move 0 0 ${shift} units box
+mass 1 92.90638
+pair_style eam/alloy
+pair_coeff * * /app/inputs/prompt3.potential Nb
+neighbor 2.0 bin
+neigh_modify delay 0 every 1 check yes
+velocity all create 300 381729 mom yes rot no dist gaussian
+timestep 0.001
+fix equilibrate all nvt temp 300 300 0.1
+thermo 1000
+run 100000
+unfix equilibrate
+velocity projectile set 0 0 -20 sum yes units box
+fix impact all nve
+run 100000

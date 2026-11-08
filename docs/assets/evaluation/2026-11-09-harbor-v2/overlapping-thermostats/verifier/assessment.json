@@ -1,0 +1,115 @@
+{
+  "oracle": {
+    "criteria": {
+      "adiabatic_integration": {
+        "evidence": [
+          "Requested impact integration fixes: [[['all', 'nvt', 'temp', '300', '300', '0.1'], ['target', 'nvt', 'temp', '300', '300', '0.1']], [['all', 'nve']]]; smoke steps only"
+        ],
+        "status": "fail"
+      },
+      "boundaries": {
+        "evidence": [
+          "LAMMPS periodic flags: [1, 1, 0]"
+        ],
+        "status": "pass"
+      },
+      "equilibration": {
+        "evidence": [
+          "Requested NVT schedule covering every atom exactly once at 300 K: 0 ps; full equilibration not executed"
+        ],
+        "status": "fail"
+      },
+      "gap": {
+        "evidence": [
+          "Initial outermost-plane separation = 15 Angstrom; required 15 +/- 1e-6"
+        ],
+        "status": "pass"
+      },
+      "groups": {
+        "evidence": [
+          "Require disjoint 16000-atom projectile and 32000-atom target groups covering all atoms"
+        ],
+        "status": "pass"
+      },
+      "impact_velocity": {
+        "evidence": [
+          "Relative COM velocity increment = 0, 0, -20 Angstrom/ps; required [0, 0, -20]"
+        ],
+        "status": "pass"
+      },
+      "potential": {
+        "evidence": [
+          "Pinned EAM/alloy Nb file; smoke-run potential energies: [-337654.5796191025, -337634.6997295839] eV"
+        ],
+        "status": "pass"
+      },
+      "structure": {
+        "evidence": [
+          "BCC site occupancy, [100]/[010]/[001], cells 20x20x20 and 20x20x40; a=3.3079 Angstrom"
+        ],
+        "status": "pass"
+      },
+      "thermal_velocity_retained": {
+        "evidence": [
+          "Maximum per-atom error from uniform projectile velocity addition = 0; pre-impact thermal variance = 8.06799852"
+        ],
+        "status": "pass"
+      }
+    },
+    "execution": {
+      "engine_version": 20260931,
+      "full_equilibration_executed": false,
+      "max_atoms": 100000,
+      "max_box_sites": 5000000,
+      "mode": "instrumented_smoke",
+      "runs": [
+        {
+          "dt_ps": 0.001,
+          "fixes": [
+            [
+              "all",
+              "nvt",
+              "temp",
+              "300",
+              "300",
+              "0.1"
+            ],
+            [
+              "target",
+              "nvt",
+              "temp",
+              "300",
+              "300",
+              "0.1"
+            ]
+          ],
+          "pe_eV": -337654.5796191025,
+          "smoke_steps": 2,
+          "steps": 100000
+        },
+        {
+          "dt_ps": 0.001,
+          "fixes": [
+            [
+              "all",
+              "nve"
+            ]
+          ],
+          "pe_eV": -337634.6997295839,
+          "smoke_steps": 2,
+          "steps": 100000
+        }
+      ]
+    },
+    "oracle_version": "p3-protocol-v2",
+    "schema_version": 1,
+    "submission_sha256": "4e383b991bda2184c4e5797533c28de83470ee64ff12b8108bd8268c74787bc6",
+    "task": "P3"
+  },
+  "oracle_sha256": "8cfb4e804a4e897c635d1d76d3d1baf2fe7402065fc3711ff1b3c037eca1c338",
+  "reward": 0,
+  "schema_version": 1,
+  "scientific_status": "incorrect",
+  "submission_sha256": "4e383b991bda2184c4e5797533c28de83470ee64ff12b8108bd8268c74787bc6",
+  "task": "P3"
+}

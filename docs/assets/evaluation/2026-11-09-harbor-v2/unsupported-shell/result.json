@@ -1,0 +1,121 @@
+{
+    "id": "365c0920-b05f-48a0-be45-f21aa8c603e9",
+    "task_name": "nb-impact",
+    "trial_name": "nb-impact__bthdh9e",
+    "trial_uri": "file:///Users/shinohara/sandbox/lamlet/target/p3-harbor/protocol-v2-20261109/unsupported-shell/jobs/admission/nb-impact__bthdh9e",
+    "task_id": {
+        "path": "/Users/shinohara/sandbox/lamlet/target/p3-harbor/protocol-v2-20261109/unsupported-shell/tasks/nb-impact"
+    },
+    "source": "tasks",
+    "task_checksum": "1f0e6d2d7420d6171303691e1158ea677b40a8908f86179516671b49c2e649e8",
+    "config": {
+        "task": {
+            "path": "/Users/shinohara/sandbox/lamlet/target/p3-harbor/protocol-v2-20261109/unsupported-shell/tasks/nb-impact",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "tasks"
+        },
+        "trial_name": "nb-impact__bthdh9e",
+        "trials_dir": "/Users/shinohara/sandbox/lamlet/target/p3-harbor/protocol-v2-20261109/unsupported-shell/jobs/admission",
+        "install_only": false,
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "oracle",
+            "import_path": null,
+            "model_name": null,
+            "base_url": null,
+            "model_api_key_name": null,
+            "model_api_format": null,
+            "skip_model_parsing": false,
+            "n_concurrent": null,
+            "concurrency_group": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "resume_trajectory": false,
+            "load_trajectory": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {},
+            "mcp_servers": []
+        },
+        "user_agent": null,
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "stream": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "kwargs": {},
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "extra_instructions": [],
+        "job_id": "06403793-c0a3-4469-83ac-8a8a60c443b7",
+        "source_trial": null
+    },
+    "agent_info": {
+        "name": "oracle",
+        "version": "1.0.0",
+        "model_info": null
+    },
+    "agent_result": {
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null,
+        "model_usage": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": null,
+    "verifier_environment_mode": "separate",
+    "exception_info": {
+        "exception_type": "RewardFileNotFoundError",
+        "exception_message": "No reward file found at /Users/shinohara/sandbox/lamlet/target/p3-harbor/protocol-v2-20261109/unsupported-shell/jobs/admission/nb-impact__bthdh9e/verifier/reward.txt or /Users/shinohara/sandbox/lamlet/target/p3-harbor/protocol-v2-20261109/unsupported-shell/jobs/admission/nb-impact__bthdh9e/verifier/reward.json",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/Users/shinohara/sandbox/lamlet/target/uv-cache/archive-v0/kc_6ztFL-FJlUT5o/lib/python3.12/site-packages/harbor/trial/trial.py\", line 609, in run\n    await self._run()\n  File \"/Users/shinohara/sandbox/lamlet/target/uv-cache/archive-v0/kc_6ztFL-FJlUT5o/lib/python3.12/site-packages/harbor/trial/single_step.py\", line 51, in _run\n    await self._run_verifier()\n  File \"/Users/shinohara/sandbox/lamlet/target/uv-cache/archive-v0/kc_6ztFL-FJlUT5o/lib/python3.12/site-packages/harbor/trial/single_step.py\", line 98, in _run_verifier\n    self.result.verifier_result = await self._run_separate_verifier(\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/shinohara/sandbox/lamlet/target/uv-cache/archive-v0/kc_6ztFL-FJlUT5o/lib/python3.12/site-packages/harbor/trial/trial.py\", line 1081, in _run_separate_verifier\n    return await self._verify_with_timeout(verifier, timeout_sec)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/shinohara/sandbox/lamlet/target/uv-cache/archive-v0/kc_6ztFL-FJlUT5o/lib/python3.12/site-packages/harbor/trial/trial.py\", line 974, in _verify_with_timeout\n    return await asyncio.wait_for(verifier.verify(), timeout=timeout_sec)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/shinohara/.local/share/mise/installs/python/3.12.16/lib/python3.12/asyncio/tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/Users/shinohara/sandbox/lamlet/target/uv-cache/archive-v0/kc_6ztFL-FJlUT5o/lib/python3.12/site-packages/harbor/verifier/verifier.py\", line 304, in verify\n    raise RewardFileNotFoundError(\nharbor.verifier.verifier.RewardFileNotFoundError: No reward file found at /Users/shinohara/sandbox/lamlet/target/p3-harbor/protocol-v2-20261109/unsupported-shell/jobs/admission/nb-impact__bthdh9e/verifier/reward.txt or /Users/shinohara/sandbox/lamlet/target/p3-harbor/protocol-v2-20261109/unsupported-shell/jobs/admission/nb-impact__bthdh9e/verifier/reward.json\n",
+        "occurred_at": "2026-11-08T22:41:59.131860Z"
+    },
+    "started_at": "2026-11-08T22:41:31.514217Z",
+    "finished_at": "2026-11-08T22:41:59.132513Z",
+    "environment_setup": {
+        "started_at": "2026-11-08T22:41:31.595609Z",
+        "finished_at": "2026-11-08T22:41:33.119614Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-11-08T22:41:33.119691Z",
+        "finished_at": "2026-11-08T22:41:33.119745Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-11-08T22:41:33.119840Z",
+        "finished_at": "2026-11-08T22:41:33.369636Z"
+    },
+    "verifier": {
+        "started_at": "2026-11-08T22:41:43.927971Z",
+        "finished_at": "2026-11-08T22:41:59.129181Z"
+    },
+    "step_results": null
+}
