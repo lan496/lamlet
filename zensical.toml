@@ -31,6 +31,7 @@ nav = [
   { "About" = [
     { "Programming model" = "programming-model.md" },
     { "Compatibility evaluation" = "corpus.md" },
+    { "Processing benchmarks" = "performance.md" },
     { "Agent evaluation" = "agent-evaluation.md" },
     { "P3 pilot" = "p3-pilot.md" },
   ] },

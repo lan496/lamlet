@@ -1,0 +1,9 @@
+# Exact environment for the 2026-11-08 processing benchmark.
+colorama==0.4.6
+graphviz==0.21
+lark-parser==0.12.0
+pydot==4.0.1
+pyparsing==3.3.3
+simpleeval==1.0.8
+six==1.17.0
+zss==1.2.0

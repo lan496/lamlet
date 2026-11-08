@@ -6,7 +6,10 @@ use crate::{
     syntax::Command,
 };
 use serde::{Deserialize, Serialize};
-use std::{collections::BTreeMap, sync::OnceLock};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    sync::OnceLock,
+};
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -151,6 +154,27 @@ pub fn catalog() -> &'static Catalog {
         serde_json::from_str(include_str!("../data/manual_rules.json"))
             .expect("checked-in manual rule catalog must be valid")
     })
+}
+
+fn rules_for(name: &str) -> &'static [&'static Rule] {
+    static INDEX: OnceLock<BTreeMap<&'static str, Vec<&'static Rule>>> = OnceLock::new();
+    INDEX
+        .get_or_init(|| {
+            let mut index: BTreeMap<_, Vec<_>> = BTreeMap::new();
+            for rule in &catalog().rules {
+                for command in rule
+                    .selectors
+                    .iter()
+                    .map(|selector| selector.command.as_str())
+                    .collect::<BTreeSet<_>>()
+                {
+                    index.entry(command).or_default().push(rule);
+                }
+            }
+            index
+        })
+        .get(name)
+        .map_or(&[], Vec::as_slice)
 }
 
 fn literal(command: &Command, position: usize) -> Option<&str> {
@@ -408,7 +432,8 @@ impl Engine {
         command: &Command,
         diagnostics: &mut Vec<Diagnostic>,
     ) {
-        for rule in &catalog().rules {
+        let name = command.arguments.first().map_or("", |a| a.text.as_str());
+        for rule in rules_for(name) {
             if !rule
                 .selectors
                 .iter()
