@@ -74,6 +74,10 @@ def build(args):
     report = {"schema_version": 1, "condition": "A", "task": "P3", "images": images,
               "local_image_tags": local_tags, "lammps_commit": pin, "task_directory": str(task),
               "ready_for_model_trials": False, "scope": "local reference admission"}
+    report["files"] = {str(path.relative_to(args.output)): hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in sorted(task.rglob("*")) if path.is_file()}
+    for name in ("Dockerfile", "p3_oracle.py"):
+        report["files"]["context/" + name] = hashlib.sha256((context / name).read_bytes()).hexdigest()
     write_json(args.output / "images.json", report)
     print(json.dumps(report, indent=2, sort_keys=True))
 
