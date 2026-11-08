@@ -14,13 +14,14 @@ hide:
 
 <div markdown>
 
-<span class="lamlet-eyebrow">Physical quantities. Explicit resources.</span>
+<span class="lamlet-eyebrow">Existing scripts. Explicit contracts.</span>
 
-# LAMMPS inputs,<br>with *units attached*. { .lamlet-headline }
+# Make LAMMPS workflows<br>*explicit and checkable*. { .lamlet-headline }
 
-Put `2 fs` in your source. Lamlet checks the dimension and emits `0.002` for
-LAMMPS metal units. Add typed paths, managed resources, and independent stages
-to the scripts you already use.
+Keep your existing LAMMPS scripts. Make units, file dependencies, resource
+lifetimes, and calculation stages explicit, then check them before execution.
+Lamlet compiles to ordinary LAMMPS and gives researchers and coding agents
+structured diagnostics.
 { .lamlet-lead }
 
 <div class="lamlet-actions" markdown>
@@ -34,7 +35,7 @@ to the scripts you already use.
 </div>
 
 <aside class="lamlet-measure" aria-label="A time quantity of 2 femtoseconds compiles to 0.002 picoseconds in metal units">
-  <p class="lamlet-caption">Source / Time</p>
+  <p class="lamlet-caption">One compiler check / Time</p>
   <p class="lamlet-measure-value"><span>2</span> fs</p>
   <hr>
   <p class="lamlet-caption">LAMMPS / units metal</p>

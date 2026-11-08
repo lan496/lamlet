@@ -1,6 +1,6 @@
 [project]
 site_name = "Lamlet"
-site_description = "Physical units, checked resources, and structured simulation code for LAMMPS."
+site_description = "Explicit, checkable simulation workflows for LAMMPS."
 site_url = "https://lan496.github.io/lamlet/"
 repo_url = "https://github.com/lan496/lamlet"
 repo_name = "lan496/lamlet"

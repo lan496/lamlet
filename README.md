@@ -1,11 +1,11 @@
 # Lamlet
 
-**Physical units, checked resources, and structured code for LAMMPS.**
+**Explicit, checkable simulation workflows for LAMMPS.**
 
-Lamlet is a compiler and static checker written in Rust. It turns `2 fs` into
-the right LAMMPS number, checks typed file dependencies, manages resource
-lifetimes, and returns deterministic JSON diagnostics for editors and coding agents.
-It emits ordinary LAMMPS scripts.
+Lamlet is a compiler and static checker written in Rust. It brings explicit
+units, file dependencies, resource lifetimes, and stage contracts to existing
+LAMMPS scripts. It emits ordinary LAMMPS scripts and deterministic JSON
+diagnostics for editors and coding agents.
 
 [Documentation](docs/index.md) · [Quickstart](docs/getting-started.md) · [CLI reference](docs/reference.md) · [Design and limits](docs/design.md)
 
