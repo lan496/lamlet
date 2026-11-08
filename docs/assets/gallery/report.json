@@ -1,0 +1,86 @@
+{
+  "cases": [
+    {
+      "diagnostics": {
+        "errors": 0,
+        "unknowns": 25,
+        "warnings": 0
+      },
+      "id": "temperature-sweep",
+      "lamlet": {
+        "characters": 458,
+        "code_lines": 15,
+        "sha256": "baec123864a93d262c923ac5c55a0fc66aa633a2afacd8c60f8d80eb64c5f0f0"
+      },
+      "lammps": {
+        "characters": 1165,
+        "code_lines": 45,
+        "sha256": "c0eaf4c60539cac52c4c12e9f9d75eebbee6e5133b5809d21d8cadf49a01c4ee"
+      },
+      "title": "Five temperatures, one recipe"
+    },
+    {
+      "diagnostics": {
+        "errors": 0,
+        "unknowns": 20,
+        "warnings": 0
+      },
+      "id": "reusable-phase",
+      "lamlet": {
+        "characters": 514,
+        "code_lines": 17,
+        "sha256": "664852e28bea3cc330c60454ecfa86243a907bc853d7b3dcba2850205b571766"
+      },
+      "lammps": {
+        "characters": 620,
+        "code_lines": 29,
+        "sha256": "7ac2c867b9d7574220ba90c0b6abe945f7b6addac9dee79ceec6e11e003c1010"
+      },
+      "title": "One operation, four typed calls"
+    },
+    {
+      "diagnostics": {
+        "errors": 0,
+        "unknowns": 10,
+        "warnings": 0
+      },
+      "id": "resource-lifetimes",
+      "lamlet": {
+        "characters": 300,
+        "code_lines": 12,
+        "sha256": "f35f92e59dd9fb482bdaca3e8d406cfc4f239b479a88b88cb6ec69c7da30a3fa"
+      },
+      "lammps": {
+        "characters": 309,
+        "code_lines": 13,
+        "sha256": "9f7e2ce1181e8659bb6f7d4c3dfad7b0311f183c6aa7c8d6a167fe39603622d5"
+      },
+      "title": "Three resources, one scope"
+    },
+    {
+      "diagnostics": {
+        "errors": 0,
+        "unknowns": 4,
+        "warnings": 0
+      },
+      "id": "explicit-units",
+      "lamlet": {
+        "characters": 150,
+        "code_lines": 7,
+        "sha256": "e886ea88703043990b068fb6336145856864a917c10dec8673c8f9111e6fcbe1"
+      },
+      "lammps": {
+        "characters": 135,
+        "code_lines": 6,
+        "sha256": "b3c0b9a9b347a407985cc7f076f7e1ad0f0bc4d5f56e532d3ad2b9769429d01a"
+      },
+      "title": "Units make intent explicit"
+    }
+  ],
+  "method": {
+    "characters": "Unicode characters including whitespace and final newlines",
+    "code_lines": "Nonblank lines excluding full-line comments; all declarations and braces included",
+    "execution": "Compiler only; LAMMPS not executed"
+  },
+  "schema_version": 1
+}

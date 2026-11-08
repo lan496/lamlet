@@ -103,6 +103,7 @@ html .md-typeset .admonition, html .md-typeset details {
 .lamlet-code-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--lamlet-space-4); }
 .lamlet-code-pair > div, .lamlet-details > section { min-width: 0; }
 .lamlet-code-pair .highlight { margin: 0; }
+.lamlet-gallery-summary td:first-child { min-width: 13rem; }
 .lamlet-example-note { margin: var(--lamlet-space-2) 0 var(--lamlet-space-4); color: var(--lamlet-color-muted); font-size: var(--lamlet-type-label); }
 .lamlet-details { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: var(--lamlet-space-6); border-top: var(--lamlet-rule) solid var(--lamlet-color-rule-strong); }
 .lamlet-details > section > h2 { margin: var(--lamlet-space-4) 0 var(--lamlet-space-3); font-size: var(--lamlet-type-section); font-weight: 650; }

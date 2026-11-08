@@ -7,7 +7,7 @@ units, file dependencies, resource lifetimes, and stage contracts to existing
 LAMMPS scripts. It emits ordinary LAMMPS scripts and deterministic JSON
 diagnostics for editors and coding agents.
 
-[Documentation](https://lan496.github.io/lamlet/) · [Quickstart](docs/getting-started.md) · [CLI reference](docs/reference.md) · [Design and limits](docs/design.md)
+[Documentation](https://lan496.github.io/lamlet/) · [Gallery](docs/gallery.md) · [Quickstart](docs/getting-started.md) · [CLI reference](docs/reference.md) · [Design and limits](docs/design.md)
 
 ![Lamlet accepts existing LAMMPS and typed Lamlet, checks them, and emits standard scripts, JSON diagnostics, and dependency manifests.](docs/assets/overview.svg)
 
@@ -33,6 +33,7 @@ compiler; no molecular dynamics is executed.
 
 ## Start here
 
+- [Gallery](docs/gallery.md): actual Lamlet and generated LAMMPS side by side, with reproducible line and character counts.
 - [Presenter notes](demo/pitch.md): a 30-second introduction and three-minute spoken pitch.
 - [The demo](demo/README.md): six verified CLI scenes and a standalone HTML presentation.
 - [Getting started](docs/getting-started.md): build an existing script, add units, and compile two stage instances.

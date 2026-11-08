@@ -1,0 +1,7 @@
+@let dt = 2 fs
+units metal
+timestep @{dt}
+atom_style atomic
+read_data examples/gallery/structure.data
+pair_style lj/cut 8.5
+pair_coeff * * 0.0103 3.4

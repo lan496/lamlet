@@ -1,0 +1,17 @@
+units metal
+atom_style atomic
+read_data examples/gallery/structure.data
+pair_style lj/cut 8.5
+pair_coeff * * 0.0103 3.4
+@module dynamics {
+    @fn sample(target: Temperature) requires [AtomsDefined, ModelDefined] ensures [AtomsDefined, ModelDefined] {
+        @compute T all temp
+        @fix bath all nvt temp @{target} @{target} @{100 fs}
+        fix_modify bath temp T
+        run 10000
+    }
+}
+@call dynamics.sample(300 K)
+@call dynamics.sample(400 K)
+@call dynamics.sample(500 K)
+@call dynamics.sample(600 K)
