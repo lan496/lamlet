@@ -2,7 +2,7 @@
 
 For researchers maintaining LAMMPS inputs, research software developers, and
 teams using AI agents to edit simulation code. This pitch introduces the current
-v0.1 implementation. The accompanying [demo](../demo/README.md) takes about five
+v0.1 implementation. The accompanying [demo](https://github.com/lan496/lamlet/blob/main/demo/README.md) takes about five
 minutes to present.
 
 ## The 30-second pitch
@@ -92,7 +92,7 @@ Run `python3 demo/run.py` after building the release CLI. Open the generated
 captured source, generated scripts, commands, diagnostics, and evidence. It can
 be shared as a single offline file.
 
-Use the [presenter runbook](../demo/README.md) for the sequence and the
+Use the [presenter runbook](https://github.com/lan496/lamlet/blob/main/demo/README.md) for the sequence and the
 [getting-started guide](getting-started.md) for hands-on use.
 
 ## The research pitch
@@ -106,5 +106,5 @@ value of the checker and the value of the language remain distinct questions.
 
 This is a research hypothesis, with no measured improvement claimed. The
 [protocol](agent-evaluation.md) lists the controlled comparison, oracle
-requirements, and current gaps. The [offline pilot](../research/holbrook/README.md)
+requirements, and current gaps. The [offline pilot](https://github.com/lan496/lamlet/blob/main/research/holbrook/README.md)
 replays published inputs without model calls or MD execution.

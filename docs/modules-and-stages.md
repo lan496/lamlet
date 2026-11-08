@@ -95,7 +95,7 @@ parameters use the same types as module calls. Stage file parameters are limited
 to InputFile, PotentialFile, and OutputFile. Patterns, directories, scripts, and
 dynamic paths cannot establish this initial independent-execution contract.
 
-From the repository root, the complete [stage example](../examples/project/stages.lamlet)
+From the repository root, the complete [stage example](https://github.com/lan496/lamlet/blob/main/examples/project/stages.lamlet)
 can be inspected, checked, and built without launching LAMMPS:
 
 ```sh

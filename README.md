@@ -1,13 +1,35 @@
 # Lamlet
 
-Lamlet v0.1 adds compile-time bindings, loops, physical units, typed file resources,
-scoped fix/compute/dump management, modules, independent stages, and explicit
-target checks to LAMMPS input scripts. It emits ordinary LAMMPS scripts. Checking and compilation require no
-LAMMPS installation, Python or network access. Explicit typed input paths require their files to exist.
+**Physical units, checked resources, and structured code for LAMMPS.**
 
-Legacy files remain unchanged. Commands outside Lamlet's partial schemas are
-accepted and reported as unverified. A successful check means no errors were
-detected, not that a simulation is physically meaningful or will run.
+Lamlet is a compiler and static checker written in Rust. It turns `2 fs` into
+the right LAMMPS number, checks typed file dependencies, manages resource
+lifetimes, and returns deterministic JSON diagnostics for editors and coding agents.
+It emits ordinary LAMMPS scripts.
+
+[Documentation](docs/index.md) · [Quickstart](docs/getting-started.md) · [CLI reference](docs/reference.md) · [Design and limits](docs/design.md)
+
+![Lamlet accepts existing LAMMPS and typed Lamlet, checks them, and emits standard scripts, JSON diagnostics, and dependency manifests.](docs/assets/overview.svg)
+
+- **Keep your scripts.** Legacy input passes through byte-for-byte. Unsupported commands remain unverified.
+- **Catch dimensional mistakes.** A temperature used as a timestep produces a source-located error before execution.
+- **Declare resource lifetimes.** Scopes generate cleanup for managed fixes, computes, and dumps.
+- **Make execution explicit.** Stages declare inputs and outputs and run in dedicated directories and fresh processes.
+- **Work offline.** Checking and compilation need no LAMMPS installation, Python, or network. Typed input files must exist.
+
+The recorded corpus has **998 byte-identical round trips and zero static rejections**
+at pinned revisions. [Methods, exclusions, and partial coverage](docs/corpus.md).
+A passing check means no implemented errors were detected. Scientific correctness
+requires independent validation.
+
+## See it in 32 seconds
+
+[![Lamlet walkthrough: unit conversion, JSON diagnostics, managed cleanup, and legacy preservation.](docs/assets/demo.gif)](docs/assets/demo.mp4)
+
+[Watch or download the MP4](docs/assets/demo.mp4) · [Reproduce the demo](docs/demo.md)
+
+The walkthrough uses verified CLI output with edited playback timing. It runs the
+compiler; no molecular dynamics is executed.
 
 ## Start here
 

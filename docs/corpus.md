@@ -47,7 +47,7 @@ The SPPARKS file identifies itself in its header and uses `app_style`,
 `create_box` argument-count error. Its presence explains why the unfiltered
 894-file set does not achieve a compiler round trip. The data file identifies
 itself as output from `write_data`. Both exclusions are explicit in
-[sources.json](../tests/corpus/sources.json).
+[sources.json](https://github.com/lan496/lamlet/blob/main/tests/corpus/sources.json).
 
 Selection uses the pinned Git tree rather than a filesystem glob. Each selected
 file must exist and match its Git blob object ID. Missing or changed inputs fail
@@ -111,7 +111,7 @@ scripts here; typed conversion accuracy is tested separately by the Rust suite.
 
 The selected official examples contain 28,532 physical-line command candidates.
 The ten most frequent names are shown in Table 3. The complete top 40 for each
-corpus is retained in [baseline.json](../tests/corpus/baseline.json).
+corpus is retained in [baseline.json](https://github.com/lan496/lamlet/blob/main/tests/corpus/baseline.json).
 
 Table 3. Most frequent lexical command candidates in the 893 official LAMMPS
 examples, excluding the SPPARKS file. Counts follow the physical-line rule in

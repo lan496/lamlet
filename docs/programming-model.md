@@ -175,9 +175,9 @@ module preconditions, complete dependencies, resumability, or stage isolation.
 The initial boundary tests now distinguish a proven postcondition, an invalidated
 fact, and an unknown effect; exercise repeated resource IDs; and run stage
 instances in separate directories and processes using declared inputs. See
-[module tests](../crates/lamlet/tests/modules.rs),
-[stage tests](../crates/lamlet/tests/stages.rs), and the
-[CLI integration tests](../crates/lamlet-cli/tests/cli.rs). Engine execution tests
+[module tests](https://github.com/lan496/lamlet/blob/main/crates/lamlet/tests/modules.rs),
+[stage tests](https://github.com/lan496/lamlet/blob/main/crates/lamlet/tests/stages.rs), and the
+[CLI integration tests](https://github.com/lan496/lamlet/blob/main/crates/lamlet-cli/tests/cli.rs). Engine execution tests
 use a fake executable and do not validate molecular dynamics. Producer identity,
 checkpoint restoration, and full provenance still need their own acceptance
 criteria.

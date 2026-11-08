@@ -1,0 +1,15 @@
+{
+  "compiler": {
+    "sha256": "18607c5255854c375b47295fa29e84235fe102e932bab8acc9c9d179569b9dd3",
+    "version": "lamlet-cli 0.1.0"
+  },
+  "evidence_sha256": "1c1adb43425fc2028782ba7a320d7151ae611f45bca03194b71c4118d1982772",
+  "files": {
+    "demo.gif": "31742e468b940a28c5b92f66e08ca0aaba0ce505a515cdc62cfee056beb6b38f",
+    "demo.mp4": "d86dcde7e494d5e0cc813b05937bed55f8db9986dab1f6c948ec8bf33365cb0f",
+    "overview.svg": "f7351ef96076635970246d1e575a774eaf7bcb93837014abc8c79cc066b6dd18"
+  },
+  "playback": "four eight-second scenes; no runtime timing claims",
+  "schema_version": 1,
+  "simulation_executed": false
+}

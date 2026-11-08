@@ -5,6 +5,10 @@ presentation. It covers legacy preservation, quantities, diagnostic JSON,
 modules, scoped resources, and independently built stages. It does not run a
 LAMMPS simulation, probe an engine, or fetch the upstream corpus.
 
+The [32-second video and animated preview](../docs/demo.md) summarize four scenes.
+Regenerate their assets with `python3 demo/render_media.py` after running the
+demo. The renderer requires FFmpeg and librsvg and records the evidence hash.
+
 ## Prepare the presentation
 
 Use a stable Rust toolchain and Python 3.9 or newer. Python uses only its standard

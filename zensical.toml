@@ -1,0 +1,62 @@
+[project]
+site_name = "Lamlet"
+site_description = "Physical units, checked resources, and structured simulation code for LAMMPS."
+site_url = "https://lan496.github.io/lamlet/"
+repo_url = "https://github.com/lan496/lamlet"
+repo_name = "lan496/lamlet"
+docs_dir = "docs"
+site_dir = "target/docs-site"
+extra_css = ["assets/stylesheets/extra.css"]
+nav = [
+  { "Home" = "index.md" },
+  { "Get started" = [
+    { "Quickstart" = "getting-started.md" },
+    { "Watch the demo" = "demo.md" },
+  ] },
+  { "Guides" = [
+    { "Paths and projects" = "resources.md" },
+    { "Scoped resources" = "scopes.md" },
+    { "Modules and stages" = "modules-and-stages.md" },
+    { "LAMMPS targets" = "capabilities.md" },
+    { "Physical semantics" = "semantics.md" },
+  ] },
+  { "Reference" = [
+    { "Language and CLI" = "reference.md" },
+    { "Design and limitations" = "design.md" },
+    { "Build the documentation" = "documentation.md" },
+  ] },
+  { "About" = [
+    { "Programming model" = "programming-model.md" },
+    { "The pitch" = "pitch.md" },
+    { "Compatibility evaluation" = "corpus.md" },
+    { "Agent evaluation" = "agent-evaluation.md" },
+    { "P3 pilot" = "p3-pilot.md" },
+  ] },
+]
+
+[project.theme]
+language = "en"
+features = ["navigation.tabs", "navigation.sections", "navigation.footer", "navigation.top", "content.code.copy", "search.highlight"]
+
+[[project.theme.palette]]
+scheme = "default"
+primary = "teal"
+accent = "teal"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+primary = "teal"
+accent = "teal"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to light mode"
+
+[project.markdown_extensions]
+admonition = {}
+attr_list = {}
+md_in_html = {}
+toc.permalink = true
+pymdownx.details = {}
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.superfences = {}
