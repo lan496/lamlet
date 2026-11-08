@@ -9,8 +9,10 @@ files. All build outputs were byte-identical to their inputs, and neither
 standard nor strict checking rejected a selected file. Three covered upstream
 negative cases produced the expected errors; five cases outside the declared
 coverage remained unknown. These results establish preservation and acceptance
-for this finite corpus. They do not establish runtime validity or numerical
-equivalence for typed programs.
+for this finite corpus. An extended evaluation of eight repositories preserved
+all 1,075 selected inputs and fragments with no standard or strict rejections.
+Neither evaluation establishes runtime validity or numerical equivalence for
+typed programs.
 
 ## Introduction
 
@@ -145,6 +147,48 @@ and an unknown unit-style name. They are accepted with Unknown findings rather
 than counted as detected errors. This is a coverage boundary, not an overall
 negative-corpus detection rate of 100%.
 
+### Extended input collections
+
+The extended evaluation adds six repositories [5–10] to the original two sources.
+Table 4 reports the additional 77 inputs and fragments. The original 998 inputs
+were also rechecked; every one remained byte-identical and accepted in both modes.
+The extended report records 1,075 identical outputs and zero static rejections.
+
+Table 4. Measured compatibility of the additional collections. Extracted bodies
+are checked as LAMMPS input; their enclosing Notebook or Markdown documents are
+not compiled. No simulation was executed.
+
+| Collection | Selection | Identical / selected | Standard / strict rejections |
+| --- | --- | ---: | ---: |
+| Gravelle input files [5] | `.lammps` commands and parameter fragments | 49 / 49 | 0 / 0 |
+| Tschopp tutorials [6] | Notebook `%%writefile` command bodies | 10 / 10 | 0 / 0 |
+| NIST examples [7] | Eleven reviewed input paths | 11 / 11 | 0 / 0 |
+| Tingliang tools [8] | README dump example | 1 / 1 | 0 / 0 |
+| FreeEnergyLAMMPS [9] | Frenkel–Ladd and reversible-scaling inputs | 2 / 2 | 0 / 0 |
+| DynaPhoPy [10] | Four `examples/**/in.*` scripts | 4 / 4 | 0 / 0 |
+
+The pinned manifest excludes twelve atom or molecule data files from Gravelle's
+61 candidates, one atom-data cell from Tschopp's eleven writefile cells, and
+33 binary restart files from NIST's 44 candidates. NIST restart files use `in.*`
+names but have the `LammpS RestartT` binary header. Extension-based selection
+alone would therefore misclassify them. DynaPhoPy configuration files and logs
+are outside its declared input selector. The previously registered
+`lammpstutorials-inputs` source is counted once.
+
+Notebook extraction uses the writefile target as identity, rejects ambiguous
+or unsupported writefile headers, and never evaluates cells. Markdown extraction
+requires one exact content anchor and preserves the stored body bytes. Before
+extraction, each enclosing file must match its pinned Git blob. Each extracted
+body receives a separate digest in the generated inventory.
+
+Gravelle's `reversibly-adsorbing-particles/bond.lammps` references a group supplied
+by its caller. This exposed an initial-state assumption in legacy ID checking.
+Legacy sources now treat undeclared external IDs as Unknown; explicit deletion
+and `clear` still establish absence. Typed Lamlet sources retain their closed
+initial ID inventory. The extended evaluation retains this fragment and verifies
+its unmodified bytes. Warning counts and remaining Unknown findings are recorded
+in [extended-baseline.json](https://github.com/lan496/lamlet/blob/main/tests/corpus/extended-baseline.json).
+
 ## Discussion
 
 The corpus meets the byte-preservation and zero-rejection targets for its
@@ -182,6 +226,13 @@ expanding validation without treating unfamiliar commands as errors.
 2. [LAMMPS source at the evaluated revision](https://github.com/lammps/lammps/tree/d291d572cf3c73a8a720774b78482a7c931304ca).
 3. [LAMMPS Tutorials input collection at the evaluated revision](https://github.com/lammpstutorials/lammpstutorials-inputs/tree/dd3dce70b883af02df293ce52491beabd8e01928).
 4. [LAMMPS simple command tests at the evaluated revision](https://github.com/lammps/lammps/blob/d291d572cf3c73a8a720774b78482a7c931304ca/unittest/commands/test_simple_commands.cpp).
+
+5. [Gravelle input collection](https://github.com/simongravelle/lammps-input-files/tree/0e14b4b20a3ba8982e4b32c3a3574ecfe2f8f266).
+6. [Tschopp tutorials](https://github.com/mrkllntschpp/lammps-tutorials/tree/697893bb9673fb8c9aee1ac7fab2d32bbcb86cda).
+7. [NIST LAMMPS examples](https://github.com/dwsideriusNIST/LAMMPS_Examples/tree/109c5055deccbdffd68fd5ce5b649b32cd3d981f).
+8. [Tingliang tools](https://github.com/Tingliangstu/Lammps_tools/tree/37dd1681fd2b8d136e9c7e2ff1a36bb3170bdcfd).
+9. [FreeEnergyLAMMPS](https://github.com/freitas-rodrigo/FreeEnergyLAMMPS/tree/6844bb38afa4b86d9c665d77b331ceaf3e18a362).
+10. [DynaPhoPy](https://github.com/abelcarreras/DynaPhoPy/tree/91a9856d4c3c9c768084171f68e2e1d018ab93f9).
 
 ## Appendix: Reproduction and computational details
 
@@ -230,3 +281,15 @@ The CI corpus job performs these steps independently of the offline Rust suite
 and uploads the report and inventory. Hosted CI has not been run locally or
 published. Numerical semantic regression and the optional LAMMPS engine test
 were not run for this evaluation.
+
+The extended measurement used the release compiler with the legacy ID-context
+correction, whose executable digest is in `extended-baseline.json`. Its one-file
+pilot measured 0.031 seconds, implying approximately 34 seconds for the then
+1,100 candidates. Content review reduced the selected set before the final run.
+The 1,075-file processing pass measured 20.217 seconds. This report preserves the
+original baseline separately, including its original diagnostic counts.
+
+The added repositories remain external, ignored checkouts. Tschopp and DynaPhoPy
+include MIT licenses; the other sources retain their upstream terms. No license
+is inferred from public availability or institutional affiliation, and none of
+these scripts is redistributed in Lamlet.

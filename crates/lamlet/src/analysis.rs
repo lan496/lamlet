@@ -73,6 +73,21 @@ impl Default for State {
     }
 }
 impl State {
+    pub(crate) fn legacy() -> Self {
+        let mut state = Self::default();
+        // A legacy file may be an include fragment. Only explicit deletion or
+        // clear establishes absence; predefined IDs remain known present.
+        for inventory in [
+            &mut state.groups,
+            &mut state.fixes,
+            &mut state.computes,
+            &mut state.dumps,
+        ] {
+            inventory.fallback = Fact::Unknown;
+        }
+        state
+    }
+
     fn weaken(&mut self) {
         self.units = None;
         self.box_exists = Fact::Unknown;
@@ -336,6 +351,10 @@ pub fn analyze(
             "Runtime substitution or ambiguous token boundaries prevent command analysis",
         ));
         state.weaken();
+        return;
+    }
+    if name == "clear" && args.len() == 1 {
+        *state = State::default();
         return;
     }
     if base_schema.is_none() {

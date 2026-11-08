@@ -62,7 +62,41 @@ def selected(path, group):
         path.startswith(group.get("prefix", ""))
         and name.name.startswith(group.get("basename_prefix", ""))
         and ("suffixes" not in group or name.suffix in group["suffixes"])
+        and ("paths" not in group or path in group["paths"])
     )
+
+
+def fragments(path, data, group):
+    """Extract declared script bodies without evaluating notebook or Markdown code."""
+    if group.get("notebook_writefiles"):
+        result = []
+        for cell in json.loads(data)["cells"]:
+            if cell["cell_type"] != "code":
+                continue
+            text = cell.get("source", "")
+            text = text if isinstance(text, str) else "".join(text)
+            if not text.startswith("%%writefile"):
+                continue
+            match = re.match(r"%%writefile[ \t]+([^\s]+)[ \t]*\r?\n", text)
+            if not match:
+                raise ValueError(f"Unsupported writefile header: {path}")
+            name = f"{path}#writefile={match[1]}"
+            if any(p == name for p, _ in result):
+                raise ValueError(f"Ambiguous writefile target: {name}")
+            result.append((name, text[match.end():].encode("utf-8")))
+        return result
+    if "markdown_fence" in group:
+        declaration = group["markdown_fence"]
+        # Match the opening indentation on the closing fence. Keep body bytes,
+        # including indentation and line endings, exactly as stored upstream.
+        blocks = re.findall(rb"(?m)^([ \t]*)```[^\r\n]*\r?\n(.*?)^\1```[ \t]*\r?$",
+                            data, re.DOTALL)
+        bodies = [body for _, body in blocks
+                  if declaration["anchor"].encode() in body.splitlines()]
+        if len(bodies) != 1:
+            raise ValueError(f"Expected one declared Markdown example: {path}")
+        return [(f"{path}#example={declaration['name']}", bodies[0])]
+    return [(path, data)]
 
 
 def inputs(cache):
@@ -83,8 +117,8 @@ def inputs(cache):
             for group in source["groups"]:
                 if selected(path, group):
                     counts = selection.setdefault(group["id"], {"candidates": 0, "excluded": {}})
-                    counts["candidates"] += 1
                     if path in source["exclude"]:
+                        counts["candidates"] += 1
                         counts["excluded"][path] = source["exclude"][path]
                         continue
                     mode, kind, blob = metadata.decode().split()
@@ -94,7 +128,18 @@ def inputs(cache):
                     digest = hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
                     if digest != blob:
                         raise ValueError(f"Modified corpus input: {source['id']}/{path}")
-                    result.append((group["id"], source["id"], path, directory / path, data))
+                    for name, body in fragments(path, data, group):
+                        counts["candidates"] += 1
+                        if name in source["exclude"]:
+                            counts["excluded"][name] = source["exclude"][name]
+                            continue
+                        input_path = directory / path
+                        if name != path:
+                            key = hashlib.sha256(name.encode()).hexdigest()
+                            input_path = cache / ".extracted" / source["id"] / (key + ".in")
+                            input_path.parent.mkdir(parents=True, exist_ok=True)
+                            input_path.write_bytes(body)
+                        result.append((group["id"], source["id"], name, input_path, body))
     return sorted(result, key=lambda item: (item[0], item[2])), selection
 
 
@@ -235,7 +280,9 @@ def audit(args):
                 feature_paths[f"{group}/{feature}"].append(identifier)
             item = {"file": identifier, "bytes": len(data), "round_trip": status,
                     "sha256": hashlib.sha256(data).hexdigest(),
-                    "diagnostics": checked["summary"], "features": features}
+                    "diagnostics": checked["summary"], "features": features,
+                    "warnings": [{**d, "file": identifier} for d in checked["diagnostics"]
+                                 if d["severity"] == "warning"]}
             inventory.append(item)
             if status != "identical" or strict["summary"]["errors"]:
                 errors = []

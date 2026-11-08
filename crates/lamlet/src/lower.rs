@@ -45,7 +45,11 @@ impl<'a> Lowerer<'a> {
             diagnostics: vec![],
             scopes: vec![Scope::new()],
             context: vec![],
-            state: State::default(),
+            state: if options.language == crate::Language::Lammps {
+                State::legacy()
+            } else {
+                State::default()
+            },
             expanded_lines: 0,
             expansion_steps: 0,
             resources: resources::Resolver::new(options.project.clone(), source),

@@ -17,7 +17,7 @@ diagnostics for editors and coding agents.
 - **Make execution explicit.** Stages declare inputs and outputs and run in dedicated directories and fresh processes.
 - **Work offline.** Checking and compilation need no LAMMPS installation, Python, or network. Typed input files must exist.
 
-The recorded corpus has **998 byte-identical round trips and zero static rejections**
+The recorded corpus has **1,075 byte-identical round trips and zero static rejections**
 at pinned revisions. [Methods, exclusions, and partial coverage](docs/corpus.md).
 A passing check means no implemented errors were detected. Scientific correctness
 requires independent validation.

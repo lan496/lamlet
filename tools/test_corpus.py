@@ -1,6 +1,7 @@
 """Offline behavior checks for the corpus evaluator."""
 
 from pathlib import Path
+import json
 import subprocess
 import tempfile
 import unittest
@@ -10,6 +11,33 @@ import corpus
 
 
 class CorpusTests(unittest.TestCase):
+    def test_notebook_writefiles_preserve_bodies_and_use_targets_as_identity(self):
+        notebook = {"cells": [
+            {"cell_type": "markdown", "source": ["%%writefile in.fake\nrun 9\n"]},
+            {"cell_type": "code", "source": ["print('do not execute')\n"]},
+            {"cell_type": "code", "source": ["%%writefile in.real\n", "  run 0\n\n"]},
+            {"cell_type": "code", "source": "%%writefile atoms.data\n2 atoms\n"},
+        ]}
+        group = {"notebook_writefiles": True}
+        self.assertEqual(corpus.fragments("lesson.ipynb", json.dumps(notebook).encode(), group),
+                         [("lesson.ipynb#writefile=in.real", b"  run 0\n\n"),
+                          ("lesson.ipynb#writefile=atoms.data", b"2 atoms\n")])
+        notebook["cells"].append({"cell_type": "code", "source": "%%writefile in.real\nrun 1\n"})
+        with self.assertRaisesRegex(ValueError, "Ambiguous writefile"):
+            corpus.fragments("lesson.ipynb", json.dumps(notebook).encode(), group)
+        notebook["cells"] = [{"cell_type": "code", "source": "%%writefile -a in.real\nrun 1\n"}]
+        with self.assertRaisesRegex(ValueError, "Unsupported writefile"):
+            corpus.fragments("lesson.ipynb", json.dumps(notebook).encode(), group)
+
+    def test_markdown_example_uses_unique_content_anchor_and_preserves_bytes(self):
+        group = {"markdown_fence": {"name": "run", "anchor": "   run 0"}}
+        data = b"```\n2 atoms\n```\n\n   ```\n   run 0\n   # preserved\n   ```\n"
+        self.assertEqual(corpus.fragments("README.md", data, group),
+                         [("README.md#example=run", b"   run 0\n   # preserved\n")])
+        for invalid in (b"```\nrun 1\n```\n", data + data):
+            with self.assertRaisesRegex(ValueError, "Expected one declared"):
+                corpus.fragments("README.md", invalid, group)
+
     def test_selection_distinguishes_inputs_from_logs_and_data(self):
         group = {"prefix": "examples/", "basename_prefix": "in."}
         paths = ["examples/a/in.one", "examples/in.two", "examples/a/log.one",
@@ -18,6 +46,7 @@ class CorpusTests(unittest.TestCase):
                          ["examples/a/in.one", "examples/in.two"])
         self.assertTrue(corpus.selected("tutorial1/input.lammps", {"suffixes": [".lammps"]}))
         self.assertFalse(corpus.selected("tutorial1/state.data", {"suffixes": [".lammps"]}))
+        self.assertFalse(corpus.selected("other/README.md", {"paths": ["example/README.md"]}))
 
     def test_frequency_and_feature_markers_have_literal_expected_counts(self):
         commands, features = corpus.analyze_text(

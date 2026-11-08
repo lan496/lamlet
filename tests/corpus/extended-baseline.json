@@ -1,0 +1,1793 @@
+{
+  "compiler": {
+    "binary_sha256": "704c545a6dbf7823319f77fc024f05359d56a0b12eb1e02c3d89179887454147",
+    "version": "0.1.0"
+  },
+  "focus_subsets": {
+    "ELASTIC": {
+      "files": 1,
+      "round_trip_identical": 1,
+      "static_rejected": 0
+    },
+    "MC-LOOP": {
+      "files": 1,
+      "round_trip_identical": 1,
+      "static_rejected": 0
+    },
+    "PACKAGES": {
+      "files": 420,
+      "round_trip_identical": 420,
+      "static_rejected": 0
+    },
+    "UNITS": {
+      "files": 3,
+      "round_trip_identical": 3,
+      "static_rejected": 0
+    }
+  },
+  "format_version": 1,
+  "groups": {
+    "bench": {
+      "build_rejected": 0,
+      "bytes": 17015,
+      "command_candidates": 546,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 5,
+        "if": 0,
+        "include": 0,
+        "jump": 0,
+        "next": 0,
+        "triple_quotes": 0,
+        "variable_substitution": 7
+      },
+      "files": 29,
+      "round_trip_different": 0,
+      "round_trip_identical": 29,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "variable",
+          "count": 46
+        },
+        {
+          "command": "fix",
+          "count": 44
+        },
+        {
+          "command": "pair_coeff",
+          "count": 33
+        },
+        {
+          "command": "units",
+          "count": 32
+        },
+        {
+          "command": "atom_style",
+          "count": 29
+        },
+        {
+          "command": "neigh_modify",
+          "count": 29
+        },
+        {
+          "command": "pair_style",
+          "count": 29
+        },
+        {
+          "command": "run",
+          "count": 29
+        },
+        {
+          "command": "timestep",
+          "count": 26
+        },
+        {
+          "command": "neighbor",
+          "count": 25
+        },
+        {
+          "command": "velocity",
+          "count": 20
+        },
+        {
+          "command": "read_data",
+          "count": 17
+        },
+        {
+          "command": "thermo",
+          "count": 16
+        },
+        {
+          "command": "region",
+          "count": 14
+        },
+        {
+          "command": "create_atoms",
+          "count": 12
+        },
+        {
+          "command": "create_box",
+          "count": 12
+        },
+        {
+          "command": "lattice",
+          "count": 12
+        },
+        {
+          "command": "thermo_style",
+          "count": 11
+        },
+        {
+          "command": "compute",
+          "count": 10
+        },
+        {
+          "command": "mass",
+          "count": 10
+        },
+        {
+          "command": "group",
+          "count": 9
+        },
+        {
+          "command": "bond_style",
+          "count": 7
+        },
+        {
+          "command": "replicate",
+          "count": 7
+        },
+        {
+          "command": "special_bonds",
+          "count": 7
+        },
+        {
+          "command": "comm_modify",
+          "count": 6
+        },
+        {
+          "command": "pair_modify",
+          "count": 6
+        },
+        {
+          "command": "thermo_modify",
+          "count": 5
+        },
+        {
+          "command": "angle_style",
+          "count": 4
+        },
+        {
+          "command": "basis",
+          "count": 4
+        },
+        {
+          "command": "bond_coeff",
+          "count": 4
+        },
+        {
+          "command": "boundary",
+          "count": 4
+        },
+        {
+          "command": "dihedral_style",
+          "count": 4
+        },
+        {
+          "command": "improper_style",
+          "count": 4
+        },
+        {
+          "command": "kspace_style",
+          "count": 4
+        },
+        {
+          "command": "set",
+          "count": 4
+        },
+        {
+          "command": "atom_modify",
+          "count": 3
+        },
+        {
+          "command": "newton",
+          "count": 3
+        },
+        {
+          "command": "z",
+          "count": 3
+        },
+        {
+          "command": "angle_coeff",
+          "count": 1
+        },
+        {
+          "command": "compute_modify",
+          "count": 1
+        }
+      ],
+      "unknowns": 453,
+      "warnings": 0
+    },
+    "dynaphopy": {
+      "build_rejected": 0,
+      "bytes": 2858,
+      "command_candidates": 77,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 1,
+        "if": 0,
+        "include": 0,
+        "jump": 0,
+        "next": 0,
+        "triple_quotes": 0,
+        "variable_substitution": 4
+      },
+      "files": 4,
+      "round_trip_different": 0,
+      "round_trip_identical": 4,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "velocity",
+          "count": 8
+        },
+        {
+          "command": "basis",
+          "count": 7
+        },
+        {
+          "command": "atom_style",
+          "count": 4
+        },
+        {
+          "command": "boundary",
+          "count": 4
+        },
+        {
+          "command": "box",
+          "count": 4
+        },
+        {
+          "command": "fix",
+          "count": 4
+        },
+        {
+          "command": "neighbor",
+          "count": 4
+        },
+        {
+          "command": "pair_coeff",
+          "count": 4
+        },
+        {
+          "command": "pair_style",
+          "count": 4
+        },
+        {
+          "command": "run",
+          "count": 4
+        },
+        {
+          "command": "units",
+          "count": 4
+        },
+        {
+          "command": "variable",
+          "count": 4
+        },
+        {
+          "command": "read_data",
+          "count": 3
+        },
+        {
+          "command": "dump",
+          "count": 2
+        },
+        {
+          "command": "dump_modify",
+          "count": 2
+        },
+        {
+          "command": "mass",
+          "count": 2
+        },
+        {
+          "command": "thermo",
+          "count": 2
+        },
+        {
+          "command": "thermo_style",
+          "count": 2
+        },
+        {
+          "command": "timestep",
+          "count": 2
+        },
+        {
+          "command": "a1",
+          "count": 1
+        },
+        {
+          "command": "a2",
+          "count": 1
+        },
+        {
+          "command": "a3",
+          "count": 1
+        },
+        {
+          "command": "create_atoms",
+          "count": 1
+        },
+        {
+          "command": "create_box",
+          "count": 1
+        },
+        {
+          "command": "lattice",
+          "count": 1
+        },
+        {
+          "command": "region",
+          "count": 1
+        }
+      ],
+      "unknowns": 61,
+      "warnings": 0
+    },
+    "examples": {
+      "build_rejected": 0,
+      "bytes": 1499377,
+      "command_candidates": 28532,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 344,
+        "if": 26,
+        "include": 62,
+        "jump": 14,
+        "next": 14,
+        "triple_quotes": 11,
+        "variable_substitution": 415
+      },
+      "files": 893,
+      "round_trip_different": 0,
+      "round_trip_identical": 893,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "variable",
+          "count": 4243
+        },
+        {
+          "command": "pair_coeff",
+          "count": 2412
+        },
+        {
+          "command": "fix",
+          "count": 2195
+        },
+        {
+          "command": "compute",
+          "count": 1187
+        },
+        {
+          "command": "run",
+          "count": 1135
+        },
+        {
+          "command": "pair_style",
+          "count": 874
+        },
+        {
+          "command": "thermo",
+          "count": 859
+        },
+        {
+          "command": "units",
+          "count": 816
+        },
+        {
+          "command": "region",
+          "count": 801
+        },
+        {
+          "command": "atom_style",
+          "count": 788
+        },
+        {
+          "command": "neigh_modify",
+          "count": 725
+        },
+        {
+          "command": "group",
+          "count": 712
+        },
+        {
+          "command": "thermo_style",
+          "count": 693
+        },
+        {
+          "command": "timestep",
+          "count": 616
+        },
+        {
+          "command": "neighbor",
+          "count": 610
+        },
+        {
+          "command": "velocity",
+          "count": 607
+        },
+        {
+          "command": "boundary",
+          "count": 525
+        },
+        {
+          "command": "create_atoms",
+          "count": 518
+        },
+        {
+          "command": "mass",
+          "count": 512
+        },
+        {
+          "command": "read_data",
+          "count": 434
+        },
+        {
+          "command": "create_box",
+          "count": 413
+        },
+        {
+          "command": "set",
+          "count": 413
+        },
+        {
+          "command": "lattice",
+          "count": 393
+        },
+        {
+          "command": "print",
+          "count": 369
+        },
+        {
+          "command": "thermo_modify",
+          "count": 310
+        },
+        {
+          "command": "dimension",
+          "count": 278
+        },
+        {
+          "command": "bond_style",
+          "count": 225
+        },
+        {
+          "command": "atom_modify",
+          "count": 201
+        },
+        {
+          "command": "basis",
+          "count": 196
+        },
+        {
+          "command": "bond_coeff",
+          "count": 191
+        },
+        {
+          "command": "comm_modify",
+          "count": 188
+        },
+        {
+          "command": "unfix",
+          "count": 184
+        },
+        {
+          "command": "dump",
+          "count": 173
+        },
+        {
+          "command": "special_bonds",
+          "count": 152
+        },
+        {
+          "command": "angle_style",
+          "count": 151
+        },
+        {
+          "command": "kspace_style",
+          "count": 151
+        },
+        {
+          "command": "angle_coeff",
+          "count": 144
+        },
+        {
+          "command": "fix_modify",
+          "count": 135
+        },
+        {
+          "command": "pair_modify",
+          "count": 135
+        },
+        {
+          "command": "newton",
+          "count": 113
+        }
+      ],
+      "unknowns": 25665,
+      "warnings": 2
+    },
+    "free-energy": {
+      "build_rejected": 0,
+      "bytes": 4577,
+      "command_candidates": 61,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 2,
+        "if": 0,
+        "include": 0,
+        "jump": 0,
+        "next": 0,
+        "triple_quotes": 0,
+        "variable_substitution": 2
+      },
+      "files": 2,
+      "round_trip_different": 0,
+      "round_trip_identical": 2,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "variable",
+          "count": 12
+        },
+        {
+          "command": "fix",
+          "count": 10
+        },
+        {
+          "command": "run",
+          "count": 8
+        },
+        {
+          "command": "unfix",
+          "count": 3
+        },
+        {
+          "command": "create_atoms",
+          "count": 2
+        },
+        {
+          "command": "create_box",
+          "count": 2
+        },
+        {
+          "command": "file",
+          "count": 2
+        },
+        {
+          "command": "lattice",
+          "count": 2
+        },
+        {
+          "command": "neigh_modify",
+          "count": 2
+        },
+        {
+          "command": "pair_coeff",
+          "count": 2
+        },
+        {
+          "command": "pair_style",
+          "count": 2
+        },
+        {
+          "command": "region",
+          "count": 2
+        },
+        {
+          "command": "screen",
+          "count": 2
+        },
+        {
+          "command": "thermo",
+          "count": 2
+        },
+        {
+          "command": "thermo_style",
+          "count": 2
+        },
+        {
+          "command": "timestep",
+          "count": 2
+        },
+        {
+          "command": "units",
+          "count": 2
+        },
+        {
+          "command": "velocity",
+          "count": 2
+        }
+      ],
+      "unknowns": 54,
+      "warnings": 0
+    },
+    "gravelle": {
+      "build_rejected": 0,
+      "bytes": 44180,
+      "command_candidates": 1124,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 5,
+        "if": 0,
+        "include": 24,
+        "jump": 2,
+        "next": 2,
+        "triple_quotes": 0,
+        "variable_substitution": 11
+      },
+      "files": 49,
+      "round_trip_different": 0,
+      "round_trip_identical": 49,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "fix",
+          "count": 108
+        },
+        {
+          "command": "pair_coeff",
+          "count": 92
+        },
+        {
+          "command": "mass",
+          "count": 89
+        },
+        {
+          "command": "angle_coeff",
+          "count": 66
+        },
+        {
+          "command": "dihedral_coeff",
+          "count": 58
+        },
+        {
+          "command": "bond_coeff",
+          "count": 53
+        },
+        {
+          "command": "variable",
+          "count": 50
+        },
+        {
+          "command": "run",
+          "count": 46
+        },
+        {
+          "command": "group",
+          "count": 44
+        },
+        {
+          "command": "dump",
+          "count": 28
+        },
+        {
+          "command": "thermo",
+          "count": 28
+        },
+        {
+          "command": "atom_style",
+          "count": 26
+        },
+        {
+          "command": "include",
+          "count": 26
+        },
+        {
+          "command": "pair_style",
+          "count": 26
+        },
+        {
+          "command": "timestep",
+          "count": 26
+        },
+        {
+          "command": "boundary",
+          "count": 25
+        },
+        {
+          "command": "units",
+          "count": 25
+        },
+        {
+          "command": "region",
+          "count": 19
+        },
+        {
+          "command": "bond_style",
+          "count": 18
+        },
+        {
+          "command": "angle_style",
+          "count": 17
+        },
+        {
+          "command": "create_atoms",
+          "count": 17
+        },
+        {
+          "command": "kspace_style",
+          "count": 17
+        },
+        {
+          "command": "read_data",
+          "count": 17
+        },
+        {
+          "command": "extra",
+          "count": 15
+        },
+        {
+          "command": "unfix",
+          "count": 14
+        },
+        {
+          "command": "pair_modify",
+          "count": 13
+        },
+        {
+          "command": "dihedral_style",
+          "count": 12
+        },
+        {
+          "command": "special_bonds",
+          "count": 12
+        },
+        {
+          "command": "molecule",
+          "count": 11
+        },
+        {
+          "command": "write_data",
+          "count": 10
+        },
+        {
+          "command": "compute",
+          "count": 9
+        },
+        {
+          "command": "create_box",
+          "count": 9
+        },
+        {
+          "command": "improper_style",
+          "count": 9
+        },
+        {
+          "command": "reset_timestep",
+          "count": 8
+        },
+        {
+          "command": "minimize",
+          "count": 7
+        },
+        {
+          "command": "fix_modify",
+          "count": 6
+        },
+        {
+          "command": "neigh_modify",
+          "count": 6
+        },
+        {
+          "command": "velocity",
+          "count": 6
+        },
+        {
+          "command": "lattice",
+          "count": 5
+        },
+        {
+          "command": "set",
+          "count": 5
+        }
+      ],
+      "unknowns": 1039,
+      "warnings": 5
+    },
+    "nist": {
+      "build_rejected": 0,
+      "bytes": 51243,
+      "command_candidates": 354,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 0,
+        "if": 0,
+        "include": 0,
+        "jump": 0,
+        "next": 0,
+        "triple_quotes": 0,
+        "variable_substitution": 11
+      },
+      "files": 11,
+      "round_trip_different": 0,
+      "round_trip_identical": 11,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "variable",
+          "count": 109
+        },
+        {
+          "command": "fix",
+          "count": 20
+        },
+        {
+          "command": "pair_coeff",
+          "count": 19
+        },
+        {
+          "command": "angle_style",
+          "count": 12
+        },
+        {
+          "command": "bond_style",
+          "count": 12
+        },
+        {
+          "command": "print",
+          "count": 12
+        },
+        {
+          "command": "run",
+          "count": 11
+        },
+        {
+          "command": "atom_style",
+          "count": 9
+        },
+        {
+          "command": "boundary",
+          "count": 9
+        },
+        {
+          "command": "pair_style",
+          "count": 9
+        },
+        {
+          "command": "thermo",
+          "count": 9
+        },
+        {
+          "command": "thermo_style",
+          "count": 9
+        },
+        {
+          "command": "units",
+          "count": 9
+        },
+        {
+          "command": "angle_coeff",
+          "count": 8
+        },
+        {
+          "command": "bond_coeff",
+          "count": 8
+        },
+        {
+          "command": "dihedral_style",
+          "count": 8
+        },
+        {
+          "command": "group",
+          "count": 8
+        },
+        {
+          "command": "improper_style",
+          "count": 8
+        },
+        {
+          "command": "kspace_style",
+          "count": 8
+        },
+        {
+          "command": "pair_modify",
+          "count": 8
+        },
+        {
+          "command": "read_data",
+          "count": 8
+        },
+        {
+          "command": "replicate",
+          "count": 8
+        },
+        {
+          "command": "reset_timestep",
+          "count": 8
+        },
+        {
+          "command": "velocity",
+          "count": 7
+        },
+        {
+          "command": "kspace_modify",
+          "count": 4
+        },
+        {
+          "command": "neigh_modify",
+          "count": 3
+        },
+        {
+          "command": "neighbor",
+          "count": 3
+        },
+        {
+          "command": "read_restart",
+          "count": 2
+        },
+        {
+          "command": "create_atoms",
+          "count": 1
+        },
+        {
+          "command": "create_box",
+          "count": 1
+        },
+        {
+          "command": "mass",
+          "count": 1
+        },
+        {
+          "command": "minimize",
+          "count": 1
+        },
+        {
+          "command": "region",
+          "count": 1
+        },
+        {
+          "command": "write_restart",
+          "count": 1
+        }
+      ],
+      "unknowns": 337,
+      "warnings": 0
+    },
+    "tingliang": {
+      "build_rejected": 0,
+      "bytes": 335,
+      "command_candidates": 4,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 0,
+        "if": 0,
+        "include": 0,
+        "jump": 0,
+        "next": 0,
+        "triple_quotes": 0,
+        "variable_substitution": 1
+      },
+      "files": 1,
+      "round_trip_different": 0,
+      "round_trip_identical": 1,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "dump",
+          "count": 1
+        },
+        {
+          "command": "dump_modify",
+          "count": 1
+        },
+        {
+          "command": "run",
+          "count": 1
+        },
+        {
+          "command": "variable",
+          "count": 1
+        }
+      ],
+      "unknowns": 3,
+      "warnings": 0
+    },
+    "tschopp": {
+      "build_rejected": 0,
+      "bytes": 22616,
+      "command_candidates": 412,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 1,
+        "if": 0,
+        "include": 1,
+        "jump": 2,
+        "next": 2,
+        "triple_quotes": 0,
+        "variable_substitution": 9
+      },
+      "files": 10,
+      "round_trip_different": 0,
+      "round_trip_identical": 10,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "variable",
+          "count": 94
+        },
+        {
+          "command": "print",
+          "count": 32
+        },
+        {
+          "command": "compute",
+          "count": 31
+        },
+        {
+          "command": "fix",
+          "count": 18
+        },
+        {
+          "command": "reset_timestep",
+          "count": 13
+        },
+        {
+          "command": "thermo_style",
+          "count": 13
+        },
+        {
+          "command": "region",
+          "count": 12
+        },
+        {
+          "command": "thermo",
+          "count": 12
+        },
+        {
+          "command": "atom_style",
+          "count": 9
+        },
+        {
+          "command": "boundary",
+          "count": 9
+        },
+        {
+          "command": "lattice",
+          "count": 9
+        },
+        {
+          "command": "minimize",
+          "count": 9
+        },
+        {
+          "command": "pair_coeff",
+          "count": 9
+        },
+        {
+          "command": "pair_style",
+          "count": 9
+        },
+        {
+          "command": "run",
+          "count": 9
+        },
+        {
+          "command": "units",
+          "count": 9
+        },
+        {
+          "command": "dimension",
+          "count": 8
+        },
+        {
+          "command": "create_atoms",
+          "count": 7
+        },
+        {
+          "command": "dump",
+          "count": 7
+        },
+        {
+          "command": "dump_modify",
+          "count": 7
+        },
+        {
+          "command": "min_style",
+          "count": 7
+        },
+        {
+          "command": "create_box",
+          "count": 6
+        },
+        {
+          "command": "group",
+          "count": 6
+        },
+        {
+          "command": "unfix",
+          "count": 6
+        },
+        {
+          "command": "atom_modify",
+          "count": 5
+        },
+        {
+          "command": "neigh_modify",
+          "count": 5
+        },
+        {
+          "command": "neighbor",
+          "count": 5
+        },
+        {
+          "command": "replicate",
+          "count": 5
+        },
+        {
+          "command": "clear",
+          "count": 4
+        },
+        {
+          "command": "delete_atoms",
+          "count": 3
+        },
+        {
+          "command": "displace_atoms",
+          "count": 3
+        },
+        {
+          "command": "read_data",
+          "count": 3
+        },
+        {
+          "command": "timestep",
+          "count": 3
+        },
+        {
+          "command": "undump",
+          "count": 3
+        },
+        {
+          "command": "velocity",
+          "count": 3
+        },
+        {
+          "command": "jump",
+          "count": 2
+        },
+        {
+          "command": "label",
+          "count": 2
+        },
+        {
+          "command": "log",
+          "count": 2
+        },
+        {
+          "command": "next",
+          "count": 2
+        },
+        {
+          "command": "write_restart",
+          "count": 2
+        }
+      ],
+      "unknowns": 401,
+      "warnings": 1
+    },
+    "tutorials": {
+      "build_rejected": 0,
+      "bytes": 302736,
+      "command_candidates": 2491,
+      "errors": 0,
+      "failures": [],
+      "feature_file_counts": {
+        "continuation": 19,
+        "if": 0,
+        "include": 26,
+        "jump": 6,
+        "next": 6,
+        "triple_quotes": 0,
+        "variable_substitution": 31
+      },
+      "files": 76,
+      "round_trip_different": 0,
+      "round_trip_identical": 76,
+      "static_rejected": 0,
+      "strict_rejected": 0,
+      "top_40_command_candidates": [
+        {
+          "command": "variable",
+          "count": 291
+        },
+        {
+          "command": "fix",
+          "count": 290
+        },
+        {
+          "command": "group",
+          "count": 136
+        },
+        {
+          "command": "run",
+          "count": 111
+        },
+        {
+          "command": "pair_coeff",
+          "count": 109
+        },
+        {
+          "command": "thermo",
+          "count": 71
+        },
+        {
+          "command": "region",
+          "count": 70
+        },
+        {
+          "command": "dump",
+          "count": 67
+        },
+        {
+          "command": "mass",
+          "count": 66
+        },
+        {
+          "command": "pair_style",
+          "count": 64
+        },
+        {
+          "command": "atom_style",
+          "count": 63
+        },
+        {
+          "command": "units",
+          "count": 63
+        },
+        {
+          "command": "timestep",
+          "count": 57
+        },
+        {
+          "command": "create_atoms",
+          "count": 53
+        },
+        {
+          "command": "compute",
+          "count": 52
+        },
+        {
+          "command": "angle_coeff",
+          "count": 51
+        },
+        {
+          "command": "velocity",
+          "count": 48
+        },
+        {
+          "command": "boundary",
+          "count": 47
+        },
+        {
+          "command": "acolor",
+          "count": 46
+        },
+        {
+          "command": "read_data",
+          "count": 43
+        },
+        {
+          "command": "bond_coeff",
+          "count": 39
+        },
+        {
+          "command": "bond_style",
+          "count": 36
+        },
+        {
+          "command": "include",
+          "count": 36
+        },
+        {
+          "command": "angle_style",
+          "count": 33
+        },
+        {
+          "command": "thermo_style",
+          "count": 33
+        },
+        {
+          "command": "fix_modify",
+          "count": 30
+        },
+        {
+          "command": "dihedral_coeff",
+          "count": 26
+        },
+        {
+          "command": "unfix",
+          "count": 26
+        },
+        {
+          "command": "kspace_style",
+          "count": 25
+        },
+        {
+          "command": "dump_modify",
+          "count": 24
+        },
+        {
+          "command": "reset_timestep",
+          "count": 24
+        },
+        {
+          "command": "minimize",
+          "count": 21
+        },
+        {
+          "command": "molecule",
+          "count": 21
+        },
+        {
+          "command": "create_box",
+          "count": 20
+        },
+        {
+          "command": "dihedral_style",
+          "count": 19
+        },
+        {
+          "command": "set",
+          "count": 17
+        },
+        {
+          "command": "special_bonds",
+          "count": 17
+        },
+        {
+          "command": "thermo_modify",
+          "count": 14
+        },
+        {
+          "command": "adiam",
+          "count": 13
+        },
+        {
+          "command": "write_data",
+          "count": 13
+        }
+      ],
+      "unknowns": 2248,
+      "warnings": 1
+    }
+  },
+  "negative_tests": {
+    "cases": [
+      {
+        "expected_error": "E_ARGUMENT_COUNT",
+        "id": "timestep_missing",
+        "passed": true
+      },
+      {
+        "expected_error": "E_ARGUMENT_COUNT",
+        "id": "timestep_extra",
+        "passed": true
+      },
+      {
+        "expected_error": "E_TYPE_MISMATCH",
+        "id": "timestep_not_numeric",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "negative_step_number",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "unknown_command",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "quit_not_integer",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "run_opaque_option",
+        "passed": true
+      },
+      {
+        "expected_error": null,
+        "id": "unknown_units",
+        "passed": true
+      }
+    ],
+    "covered": 3,
+    "outside_coverage": 5,
+    "provenance": {
+      "commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+      "path": "unittest/commands/test_simple_commands.cpp",
+      "source": "lammps"
+    }
+  },
+  "selection": {
+    "bench": {
+      "candidates": 29,
+      "excluded": {}
+    },
+    "dynaphopy": {
+      "candidates": 4,
+      "excluded": {}
+    },
+    "examples": {
+      "candidates": 894,
+      "excluded": {
+        "examples/COUPLE/lammps_spparks/in.spparks": "SPPARKS input, identified by its header and app_style/create_sites/solve_style commands; not a LAMMPS script"
+      }
+    },
+    "free-energy": {
+      "candidates": 2,
+      "excluded": {}
+    },
+    "gravelle": {
+      "candidates": 61,
+      "excluded": {
+        "inputs/GO-nanoparticle/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/amorphous-carbon/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/bulk-silicalite/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/liquid-mixture-PEG-water-ethanol/ethanol/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/liquid-mixture-PEG-water-ethanol/peg/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/liquid-mixture-PEG-water-ethanol/water/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/reversibly-adsorbing-particles/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/salt-dissolution-water/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-cnt/H2O_TIP4P2005/TIP4P2005.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-cnt/TIP4P2005.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-cnt/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-graphene-slit/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input"
+      }
+    },
+    "nist": {
+      "candidates": 44,
+      "excluded": {
+        "LJ_initial_cfgs/in.nvt.dens_0.0010": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0020": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0030": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0040": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0050": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0100": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0150": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0200": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0250": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0300": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0350": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0400": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0450": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.1000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.1500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.2000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.2500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.3000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.3500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.4000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.4500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.5000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.5500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.6000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.6500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.7000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.7500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.8000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.8500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.9000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.9500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_1.0000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input"
+      }
+    },
+    "tingliang": {
+      "candidates": 1,
+      "excluded": {}
+    },
+    "tschopp": {
+      "candidates": 11,
+      "excluded": {
+        "LAMMPS-Tutorials-06.ipynb#writefile=Fe_110_sig3.txt": "Atom data cell with 600 atoms and an Atoms section; not command input"
+      }
+    },
+    "tutorials": {
+      "candidates": 77,
+      "excluded": {
+        "tutorial4/videos/minimization/data.lammps": "LAMMPS atom data written by write_data, not an input script"
+      }
+    }
+  },
+  "selection_limit": null,
+  "semantic_regression": {
+    "reason": "No LAMMPS engine was invoked",
+    "status": "not_run"
+  },
+  "sources": [
+    {
+      "commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+      "exclude": {
+        "examples/COUPLE/lammps_spparks/in.spparks": "SPPARKS input, identified by its header and app_style/create_sites/solve_style commands; not a LAMMPS script"
+      },
+      "groups": [
+        {
+          "basename_prefix": "in.",
+          "id": "examples",
+          "prefix": "examples/"
+        },
+        {
+          "basename_prefix": "in.",
+          "id": "bench",
+          "prefix": "bench/"
+        }
+      ],
+      "id": "lammps",
+      "sparse": [
+        "/examples/**/in.*",
+        "/bench/**/in.*",
+        "/unittest/commands/*.cpp",
+        "/LICENSE",
+        "/examples/README"
+      ],
+      "url": "https://github.com/lammps/lammps.git"
+    },
+    {
+      "commit": "dd3dce70b883af02df293ce52491beabd8e01928",
+      "exclude": {
+        "tutorial4/videos/minimization/data.lammps": "LAMMPS atom data written by write_data, not an input script"
+      },
+      "groups": [
+        {
+          "id": "tutorials",
+          "suffixes": [
+            ".lmp",
+            ".lammps",
+            ".inc"
+          ]
+        }
+      ],
+      "id": "lammpstutorials-inputs",
+      "sparse": [
+        "/**/*.lmp",
+        "/**/*.lammps",
+        "/**/*.inc",
+        "/LICENSE"
+      ],
+      "url": "https://github.com/lammpstutorials/lammpstutorials-inputs.git"
+    },
+    {
+      "commit": "0e14b4b20a3ba8982e4b32c3a3574ecfe2f8f266",
+      "exclude": {
+        "inputs/GO-nanoparticle/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/amorphous-carbon/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/bulk-silicalite/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/liquid-mixture-PEG-water-ethanol/ethanol/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/liquid-mixture-PEG-water-ethanol/peg/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/liquid-mixture-PEG-water-ethanol/water/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/reversibly-adsorbing-particles/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/salt-dissolution-water/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-cnt/H2O_TIP4P2005/TIP4P2005.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-cnt/TIP4P2005.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-cnt/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-graphene-slit/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input"
+      },
+      "groups": [
+        {
+          "id": "gravelle",
+          "suffixes": [
+            ".lammps"
+          ]
+        }
+      ],
+      "id": "simongravelle-inputs",
+      "sparse": [
+        "/**/*.lammps",
+        "/README.md"
+      ],
+      "url": "https://github.com/simongravelle/lammps-input-files.git"
+    },
+    {
+      "commit": "697893bb9673fb8c9aee1ac7fab2d32bbcb86cda",
+      "exclude": {
+        "LAMMPS-Tutorials-06.ipynb#writefile=Fe_110_sig3.txt": "Atom data cell with 600 atoms and an Atoms section; not command input"
+      },
+      "groups": [
+        {
+          "id": "tschopp",
+          "notebook_writefiles": true,
+          "suffixes": [
+            ".ipynb"
+          ]
+        }
+      ],
+      "id": "mrkllntschpp-tutorials",
+      "sparse": [
+        "/*.ipynb",
+        "/README.md",
+        "/LICENSE"
+      ],
+      "url": "https://github.com/mrkllntschpp/lammps-tutorials.git"
+    },
+    {
+      "commit": "109c5055deccbdffd68fd5ce5b649b32cd3d981f",
+      "exclude": {
+        "LJ_initial_cfgs/in.nvt.dens_0.0010": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0020": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0030": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0040": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0050": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0100": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0150": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0200": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0250": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0300": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0350": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0400": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0450": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.1000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.1500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.2000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.2500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.3000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.3500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.4000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.4500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.5000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.5500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.6000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.6500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.7000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.7500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.8000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.8500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.9000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.9500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_1.0000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input"
+      },
+      "groups": [
+        {
+          "id": "nist",
+          "paths": [
+            "LJ_example/NVT.startfromrestart",
+            "LJ_initial_cfgs/in.nvt.dens_0.0010",
+            "LJ_initial_cfgs/in.nvt.dens_0.0020",
+            "LJ_initial_cfgs/in.nvt.dens_0.0030",
+            "LJ_initial_cfgs/in.nvt.dens_0.0040",
+            "LJ_initial_cfgs/in.nvt.dens_0.0050",
+            "LJ_initial_cfgs/in.nvt.dens_0.0100",
+            "LJ_initial_cfgs/in.nvt.dens_0.0150",
+            "LJ_initial_cfgs/in.nvt.dens_0.0200",
+            "LJ_initial_cfgs/in.nvt.dens_0.0250",
+            "LJ_initial_cfgs/in.nvt.dens_0.0300",
+            "LJ_initial_cfgs/in.nvt.dens_0.0350",
+            "LJ_initial_cfgs/in.nvt.dens_0.0400",
+            "LJ_initial_cfgs/in.nvt.dens_0.0450",
+            "LJ_initial_cfgs/in.nvt.dens_0.0500",
+            "LJ_initial_cfgs/in.nvt.dens_0.1000",
+            "LJ_initial_cfgs/in.nvt.dens_0.1500",
+            "LJ_initial_cfgs/in.nvt.dens_0.2000",
+            "LJ_initial_cfgs/in.nvt.dens_0.2500",
+            "LJ_initial_cfgs/in.nvt.dens_0.3000",
+            "LJ_initial_cfgs/in.nvt.dens_0.3500",
+            "LJ_initial_cfgs/in.nvt.dens_0.4000",
+            "LJ_initial_cfgs/in.nvt.dens_0.4500",
+            "LJ_initial_cfgs/in.nvt.dens_0.5000",
+            "LJ_initial_cfgs/in.nvt.dens_0.5500",
+            "LJ_initial_cfgs/in.nvt.dens_0.6000",
+            "LJ_initial_cfgs/in.nvt.dens_0.6500",
+            "LJ_initial_cfgs/in.nvt.dens_0.7000",
+            "LJ_initial_cfgs/in.nvt.dens_0.7500",
+            "LJ_initial_cfgs/in.nvt.dens_0.8000",
+            "LJ_initial_cfgs/in.nvt.dens_0.8500",
+            "LJ_initial_cfgs/in.nvt.dens_0.9000",
+            "LJ_initial_cfgs/in.nvt.dens_0.9500",
+            "LJ_initial_cfgs/in.nvt.dens_1.0000",
+            "SPCE_example/in.spce",
+            "TraPPECO2_example/in.TraPPECO2",
+            "TraPPEN2_example/in.TraPPEN2",
+            "run_scripts/LJ.NVT.generaterestart",
+            "run_scripts/LJ.NVT.startfromrestart",
+            "run_scripts/SPCE.NVT",
+            "run_scripts/SPCE.initial_energy",
+            "run_scripts/SPCE.noncubic.initial_energy",
+            "run_scripts/TraPPECO2.NVT",
+            "run_scripts/TraPPEN2.NVT"
+          ]
+        }
+      ],
+      "id": "nist-examples",
+      "sparse": [
+        "/SPCE_example/in.spce",
+        "/TraPPECO2_example/in.TraPPECO2",
+        "/TraPPEN2_example/in.TraPPEN2",
+        "/run_scripts/*",
+        "/LJ_example/NVT.startfromrestart",
+        "/README.md"
+      ],
+      "url": "https://github.com/dwsideriusNIST/LAMMPS_Examples.git"
+    },
+    {
+      "commit": "37dd1681fd2b8d136e9c7e2ff1a36bb3170bdcfd",
+      "exclude": {},
+      "groups": [
+        {
+          "id": "tingliang",
+          "markdown_fence": {
+            "anchor": "   variable            output_interval        equal         500000",
+            "name": "dump-example"
+          },
+          "paths": [
+            "Deal_Lammps_dump_files/README.md"
+          ]
+        }
+      ],
+      "id": "tingliang-tools",
+      "sparse": [
+        "/**/README.md",
+        "/LICENSE"
+      ],
+      "url": "https://github.com/Tingliangstu/Lammps_tools.git"
+    },
+    {
+      "commit": "6844bb38afa4b86d9c665d77b331ceaf3e18a362",
+      "exclude": {},
+      "groups": [
+        {
+          "basename_prefix": "in.",
+          "id": "free-energy"
+        }
+      ],
+      "id": "free-energy",
+      "sparse": [
+        "/**/in.lmp",
+        "/README.md"
+      ],
+      "url": "https://github.com/freitas-rodrigo/FreeEnergyLAMMPS.git"
+    },
+    {
+      "commit": "91a9856d4c3c9c768084171f68e2e1d018ab93f9",
+      "exclude": {},
+      "groups": [
+        {
+          "basename_prefix": "in.",
+          "id": "dynaphopy",
+          "prefix": "examples/"
+        }
+      ],
+      "id": "dynaphopy",
+      "sparse": [
+        "/**/in.*",
+        "/README*",
+        "/LICENSE"
+      ],
+      "url": "https://github.com/abelcarreras/DynaPhoPy.git"
+    }
+  ],
+  "validity": "Upstream inputs and fragments; runtime validity was not established"
+}

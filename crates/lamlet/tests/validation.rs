@@ -161,6 +161,49 @@ fn id_tracking_and_groups_respect_unknown_state() {
 }
 
 #[test]
+fn legacy_fragments_allow_external_ids_but_preserve_proven_absence() {
+    for strict in [false, true] {
+        for text in [
+            "fix f external bond/create 1 2 3 3.0 1\n",
+            "unfix external\n",
+            "uncompute external\n",
+        ] {
+            let source = Source::new("fragment.lammps", text.as_bytes().to_vec());
+            let result = compile_with_options(
+                &source,
+                &Options {
+                    language: Language::Lammps,
+                    strict,
+                    ..Options::default()
+                },
+            );
+            assert!(!result.has_errors(), "{:?}", result.diagnostics);
+            assert_eq!(result.output, text.as_bytes());
+            assert!(result.diagnostics.iter().any(|d| d.code == "U_ID_STATE"));
+        }
+        for text in [
+            "clear\nfix f external nve\n",
+            "group external empty\ngroup external delete\nfix f external nve\n",
+            "fix f all nve\nunfix f\nunfix f\n",
+        ] {
+            let result = compile_with_options(
+                &Source::new("in.test", text.as_bytes().to_vec()),
+                &Options {
+                    language: Language::Lammps,
+                    strict,
+                    ..Options::default()
+                },
+            );
+            assert!(
+                result.diagnostics.iter().any(|d| d.code == "E_UNKNOWN_ID"),
+                "{text}: {:?}",
+                result.diagnostics
+            );
+        }
+    }
+}
+
+#[test]
 fn strict_only_requires_proof_for_new_interpolations() {
     let script = "units metal\nplugin @{2 fs}\n";
     assert!(

@@ -5,10 +5,24 @@
       "id": "lammps",
       "url": "https://github.com/lammps/lammps.git",
       "commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
-      "sparse": ["/examples/**/in.*", "/bench/**/in.*", "/unittest/commands/*.cpp", "/LICENSE", "/examples/README"],
+      "sparse": [
+        "/examples/**/in.*",
+        "/bench/**/in.*",
+        "/unittest/commands/*.cpp",
+        "/LICENSE",
+        "/examples/README"
+      ],
       "groups": [
-        {"id": "examples", "prefix": "examples/", "basename_prefix": "in."},
-        {"id": "bench", "prefix": "bench/", "basename_prefix": "in."}
+        {
+          "id": "examples",
+          "prefix": "examples/",
+          "basename_prefix": "in."
+        },
+        {
+          "id": "bench",
+          "prefix": "bench/",
+          "basename_prefix": "in."
+        }
       ],
       "exclude": {
         "examples/COUPLE/lammps_spparks/in.spparks": "SPPARKS input, identified by its header and app_style/create_sites/solve_style commands; not a LAMMPS script"
@@ -18,13 +32,233 @@
       "id": "lammpstutorials-inputs",
       "url": "https://github.com/lammpstutorials/lammpstutorials-inputs.git",
       "commit": "dd3dce70b883af02df293ce52491beabd8e01928",
-      "sparse": ["/**/*.lmp", "/**/*.lammps", "/**/*.inc", "/LICENSE"],
+      "sparse": [
+        "/**/*.lmp",
+        "/**/*.lammps",
+        "/**/*.inc",
+        "/LICENSE"
+      ],
       "groups": [
-        {"id": "tutorials", "suffixes": [".lmp", ".lammps", ".inc"]}
+        {
+          "id": "tutorials",
+          "suffixes": [
+            ".lmp",
+            ".lammps",
+            ".inc"
+          ]
+        }
       ],
       "exclude": {
         "tutorial4/videos/minimization/data.lammps": "LAMMPS atom data written by write_data, not an input script"
       }
+    },
+    {
+      "id": "simongravelle-inputs",
+      "url": "https://github.com/simongravelle/lammps-input-files.git",
+      "commit": "0e14b4b20a3ba8982e4b32c3a3574ecfe2f8f266",
+      "sparse": [
+        "/**/*.lammps",
+        "/README.md"
+      ],
+      "groups": [
+        {
+          "id": "gravelle",
+          "suffixes": [
+            ".lammps"
+          ]
+        }
+      ],
+      "exclude": {
+        "inputs/GO-nanoparticle/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/amorphous-carbon/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/bulk-silicalite/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/liquid-mixture-PEG-water-ethanol/ethanol/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/liquid-mixture-PEG-water-ethanol/peg/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/liquid-mixture-PEG-water-ethanol/water/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/reversibly-adsorbing-particles/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/salt-dissolution-water/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-cnt/H2O_TIP4P2005/TIP4P2005.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-cnt/TIP4P2005.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-cnt/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input",
+        "inputs/water-in-graphene-slit/data.lammps": "LAMMPS atom or molecule data, identified by atom/bond counts and section headers; not command input"
+      }
+    },
+    {
+      "id": "mrkllntschpp-tutorials",
+      "url": "https://github.com/mrkllntschpp/lammps-tutorials.git",
+      "commit": "697893bb9673fb8c9aee1ac7fab2d32bbcb86cda",
+      "sparse": [
+        "/*.ipynb",
+        "/README.md",
+        "/LICENSE"
+      ],
+      "groups": [
+        {
+          "id": "tschopp",
+          "suffixes": [
+            ".ipynb"
+          ],
+          "notebook_writefiles": true
+        }
+      ],
+      "exclude": {
+        "LAMMPS-Tutorials-06.ipynb#writefile=Fe_110_sig3.txt": "Atom data cell with 600 atoms and an Atoms section; not command input"
+      }
+    },
+    {
+      "id": "nist-examples",
+      "url": "https://github.com/dwsideriusNIST/LAMMPS_Examples.git",
+      "commit": "109c5055deccbdffd68fd5ce5b649b32cd3d981f",
+      "sparse": [
+        "/SPCE_example/in.spce",
+        "/TraPPECO2_example/in.TraPPECO2",
+        "/TraPPEN2_example/in.TraPPEN2",
+        "/run_scripts/*",
+        "/LJ_example/NVT.startfromrestart",
+        "/README.md"
+      ],
+      "groups": [
+        {
+          "id": "nist",
+          "paths": [
+            "LJ_example/NVT.startfromrestart",
+            "LJ_initial_cfgs/in.nvt.dens_0.0010",
+            "LJ_initial_cfgs/in.nvt.dens_0.0020",
+            "LJ_initial_cfgs/in.nvt.dens_0.0030",
+            "LJ_initial_cfgs/in.nvt.dens_0.0040",
+            "LJ_initial_cfgs/in.nvt.dens_0.0050",
+            "LJ_initial_cfgs/in.nvt.dens_0.0100",
+            "LJ_initial_cfgs/in.nvt.dens_0.0150",
+            "LJ_initial_cfgs/in.nvt.dens_0.0200",
+            "LJ_initial_cfgs/in.nvt.dens_0.0250",
+            "LJ_initial_cfgs/in.nvt.dens_0.0300",
+            "LJ_initial_cfgs/in.nvt.dens_0.0350",
+            "LJ_initial_cfgs/in.nvt.dens_0.0400",
+            "LJ_initial_cfgs/in.nvt.dens_0.0450",
+            "LJ_initial_cfgs/in.nvt.dens_0.0500",
+            "LJ_initial_cfgs/in.nvt.dens_0.1000",
+            "LJ_initial_cfgs/in.nvt.dens_0.1500",
+            "LJ_initial_cfgs/in.nvt.dens_0.2000",
+            "LJ_initial_cfgs/in.nvt.dens_0.2500",
+            "LJ_initial_cfgs/in.nvt.dens_0.3000",
+            "LJ_initial_cfgs/in.nvt.dens_0.3500",
+            "LJ_initial_cfgs/in.nvt.dens_0.4000",
+            "LJ_initial_cfgs/in.nvt.dens_0.4500",
+            "LJ_initial_cfgs/in.nvt.dens_0.5000",
+            "LJ_initial_cfgs/in.nvt.dens_0.5500",
+            "LJ_initial_cfgs/in.nvt.dens_0.6000",
+            "LJ_initial_cfgs/in.nvt.dens_0.6500",
+            "LJ_initial_cfgs/in.nvt.dens_0.7000",
+            "LJ_initial_cfgs/in.nvt.dens_0.7500",
+            "LJ_initial_cfgs/in.nvt.dens_0.8000",
+            "LJ_initial_cfgs/in.nvt.dens_0.8500",
+            "LJ_initial_cfgs/in.nvt.dens_0.9000",
+            "LJ_initial_cfgs/in.nvt.dens_0.9500",
+            "LJ_initial_cfgs/in.nvt.dens_1.0000",
+            "SPCE_example/in.spce",
+            "TraPPECO2_example/in.TraPPECO2",
+            "TraPPEN2_example/in.TraPPEN2",
+            "run_scripts/LJ.NVT.generaterestart",
+            "run_scripts/LJ.NVT.startfromrestart",
+            "run_scripts/SPCE.NVT",
+            "run_scripts/SPCE.initial_energy",
+            "run_scripts/SPCE.noncubic.initial_energy",
+            "run_scripts/TraPPECO2.NVT",
+            "run_scripts/TraPPEN2.NVT"
+          ]
+        }
+      ],
+      "exclude": {
+        "LJ_initial_cfgs/in.nvt.dens_0.0010": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0020": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0030": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0040": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0050": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0100": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0150": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0200": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0250": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0300": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0350": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0400": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0450": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.0500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.1000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.1500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.2000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.2500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.3000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.3500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.4000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.4500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.5000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.5500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.6000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.6500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.7000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.7500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.8000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.8500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.9000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_0.9500": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input",
+        "LJ_initial_cfgs/in.nvt.dens_1.0000": "Binary LAMMPS restart, identified by the LammpS RestartT header; not command input"
+      }
+    },
+    {
+      "id": "tingliang-tools",
+      "url": "https://github.com/Tingliangstu/Lammps_tools.git",
+      "commit": "37dd1681fd2b8d136e9c7e2ff1a36bb3170bdcfd",
+      "sparse": [
+        "/**/README.md",
+        "/LICENSE"
+      ],
+      "groups": [
+        {
+          "id": "tingliang",
+          "paths": [
+            "Deal_Lammps_dump_files/README.md"
+          ],
+          "markdown_fence": {
+            "name": "dump-example",
+            "anchor": "   variable            output_interval        equal         500000"
+          }
+        }
+      ],
+      "exclude": {}
+    },
+    {
+      "id": "free-energy",
+      "url": "https://github.com/freitas-rodrigo/FreeEnergyLAMMPS.git",
+      "commit": "6844bb38afa4b86d9c665d77b331ceaf3e18a362",
+      "sparse": [
+        "/**/in.lmp",
+        "/README.md"
+      ],
+      "groups": [
+        {
+          "id": "free-energy",
+          "basename_prefix": "in."
+        }
+      ],
+      "exclude": {}
+    },
+    {
+      "id": "dynaphopy",
+      "url": "https://github.com/abelcarreras/DynaPhoPy.git",
+      "commit": "91a9856d4c3c9c768084171f68e2e1d018ab93f9",
+      "sparse": [
+        "/**/in.*",
+        "/README*",
+        "/LICENSE"
+      ],
+      "groups": [
+        {
+          "id": "dynaphopy",
+          "prefix": "examples/",
+          "basename_prefix": "in."
+        }
+      ],
+      "exclude": {}
     }
   ]
 }
