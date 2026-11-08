@@ -1,9 +1,14 @@
 # Prepare the Harbor benchmark prototype
 
-Generate the Holbrook P1–P3 task templates for one agent-tool condition. This
-prototype has no scientific oracle, audited reference solution, or validated
-runtime image. Its preparation report always records `ready_for_trials: false`.
-It does not launch agents or simulations.
+Generate the Holbrook P1–P3 task templates for one agent-tool condition, or run
+the [P3 verification pilot](../../docs/p3-pilot.md). P3 now has an independent
+oracle, an authored reference, a pinned serial EAM runtime, native mutation
+tests, and a live Harbor reference run. The pilot checks a requested protocol
+using instrumented smoke execution. It does not execute full equilibration.
+P1 and P2 still lack scientific oracles and reference solutions.
+
+The generic preparation report keeps `ready_for_trials: false`. No model
+campaign or Lamlet-versus-baseline comparison has been run.
 
 The [evaluation protocol](../../docs/agent-evaluation.md) separates the checker
 comparison from the typed-language comparison and defines the independent
@@ -30,6 +35,7 @@ the common shell and engine, B adds the upstream AST skill, C adds Lamlet's
 legacy-input checker, and D asks for typed Lamlet compiled to LAMMPS. Tool
 installation belongs in audited base images. The generator changes the tool
 instructions but does not install or prove the presence of those tools.
+Use `--task P3` to prepare just that task.
 
 The agent submits `/app/submission/solution.in`. Each task includes the pinned
 potential in `/app/inputs`. The separate verifier receives the submission and
@@ -101,14 +107,15 @@ The tests cover missing or incomplete oracle evidence, stale rewards, subprocess
 failures, digest requirements, and task packaging. Fixture oracle reports test
 the adapter contract. They do not validate molecular dynamics.
 
-Before launching paid trials, implement and audit the scientific oracle and
-reference solutions. Test valid alternatives and deliberate physical errors.
+Before launching paid trials, review the P3 oracle and reference with a domain
+expert and implement the P1 and P2 oracles. Test valid alternatives and deliberate physical errors.
 Build the containers and run Harbor's reference agent on every task. Confirm
 that tests are unavailable during the agent phase and cannot be changed through
 submitted artifacts. Freeze model settings, budgets, and task versions, then
-prepare held-out task families. The prototype supplies no reference solution,
-so the `oracle` agent is not yet a usable correctness check.
+prepare held-out task families. The generic task templates have no reference
+solution. The P3 container builder supplies one for the `oracle` agent.
 
-Docker was unavailable during local preparation. Task parsing, configuration
-preview, and adapter tests were exercised; container builds, engine execution,
-isolation, and scientific grading were not.
+The P3 runtime and verifier images were built and the authored reference passed
+through Harbor's separate verifier. The native admission also exercises two
+valid alternatives, nine deliberate physical errors, and unsupported syntax.
+Follow the [pilot guide](../../docs/p3-pilot.md) to reproduce these checks.

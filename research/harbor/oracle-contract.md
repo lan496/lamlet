@@ -14,8 +14,10 @@ The adapter reads the submitted LAMMPS file at
 /opt/lamlet-bench/oracle --task P3 --input /app/submission/solution.in --inputs-dir /app/inputs
 ```
 
-The executable belongs to the trusted verifier image. No oracle implementation
-is supplied by this prototype. The agent cannot select the executable through
+The executable belongs to the trusted verifier image. The bounded P3 pilot
+implements this interface in `tools/p3_oracle.py`; P1 and P2 have no oracle yet.
+See the [pilot contract and limits](../../docs/p3-pilot.md).
+The agent cannot select the executable through
 its submission. The adapter records the executable's SHA-256 and captures its
 stdout and stderr in verifier logs.
 

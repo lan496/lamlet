@@ -52,6 +52,8 @@ def prepare(args):
     # Read and verify everything before publishing any tasks.
     resources = {}
     for task_id, task in specification["tasks"].items():
+        if getattr(args, "task", None) and task_id != args.task:
+            continue
         resources[task_id] = (
             pinned(args.cache, task["prompt"], task["prompt_blob"]),
             pinned(args.cache, task["potential"], task["potential_blob"]),
@@ -60,6 +62,8 @@ def prepare(args):
         raise ValueError(f"Output already exists; choose a fresh directory: {args.output}")
     records = []
     for task_id, task in sorted(specification["tasks"].items()):
+        if task_id not in resources:
+            continue
         prompt, potential = resources[task_id]
         directory = args.output / task["name"]
         environment = directory / "environment"
@@ -110,7 +114,7 @@ def prepare(args):
         "harbor": specification["harbor"], "upstream": upstream["commit"],
         "agent_image": args.agent_image, "verifier_image": args.verifier_image,
         "agent_seconds": args.agent_seconds, "verifier_seconds": args.verifier_seconds,
-        "development_tasks": specification["development_tasks"],
+        "development_tasks": [record["id"] for record in records],
         "held_out_tasks": specification["held_out_tasks"], "tasks": records,
         "remaining": ["independent scientific oracle and audited reference solutions",
                       "validated images with pinned engines, tools, and dependencies",
@@ -131,6 +135,7 @@ def positive(value):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--condition", choices=TOOLS, required=True)
+    parser.add_argument("--task", choices=("P1", "P2", "P3"))
     parser.add_argument("--cache", type=Path, default=ROOT / "target/evaluation/upstream")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--agent-image", type=image)

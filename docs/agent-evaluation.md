@@ -11,7 +11,7 @@ This tests the value of the validation tools. A later comparison lets the agent
 write typed Lamlet and tests the value of the language separately.
 
 This document is a proposed protocol. No controlled agent experiment has been
-run. The [offline replay](../research/holbrook/README.md) measures current checker
+run. The [offline replay](https://github.com/lan496/lamlet/blob/main/research/holbrook/README.md) measures current checker
 behavior on published artifacts and provides a reproducible starting point.
 
 ## Published baseline
@@ -123,7 +123,7 @@ and runner for our domain-specific tasks. Its local task-directory option is
 `--path`; `--dataset` selects a named dataset. See the official
 [job guide](https://docs.harborframework.com/jobs/run-a-job).
 
-The [Harbor prototype](../research/harbor/README.md) prepares P1–P3 task templates
+The [Harbor prototype](https://github.com/lan496/lamlet/blob/main/research/harbor/README.md) prepares P1–P3 task templates
 for each A–D condition. It uses a separate verifier container, explicit artifact
 transfer, and an adapter for an independently implemented scientific oracle.
 The original method text stays intact. Common submission instructions and a
@@ -133,8 +133,14 @@ the final LAMMPS submission format, potential files, and required criteria.
 Task structure alone does not make tests inaccessible. Harbor defaults to a
 shared environment when no separate verifier is configured. The prototype
 explicitly requests separate verification and copies no tests into the agent
-image. Container separation and artifact tamper resistance still require live
-tests. See the official [separate verifier guide](https://docs.harborframework.com/tasks/separate-verifier).
+image. The P3 live admission checks absence of verifier entry points during the
+agent phase and rejection of forged assessment artifacts. Broader isolation
+properties still need review. See the official [separate verifier guide](https://docs.harborframework.com/tasks/separate-verifier).
+
+The [P3 pilot](p3-pilot.md) adds a bounded independent oracle, native mutation
+admission, and a live reference run through separate Harbor containers. Its
+instrumented runs establish the implemented protocol checks, without executing
+100 ps of equilibration. P1 and P2 remain templates, and no model campaign has run.
 
 Scientific assessment is a separate outcome from the runner's reward. Missing
 oracle code, engine failures, incomplete evidence, and unresolved criteria must
@@ -262,8 +268,10 @@ The next implementation sequence is:
 5. Add feature ablations and later multistage tasks for modules, restart, and
    checkpoint behavior. These remain separate hypotheses.
 
-The offline replay and Harbor task preparation are implemented. Scientific
-oracles, audited reference solutions, validated runtime images, model trials,
-geometry checks, and checkpoint guarantees remain unimplemented. Harbor task
-templates and successful configuration parsing do not establish those
-capabilities.
+The offline replay, Harbor task preparation, and bounded P3 oracle are
+implemented. The P3 reference and wrong-gap mutation have passed live Harbor
+admission with the expected grades. Native admission covers valid alternatives
+and further mutations. P1 and P2 oracles, external scientific review, full
+equilibration and collision validation, model trials, general geometry checks,
+and checkpoint guarantees remain outstanding. The [P3 guide](p3-pilot.md)
+defines exactly what its protocol grade establishes.

@@ -1,0 +1,176 @@
+{
+  "full_equilibration_executed": false,
+  "harbor_admission_passed": true,
+  "harbor_cases": [
+    {
+      "agent_verifier_absence_checked": true,
+      "case": "reference",
+      "expected": "correct",
+      "forged_artifact_reward_ignored": true,
+      "observed": "correct",
+      "passed": true,
+      "reward": 1
+    },
+    {
+      "agent_verifier_absence_checked": true,
+      "case": "wrong-gap",
+      "expected": "incorrect",
+      "forged_artifact_reward_ignored": true,
+      "observed": "incorrect",
+      "passed": true,
+      "reward": 0
+    }
+  ],
+  "harbor_version": "0.25.0",
+  "local_linux_image_ids": {
+    "runtime": "sha256:4c686f4a6d3895a0a271f343e8d7a9551de8e81f132c823bc551a3d271ac5d45",
+    "verifier": "sha256:a899b5898a075eb85731d390514e77a20166e0cdcabee1d1d267efebe34d7a00"
+  },
+  "model_trials_run": false,
+  "native_admission_passed": true,
+  "native_cases": [
+    {
+      "case": "reference",
+      "criterion": null,
+      "expected": "correct",
+      "observed": "correct",
+      "passed": true,
+      "seconds": 0.9991012909449637,
+      "submission_sha256": "ce9e5729e235ee7cd6a11450e75ab0c1c346931cd7fe987643600906abf58bc4"
+    },
+    {
+      "case": "renamed-groups",
+      "criterion": null,
+      "expected": "correct",
+      "observed": "correct",
+      "passed": true,
+      "seconds": 0.6301642919424921,
+      "submission_sha256": "362058b24b53cc86a077412875c981dda87e1936d089c6f4fdde3b5e4d5f14e5"
+    },
+    {
+      "case": "split-equilibration",
+      "criterion": null,
+      "expected": "correct",
+      "observed": "correct",
+      "passed": true,
+      "seconds": 0.6999147080350667,
+      "submission_sha256": "7868428f59a922b6a1dd5aebddf9800f28715b691092a56f28521c0727132d56"
+    },
+    {
+      "case": "wrong-gap",
+      "criterion": "gap",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6272132080048323,
+      "submission_sha256": "880887a3b0f9dd292d1db9e7d217dd5c8e3952bedecf6aa652f4c60da53ee75f"
+    },
+    {
+      "case": "wrong-speed",
+      "criterion": "impact_velocity",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6135055001359433,
+      "submission_sha256": "eef764fa906ae06ae7cdeea3c87d142e933f23ea317ba41433d79baa52ca74ca"
+    },
+    {
+      "case": "wrong-direction",
+      "criterion": "impact_velocity",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.620607458986342,
+      "submission_sha256": "d09338b26d9962c9ea4d8661756487f439104c1af5ab6959907430e6df2150af"
+    },
+    {
+      "case": "overwritten-thermal-velocity",
+      "criterion": "thermal_velocity_retained",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6302190420683473,
+      "submission_sha256": "fe35bb511e1ff97645e161dbb87141798ad96a97c5dd3bdd7a1df8b88534ebf6"
+    },
+    {
+      "case": "wrong-projectile-size",
+      "criterion": "groups",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.4360708750318736,
+      "submission_sha256": "f9c66693c8946fbd6acdb8f3f0966a3c631bcb5142f9c2bd2542c26d4d906483"
+    },
+    {
+      "case": "periodic-impact-axis",
+      "criterion": "boundaries",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6208789998199791,
+      "submission_sha256": "aea41fe58755cf294a79c11a814c4856ad5cd3065392c32eb7c0bdae89f4954e"
+    },
+    {
+      "case": "short-equilibration",
+      "criterion": "equilibration",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6230170000344515,
+      "submission_sha256": "38b3d88c9aa35d8aed9dc2dc4a081c6fe5441a222fd7292459b69d08945ff914"
+    },
+    {
+      "case": "overlapping-integrators",
+      "criterion": "adiabatic_integration",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6207540000323206,
+      "submission_sha256": "7ccf9f466112631b00fa4a123f8015fe84d05a42bf460180d724f076589b4c73"
+    },
+    {
+      "case": "substituted-potential",
+      "criterion": "potential",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.08951712492853403,
+      "submission_sha256": "96bfce5ca86e26e8c4488de63f4de085d54055179e4c1f076681983a2c10405f"
+    },
+    {
+      "case": "unsupported-shell",
+      "criterion": null,
+      "expected": "unassessed",
+      "observed": "unassessed",
+      "passed": true,
+      "seconds": 0.06948970910161734,
+      "submission_sha256": "d214c4ecfe3eb00a91350b3b810950249fb61d1d5f651da099408585ecfdb646"
+    }
+  ],
+  "oracle_sha256": "71dd0c286ba9a312692107f53a4bc9ee6c83502b81a43239499f0258ff6d3a09",
+  "oracle_version": "p3-protocol-v1",
+  "recorded_on": "2026-11-08",
+  "reference_sha256": "ce9e5729e235ee7cd6a11450e75ab0c1c346931cd7fe987643600906abf58bc4",
+  "reproduce": [
+    "python3 tools/p3_admit.py --output target/p3-admission/local",
+    "python3 tools/p3_harbor_admit.py --container target/p3-container/local --output target/p3-harbor/admission"
+  ],
+  "runtime": {
+    "cmake_options": [
+      "-DBUILD_MPI=off",
+      "-DBUILD_OMP=off",
+      "-DBUILD_SHARED_LIBS=on",
+      "-DPKG_MANYBODY=on",
+      "-DCMAKE_BUILD_TYPE=Release"
+    ],
+    "lammps_commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+    "lammps_repository": "https://github.com/lammps/lammps.git",
+    "libraries": {
+      "liblammps.0.dylib": "0682323fc2315208fa9c2f8f623ce4e9c2571a894184ddf89082cc4f1209c9ee",
+      "liblammps.pc": "4afabc355fca8479c1df906d6a25319ed492f38d8bc3917864afc70818cea84f"
+    },
+    "schema_version": 1
+  },
+  "schema_version": 1,
+  "scope": "Protocol and bounded smoke admission; no equilibration or convergence claim"
+}
