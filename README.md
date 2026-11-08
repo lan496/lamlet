@@ -102,12 +102,16 @@ cleanup at block exit. `@drop ID` releases a resource early. Ordinary LAMMPS
 resource commands retain manual lifetime management. See [scoped resources](docs/scopes.md)
 for ownership, dependency, and control-flow restrictions.
 
-Ten documented physical and idiom rules check temperature definitions, competing
-integrators, barostat boundaries, and other narrow command patterns. Findings
-include evidence and suggested actions. They remain warnings in strict mode and
-never change the physical model. The official manual index covers 1,001 source
-documents; most prose constraints remain unimplemented. See the
-[lint rules and coverage](docs/lint-rules.md) and [physical semantics](docs/semantics.md).
+The checker includes ten physical and idiom rules and 282 executable constraints
+derived from a pinned LAMMPS manual. They check command ordering, numeric bounds,
+averaging intervals, dimension and unit restrictions, pair options, and resource
+state. Findings include source evidence, manual citations, and suggested actions.
+They remain warnings in strict mode and never change the physical model.
+Use `lamlet schema LML-MAN-NEIGHBOR-DELAY --format json` to inspect a rule.
+The [generated catalog](docs/manual-rule-catalog.md) lists every new constraint.
+The official manual index covers 1,001 source documents; conversion of the full
+manual remains incomplete. See [lint rules and coverage](docs/lint-rules.md) and
+[physical semantics](docs/semantics.md).
 
 For a selected engine, `lamlet target inspect --format json` records compiled
 packages/styles. Enable `[validation].check_capabilities` to check against that

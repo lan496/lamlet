@@ -1,0 +1,131 @@
+{
+  "paragraphs": [
+    {
+      "page": "compute_msd.rst",
+      "reason": "Dynamic-group restriction is checked. Atom-count changes caused by fixes are not tracked.",
+      "rules": [
+        "LML-MAN-COMPUTE-MSD-GROUP"
+      ],
+      "sha256": "45f598fefff583539bdda6e04ad8544629c858623bf0c62105e42f7b21e4aa8f",
+      "status": "partial"
+    },
+    {
+      "page": "compute_msd_nongauss.rst",
+      "reason": "Known dynamic groups are rejected by a warning; unknown membership stays Unknown.",
+      "rules": [
+        "LML-MAN-COMPUTE-MSD-NONGAUSS-GROUP"
+      ],
+      "sha256": "71a3203b7de9229db64b87a8c8415e55ee9239bad97e6a5c545aa9fa5398898c",
+      "status": "implemented"
+    },
+    {
+      "page": "dimension.rst",
+      "reason": "The before-box requirement is checked when the box state is known.",
+      "rules": [
+        "LML-MAN-DIMENSION-BEFORE-BOX"
+      ],
+      "sha256": "77810fb45ebf735cebd9a7c22efaf0409912e3ef17a802db3de720aa6b00e0ec",
+      "status": "implemented"
+    },
+    {
+      "page": "fix_charge_regulation.rst",
+      "reason": "The dimension requirement is checked. Box shape, atom attributes, free-ion membership, molecule topology and integer charges are not established.",
+      "rules": [
+        "LML-MAN-FIX-CHARGE-REGULATION-3D"
+      ],
+      "sha256": "dbe0b342c691ccd180bb3cd86fc5f96fc9a689243c6a8e8be90542d107574cf9",
+      "status": "partial"
+    },
+    {
+      "page": "fix_gcmc.rst",
+      "reason": "The whole-style three-dimensional requirement is checked for known dimension.",
+      "rules": [
+        "LML-MAN-FIX-GCMC-3D"
+      ],
+      "sha256": "f21b07b276e3b7ff4d48d173e33dbff9e019eb39687886a42a051892113bbe08",
+      "status": "implemented"
+    },
+    {
+      "page": "fix_tgnh_drude.rst",
+      "reason": "Dimension and static-group restrictions are checked. Package availability requires an explicit target profile and is separate from these rules.",
+      "rules": [
+        "LML-MAN-FIX-TGNH-DRUDE-3D",
+        "LML-MAN-FIX-TGNH-DRUDE-GROUP"
+      ],
+      "sha256": "cd163b14eef33ff7fecc6f17d3908f7098f476a3c1dde08f4dbfe1eec67b350f",
+      "status": "partial"
+    },
+    {
+      "page": "kspace_style.rst",
+      "reason": "The dimension requirement for MSM is checked. Shrink-wrapped boundaries are not checked.",
+      "rules": [
+        "LML-MAN-KSPACE-MSM-3D"
+      ],
+      "sha256": "54d32163a04da9bb5d5783574321f48e40f68e7bf992bb21451048e6cb8d4285",
+      "status": "partial"
+    },
+    {
+      "page": "kspace_style.rst",
+      "reason": "The dimension requirement is checked. Boundary periodicity with the slab exception is not checked.",
+      "rules": [
+        "LML-MAN-KSPACE-EWALD-3D"
+      ],
+      "sha256": "e08b302bd9fb68454170be58eda59c4a9828dd25a45c4f7c120310627a9970f4",
+      "status": "partial"
+    },
+    {
+      "page": "mass.rst",
+      "reason": "The after-box requirement is checked when the box state is known.",
+      "rules": [
+        "LML-MAN-MASS-AFTER-BOX"
+      ],
+      "sha256": "ce1d994a6c4ed8011ef8ecd3a06c0568849680b91482e84e3c9728393b147b2f",
+      "status": "implemented"
+    },
+    {
+      "page": "mass.rst",
+      "reason": "Literal masses must be finite and positive; runtime substitutions remain Unknown.",
+      "rules": [
+        "LML-MAN-MASS"
+      ],
+      "sha256": "81dbcd583d463467aff0bceeb051ce6814e16da449359600267295a78a2aca54",
+      "status": "implemented"
+    },
+    {
+      "page": "neigh_modify.rst",
+      "reason": "Known delay and every values are checked together, including settings from earlier commands.",
+      "rules": [
+        "LML-MAN-NEIGHBOR-DELAY"
+      ],
+      "sha256": "1d4c0d742b2b8f1b5b42a6aebc41df7b27ad8e4bae32d8e0c428a602eed0a77e",
+      "status": "implemented"
+    },
+    {
+      "page": "neigh_modify.rst",
+      "reason": "Known page and one values are checked together with overflow-safe arithmetic.",
+      "rules": [
+        "LML-MAN-NEIGHBOR-PAGE"
+      ],
+      "sha256": "68b894d55aec5d231bf97ab523e2c72f8c8c7c601780c4dbc0e65da0f4d742f0",
+      "status": "implemented"
+    },
+    {
+      "page": "neigh_modify.rst",
+      "reason": "Requires parsing exclude group options and preserving both group identities. Unsupported option grammar remains Unknown.",
+      "rules": [],
+      "sha256": "9fefd1bbe7d3140cc62a4d6c5ef2881794aa3830d357fcc4e9c093074e327010",
+      "status": "deferred"
+    },
+    {
+      "page": "pair_modify.rst",
+      "reason": "Shift/tail conflict and two-dimensional tail corrections are checked. The special option with GPU or INTEL styles is not checked.",
+      "rules": [
+        "LML-MAN-PAIR-SHIFT-TAIL",
+        "LML-MAN-PAIR-TAIL-2D"
+      ],
+      "sha256": "5caf169907514acbf4068a1c36f8249dd122fd65b8f214bb3e930dd5685e3289",
+      "status": "partial"
+    }
+  ],
+  "revision": "0165101ce505734e8fb249694b22e295a7ab4182"
+}

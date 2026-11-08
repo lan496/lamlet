@@ -158,12 +158,33 @@ fn schema(query: Option<&str>, format: Format) -> io::Result<u8> {
         .iter()
         .filter(|s| query.is_none_or(|q| s.name == q))
         .collect();
-    let codes: Vec<_> = lamlet::diagnostic::CODES.iter().map(|(code, description)| serde_json::json!({ "code": code, "description": description, "severity": if code.starts_with("LML-CAP-") { "error" } else { match code.as_bytes()[0] { b'E' => "error", b'W' | b'L' => "warning", _ => "unknown" } } })).collect();
+    let mut codes: Vec<_> = lamlet::diagnostic::CODES.iter().map(|(code, description)| serde_json::json!({ "code": code, "description": description, "severity": if code.starts_with("LML-CAP-") { "error" } else { match code.as_bytes()[0] { b'E' => "error", b'W' | b'L' => "warning", _ => "unknown" } } })).collect();
+    codes.extend(lamlet::manual_lint::catalog().rules.iter().map(
+        |r| serde_json::json!({"code": r.id, "description": r.message, "severity": r.severity}),
+    ));
+    let manual_rules: Vec<_> = lamlet::manual_lint::catalog()
+        .rules
+        .iter()
+        .filter(|r| {
+            query.is_none_or(|q| {
+                r.id == q
+                    || r.selectors.iter().any(|s| {
+                        s.command == q
+                            || s.active_pair_style
+                                .as_ref()
+                                .is_some_and(|style| q == format!("pair_style/{style}"))
+                            || s.value
+                                .as_ref()
+                                .is_some_and(|style| q == format!("{}/{style}", s.command))
+                    })
+            })
+        })
+        .collect();
     let value = serde_json::json!({
         "schema_version": 1,
         "compiler_version": env!("CARGO_PKG_VERSION"),
         "query": query,
-        "coverage": if commands.is_empty() { "opaque" } else { "partial" },
+        "coverage": if commands.is_empty() && manual_rules.is_empty() { "opaque" } else { "partial" },
         "coverage_meaning": "Commands outside this registry are accepted by Lamlet with unknown validation; their LAMMPS availability is not determined",
         "typed_unit_styles": ["metal", "real"],
         "accepted_legacy_unit_styles": ["lj", "real", "metal", "si", "cgs", "electron", "micro", "nano"],
@@ -175,6 +196,8 @@ fn schema(query: Option<&str>, format: Format) -> io::Result<u8> {
         "diagnostic_codes": codes,
         "physical_rules": lamlet::semantics::RULES,
         "lint_rules": lamlet::lint::RULES,
+        "manual_rules": manual_rules,
+        "manual_review": lamlet::manual_lint::catalog().review,
         "documentation": lamlet::documentation::query(query),
         "capability_metadata": lamlet::capability::METADATA,
         "capability_states": ["built_in", "plugin", "unavailable", "unknown"],
@@ -199,11 +222,18 @@ fn schema(query: Option<&str>, format: Format) -> io::Result<u8> {
                     s.name, s.coverage, s.state_effect, s.limitations
                 )?;
             }
-            if commands.is_empty() {
+            if commands.is_empty() && manual_rules.is_empty() {
                 writeln!(
                     stdout,
                     "{}: opaque to Lamlet; LAMMPS support is not determined",
                     query.unwrap_or("command")
+                )?;
+            }
+            for rule in &manual_rules {
+                writeln!(
+                    stdout,
+                    "{} [warning]: {}\n  {}",
+                    rule.id, rule.message, rule.source.url
                 )?;
             }
             let manual = &value["documentation"];

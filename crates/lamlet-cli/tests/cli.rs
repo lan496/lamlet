@@ -29,6 +29,72 @@ fn json_output(output: &Output, code: i32) -> Value {
 }
 
 const STAGE_SOURCE: &str = "@stage relax(structure: InputFile, result: OutputFile) {\nunits metal\natom_style atomic\nread_data @{structure} nocoeff\npair_style lj/cut 2.5\npair_coeff * * 1 1\nminimize 1e-8 1e-10 10 100\nwrite_data @{result}\n}\n@stage invalid() {\nrun 100\n}\n";
+#[test]
+fn manual_rules_are_queryable_and_warning_builds_preserve_legacy_bytes() {
+    let dir = tempfile::tempdir().unwrap();
+    let args = ["schema", "LML-MAN-NEIGHBOR-DELAY", "--format=json"];
+    let first = cli(&args, dir.path());
+    assert_eq!(first.stdout, cli(&args, dir.path()).stdout);
+    let schema = json_output(&first, 0);
+    assert_eq!(schema["manual_rules"].as_array().unwrap().len(), 1);
+    let rule = schema["manual_rules"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|r| r["id"] == "LML-MAN-NEIGHBOR-DELAY")
+        .unwrap();
+    assert_eq!(rule["predicate"]["kind"], "neighbor_delay");
+    assert_eq!(schema["coverage"], "partial");
+    assert_eq!(schema["manual_review"]["complete"], false);
+    assert!(
+        rule["source"]["url"]
+            .as_str()
+            .unwrap()
+            .contains("/blob/0165101")
+    );
+    let styles = json_output(
+        &cli(&["schema", "pair_style/eam", "--format=json"], dir.path()),
+        0,
+    );
+    assert!(
+        styles["manual_rules"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|r| r["id"] == "LML-MAN-PAIR-EAM-MODIFY-SHIFT")
+    );
+    let human = cli(&["schema", "LML-MAN-NEIGHBOR-DELAY"], dir.path());
+    assert!(human.status.success());
+    assert!(String::from_utf8_lossy(&human.stdout).contains("LML-MAN-NEIGHBOR-DELAY [warning]"));
+
+    let input = b"# retain formatting\r\nneigh_modify delay 3 every 2\r\n";
+    fs::write(dir.path().join("legacy.in"), input).unwrap();
+    let args = ["check", "legacy.in", "--strict", "--format=json"];
+    let first = cli(&args, dir.path());
+    assert_eq!(first.stdout, cli(&args, dir.path()).stdout);
+    let checked = json_output(&first, 0);
+    assert!(checked["diagnostics"].as_array().unwrap().iter().any(|d| {
+        d["code"] == "LML-MAN-NEIGHBOR-DELAY"
+            && d["severity"] == "warning"
+            && d["span"]["start_line"] == 2
+    }));
+    json_output(
+        &cli(
+            &[
+                "build",
+                "legacy.in",
+                "--strict",
+                "-o",
+                "copy.in",
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        0,
+    );
+    assert_eq!(fs::read(dir.path().join("copy.in")).unwrap(), input);
+}
+
 fn stage_project(path: &Path) {
     fs::write(path.join("workflow.lamlet"), STAGE_SOURCE).unwrap();
     fs::write(path.join("atoms.data"), "explicit input fixture").unwrap();
@@ -253,6 +319,12 @@ fn deterministic_json_error_golden() {
         json_output(&first, 1),
         json!({
             "schema_version": 1, "status": "error", "input": "bad.lamlet",
+            "physical_findings": [{
+                "rule_id": "LML-MAN-UNITS-BEFORE-BOX", "outcome": "satisfied",
+                "span": { "start_byte": 0, "end_byte": 12, "start_line": 1, "start_column": 1, "end_line": 2, "end_column": 1 },
+                "evidence": [{ "subject": "LAMMPS command", "definition": "units metal", "span": { "start_byte": 0, "end_byte": 12, "start_line": 1, "start_column": 1, "end_line": 2, "end_column": 1 } }],
+                "suggested_actions": []
+            }],
             "diagnostics": [{
                 "severity": "error", "code": "E_DIMENSION_MISMATCH",
                 "message": "Expected Time, but this expression has Temperature",

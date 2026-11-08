@@ -5,9 +5,10 @@ command-state analysis. A rule returns satisfied, violated, or unknown over the
 facts available at a use site. A finding describes only that rule's stated
 condition. It does not establish physical correctness of the simulation.
 
-The [lint rule reference](lint-rules.md) lists all ten physical and idiom rules,
-their manual sources, and their coverage boundaries. It also describes the
-complete source-document index and the remaining manual-review work.
+The [lint rule reference](lint-rules.md) lists ten physical and idiom rules and
+describes the state boundaries of 282 additional manual constraints.
+Their [generated catalog](manual-rule-catalog.md) contains exact applicability
+and immutable manual citations. Full-manual review and implementation remain incomplete.
 
 The initial rule, **LML-PHYS-002**, compares known nvt/npt thermostat temperature
 definitions with the displayed thermo temp at a plain `run`. It models default

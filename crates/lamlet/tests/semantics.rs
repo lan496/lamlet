@@ -79,7 +79,11 @@ fn final_configuration_at_run_and_thermo_style_reset_are_observed() {
         Outcome::Unknown,
     );
     let c = check("fix t all nvt temp 300 300 0.1\nunfix t\nrun 0\n");
-    assert!(c.physical_findings.is_empty());
+    assert!(
+        !c.physical_findings
+            .iter()
+            .any(|f| f.rule_id == "LML-PHYS-002")
+    );
 }
 #[test]
 fn com_momentum_and_shake_do_not_inject_degree_of_freedom_corrections() {

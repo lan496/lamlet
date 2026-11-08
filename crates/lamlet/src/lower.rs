@@ -26,6 +26,7 @@ pub(crate) struct Lowerer<'a> {
     lifetimes: crate::scoped::Lifetimes,
     pub semantics: crate::semantics::Engine,
     pub lint: crate::lint::Engine,
+    pub manual_lint: crate::manual_lint::Engine,
     pub capabilities: crate::capability::Checker,
     modules: crate::module::Registry,
     effects: crate::module::Effects,
@@ -51,6 +52,7 @@ impl<'a> Lowerer<'a> {
             lifetimes: crate::scoped::Lifetimes::default(),
             semantics: crate::semantics::Engine::default(),
             lint: crate::lint::Engine::default(),
+            manual_lint: crate::manual_lint::Engine::default(),
             capabilities: crate::capability::Checker::new(options.capabilities.clone()),
             modules: crate::module::Registry::default(),
             effects: crate::module::Effects::default(),
@@ -627,6 +629,8 @@ impl<'a> Lowerer<'a> {
         self.semantics
             .command(self.source, &resolved, &mut self.diagnostics);
         self.lint
+            .command(self.source, &resolved, &mut self.diagnostics);
+        self.manual_lint
             .command(self.source, &resolved, &mut self.diagnostics);
         self.capabilities
             .command(self.source, &resolved, &mut self.diagnostics);

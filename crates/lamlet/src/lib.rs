@@ -7,6 +7,7 @@ pub mod expr;
 pub mod hir;
 pub mod lint;
 mod lower;
+pub mod manual_lint;
 pub mod module;
 pub mod resources;
 pub mod schema;
@@ -116,6 +117,7 @@ pub fn compile_with_options(source: &Source, options: &Options) -> Compilation {
             .findings
             .into_iter()
             .chain(lowerer.lint.findings)
+            .chain(lowerer.manual_lint.findings)
             .collect(),
         requirements: lowerer.capabilities.requirements,
         stage: lowerer.stage.map(|mut plan| {

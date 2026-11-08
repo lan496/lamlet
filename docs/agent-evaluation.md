@@ -350,11 +350,11 @@ risk.
 | Command arguments and state | Partial schemas, ID tracking, conservative Unknown after opaque effects. | Audit findings against the published artifacts and independent labels. |
 | Units and physical duration | Typed quantities convert to known `metal` or `real` units. | Task-aware reasoning about legacy numbers, ramps, and accumulated run time. A bare number does not reveal the author's intended unit. |
 | Geometry and impact setup | No general geometry checker. | Model a bounded subset of lattice, region, group, and velocity operations, with explicit Unknown for dynamic cases. |
-| Physical consistency | Ten documented physical and idiom rules and supported state contracts. | Independent labels and precision measurements for the target tasks. |
+| Physical consistency | Ten physical and idiom rules, 282 additional manual constraints, and supported state contracts. | Independent labels and precision measurements for the target tasks. |
 | Target capabilities | Explicit profiles and style checks. | Freeze the actual evaluation target and plugin state. |
 | Scope and stages | Supported opt-in resource and stage checks. | Separate tasks that measure cleanup and independent execution. P1–P3 do not establish their benefit. |
 
-The nine additional [rules derived from the manual](lint-rules.md) were implemented
+The additional [rules derived from the manual](lint-rules.md) were implemented
 after the A/C pilot and its archived replay. Those measurements describe the
 earlier binary identified in the pilot manifest. They do not measure the new
 rules or establish an improvement in agent performance.
