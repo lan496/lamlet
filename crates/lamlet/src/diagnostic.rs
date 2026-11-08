@@ -66,6 +66,27 @@ pub static CODES: &[(&str, &str)] = &[
         "LML-PHYS-002",
         "Conditional thermostat/thermo temperature-definition mismatch",
     ),
+    ("LML-PHYS-001", "Potentially overlapping time integrators"),
+    (
+        "LML-PHYS-003",
+        "Potentially overlapping temperature controllers",
+    ),
+    ("LML-PHYS-004", "Known nonperiodic barostatted dimension"),
+    (
+        "LML-PHYS-005",
+        "Known nonperiodic z boundary in two dimensions",
+    ),
+    (
+        "LML-PHYS-006",
+        "Langevin thermostat without a known integrator",
+    ),
+    ("LML-LINT-001", "Thermo style resets modified settings"),
+    ("LML-LINT-002", "Nonpositive literal random seed"),
+    ("LML-LINT-003", "Region combination count below two"),
+    (
+        "LML-LINT-004",
+        "Velocity assignment replaces initialized motion",
+    ),
     (
         "E_ARGUMENT_COUNT",
         "Wrong argument count in a schema-covered form",

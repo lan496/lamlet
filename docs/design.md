@@ -172,6 +172,12 @@ temperature facts and three-valued rule findings at run sites. It never rewrites
 physics. Rule metadata, warning evidence, scope, and unimplemented idioms are
 documented in [physical semantics](semantics.md).
 
+An additional lint pass tracks reviewed integrator roles, boundary periodicity,
+and a small set of command idioms. It adds warnings without rejecting legacy
+commands or rewriting physics. The [lint reference](lint-rules.md) separates
+executable rules from the indexed official manual and unreviewed prose candidates.
+Both passes consume resolved commands and abandon facts after opaque effects.
+
 ## Target and execution boundaries
 
 Target inventories are explicit snapshots independent of operand schemas and

@@ -113,6 +113,9 @@ html .md-typeset .admonition, html .md-typeset details {
 .lamlet-home table:not([class]) th, .lamlet-home table:not([class]) td { padding: var(--lamlet-space-2) var(--lamlet-space-3); border-bottom: var(--lamlet-rule) solid var(--lamlet-color-rule); }
 .lamlet-home table:not([class]) th { background: var(--lamlet-color-code); }
 .lamlet-home table:not([class]) td:first-child { width: 30%; }
+.md-typeset .lamlet-rule-catalog { overflow-x: auto; }
+.md-typeset .lamlet-rule-catalog table { min-width: var(--lamlet-reading-width); }
+.md-typeset .lamlet-rule-catalog td:first-child { white-space: nowrap; }
 .lamlet-limits { margin: var(--lamlet-space-4) 0 0; padding-top: var(--lamlet-space-3); border-top: var(--lamlet-rule) solid var(--lamlet-color-rule); color: var(--lamlet-color-muted); font-size: var(--lamlet-type-label); }
 .lamlet-token-swatches { display: flex; flex-wrap: wrap; gap: var(--lamlet-space-4); margin: var(--lamlet-space-6) 0; }
 .lamlet-token-swatches span { border: var(--lamlet-rule) solid var(--lamlet-color-rule-strong); padding: var(--lamlet-space-4); font-family: var(--lamlet-font-code); }

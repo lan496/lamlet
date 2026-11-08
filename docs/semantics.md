@@ -5,6 +5,10 @@ command-state analysis. A rule returns satisfied, violated, or unknown over the
 facts available at a use site. A finding describes only that rule's stated
 condition. It does not establish physical correctness of the simulation.
 
+The [lint rule reference](lint-rules.md) lists all ten physical and idiom rules,
+their manual sources, and their coverage boundaries. It also describes the
+complete source-document index and the remaining manual-review work.
+
 The initial rule, **LML-PHYS-002**, compares known nvt/npt thermostat temperature
 definitions with the displayed thermo temp at a plain `run`. It models default
 thermostat computes, `compute ... temp` and `temp/com`, literal fix_modify temp,
@@ -54,5 +58,6 @@ SHAKE/rigid double-correction detection, and complete group overlap analysis rem
 unimplemented. The [compute_modify documentation](https://docs.lammps.org/compute_modify.html)
 describes dynamic/dof and extra/dof, but Lamlet does not infer settings for them.
 High-level declarations of physical intent and generated context commands remain
-future work. The known integrator conflict check currently belongs to the narrow
-resource effect pass described in [scopes](scopes.md).
+future work. Ordinary integrator conflicts produce a conditional lint warning.
+The ownership checks in [scopes](scopes.md) can reject conflicting managed
+integrators at the stricter resource boundary.

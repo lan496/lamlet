@@ -174,6 +174,8 @@ fn schema(query: Option<&str>, format: Format) -> io::Result<u8> {
         "commands": commands,
         "diagnostic_codes": codes,
         "physical_rules": lamlet::semantics::RULES,
+        "lint_rules": lamlet::lint::RULES,
+        "documentation": lamlet::documentation::query(query),
         "capability_metadata": lamlet::capability::METADATA,
         "capability_states": ["built_in", "plugin", "unavailable", "unknown"],
         "defaults": { "language": "lammps, except .lamlet", "units": "lj", "max_expanded_lines": 100_000 },
@@ -203,6 +205,18 @@ fn schema(query: Option<&str>, format: Format) -> io::Result<u8> {
                     "{}: opaque to Lamlet; LAMMPS support is not determined",
                     query.unwrap_or("command")
                 )?;
+            }
+            let manual = &value["documentation"];
+            writeln!(
+                stdout,
+                "Official manual: {} source files indexed at {}. Indexing does not establish validation coverage.",
+                manual["page_count"],
+                manual["revision"].as_str().unwrap_or_default()
+            )?;
+            if let Some(pages) = manual["pages"].as_array() {
+                for page in pages {
+                    writeln!(stdout, "{}", page["url"].as_str().unwrap_or_default())?;
+                }
             }
             writeln!(
                 stdout,

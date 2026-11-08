@@ -102,10 +102,12 @@ cleanup at block exit. `@drop ID` releases a resource early. Ordinary LAMMPS
 resource commands retain manual lifetime management. See [scoped resources](docs/scopes.md)
 for ownership, dependency, and control-flow restrictions.
 
-Physical rules are independent of types and ownership. The initial temperature
-consistency rule reports conditional warnings with evidence and suggested actions;
-Unknown stays nonfatal. It never changes DOF or temperature definitions. See
-[physical semantics](docs/semantics.md).
+Ten documented physical and idiom rules check temperature definitions, competing
+integrators, barostat boundaries, and other narrow command patterns. Findings
+include evidence and suggested actions. They remain warnings in strict mode and
+never change the physical model. The official manual index covers 1,001 source
+documents; most prose constraints remain unimplemented. See the
+[lint rules and coverage](docs/lint-rules.md) and [physical semantics](docs/semantics.md).
 
 For a selected engine, `lamlet target inspect --format json` records compiled
 packages/styles. Enable `[validation].check_capabilities` to check against that

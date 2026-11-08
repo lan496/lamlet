@@ -2,8 +2,10 @@ pub mod analysis;
 pub mod capability;
 pub mod codegen;
 pub mod diagnostic;
+pub mod documentation;
 pub mod expr;
 pub mod hir;
+pub mod lint;
 mod lower;
 pub mod module;
 pub mod resources;
@@ -109,7 +111,12 @@ pub fn compile_with_options(source: &Source, options: &Options) -> Compilation {
             lowerer.output.mappings
         },
         resources: lowerer.resources.dependencies,
-        physical_findings: lowerer.semantics.findings,
+        physical_findings: lowerer
+            .semantics
+            .findings
+            .into_iter()
+            .chain(lowerer.lint.findings)
+            .collect(),
         requirements: lowerer.capabilities.requirements,
         stage: lowerer.stage.map(|mut plan| {
             plan.independent_execution &= !failed;

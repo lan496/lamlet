@@ -652,12 +652,78 @@ fn schema_reports_partial_coverage_types_and_stable_codes() {
         0,
     );
     assert_eq!(query["commands"], json!([fix]));
+    assert_eq!(query["documentation"]["page_count"], 1001);
+    assert!(query["documentation"]["pages"].as_array().unwrap().iter().any(|page| {
+        page["path"] == "fix_nh.rst"
+            && page["source_url"] == "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/fix_nh.rst"
+    }));
+    assert!(
+        query["lint_rules"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|rule| { rule["id"] == "LML-PHYS-001" && rule["autofix"] == false })
+    );
     let unknown = json_output(
         &cli(&["schema", "plugin", "--format", "json"], dir.path()),
         0,
     );
     assert_eq!(unknown["coverage"], "opaque");
     assert_eq!(unknown["commands"], json!([]));
+    assert!(
+        unknown["documentation"]["pages"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|page| page["path"] == "plugin.rst")
+    );
+    let absent = json_output(
+        &cli(
+            &["schema", "not-a-lammps-command", "--format=json"],
+            dir.path(),
+        ),
+        0,
+    );
+    assert_eq!(absent["documentation"]["pages"], json!([]));
+}
+
+#[test]
+fn legacy_lint_json_is_deterministic_and_warnings_do_not_reject_builds() {
+    let dir = tempfile::tempdir().unwrap();
+    let source = "fix first all nve\nfix second all nvt temp 300 300 0.1\nrun 10\n";
+    fs::write(dir.path().join("input.in"), source).unwrap();
+    let args = ["check", "input.in", "--strict", "--format=json"];
+    let first = cli(&args, dir.path());
+    assert_eq!(first.stdout, cli(&args, dir.path()).stdout);
+    let checked = json_output(&first, 0);
+    let diagnostic = checked["diagnostics"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|d| d["code"] == "LML-PHYS-001")
+        .unwrap();
+    assert_eq!(diagnostic["severity"], "warning");
+    assert_eq!(diagnostic["span"]["start_line"], 3);
+    assert_eq!(diagnostic["evidence"].as_array().unwrap().len(), 2);
+    let built = json_output(
+        &cli(
+            &[
+                "build",
+                "input.in",
+                "-o",
+                "copy.in",
+                "--strict",
+                "--format=json",
+            ],
+            dir.path(),
+        ),
+        0,
+    );
+    assert_eq!(built["diagnostics"], checked["diagnostics"]);
+    assert_eq!(
+        fs::read_to_string(dir.path().join("copy.in")).unwrap(),
+        source
+    );
 }
 
 #[test]

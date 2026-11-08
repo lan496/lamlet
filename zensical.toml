@@ -22,6 +22,7 @@ nav = [
   ] },
   { "Reference" = [
     { "Language and CLI" = "reference.md" },
+    { "LAMMPS lint rules" = "lint-rules.md" },
     { "Design and limitations" = "design.md" },
     { "Build the documentation" = "documentation.md" },
     { "Design tokens and highlighting" = "design-system.md" },
