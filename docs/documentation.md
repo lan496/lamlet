@@ -32,6 +32,25 @@ Building the site does not publish it. To serve a built copy locally:
 python3 -m http.server 8000 --directory target/docs-site
 ```
 
+## Publish on GitHub Pages
+
+The public documentation is at [lan496.github.io/lamlet](https://lan496.github.io/lamlet/).
+The [CI workflow](https://github.com/lan496/lamlet/actions/workflows/ci.yml)
+deploys the checked site after updates to `main`. Rust checks on Linux, macOS,
+and Windows, corpus checks, and documentation checks must all pass first.
+Pull requests build and validate the site without publishing it.
+
+Maintainers can also select **Run workflow** on the CI Actions page, or run:
+
+```sh
+gh workflow run ci.yml --ref main
+```
+
+The `github-pages` environment limits deployment to `main`. The Pages settings
+use **GitHub Actions** as the publishing source. Deployment uses the built
+`target/docs-site/` artifact with the job-scoped `pages: write` and
+`id-token: write` permissions; no personal access token is required.
+
 ## Update the pages
 
 Edit the existing guides in `docs/`. Keep commands consistent with `lamlet --help`
