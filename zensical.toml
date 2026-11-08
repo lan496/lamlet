@@ -6,7 +6,7 @@ repo_url = "https://github.com/lan496/lamlet"
 repo_name = "lan496/lamlet"
 docs_dir = "docs"
 site_dir = "target/docs-site"
-extra_css = ["assets/stylesheets/extra.css"]
+extra_css = ["assets/stylesheets/tokens.css", "assets/stylesheets/extra.css"]
 nav = [
   { "Home" = "index.md" },
   { "Get started" = [
@@ -24,6 +24,7 @@ nav = [
     { "Language and CLI" = "reference.md" },
     { "Design and limitations" = "design.md" },
     { "Build the documentation" = "documentation.md" },
+    { "Design tokens and highlighting" = "design-system.md" },
   ] },
   { "About" = [
     { "Programming model" = "programming-model.md" },
@@ -35,6 +36,7 @@ nav = [
 
 [project.theme]
 language = "en"
+font = false
 features = ["navigation.tabs", "navigation.sections", "navigation.footer", "navigation.top", "content.code.copy", "search.highlight"]
 
 [[project.theme.palette]]

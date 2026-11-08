@@ -39,3 +39,5 @@ and run the linked examples after changing them. Pages link to repository files
 on GitHub when those files are outside the documentation tree.
 
 The [demo guide](demo.md) explains how to regenerate the video and diagram assets.
+The [design system reference](design-system.md) describes the shared tokens and
+the build-time Lamlet and LAMMPS syntax highlighters.
