@@ -1,15 +1,20 @@
 {
+  "animation_fps": 12,
   "compiler": {
     "sha256": "18607c5255854c375b47295fa29e84235fe102e932bab8acc9c9d179569b9dd3",
     "version": "lamlet-cli 0.1.0"
   },
-  "evidence_sha256": "1c1adb43425fc2028782ba7a320d7151ae611f45bca03194b71c4118d1982772",
+  "duration_seconds": 32,
+  "evidence_sha256": "45e3d890302fbf228c964defbccbf307fb81e1660dd566fcb7b2f758b36ad68b",
   "files": {
-    "demo.gif": "31742e468b940a28c5b92f66e08ca0aaba0ce505a515cdc62cfee056beb6b38f",
-    "demo.mp4": "d86dcde7e494d5e0cc813b05937bed55f8db9986dab1f6c948ec8bf33365cb0f",
-    "overview.svg": "f7351ef96076635970246d1e575a774eaf7bcb93837014abc8c79cc066b6dd18"
+    "demo.gif": "b434db8e3d9299b50ec8a1c618d102ffab7e1e36915e09e7ee3684b1348cf59a",
+    "demo.mp4": "a302190610a1caeb19b07c829682f241d986176f7a2e7e173334b4b532d7571b",
+    "logo-mark.svg": "843a1fd6cc32f0054ba70986ac8e8ce3d5a5b88d962a3a956caf7b6afa5dcc97",
+    "logo.svg": "a70a51331c85c75113eb9b04274c35ee26efd5704953bffb4148869027f616b8",
+    "overview.svg": "4ffa1b5c72c45c43f20c0dc45c2bf8273c37d3f9111e2924db0496860767fddf"
   },
-  "playback": "four eight-second scenes; no runtime timing claims",
+  "playback": "command typing, output reveal, source repair, and ordered cleanup; edited timing",
+  "rendered_frames": 384,
   "schema_version": 1,
   "simulation_executed": false
 }

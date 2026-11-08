@@ -5,7 +5,8 @@ presentation. It covers legacy preservation, quantities, diagnostic JSON,
 modules, scoped resources, and independently built stages. It does not run a
 LAMMPS simulation, probe an engine, or fetch the upstream corpus.
 
-The [32-second video and animated preview](../docs/demo.md) summarize four scenes.
+The [32-second video and animated preview](../docs/demo.md) animate command entry,
+generated output, a unit-error repair, and reverse resource cleanup in four chapters.
 Regenerate their assets with `python3 demo/render_media.py` after running the
 demo. The renderer requires FFmpeg and librsvg and records the evidence hash.
 
@@ -21,7 +22,8 @@ python3 demo/run.py
 
 Expect six `PASS` lines and exit code 0. The dimensional error and missing-state
 error are intentional rejections; the runner verifies their codes and exit
-statuses. An unexpected result stops the demo with exit code 1.
+statuses. It also corrects the dimensional error and verifies the repaired build.
+An unexpected result stops the demo with exit code 1.
 
 Open [the generated presentation](../target/demo/index.html) in a browser. Use
 Next, Previous, the scene list, or the left and right arrow keys. Home and End

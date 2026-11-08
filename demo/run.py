@@ -46,10 +46,12 @@ def run_demo(binary, output):
                 "exit_code": process.returncode, "report": value}
 
     def step(key, title, takeaway, source, commands, evidence, result, generated=None):
-        steps.append({"id": key, "title": title, "takeaway": takeaway,
-                      "source": source, "commands": commands, "evidence": evidence,
-                      "result": result, "generated": generated})
+        record = {"id": key, "title": title, "takeaway": takeaway,
+                  "source": source, "commands": commands, "evidence": evidence,
+                  "result": result, "generated": generated}
+        steps.append(record)
         print(f"PASS  {len(steps)}. {title}: {result}", flush=True)
+        return record
 
     def read(name):
         return (workspace / name).read_text(encoding="utf-8")
@@ -84,10 +86,18 @@ def run_demo(binary, output):
     failed = invoke(["build", "wrong-unit.lamlet", "-o", "failed-build.in", "--format=json"], 1)
     require(protected.read_text(encoding="utf-8") == "keep the previous build\n",
             "Failed compilation replaced an existing build")
-    step("diagnostic", "Catch the mistake before launching LAMMPS",
-         "A temperature cannot be used as a timestep. Agents get a code and a source span.",
-         read("wrong-unit.lamlet"), [bad, failed], diagnostic,
-         "Expected rejection, exit 1. Repeated JSON is identical; the previous build survives.")
+    repaired_source = read("wrong-unit.lamlet").replace("300 K", "2 fs")
+    require(repaired_source != read("wrong-unit.lamlet"), "Expected a repairable temperature quantity")
+    (workspace / "repaired-unit.lamlet").write_text(repaired_source, encoding="utf-8")
+    repaired = invoke(["build", "repaired-unit.lamlet", "-o", "repaired-unit.in", "--format=json"])
+    repaired_output = read("repaired-unit.in")
+    require(repaired_output == "units metal\ntimestep 0.002\n", "Repaired input did not compile as expected")
+    diagnostic_scene = step("diagnostic", "Catch the mistake before launching LAMMPS",
+                           "A temperature cannot be used as a timestep. Agents get a code and a source span.",
+                           read("wrong-unit.lamlet"), [bad, failed], diagnostic,
+                           "Expected rejection, exit 1. Repaired input compiles; the previous build survives.")
+    diagnostic_scene["repair"] = {"source": repaired_source, "commands": [repaired],
+                                  "generated": repaired_output}
 
     def bindings(instance, temperature):
         return ["workflow.lamlet", "--stage", "sample", "--instance", instance,

@@ -1,8 +1,9 @@
 # Watch and reproduce the demo
 
-The 32-second walkthrough shows unit conversion, a dimensional error, generated
-resource cleanup, and preservation of a legacy script. It uses verified CLI
-output with edited playback timing. It does not execute molecular dynamics.
+The 32-second walkthrough types commands, reveals generated output, repairs a
+dimensional error, and follows resource creation through cleanup. The final
+chapter compares an existing script with its unchanged output. It uses verified
+CLI evidence with edited playback timing and does not execute molecular dynamics.
 
 <video controls preload="metadata" aria-label="Lamlet compiler walkthrough">
   <source src="assets/demo.mp4" type="video/mp4">
@@ -11,7 +12,7 @@ output with edited playback timing. It does not execute molecular dynamics.
 
 [Download the video](assets/demo.mp4) or view the animated preview:
 
-![Four compiler scenes: unit conversion, JSON errors, resource cleanup, and unchanged legacy scripts.](assets/demo.gif)
+![Animated command entry, dimensional-error repair, resource cleanup, and legacy preservation.](assets/demo.gif)
 
 ## Reproduce the six CLI scenes
 
@@ -36,7 +37,8 @@ On macOS, Homebrew provides them with `brew install ffmpeg librsvg`.
 python3 demo/render_media.py
 ```
 
-This reads the verified report, renders SVG frames, and writes `demo.gif`,
+This reads the verified report, renders 384 animation frames at 12 frames per
+second, and writes `demo.gif`,
 `demo.mp4`, `overview.svg`, and an evidence manifest to `docs/assets/`.
 The renderer fails if the required diagnostic or cleanup evidence changes.
 Inspect the output before committing updated media.

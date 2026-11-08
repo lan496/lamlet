@@ -24,7 +24,7 @@ requires independent validation.
 
 ## See it in 32 seconds
 
-[![Lamlet walkthrough: unit conversion, JSON diagnostics, managed cleanup, and legacy preservation.](docs/assets/demo.gif)](docs/assets/demo.mp4)
+[![Lamlet walkthrough: animated commands, unit-error repair, managed cleanup, and legacy preservation.](docs/assets/demo.gif)](docs/assets/demo.mp4)
 
 [Watch or download the MP4](docs/assets/demo.mp4) · [Reproduce the demo](docs/demo.md)
 
