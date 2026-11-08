@@ -5,7 +5,7 @@
   --md-default-fg-color: var(--lamlet-color-ink);
   --md-default-fg-color--light: var(--lamlet-color-muted);
   --md-default-fg-color--lighter: var(--lamlet-color-rule-strong);
-  --md-default-fg-color--lightest: var(--lamlet-color-muted);
+  --md-default-fg-color--lightest: var(--lamlet-color-rule);
   --md-primary-fg-color: var(--lamlet-color-accent);
   --md-primary-bg-color: var(--lamlet-color-on-accent);
   --md-accent-fg-color: var(--lamlet-color-accent);
