@@ -33,6 +33,7 @@ nav = [
     { "Programming model" = "programming-model.md" },
     { "Compatibility evaluation" = "corpus.md" },
     { "Lint evaluation" = "lint-evaluation.md" },
+    { "Review lint labels" = "lint-label-review.md" },
     { "Processing benchmarks" = "performance.md" },
     { "Agent evaluation" = "agent-evaluation.md" },
     { "P3 pilot" = "p3-pilot.md" },

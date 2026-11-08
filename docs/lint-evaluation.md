@@ -39,6 +39,10 @@ the same documentation sources. Each label concerns one stated condition under
 its surrounding prerequisites. The fragments omit complete atom, force-field,
 group, or box setup and are not claimed to be runnable simulations.
 
+The [independent review packet and form](lint-label-review.md) expose every input,
+mutation difference, proposed rationale, and pinned source without observed
+checker output. The uncompleted form records this review as pending.
+
 Positive labels identify either a constraint violation or a documented advisory
 condition. Nonzero drag, different temperature observables, and exclusions with
 long-range solvers can be intentional [2,3,5]. Detecting their review conditions
