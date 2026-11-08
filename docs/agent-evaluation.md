@@ -37,11 +37,36 @@ were verified against their original hashes before and after regrading.
 No new model trials were run, and no revised feedback was returned to an agent.
 
 These are native, bounded smoke-test grades: each requested run executes at most
-two steps. Full equilibration and collision dynamics remain unmeasured, and the
-revised verifier has not been re-admitted in a live Harbor container. Both
+two steps. Full equilibration and collision dynamics remain unmeasured. The
+separate Harbor admission below checks transport of the revised grades. Both
 conditions have identification bounds of 2/3 to 1 on protocol success when
 unassessed trials are retained; these bounds are not confidence intervals.
 The frozen protocol-v1 outcomes below remain the original campaign record.
+
+### Protocol-v2 admission through Harbor, 9 November 2026
+
+The frozen 24-case corpus was evaluated through Harbor 0.25.0 with separate
+agent and verifier containers. All expected outcomes matched: eight valid
+alternatives passed, thirteen deliberate physical mutations failed their
+specified criteria, and three unsupported or resource-limited inputs remained
+unassessed. The predeclared case set and checks are retained in the
+[admission plan](assets/evaluation/2026-11-09-harbor-v2/plan.json) and
+[report](assets/evaluation/2026-11-09-harbor-v2/report.json).
+
+Each authored solution confirmed that verifier entry points were absent from
+the agent container and submitted forged reward artifacts. The separate verifier
+ignored those artifacts. Assessed inputs received the expected binary reward;
+unassessed inputs produced no reward and retained Harbor's
+`RewardFileNotFoundError`. All 24 assessments matched the frozen oracle and
+submission hashes. The [checksums](assets/evaluation/2026-11-09-harbor-v2/hashes.json)
+cover the published inputs, evaluator source, assessments, and transport evidence.
+
+This admission establishes the tested verifier behavior and grade transport,
+not an agent-treatment effect or full scientific validation. It used authored
+solutions and bounded smoke execution, with no new model trials. Domain review,
+held-out task coverage, and the prospective comparison remain outstanding.
+The [P3 method](p3-pilot.md#review-the-evidence) gives reproduction commands and
+the limits of the local image records.
 
 ### Original protocol-v1 campaign
 
@@ -422,9 +447,8 @@ The next implementation sequence is:
    checkpoint behavior. These remain separate hypotheses.
 
 The offline replay, Harbor task preparation, and bounded P3 oracle are
-implemented. The P3 reference and wrong-gap mutation have passed live Harbor
-admission with the expected grades. Native admission covers valid alternatives
-and further mutations. P1 and P2 oracles, external scientific review, full
+implemented. Protocol-v2 native and separate-container Harbor admission both
+match all 24 expected outcomes. P1 and P2 oracles, external scientific review, full
 equilibration and collision validation, a larger prospective model comparison, general geometry checks,
 and checkpoint guarantees remain outstanding. The [P3 guide](p3-pilot.md)
 defines exactly what its protocol grade establishes.

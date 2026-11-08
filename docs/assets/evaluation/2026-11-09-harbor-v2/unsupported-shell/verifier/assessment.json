@@ -1,0 +1,76 @@
+{
+  "oracle": {
+    "criteria": {
+      "adiabatic_integration": {
+        "evidence": [
+          "Line 33: unsupported command 'shell'"
+        ],
+        "status": "unknown"
+      },
+      "boundaries": {
+        "evidence": [
+          "Line 33: unsupported command 'shell'"
+        ],
+        "status": "unknown"
+      },
+      "equilibration": {
+        "evidence": [
+          "Line 33: unsupported command 'shell'"
+        ],
+        "status": "unknown"
+      },
+      "gap": {
+        "evidence": [
+          "Line 33: unsupported command 'shell'"
+        ],
+        "status": "unknown"
+      },
+      "groups": {
+        "evidence": [
+          "Line 33: unsupported command 'shell'"
+        ],
+        "status": "unknown"
+      },
+      "impact_velocity": {
+        "evidence": [
+          "Line 33: unsupported command 'shell'"
+        ],
+        "status": "unknown"
+      },
+      "potential": {
+        "evidence": [
+          "Line 33: unsupported command 'shell'"
+        ],
+        "status": "unknown"
+      },
+      "structure": {
+        "evidence": [
+          "Line 33: unsupported command 'shell'"
+        ],
+        "status": "unknown"
+      },
+      "thermal_velocity_retained": {
+        "evidence": [
+          "Line 33: unsupported command 'shell'"
+        ],
+        "status": "unknown"
+      }
+    },
+    "execution": {
+      "full_equilibration_executed": false,
+      "max_atoms": 100000,
+      "max_box_sites": 5000000,
+      "mode": "instrumented_smoke"
+    },
+    "oracle_version": "p3-protocol-v2",
+    "schema_version": 1,
+    "submission_sha256": "d214c4ecfe3eb00a91350b3b810950249fb61d1d5f651da099408585ecfdb646",
+    "task": "P3"
+  },
+  "oracle_sha256": "8cfb4e804a4e897c635d1d76d3d1baf2fe7402065fc3711ff1b3c037eca1c338",
+  "reward": null,
+  "schema_version": 1,
+  "scientific_status": "unassessed",
+  "submission_sha256": "d214c4ecfe3eb00a91350b3b810950249fb61d1d5f651da099408585ecfdb646",
+  "task": "P3"
+}

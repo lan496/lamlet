@@ -14,7 +14,10 @@ solutions. A subsequent six-trial Codex A/C pilot is reported on the
 [evaluation page](agent-evaluation.md). A post hoc native protocol-v2 regrade
 passes all four unchanged submissions; the two provider-limit trials remain
 unassessed. The [v2 admission evidence](assets/evaluation/2026-11-08-protocol-v2/admission.json)
-records 24/24 expected outcomes. Live Harbor re-admission of v2 has not been run.
+records 24/24 expected outcomes. The
+[separate-container Harbor admission on 9 November](assets/evaluation/2026-11-09-harbor-v2/report.json)
+also matches all 24 expected outcomes. It used authored solutions and made no
+new model calls. See the [results](agent-evaluation.md#protocol-v2-admission-through-harbor-9-november-2026).
 
 ## Understand the pilot contract
 
@@ -118,19 +121,49 @@ logs, and verifier `assessment.json`. A Harbor command can finish while its
 trial reports an exception, so check the trial outcome and reward explicitly.
 An unresolved criterion produces no scientific success reward.
 
-To repeat the live reference, wrong-gap, and forged-artifact checks with
-`harbor` on `PATH`:
+First time the reference in the pinned Harbor environment:
 
 ```sh
-python3 tools/p3_harbor_admit.py --container target/p3-container/local --output target/p3-harbor/admission
+uv run --python 3.12 --with harbor==0.25.0 python tools/p3_harbor_admit.py --container target/p3-container/local --output target/p3-harbor/timing --case reference
 ```
 
-Pass the same Docker options as the builder when required. This command verifies
-the local image IDs before starting. During the agent phase it asserts that the
-oracle and test entry points are absent. Both submissions contain forged reward
-and assessment files; the fresh verifier must ignore those files and return the
-expected independent grade. These checks cover those concrete isolation cases,
-not every possible container attack.
+Use its measured duration to budget the full 24-case admission, then run:
+
+```sh
+uv run --python 3.12 --with harbor==0.25.0 python tools/p3_harbor_admit.py --container target/p3-container/local --output target/p3-harbor/admission
+```
+
+Pass the same Docker options as the builder when required. The admission runner
+passes those settings to Harbor as well. It verifies frozen task files, image
+IDs, and the oracle hash inside the verifier image before starting. A plan records
+every expected grade, mutation criterion, and submission hash before any case
+runs. Reports retain failed cases and are saved after each case; the reference
+must pass before the remaining cases start.
+
+All 24 cases use authored solutions, without model calls. During each agent
+phase, the solution asserts that the oracle and test entry points are absent.
+It submits forged reward and assessment files. The fresh, separate verifier must
+ignore those files and produce the expected grade, including the specific failed
+criterion for each physical mutation. These checks cover the tested isolation
+conditions, not every possible container attack.
+
+An unsupported or resource-limited input must produce `unassessed` and no reward
+file. Harbor 0.25.0 represents this as `RewardFileNotFoundError`. Admission accepts
+that exception only when independent evidence establishes the expected Unknown
+outcome and no infrastructure error occurred. Other exceptions or missing
+evidence fail admission.
+
+Archive a successful full admission without rerunning it:
+
+```sh
+python3 tools/p3_harbor_admit.py --output target/p3-harbor/admission --publish docs/assets/evaluation/YYYY-MM-DD-harbor-v2
+```
+
+Use a fresh destination. Publication rechecks frozen sources, submissions, and
+verifier evidence and copies the inputs, source, assessments, Harbor results,
+and checksums. Timing subsets and incomplete or failed runs cannot be published
+as a full admission. Local image IDs record the measured environment; they are
+not portable registry digests or evidence of an image archive.
 
 The oracle accepts a limited straight-line command subset with static
 arithmetic variables. Includes, jumps, shell commands, Python callbacks,
@@ -172,8 +205,9 @@ infrastructure outcomes when interpreting its summary.
 Before further model trials, obtain domain review of the reference, tolerances, gap
 definition, and oracle coverage. Extend runtime checks for the intended
 scientific claims, implement P1 and P2, freeze model settings and budgets, and
-prepare held-out tasks. Re-admit protocol-v2 in the separate Harbor verifier
-image before prospective model trials. The native revision and post hoc regrade
+prepare held-out tasks. Protocol-v2 has been admitted in the separate Harbor
+verifier image; changes to the frozen oracle or runtime require fresh admission
+before prospective model trials. The native revision and post hoc regrade
 retain all old grades. The current pilot does not establish that Lamlet improves
 scientific correctness.
 

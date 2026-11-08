@@ -1,0 +1,198 @@
+{
+  "cases": [
+    {
+      "case": "reference",
+      "criterion": null,
+      "expected": "correct",
+      "submission_sha256": "ce9e5729e235ee7cd6a11450e75ab0c1c346931cd7fe987643600906abf58bc4"
+    },
+    {
+      "case": "renamed-groups",
+      "criterion": null,
+      "expected": "correct",
+      "submission_sha256": "362058b24b53cc86a077412875c981dda87e1936d089c6f4fdde3b5e4d5f14e5"
+    },
+    {
+      "case": "split-equilibration",
+      "criterion": null,
+      "expected": "correct",
+      "submission_sha256": "7868428f59a922b6a1dd5aebddf9800f28715b691092a56f28521c0727132d56"
+    },
+    {
+      "case": "large-vacuum",
+      "criterion": null,
+      "expected": "correct",
+      "submission_sha256": "991055cea00d4994f195d7669ac737458cbcecd16d4a0548dcd25265778166c0"
+    },
+    {
+      "case": "translated-origin",
+      "criterion": null,
+      "expected": "correct",
+      "submission_sha256": "8613589cf6b6220dafccfd2632ad8f6278c475c6708394426bf3ed7ac48227f5"
+    },
+    {
+      "case": "unused-large-region",
+      "criterion": null,
+      "expected": "correct",
+      "submission_sha256": "2e8235534ca5f8c0e0d2d01b47ca33585497a5f1a99a2ce3ed61d90f3536c411"
+    },
+    {
+      "case": "disjoint-thermostats",
+      "criterion": null,
+      "expected": "correct",
+      "submission_sha256": "50597ab4afcf9e915bfa2f24aa25d0839325fdb5d6358b6a89c6d157d940d353"
+    },
+    {
+      "case": "disjoint-impact-integrators",
+      "criterion": null,
+      "expected": "correct",
+      "submission_sha256": "652e4083c28afa5c70394264c476057002b3a300455ff458bd9c62c95bb75f14"
+    },
+    {
+      "case": "overlapping-thermostats",
+      "criterion": "equilibration",
+      "expected": "incorrect",
+      "submission_sha256": "4e383b991bda2184c4e5797533c28de83470ee64ff12b8108bd8268c74787bc6"
+    },
+    {
+      "case": "incomplete-thermostat-coverage",
+      "criterion": "equilibration",
+      "expected": "incorrect",
+      "submission_sha256": "7b2fe6b9ade64b48b89b70efcb10109315e74ebfb25ae6a00ce301bc1f625245"
+    },
+    {
+      "case": "wrong-subgroup-temperature",
+      "criterion": "equilibration",
+      "expected": "incorrect",
+      "submission_sha256": "9708fd22d6b9983e1339db102339b5f81d2549dcae75cafdd1be6965145c20b8"
+    },
+    {
+      "case": "incomplete-impact-coverage",
+      "criterion": "adiabatic_integration",
+      "expected": "incorrect",
+      "submission_sha256": "98daeb00f89551e32e6e7e0b70212d2e066ec1b4d9c53d9b9621637e43b3321b"
+    },
+    {
+      "case": "wrong-gap",
+      "criterion": "gap",
+      "expected": "incorrect",
+      "submission_sha256": "880887a3b0f9dd292d1db9e7d217dd5c8e3952bedecf6aa652f4c60da53ee75f"
+    },
+    {
+      "case": "wrong-speed",
+      "criterion": "impact_velocity",
+      "expected": "incorrect",
+      "submission_sha256": "eef764fa906ae06ae7cdeea3c87d142e933f23ea317ba41433d79baa52ca74ca"
+    },
+    {
+      "case": "wrong-direction",
+      "criterion": "impact_velocity",
+      "expected": "incorrect",
+      "submission_sha256": "d09338b26d9962c9ea4d8661756487f439104c1af5ab6959907430e6df2150af"
+    },
+    {
+      "case": "overwritten-thermal-velocity",
+      "criterion": "thermal_velocity_retained",
+      "expected": "incorrect",
+      "submission_sha256": "fe35bb511e1ff97645e161dbb87141798ad96a97c5dd3bdd7a1df8b88534ebf6"
+    },
+    {
+      "case": "wrong-projectile-size",
+      "criterion": "groups",
+      "expected": "incorrect",
+      "submission_sha256": "f9c66693c8946fbd6acdb8f3f0966a3c631bcb5142f9c2bd2542c26d4d906483"
+    },
+    {
+      "case": "periodic-impact-axis",
+      "criterion": "boundaries",
+      "expected": "incorrect",
+      "submission_sha256": "aea41fe58755cf294a79c11a814c4856ad5cd3065392c32eb7c0bdae89f4954e"
+    },
+    {
+      "case": "short-equilibration",
+      "criterion": "equilibration",
+      "expected": "incorrect",
+      "submission_sha256": "38b3d88c9aa35d8aed9dc2dc4a081c6fe5441a222fd7292459b69d08945ff914"
+    },
+    {
+      "case": "overlapping-integrators",
+      "criterion": "adiabatic_integration",
+      "expected": "incorrect",
+      "submission_sha256": "7ccf9f466112631b00fa4a123f8015fe84d05a42bf460180d724f076589b4c73"
+    },
+    {
+      "case": "substituted-potential",
+      "criterion": "potential",
+      "expected": "incorrect",
+      "submission_sha256": "96bfce5ca86e26e8c4488de63f4de085d54055179e4c1f076681983a2c10405f"
+    },
+    {
+      "case": "unsupported-shell",
+      "criterion": null,
+      "expected": "unassessed",
+      "submission_sha256": "d214c4ecfe3eb00a91350b3b810950249fb61d1d5f651da099408585ecfdb646"
+    },
+    {
+      "case": "excessive-vacuum",
+      "criterion": null,
+      "expected": "unassessed",
+      "submission_sha256": "6f9fac54746355942cf94b636d7b77a0ed1d8c1aed3351f9fd2fdb69f266d121"
+    },
+    {
+      "case": "excessive-atom-creation",
+      "criterion": null,
+      "expected": "unassessed",
+      "submission_sha256": "c4aed112edc4f59e21c7eaf8f799e7d34106105ef8d7611d5c55cbfdd5d0b655"
+    }
+  ],
+  "complete_selection": true,
+  "full_equilibration_executed": false,
+  "harbor_version": "0.25.0",
+  "images": {
+    "condition": "A",
+    "files": {
+      "context/Dockerfile": "08e0bf8c3261ed2286065704caf81e5ef808f760fe5d887f1b52110e6a63827a",
+      "context/p3_oracle.py": "8cfb4e804a4e897c635d1d76d3d1baf2fe7402065fc3711ff1b3c037eca1c338",
+      "tasks/nb-impact/environment/Dockerfile": "a9c9e01c69947e4540168f00cd8d53d6bf327c5d13a4f2fcc7ac796bab0b7fcf",
+      "tasks/nb-impact/environment/inputs/prompt3.potential": "d02816ad43e6d9a0f5e76656b95567678683d467a30f75f9d67b602cb86a7c7a",
+      "tasks/nb-impact/instruction.md": "cb5a848c7438b4d92b30e18b0a67eef866b88f3df8001664136cd815c56f202b",
+      "tasks/nb-impact/solution/reference.in": "ce9e5729e235ee7cd6a11450e75ab0c1c346931cd7fe987643600906abf58bc4",
+      "tasks/nb-impact/solution/solve.sh": "4acd2355c228747711da29a6358765c045c4dff96bd6140f4b8904467ad644c7",
+      "tasks/nb-impact/task.toml": "8cdc9417808a75942674b62b6f49b604358fe6b1d4c6fc862c11f685eac3543f",
+      "tasks/nb-impact/tests/Dockerfile": "69c59bf8a2bd017caa5887de0f269c0004382fd94489c587a593847f1703e125",
+      "tasks/nb-impact/tests/inputs/prompt3.potential": "d02816ad43e6d9a0f5e76656b95567678683d467a30f75f9d67b602cb86a7c7a",
+      "tasks/nb-impact/tests/task.json": "f36a8b61d99a72defcfc74bcc1695bfac8d00dd697cfe99a0723f52ed43efe66",
+      "tasks/nb-impact/tests/test.sh": "5d27539361f57c4adf68c8dd4e093e1b7e77c0cd0785a0a75584150580f5eb7b",
+      "tasks/nb-impact/tests/verifier.py": "60cfcdb7b1210c08e42c2d6c3b251100506f2658eee404b3a2683b8777b4d2b9"
+    },
+    "images": {
+      "runtime": "sha256:d035330ad563daf10c6823dd5954a9158ec51b33f55b8add82faee1abf52221e",
+      "verifier": "sha256:703f5436c78ba81219554fb90ee0c3bbd365df7127c2bad49ef1c87b0d90e57b"
+    },
+    "lammps_commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+    "local_image_tags": {
+      "runtime": "lamlet-p3-runtime:d035330ad563daf10c6823dd5954a9158ec51b33f55b8add82faee1abf52221e",
+      "verifier": "lamlet-p3-verifier:703f5436c78ba81219554fb90ee0c3bbd365df7127c2bad49ef1c87b0d90e57b"
+    },
+    "ready_for_model_trials": false,
+    "schema_version": 1,
+    "scope": "local reference admission",
+    "task": "P3",
+    "task_directory": "/Users/shinohara/sandbox/lamlet/target/p3-container/protocol-v2-20261109/tasks/nb-impact"
+  },
+  "model_trials_run": false,
+  "oracle_version": "p3-protocol-v2",
+  "per_case_timeout_seconds": 600,
+  "schema_version": 2,
+  "sources": {
+    "research/harbor/p3/Dockerfile": "08e0bf8c3261ed2286065704caf81e5ef808f760fe5d887f1b52110e6a63827a",
+    "research/harbor/p3/reference.in": "ce9e5729e235ee7cd6a11450e75ab0c1c346931cd7fe987643600906abf58bc4",
+    "research/harbor/p3/runtime.json": "e36621872a8ed52775ecf687f65b30a36e4a33981fed358be489c4b56e212dcd",
+    "research/harbor/tasks.json": "90c0121d4b2d7dc9444d805f08192b8ea94051afc5e5fbd3ff48006c21726bd8",
+    "tools/harbor_verifier.py": "60cfcdb7b1210c08e42c2d6c3b251100506f2658eee404b3a2683b8777b4d2b9",
+    "tools/p3_admit.py": "b5791b40cf9ee48e26a70eaa40038aec9296bb88cf2cbfc3697b490068a69bc8",
+    "tools/p3_container.py": "abad89c2af40bf658a45d6d9191b8d94f0d42fec4f9df59dae70eae2e6aed393",
+    "tools/p3_harbor_admit.py": "6cf8d65f6272b822bfae3767d88e7f47d77734b4548f20afa81d505734a61242",
+    "tools/p3_oracle.py": "8cfb4e804a4e897c635d1d76d3d1baf2fe7402065fc3711ff1b3c037eca1c338"
+  }
+}

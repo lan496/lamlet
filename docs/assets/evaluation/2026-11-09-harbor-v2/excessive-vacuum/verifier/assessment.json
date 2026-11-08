@@ -1,0 +1,76 @@
+{
+  "oracle": {
+    "criteria": {
+      "adiabatic_integration": {
+        "evidence": [
+          "Simulation box exceeds the 5000000-site resource bound (including vacuum)"
+        ],
+        "status": "unknown"
+      },
+      "boundaries": {
+        "evidence": [
+          "Simulation box exceeds the 5000000-site resource bound (including vacuum)"
+        ],
+        "status": "unknown"
+      },
+      "equilibration": {
+        "evidence": [
+          "Simulation box exceeds the 5000000-site resource bound (including vacuum)"
+        ],
+        "status": "unknown"
+      },
+      "gap": {
+        "evidence": [
+          "Simulation box exceeds the 5000000-site resource bound (including vacuum)"
+        ],
+        "status": "unknown"
+      },
+      "groups": {
+        "evidence": [
+          "Simulation box exceeds the 5000000-site resource bound (including vacuum)"
+        ],
+        "status": "unknown"
+      },
+      "impact_velocity": {
+        "evidence": [
+          "Simulation box exceeds the 5000000-site resource bound (including vacuum)"
+        ],
+        "status": "unknown"
+      },
+      "potential": {
+        "evidence": [
+          "Simulation box exceeds the 5000000-site resource bound (including vacuum)"
+        ],
+        "status": "unknown"
+      },
+      "structure": {
+        "evidence": [
+          "Simulation box exceeds the 5000000-site resource bound (including vacuum)"
+        ],
+        "status": "unknown"
+      },
+      "thermal_velocity_retained": {
+        "evidence": [
+          "Simulation box exceeds the 5000000-site resource bound (including vacuum)"
+        ],
+        "status": "unknown"
+      }
+    },
+    "execution": {
+      "full_equilibration_executed": false,
+      "max_atoms": 100000,
+      "max_box_sites": 5000000,
+      "mode": "instrumented_smoke"
+    },
+    "oracle_version": "p3-protocol-v2",
+    "schema_version": 1,
+    "submission_sha256": "6f9fac54746355942cf94b636d7b77a0ed1d8c1aed3351f9fd2fdb69f266d121",
+    "task": "P3"
+  },
+  "oracle_sha256": "8cfb4e804a4e897c635d1d76d3d1baf2fe7402065fc3711ff1b3c037eca1c338",
+  "reward": null,
+  "schema_version": 1,
+  "scientific_status": "unassessed",
+  "submission_sha256": "6f9fac54746355942cf94b636d7b77a0ed1d8c1aed3351f9fd2fdb69f266d121",
+  "task": "P3"
+}

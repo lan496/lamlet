@@ -1,6 +1,7 @@
 """Check admission evidence without requiring Docker or asserting physics."""
 
 import json
+from collections import Counter
 from pathlib import Path
 import tempfile
 import unittest
@@ -13,6 +14,32 @@ from p3_oracle import VERSION
 
 
 class HarborAdmissionTests(unittest.TestCase):
+    def test_published_admission_retains_all_grades_and_hashed_evidence(self):
+        archive = p3_harbor_admit.ROOT / "docs/assets/evaluation/2026-11-09-harbor-v2"
+        hashes = json.loads((archive / "hashes.json").read_text())
+        verify_files(archive, hashes)
+        actual_files = {str(path.relative_to(archive)) for path in archive.rglob("*")
+                        if path.is_file() and path != archive / "hashes.json"}
+        self.assertEqual(set(hashes), actual_files)
+        report = json.loads((archive / "report.json").read_text())
+        self.assertTrue(report["harbor_admission_passed"])
+        self.assertEqual(Counter(case["observed"] for case in report["cases"]),
+                         {"correct": 8, "incorrect": 13, "unassessed": 3})
+        self.assertFalse(report["model_trials_run"])
+        for case in report["cases"]:
+            with self.subTest(case=case["case"]):
+                self.assertTrue(case["passed"])
+                self.assertTrue(all(case["checks"].values()))
+                self.assertEqual(case["submission_sha256"],
+                                 digest(archive / case["case"] / "solution.in"))
+                reward = archive / case["case"] / "verifier/reward.txt"
+                if case["observed"] == "unassessed":
+                    self.assertFalse(reward.exists())
+                    self.assertEqual(case["harbor_exception"], "RewardFileNotFoundError")
+                else:
+                    self.assertEqual(float(reward.read_text()),
+                                     1 if case["observed"] == "correct" else 0)
+
     def trial(self, root, status):
         trial = root / "trial"
         payload = {"schema_version": 1, "task": "P3", "submission_sha256": "input-hash",
