@@ -32,6 +32,13 @@ The 760 px layout breakpoint stacks the source/output comparison and the
 reference columns. The homepage places examples directly below a short
 introduction and lists supported checks in a compact table.
 
+## Logo
+
+`assets/logo.svg` embeds the supplied PNG unchanged. Its viewport excludes the
+surrounding whitespace. `assets/logo-mark.svg` contains the symbol without the
+wordmark and is used in the header and favicon. Both assets preserve the
+original geometry and colors.
+
 ## Highlight a Lamlet example
 
 Use a `lamlet` code fence in a documentation page:

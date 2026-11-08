@@ -1,4 +1,4 @@
-# Lamlet
+<p><img src="docs/assets/logo.svg" alt="Lamlet" width="280"></p>
 
 **Explicit, checkable simulation workflows for LAMMPS.**
 
