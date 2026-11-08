@@ -1,22 +1,18 @@
 /* Shared values for the documentation theme and build-time syntax spans. */
 :root {
-  /* Typography and dimensions. System fonts keep the site independent of a font CDN. */
-  --lamlet-font-body: "Avenir Next", "Segoe UI", sans-serif;
-  --lamlet-font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  --lamlet-font-code: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  /* System fonts keep the site independent of a font CDN. */
+  --lamlet-font-body: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --lamlet-font-display: var(--lamlet-font-body);
+  --lamlet-font-code: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
   --lamlet-type-small: 0.62rem;
   --lamlet-type-label: 0.7rem;
   --lamlet-type-body: 0.8rem;
-  --lamlet-type-lead: clamp(0.9rem, 1.6vw, 1.05rem);
-  --lamlet-type-title: clamp(2.5rem, 5.4vw, 4.4rem);
-  --lamlet-type-measure: 2.2rem;
-  --lamlet-type-metric: 4rem;
-  --lamlet-leading-body: 1.7;
-  --lamlet-leading-display: 1.04;
-  --lamlet-leading-measure: 1.2;
-  --lamlet-leading-metric: 1;
-  --lamlet-tracking-label: 0.1em;
-  --lamlet-tracking-display: -0.045em;
+  --lamlet-type-lead: 0.85rem;
+  --lamlet-type-title: clamp(1.65rem, 3vw, 2.2rem);
+  --lamlet-type-section: 1rem;
+  --lamlet-leading-body: 1.6;
+  --lamlet-leading-display: 1.15;
+  --lamlet-tracking-display: -0.035em;
   --lamlet-space-1: 0.25rem;
   --lamlet-space-2: 0.5rem;
   --lamlet-space-3: 0.75rem;
@@ -27,6 +23,7 @@
   --lamlet-space-16: 4rem;
   --lamlet-content-width: 64rem;
   --lamlet-reading-width: 38rem;
+  --lamlet-intro-width: 54rem;
   --lamlet-rule: 1px;
   --lamlet-rule-heavy: 2px;
   --lamlet-radius: 0;
@@ -35,52 +32,52 @@
 }
 
 :root, [data-md-color-scheme="default"] {
-  /* Semantic colors. Component rules consume these roles, never palette literals. */
-  --lamlet-color-page: #f6f3eb;
-  --lamlet-color-surface: #fffcf5;
-  --lamlet-color-code: #eee9de;
-  --lamlet-color-ink: #282820;
-  --lamlet-color-muted: #686257;
-  --lamlet-color-rule: #cbc3b3;
-  --lamlet-color-rule-strong: #807665;
-  --lamlet-color-accent: #a53b27;
-  --lamlet-color-accent-soft: #f1dfd3;
-  --lamlet-color-on-accent: #fffcf5;
-  --lamlet-color-focus: #245d78;
-  --lamlet-color-selection: #dfc8a7;
-  --lamlet-syntax-directive: #a53b27;
-  --lamlet-syntax-command: #245d78;
-  --lamlet-syntax-type: #6b4675;
-  --lamlet-syntax-unit: #74520b;
-  --lamlet-syntax-number: #315b49;
-  --lamlet-syntax-string: #3d6547;
-  --lamlet-syntax-variable: #3b424b;
-  --lamlet-syntax-comment: #70685c;
-  --lamlet-syntax-punctuation: #686257;
+  /* Cool neutrals, navy ink, and a yellow-green signal color. */
+  --lamlet-color-page: #f6f9fc;
+  --lamlet-color-surface: #ffffff;
+  --lamlet-color-code: #eaf0f6;
+  --lamlet-color-ink: #102b3f;
+  --lamlet-color-muted: #465f73;
+  --lamlet-color-rule: #c3d0dc;
+  --lamlet-color-rule-strong: #6b8398;
+  --lamlet-color-accent: #405900;
+  --lamlet-color-accent-soft: #e1f09a;
+  --lamlet-color-on-accent: #ffffff;
+  --lamlet-color-focus: #075eaa;
+  --lamlet-color-selection: #d4e388;
+  --lamlet-syntax-directive: #004b76;
+  --lamlet-syntax-command: #176050;
+  --lamlet-syntax-type: #644292;
+  --lamlet-syntax-unit: #775000;
+  --lamlet-syntax-number: #304a86;
+  --lamlet-syntax-string: #2b6251;
+  --lamlet-syntax-variable: #203e57;
+  --lamlet-syntax-comment: #53677b;
+  --lamlet-syntax-punctuation: #465f73;
 }
 
 [data-md-color-scheme="slate"] {
-  --lamlet-color-page: #20221f;
-  --lamlet-color-surface: #282b26;
-  --lamlet-color-code: #2d302a;
-  --lamlet-color-ink: #eae4d5;
-  --lamlet-color-muted: #b5ae9f;
-  --lamlet-color-rule: #4a4d42;
-  --lamlet-color-rule-strong: #8c8c78;
-  --lamlet-color-accent: #f1a18b;
-  --lamlet-color-accent-soft: #493129;
-  --lamlet-color-on-accent: #20221f;
-  --lamlet-color-focus: #9bcbd8;
-  --lamlet-color-selection: #625140;
-  --lamlet-syntax-directive: #f1a18b;
-  --lamlet-syntax-command: #9bcbd8;
-  --lamlet-syntax-type: #d4b5df;
-  --lamlet-syntax-unit: #e3c377;
-  --lamlet-syntax-number: #b3cda8;
-  --lamlet-syntax-string: #b6c990;
-  --lamlet-syntax-variable: #eae4d5;
-  --lamlet-syntax-comment: #b5ae9f;
-  --lamlet-syntax-punctuation: #b5ae9f;
+  --lamlet-color-page: #0d1924;
+  --lamlet-color-surface: #122333;
+  --lamlet-color-code: #162b3d;
+  --lamlet-color-ink: #e3edf5;
+  --lamlet-color-muted: #a8bbcc;
+  --lamlet-color-rule: #314a60;
+  --lamlet-color-rule-strong: #718da5;
+  --lamlet-color-accent: #d1ed6b;
+  --lamlet-color-accent-soft: #34451b;
+  --lamlet-color-on-accent: #102000;
+  --lamlet-color-focus: #9bd7ff;
+  --lamlet-color-selection: #415a26;
+  --lamlet-syntax-directive: #a5d8ff;
+  --lamlet-syntax-command: #9ddcce;
+  --lamlet-syntax-type: #d2b8f2;
+  --lamlet-syntax-unit: #e3d18d;
+  --lamlet-syntax-number: #b0c7ff;
+  --lamlet-syntax-string: #a4d8a9;
+  --lamlet-syntax-variable: #e3edf5;
+  --lamlet-syntax-comment: #a8bbcc;
+  --lamlet-syntax-punctuation: #a8bbcc;
 }
 
 @media (prefers-reduced-motion: reduce) {

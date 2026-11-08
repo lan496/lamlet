@@ -1,8 +1,8 @@
 # Design tokens and syntax highlighting
 
-The documentation uses a scientific notebook style: warm paper, dark ink,
-oxide red, serif headings, monospace annotations, and thin rules. Sections use
-numbered labels and aligned rows. The layout has square corners and no shadows.
+The documentation uses cool white, navy text, and a yellow-green accent. Sans
+serif headings, monospace code, thin rules, and compact tables keep the focus on
+examples and reference information. The layout has square corners and no shadows.
 
 ## Token source
 
@@ -11,9 +11,9 @@ contains the shared values. `extra.css` consumes those values for Zensical and
 the landing page. Both stylesheets load through `zensical.toml`.
 
 <div class="lamlet-token-swatches">
-  <span class="token-paper">Paper</span>
-  <span class="token-ink">Ink</span>
-  <span class="token-oxide">Oxide</span>
+  <span class="token-page">Cool white</span>
+  <span class="token-ink">Navy</span>
+  <span class="token-signal">Signal</span>
 </div>
 
 | Token group | Role |
@@ -28,8 +28,9 @@ the landing page. Both stylesheets load through `zensical.toml`.
 
 Light and dark modes use the same semantic names. Components contain no literal
 colors. Font stacks use locally installed fonts and do not require a font CDN.
-The single 760 px layout breakpoint stacks the hero and code comparison and
-reduces feature rows to two columns.
+The 760 px layout breakpoint stacks the source/output comparison and the
+reference columns. The homepage places examples directly below a short
+introduction and lists supported checks in a compact table.
 
 ## Highlight a Lamlet example
 
@@ -49,9 +50,9 @@ timestep @{dt}
 }
 ```
 
-Directives and interpolation delimiters use oxide red. Types use violet, units
-use ochre, commands and constructors use blue, and strings use green. Colors
-supplement the original spelling and punctuation.
+Directives and interpolation delimiters use blue. Types use violet, units use
+ochre, and commands and strings use green. Each syntax color has a light and
+dark counterpart. Colors supplement the original spelling and punctuation.
 
 Use a `lammps` fence for generated or legacy input:
 
