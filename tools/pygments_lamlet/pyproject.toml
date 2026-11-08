@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lamlet-pygments"
+version = "0.1.0"
+description = "Build-time syntax highlighting for Lamlet documentation"
+requires-python = ">=3.9"
+dependencies = ["Pygments>=2.18,<3"]
+
+[project.entry-points."pygments.lexers"]
+lamlet = "lamlet_lexer:LamletLexer"
+lammps = "lamlet_lexer:LammpsLexer"
+
+[tool.setuptools]
+py-modules = ["lamlet_lexer"]
