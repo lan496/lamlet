@@ -266,7 +266,17 @@ impl Project {
                 span,
             ));
         }
-        let resolved = resolved_destination(&lexical).map_err(|e| {
+        let basename = lexical
+            .file_name()
+            .ok_or_else(|| failure("E_PATH_KIND", "Expected a file name", span))?;
+        let runtime_basename =
+            (patterned || dynamic) && basename.to_string_lossy().contains(['*', '%', '$']);
+        let resolved = if runtime_basename {
+            resolved_destination(parent).map(|parent| parent.join(basename))
+        } else {
+            resolved_destination(&lexical)
+        }
+        .map_err(|e| {
             failure(
                 "E_PATH_IO",
                 format!("Cannot resolve '{}': {e}", value.path),
@@ -313,7 +323,7 @@ impl Project {
                     ));
                 }
             }
-            ResourceKind::OutputFile => {
+            ResourceKind::OutputFile if !runtime_basename => {
                 if resolved.exists() && !resolved.is_file() {
                     return Err(failure("E_PATH_KIND", "Output is not a regular file", span));
                 }

@@ -59,10 +59,10 @@ def review_ledger(texts, rules, reviews):
     for name, text in texts.items():
         for match in re.finditer(r"(?:[^\n]+\n?)+", text):
             paragraph = match.group().strip()
-            if not SIGNAL.search(paragraph):
-                continue
             line = text.count("\n", 0, match.start()) + 1
             digest = hashlib.sha256(paragraph.encode()).hexdigest()
+            if not SIGNAL.search(paragraph) and (name, digest) not in decisions:
+                continue
             related = [r["id"] for r in rules if r["source"]["page"] == name
                        and r["source"]["start_line"] <= line <= r["source"]["end_line"]]
             key = name, digest
@@ -106,8 +106,10 @@ def reference(manifest):
                 label += f' ({selected["exact_arguments"] - 1} operands)'
             labels.append(label)
         source = rule["source"]
+        discussions = "".join(f'<br>[Discussion {url.rsplit("/", 1)[-1]}]({url})'
+                              for url in rule.get("discussions", []))
         lines.append(f'| `{rule["id"]}`<br>[{source["page"].removesuffix(".rst")}:{source["start_line"]}]({source["url"]})'
-                     + f' | {rule["message"]}.<br>' + ", ".join(f"`{s}`" for s in labels) + " |")
+                     + discussions + f' | {rule["message"]}.<br>' + ", ".join(f"`{s}`" for s in labels) + " |")
     lines.extend(["", "</div>", ""])
     return "\n".join(lines)
 
@@ -125,7 +127,7 @@ def generate(args):
         texts[name] = data.decode("utf-8")
     rules = []
 
-    def add(key, page, anchor, predicate, message, examples, selected=None):
+    def add(key, page, anchor, predicate, message, examples, selected=None, discussions=None):
         text = texts[page]
         at, _ = locate(text, anchor)
         previous = text.rfind("\n\n", 0, at)
@@ -140,6 +142,8 @@ def generate(args):
                                  "end_line": text.count("\n", 0, end) + 1,
                                  "url": pages[page]["source_url"] + "#L" + str(text.count("\n", 0, start) + 1)},
                       "examples": examples})
+        if discussions:
+            rules[-1]["discussions"] = discussions
 
     # These whole-command restrictions have an explicit subject and box boundary.
     before = re.compile(r"This command (?:cannot be used \*?after\*?|must (?:be used|come) before) the simulation box is defined")
@@ -325,6 +329,38 @@ def generate(args):
                [("fix integrate all nve/sphere disc\n", "violated"), ("dimension 2\nfix integrate all nve/sphere disc\n", "satisfied"),
                 ("include state.in\nfix integrate all nve/sphere disc\n", "unknown")],
                [{"command": "fix", "position": 3, "value": "nve/sphere"}])
+
+    orient_topics = ["https://matsci.org/t/lattice-orient-these-vectors-must-be-orthogonal/18394",
+                     "https://matsci.org/t/lattice-orient-vector-error/14833"]
+    add("LATTICE-ORIENT-INTEGERS", "lattice.rst", "along that axis, specified as integers.",
+        {"kind": "lattice_orient_integers"}, "Lattice orient components must be integer literals",
+        [{"input": "lattice fcc 4.05 orient x 0.8 0.6 0 orient y -0.6 0.8 0\n", "outcome": "violated"},
+         {"input": "lattice fcc 4.05 orient x 4 3 0 orient y -3 4 0\n", "outcome": "satisfied"},
+         {"input": 'lattice fcc 4.05 orient x "${x}" 0 0\n', "outcome": "unknown"}],
+        discussions=orient_topics)
+    add("LATTICE-ORIENTATION", "lattice.rst", "not have to be unit vectors, but they must be mutually orthogonal",
+        {"kind": "lattice_orientation"},
+        "Lattice orient vectors must be orthogonal, right handed, and planar in two dimensions",
+        [{"input": "lattice fcc 4.05 orient x 1 1 0\n", "outcome": "violated"},
+         {"input": "lattice fcc 4.05 orient x 1 1 0 orient y -1 1 0\n", "outcome": "satisfied"},
+         {"input": 'lattice fcc 4.05 orient x "${x}" 0 0\n', "outcome": "unknown"}],
+        discussions=orient_topics)
+    add("NH-DRAG", "fix_nh.rst", "A non-zero value adds a drag term",
+        {"kind": "nh_drag"},
+        "Nonzero Nose-Hoover drag changes energy conservation and nominal ensemble sampling; review its intended use",
+        [{"input": "fix ensemble all npt temp 300 300 0.1 iso 0 0 1 drag 1\n", "outcome": "violated"},
+         {"input": "fix ensemble all npt temp 300 300 0.1 iso 0 0 1 drag 0\n", "outcome": "satisfied"},
+         {"input": 'fix ensemble all nvt temp 300 300 0.1 drag "${drag}"\n', "outcome": "unknown"}],
+        discussions=["https://matsci.org/t/details-on-fix-npt-nph-drag/32615"])
+    add("KSPACE-EXCLUSIONS", "neigh_modify.rst", "Excluding pairwise interactions will not work correctly",
+        {"kind": "kspace_exclusions"},
+        "Neighbor exclusions with an active long-range solver omit the required short-range compensation",
+        [{"input": "kspace_style pppm 1e-4\nneigh_modify exclude type 1 2\nrun 0\n", "outcome": "violated"},
+         {"input": "kspace_style pppm 1e-4\nneigh_modify exclude type 1 2\nneigh_modify exclude none\nrun 0\n", "outcome": "satisfied"},
+         {"input": "kspace_style custom/solver 1e-4\nneigh_modify exclude type 1 2\nrun 0\n", "outcome": "unknown"}],
+        selected=[{"command": "run", "exact_arguments": 2},
+                  {"command": "minimize", "exact_arguments": 5}],
+        discussions=["https://matsci.org/t/question-on-pressure-calculation-for-fix-rigid/66390"])
 
     # Every template instance carries executable three-way examples. These are
     # applicability tests, not claims that an isolated command runs a simulation.

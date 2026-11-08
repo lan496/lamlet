@@ -198,6 +198,33 @@ fn patterns_dynamic_names_and_legacy_paths_have_distinct_guarantees() {
     assert_eq!(c.resources.unresolved.len(), 2);
 }
 
+#[test]
+fn runtime_basenames_keep_patterns_and_require_fixed_confined_parents() {
+    let f = Fixture::new();
+    assert_eq!(
+        f.output("read_restart @{pattern(\"structures/restart.*.%\")}\n"),
+        "read_restart \"structures/restart.*.%\"\n"
+    );
+    assert_eq!(
+        f.output(
+            "dump traj all custom 100 @{output(\"results/new/traj.*.%.lammpstrj\")} id x y z\n"
+        ),
+        "dump traj all custom 100 \"results/new/traj.*.%.lammpstrj\" id x y z\n"
+    );
+    assert!(!f.dir.path().join("results/new").exists());
+    f.error(
+        "read_restart @{pattern(\"missing/restart.*\")}\n",
+        "E_PATH_KIND",
+    );
+    for text in [
+        "read_restart @{pattern(\"structures/*/restart.*\")}\n",
+        "dump traj all custom 100 @{output(\"results/*/traj.*\")} id x y z\n",
+        "read_data @unchecked{dynamic(\"structures/${dir}/input.data\")}\n",
+    ] {
+        f.error(text, "E_PATH_SYNTAX");
+    }
+}
+
 #[cfg(unix)]
 #[test]
 fn symlink_escapes_and_hardlink_output_aliases_are_rejected() {
@@ -207,6 +234,23 @@ fn symlink_escapes_and_hardlink_output_aliases_are_rejected() {
     std::os::unix::fs::symlink(outside.path(), f.dir.path().join("outside")).unwrap();
     f.error("read_data @{path(\"outside/secret\")}\n", "E_PATH_ESCAPE");
     f.error("write_data @{output(\"outside/new\")}\n", "E_PATH_ESCAPE");
+    f.error(
+        "read_restart @{pattern(\"outside/restart.*\")}\n",
+        "E_PATH_ESCAPE",
+    );
+    f.error(
+        "dump traj all custom 100 @{output(\"outside/traj.*\")} id x y z\n",
+        "E_PATH_ESCAPE",
+    );
+    std::os::unix::fs::symlink(
+        outside.path().join("secret"),
+        f.dir.path().join("results/leak"),
+    )
+    .unwrap();
+    f.error(
+        "write_data @{output(\"results/unused*/../leak\")}\n",
+        "E_PATH_ESCAPE",
+    );
     fs::hard_link(
         f.dir.path().join("structures/Si.data"),
         f.dir.path().join("results/alias"),

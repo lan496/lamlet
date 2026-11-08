@@ -119,12 +119,12 @@
     "write_restart"
   ],
   "review": {
-    "candidate_paragraphs": 6726,
+    "candidate_paragraphs": 6728,
     "complete": false,
     "deferred_paragraphs": 1,
-    "partial_paragraphs": 6,
-    "pending_paragraphs": 6712,
-    "reviewed_paragraphs": 14
+    "partial_paragraphs": 8,
+    "pending_paragraphs": 6711,
+    "reviewed_paragraphs": 17
   },
   "revision": "0165101ce505734e8fb249694b22e295a7ab4182",
   "rules": [
@@ -2620,6 +2620,49 @@
     },
     {
       "autofix": false,
+      "discussions": [
+        "https://matsci.org/t/question-on-pressure-calculation-for-fix-rigid/66390"
+      ],
+      "examples": [
+        {
+          "input": "kspace_style pppm 1e-4\nneigh_modify exclude type 1 2\nrun 0\n",
+          "outcome": "violated"
+        },
+        {
+          "input": "kspace_style pppm 1e-4\nneigh_modify exclude type 1 2\nneigh_modify exclude none\nrun 0\n",
+          "outcome": "satisfied"
+        },
+        {
+          "input": "kspace_style custom/solver 1e-4\nneigh_modify exclude type 1 2\nrun 0\n",
+          "outcome": "unknown"
+        }
+      ],
+      "id": "LML-MAN-KSPACE-EXCLUSIONS",
+      "message": "Neighbor exclusions with an active long-range solver omit the required short-range compensation",
+      "predicate": {
+        "kind": "kspace_exclusions"
+      },
+      "selectors": [
+        {
+          "command": "run",
+          "exact_arguments": 2
+        },
+        {
+          "command": "minimize",
+          "exact_arguments": 5
+        }
+      ],
+      "severity": "warning",
+      "source": {
+        "end_line": 211,
+        "page": "neigh_modify.rst",
+        "sha256": "93efff503d9c425999a3ff2da5e3054082031f43ddd6119bde32cfed8b283670",
+        "start_line": 202,
+        "url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/neigh_modify.rst#L202"
+      }
+    },
+    {
+      "autofix": false,
       "examples": [
         {
           "input": "dimension 2\nkspace_style msm\n",
@@ -2709,6 +2752,84 @@
         "sha256": "497d9ecaac2ba1951e5d896f00ec30b12bab8257a85ca60e26bbf8edadc07686",
         "start_line": 112,
         "url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/labelmap.rst#L112"
+      }
+    },
+    {
+      "autofix": false,
+      "discussions": [
+        "https://matsci.org/t/lattice-orient-these-vectors-must-be-orthogonal/18394",
+        "https://matsci.org/t/lattice-orient-vector-error/14833"
+      ],
+      "examples": [
+        {
+          "input": "lattice fcc 4.05 orient x 0.8 0.6 0 orient y -0.6 0.8 0\n",
+          "outcome": "violated"
+        },
+        {
+          "input": "lattice fcc 4.05 orient x 4 3 0 orient y -3 4 0\n",
+          "outcome": "satisfied"
+        },
+        {
+          "input": "lattice fcc 4.05 orient x \"${x}\" 0 0\n",
+          "outcome": "unknown"
+        }
+      ],
+      "id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+      "message": "Lattice orient components must be integer literals",
+      "predicate": {
+        "kind": "lattice_orient_integers"
+      },
+      "selectors": [
+        {
+          "command": "lattice"
+        }
+      ],
+      "severity": "warning",
+      "source": {
+        "end_line": 189,
+        "page": "lattice.rst",
+        "sha256": "ca564e5e56c894d8cd9439d347ab33e8aad997d927194c38e8580374ce95aadf",
+        "start_line": 178,
+        "url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/lattice.rst#L178"
+      }
+    },
+    {
+      "autofix": false,
+      "discussions": [
+        "https://matsci.org/t/lattice-orient-these-vectors-must-be-orthogonal/18394",
+        "https://matsci.org/t/lattice-orient-vector-error/14833"
+      ],
+      "examples": [
+        {
+          "input": "lattice fcc 4.05 orient x 1 1 0\n",
+          "outcome": "violated"
+        },
+        {
+          "input": "lattice fcc 4.05 orient x 1 1 0 orient y -1 1 0\n",
+          "outcome": "satisfied"
+        },
+        {
+          "input": "lattice fcc 4.05 orient x \"${x}\" 0 0\n",
+          "outcome": "unknown"
+        }
+      ],
+      "id": "LML-MAN-LATTICE-ORIENTATION",
+      "message": "Lattice orient vectors must be orthogonal, right handed, and planar in two dimensions",
+      "predicate": {
+        "kind": "lattice_orientation"
+      },
+      "selectors": [
+        {
+          "command": "lattice"
+        }
+      ],
+      "severity": "warning",
+      "source": {
+        "end_line": 189,
+        "page": "lattice.rst",
+        "sha256": "ca564e5e56c894d8cd9439d347ab33e8aad997d927194c38e8580374ce95aadf",
+        "start_line": 178,
+        "url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/lattice.rst#L178"
       }
     },
     {
@@ -2850,6 +2971,106 @@
         "sha256": "93efff503d9c425999a3ff2da5e3054082031f43ddd6119bde32cfed8b283670",
         "start_line": 305,
         "url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/neigh_modify.rst#L305"
+      }
+    },
+    {
+      "autofix": false,
+      "discussions": [
+        "https://matsci.org/t/details-on-fix-npt-nph-drag/32615"
+      ],
+      "examples": [
+        {
+          "input": "fix ensemble all npt temp 300 300 0.1 iso 0 0 1 drag 1\n",
+          "outcome": "violated"
+        },
+        {
+          "input": "fix ensemble all npt temp 300 300 0.1 iso 0 0 1 drag 0\n",
+          "outcome": "satisfied"
+        },
+        {
+          "input": "fix ensemble all nvt temp 300 300 0.1 drag \"${drag}\"\n",
+          "outcome": "unknown"
+        }
+      ],
+      "id": "LML-MAN-NH-DRAG",
+      "message": "Nonzero Nose-Hoover drag changes energy conservation and nominal ensemble sampling; review its intended use",
+      "predicate": {
+        "kind": "nh_drag"
+      },
+      "selectors": [
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "nph"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "nph/kk"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "nph/omp"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "npt"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "npt/gpu"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "npt/intel"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "npt/kk"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "npt/omp"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "nvt"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "nvt/gpu"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "nvt/intel"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "nvt/kk"
+        },
+        {
+          "command": "fix",
+          "position": 3,
+          "value": "nvt/omp"
+        }
+      ],
+      "severity": "warning",
+      "source": {
+        "end_line": 321,
+        "page": "fix_nh.rst",
+        "sha256": "4dc2494c1e863568486db21b9496a4bb3bf162b3f2a7eb0827833a0864be07e3",
+        "start_line": 309,
+        "url": "https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/fix_nh.rst#L309"
       }
     },
     {

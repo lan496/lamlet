@@ -1,3 +1,4 @@
+import hashlib
 import json
 import unittest
 
@@ -68,6 +69,20 @@ class ManualRuleTests(unittest.TestCase):
         reviews["paragraphs"] = [review | {"rules": ["LML-MAN-NONEXISTENT"]}]
         with self.assertRaisesRegex(ValueError, "unknown rule"):
             review_ledger(texts, rules, reviews)
+
+    def test_explicit_review_includes_paragraphs_without_heuristic_keywords(self):
+        paragraph = "A non-zero value changes nominal ensemble sampling."
+        texts = {"test.rst": paragraph + "\n"}
+        rules = [{"id": "LML-MAN-TEST", "source": {"page": "test.rst", "start_line": 1, "end_line": 1}}]
+        reviews = {"revision": REVISION, "paragraphs": []}
+        self.assertEqual(review_ledger(texts, rules, reviews)[0], [])
+        reviews["paragraphs"] = [{"page": "test.rst", "sha256": hashlib.sha256(paragraph.encode()).hexdigest(),
+                                  "rules": ["LML-MAN-TEST"], "status": "implemented",
+                                  "reason": "Reviewed an explicit documented effect."}]
+        ledger, summary = review_ledger(texts, rules, reviews)
+        self.assertEqual(summary["candidate_paragraphs"], 1)
+        self.assertEqual(summary["reviewed_paragraphs"], 1)
+        self.assertEqual(ledger[0]["status"], "implemented")
 
 
 if __name__ == "__main__":

@@ -182,8 +182,10 @@ The `manual_lint` engine evaluates a typed catalog of additional constraints.
 Each rule has explicit command selectors, a predicate, a pinned source hash and
 line range, and examples exercised through the public compiler. Predicates
 cover literal operands and a bounded state model: box creation, dimension,
-units, neighbor settings, pair options, communication style, dynamic groups,
-and active fixes and dumps. Earlier declarations appear in diagnostic evidence.
+units, neighbor settings, reviewed long-range solvers, pair options,
+communication style, dynamic groups, and active fixes and dumps. Lattice
+orientation uses checked integer arithmetic and the final direction for each
+axis, including defaults. Earlier declarations appear in diagnostic evidence.
 `clear` resets the model. Opaque effects invalidate it. Unknown option grammars
 do not establish facts, and hybrid pair substyles are not inferred.
 
@@ -192,7 +194,9 @@ executable catalog and its reference page. A separate, paragraph-hashed review
 ledger distinguishes implemented, partial, deferred, runtime-only, unrelated,
 and unreviewed prose. Linking a paragraph to a rule does not mark the paragraph
 fully reviewed. The completeness gate remains failing while pending, partial,
-or deferred entries exist.
+or deferred entries exist. Explicit reviews can add paragraphs that the normative
+keyword search missed. Forum-derived rules retain discussion links alongside
+the official manual citation.
 
 ## Target and execution boundaries
 

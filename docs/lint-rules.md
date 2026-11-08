@@ -1,6 +1,6 @@
 # LAMMPS lint rules
 
-Lamlet has ten physical and idiom rules and 282 additional executable constraints
+Lamlet has ten physical and idiom rules and 286 additional executable constraints
 derived from the official LAMMPS manual. They emit warnings with source evidence
 and suggested actions. Warnings remain
 nonfatal in strict mode. The compiler does not reorder commands, change physical
@@ -46,7 +46,9 @@ its applicability, and its immutable source location. These constraints cover:
 | Averaging | Positive sampling intervals, frequency divisibility, and nonoverlapping sample windows for five averaging styles. | `ave/correlate` has a different window rule and is not covered. |
 | Dimension and units | Reviewed style restrictions, z counts for processors, replication and averaging grids, and `nve/sphere disc`. | No atom-attribute or full box-shape inference. |
 | Pair settings | Shift/tail conflicts, two-dimensional tail corrections, and 197 style-specific unsupported-option rules. | Exact known pair style and parsed options only. Hybrid substyles and implicit options are unverified. |
-| Neighbor settings | Delay/every divisibility and page/one capacity across commands. | Unrecognized option grammar invalidates those facts. Minimization's automatic neighbor-setting adjustment is preserved. |
+| Neighbor settings | Delay/every divisibility, page/one capacity, and exclusions with reviewed long-range solvers. | Unrecognized option grammar invalidates those facts. Minimization's automatic neighbor-setting adjustment is preserved. |
+| Lattice orientation | Integer direction components, orthogonality, handedness, and the two-dimensional plane. | Default and repeated directions are included. Custom primitive-vector geometry and unknown option grammars remain unverified. |
+| Nose–Hoover drag | Nonzero literal `drag` changes conservation and nominal ensemble sampling. | Advisory only, with no inference about damping quality or the author's intent. |
 | Resources and groups | Active dumps and time-tracking fixes at `reset_timestep`, selected static-group restrictions, and `read_data` add/offset/shift conditions. | Data-file contents, dynamic callbacks, and atom membership are unverified. |
 | Communication | `comm_modify mode multi` requires `comm_style brick`. | Unsupported options remain Unknown. |
 
@@ -58,6 +60,45 @@ These predicates check documented requirements within their stated domain.
 A `satisfied` result covers that predicate only. For example, a three-dimensional
 PPPM setup satisfies the dimension predicate even if its boundary conditions are
 wrong; the slab exception and boundary compatibility are not implemented here.
+
+## Rules from reviewed forum discussions
+
+Four rules follow recurring questions on matsci.org. Each checks a bounded
+condition from the pinned official manual and records the discussion as context.
+The forum thread alone does not establish applicability.
+
+| Rule | Warning condition | Discussion |
+| --- | --- | --- |
+| `LML-MAN-LATTICE-ORIENT-INTEGERS` | A supplied `orient` component is not an integer literal. | [Decimal direction components](https://matsci.org/t/lattice-orient-these-vectors-must-be-orthogonal/18394), [orient and primitive vectors](https://matsci.org/t/lattice-orient-vector-error/14833/4) |
+| `LML-MAN-LATTICE-ORIENTATION` | Final directions, including defaults, are not mutually orthogonal and right-handed, or violate the two-dimensional plane restrictions. | [Orientation geometry](https://matsci.org/t/lattice-orient-vector-error/14833/4) |
+| `LML-MAN-NH-DRAG` | A reviewed `nvt`, `npt`, or `nph` style has nonzero literal `drag`. | [Drag and ensemble sampling](https://matsci.org/t/details-on-fix-npt-nph-drag/32615) |
+| `LML-MAN-KSPACE-EXCLUSIONS` | A plain `run` or `minimize` uses neighbor exclusions with a known active Ewald or PPPM solver. | [Exclusions and long-range compensation](https://matsci.org/t/question-on-pressure-calculation-for-fix-rigid/66390) |
+
+The integer restriction applies to `orient`, including each occurrence of a
+repeated option. It does not apply to floating-point `a1`, `a2`, and `a3` in
+`lattice custom`. These primitive vectors can also be nonorthogonal. The geometry
+rule uses the final direction for each axis. Arithmetic overflow returns Unknown.
+Dynamic components and unsupported lattice grammars also return Unknown.
+The extra restrictions on `triclinic/general` are not implemented.
+
+The drag rule recognizes only the documented option grammar and cataloged
+accelerator aliases. A group named `drag` in `dilate drag` does not set the drag
+factor. A nonzero factor can be intentional. Lamlet does not choose another
+factor or infer whether a damping time is appropriate.
+
+The exclusion rule tracks `exclude type`, `group`, `molecule/intra`, and
+`molecule/inter`. `exclude none` clears the fact, and `kspace_style none` disables
+the solver. It evaluates the final configuration at execution, so a temporary
+conflict that is cleared before `run` does not warn. The reviewed solvers are
+`ewald`, `ewald/gpu`, `ewald/omp`, `pppm`, `pppm/gpu`, `pppm/intel`, `pppm/kk`,
+and `pppm/omp`, with a positive literal accuracy. Other solver styles, dynamic
+selection, and opaque effects return Unknown unless one side is provably disabled.
+Run options are outside this rule's selector.
+
+These checks do not determine excluded atom membership, compute a long-range
+correction, or diagnose rigid-body pressure and virial calculations. Dynamic-group
+exclusion restrictions remain deferred. All four rules produce nonfatal warnings
+in normal and strict legacy mode, preserve the input bytes, and have no autofix.
 
 ## Diagnostics and queries
 
@@ -87,6 +128,7 @@ its source hash, section line ranges, and an immutable GitHub source URL.
 Generated manual rules use explicit selectors and typed predicates rather than
 the physical rules' category metadata. Each has a message, severity, source hash,
 source line range, and executable examples. All have `autofix: false`.
+Rules derived from forum discussions also expose a `discussions` list of URLs.
 
 For example, `neigh_modify delay 3 every 2` produces `LML-MAN-NEIGHBOR-DELAY`.
 When `delay` and `every` occur on separate commands, evidence cites both lines.
@@ -138,7 +180,9 @@ version **30 Sep 2026**. It contains every `.rst` file under `doc/src`:
 | --- | ---: |
 | Source documents, including fragments | 1,001 |
 | Source bytes | 8,720,158 |
-| Paragraphs selected for constraint review | 6,726 |
+| Paragraphs selected by normative keywords | 6,726 |
+| Additional paragraphs selected by explicit review | 2 |
+| Paragraphs in the review ledger | 6,728 |
 
 Selection uses normative terms such as "must," "required," and "not supported."
 Selected paragraphs are review candidates. They are not executable lint rules,
@@ -150,7 +194,7 @@ Full text and candidate paragraphs remain in ignored `target/lammps-manual/`.
 The committed catalog stores provenance and navigation metadata. Indexing all
 source documents does not mean that all prose has been semantically reviewed or
 implemented. Most manual constraints remain unimplemented. The ten physical and
-idiom rules and 282 generated constraints are the current executable lint coverage;
+idiom rules and 286 generated constraints are the current executable lint coverage;
 command schemas, capability checks, and ownership checks are separate.
 
 `tools/manual_reviews.json` records explicit paragraph review decisions, bound to
@@ -160,6 +204,10 @@ implemented, while its restriction on atom-count changes is not. Such a paragrap
 remains `partial`. Unreviewed paragraphs remain `pending`. Deferred checks include
 dynamic groups in neighbor exclusions. Runtime-only facts and unrelated prose can
 receive a reasoned `runtime_only` or `not_lint` disposition.
+Explicit reviews can select paragraphs without a heuristic keyword. The current
+ledger has 17 reviewed paragraphs, including eight partial reviews and one
+deferred review, and 6,711 pending paragraphs. These counts describe review
+status, not diagnostic precision.
 
 The catalog generator is `tools/lammps_docs.py`. It requires Python and a local
 LAMMPS Git repository containing the pinned commit and its documentation blobs.

@@ -45,6 +45,10 @@ restricted to the basename. DynamicPath warns; strict mode requires an explicit
 `@unchecked{dynamic("...")}` acknowledgement. It cannot guarantee existence,
 runtime containment, kind, or collision avoidance.
 
+For a basename containing `*`, `%`, or `$`, Lamlet resolves its fixed parent and
+preserves the basename for LAMMPS. It does not canonicalize the pattern as a
+literal file name. Concrete paths still undergo full canonicalization.
+
 Names use portable `/` separators. Absolute paths, escapes through `..` or
 symlinks, quotes, backslashes, colons, and control characters are rejected.
 Spaces, `#`, and braces in static names are preserved through quoted output.

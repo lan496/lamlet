@@ -6,7 +6,7 @@ facts available at a use site. A finding describes only that rule's stated
 condition. It does not establish physical correctness of the simulation.
 
 The [lint rule reference](lint-rules.md) lists ten physical and idiom rules and
-describes the state boundaries of 282 additional manual constraints.
+describes the state boundaries of 286 additional manual constraints.
 Their [generated catalog](manual-rule-catalog.md) contains exact applicability
 and immutable manual citations. Full-manual review and implementation remain incomplete.
 

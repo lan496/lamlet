@@ -1138,7 +1138,8 @@ fn project_example_checks_and_builds_without_starting_lammps() {
     assert!(
         fs::read_to_string(dir.path().join(".lamlet/build/simulation.in"))
             .unwrap()
-            .contains("timestep 0.002\n")
+            .lines()
+            .any(|line| line == "timestep 0.002")
     );
     assert!(!dir.path().join("results").exists());
     let args = [
