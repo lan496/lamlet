@@ -1,0 +1,282 @@
+{
+  "cases": [
+    {
+      "decision": "pending",
+      "id": "averaging-boundary",
+      "input_sha256": "e689eda0a38bb059cc68be67c68251f91ec8a0a4cc81cdab77d2bf972be5f708",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "averaging-divisibility",
+      "input_sha256": "799c36d39953d4acf74674d4cbbf5b5cba8c4ee033b1a10362989300fbfd4eb5",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "averaging-other-style",
+      "input_sha256": "1a358832346a21c3df30b2f1065f1a6b6ea64511e20e76334d3f07c336983c43",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "averaging-runtime-repeat",
+      "input_sha256": "ac3e973044c87fe0378eae94b43beee89456c0665a2fe2644d07d258e5490f45",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "averaging-runtime-stride",
+      "input_sha256": "eed02f7479d72f5ffb02b03d10409d493dbc26e4f6b0b323fb4bcbe7614aeb09",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "averaging-spaced",
+      "input_sha256": "c4b7f4fd7e3f978d52ef3afad7c50cdeabc2960c26819b6c315f32ef6041fde4",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "averaging-window",
+      "input_sha256": "b2756ba191b154f5dbb07b0a7e1fa026b264264168082f9cafd071c6d2b49082",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "drag-default",
+      "input_sha256": "a7d992d74f54716675db29101a8b8e6c202c7908eab52021b734ad13f1da7ee1",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "drag-extension",
+      "input_sha256": "39f087d2f4de51875617ef41985aac352142d274973d234948ca69b194e66543",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "drag-fractional",
+      "input_sha256": "c3a45c37e38aef91126354f69d6cd120d96ae32b645534b351306ead0ecf0df8",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "drag-group-name",
+      "input_sha256": "f43e388093831885cb41840507f1eed16b3ebceba4d90a8b2d3b63fe9e1528d2",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "drag-nonzero",
+      "input_sha256": "ce6d2b371098a909c5bdef43c83983cd75798608f825318ceccac37c385c4174",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "drag-runtime",
+      "input_sha256": "8eac19d482c6a20ef08190beaf91ec4a12886e297fbacbc7503b26ae47d00124",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "drag-zero",
+      "input_sha256": "a21f7654ff2b5a7be76e769a453383a8c6f92170fa600b5c1114242031099d37",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integers-axis",
+      "input_sha256": "fb9e6856cdb3f6db60c7b5f84872e53dab7fa4ac773760fe0d0ae4d24756594d",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integers-decimal",
+      "input_sha256": "40a4692ea1eccaee8da20b7d5aa32e41f1708596ea117a7bc0a221b7ab13183b",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integers-extension",
+      "input_sha256": "f8316f50867568476d35c72dad9d0d3f0e3bf720ee910fcd7d5b27725981634f",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integers-fraction",
+      "input_sha256": "26f63fd15945e0776d9e64c271fa977c4d649fb358c3f218ff0cb66053e43a0f",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integers-primitive",
+      "input_sha256": "57ee970d9774246d8c711395727fbdd65fb42f1d6483e263b171360f1cb0a9bc",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integers-runtime",
+      "input_sha256": "a83821b59289275091a47983ab9b67e40c377402dbfc187d988588a34471b0b5",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integration-barostat",
+      "input_sha256": "646c79293797f06a27c6be72d28433b4d598938371ba3ce839e8ad07a4607e9b",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integration-duplicate",
+      "input_sha256": "57a71dca44163ebf5545c84f153066f25eae5b1de0d6ad63574ee7bf9aaeea82",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integration-langevin",
+      "input_sha256": "4541d1533e80e1753d89f91a85e256d91d4d4230fadbbbdd9f2eaaa7f5f0c8f0",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integration-membership",
+      "input_sha256": "564936a6effde134d70b163fb6e90e3038efe42bf959483aa061e6d0cb35789c",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integration-plugin",
+      "input_sha256": "47659903bdd2354fb4f58a66eafdb780721a345a0964009d90eb0049a6849146",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "integration-sequential",
+      "input_sha256": "c4082e24925dfb7030b80fcf3b4e6bc4a4374d562feeaed1fcb542698c6209dc",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "kspace-active",
+      "input_sha256": "b786a51dd6fcfa0542970e8cfdfebabc03f2dc0fe8383abdbc5657e60a48f8f5",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "kspace-cleared",
+      "input_sha256": "da38b9d59cf39f97da0f040b45204dc1e81377b3f7ab2f38472b3fb7ba9ca552",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "kspace-disabled",
+      "input_sha256": "691ea6d7976630e8a71820730ab967b93e3804fa3161ca30eaa36a3a06906a53",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "kspace-ewald",
+      "input_sha256": "a1b5e1ea8a666e6ca388ab8a85e1a4f00fef9aaffb242b4f2c82d2135e29d127",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "kspace-extension",
+      "input_sha256": "46014fbd6c2c2fac9bd8a852a059fac38f8aa7e5186eaef1666bdff0fbd627f0",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "kspace-runtime",
+      "input_sha256": "eb99f3d1350257574b2bf1b7097ac0042d434fdadf870511429c7686f54c8da5",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "orientation-default",
+      "input_sha256": "456ec078775d0f52ed346d2b108807b3576797a899ff2d525c7e704e55270a15",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "orientation-large",
+      "input_sha256": "bd3e68f1c58f8b00145ae6a08800b62261c63f14918c10b45b60c571be8d7f48",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "orientation-last-option",
+      "input_sha256": "dc2e10fd9cef8a3b2b1c5100625fa6dee71eb8986cf434145d2e00524ae3c01a",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "orientation-left-handed",
+      "input_sha256": "18e94c297e4f740482f542bd1a1a6bf3a4cb8a31a31548c94ba7c11319e68157",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "orientation-oblique",
+      "input_sha256": "1d32f203bc339f0415c72062dc67bdb87f6f5fbb84283f7c08a1cc5de6ab9f2b",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "orientation-rotated",
+      "input_sha256": "45976a3f67ecfa2f492fd5297d6f9b1dc310af53099ba4a13650608c81ec5649",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "orientation-runtime",
+      "input_sha256": "3522dbe2e0c6e477de0e3d39eaa6b6e83286eeb9fa56a37b221116c2ed1bebdb",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "temperature-default-output",
+      "input_sha256": "15c1b3921ab92435c53ca5be082ab0f5e7158b8f1df1a105174fcaaabd94fe0b",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "temperature-distinct-bias",
+      "input_sha256": "62adb4df8b56b1bb040b5a41d066e04139b611520898d5186f879c153b59c5c7",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "temperature-equivalent",
+      "input_sha256": "8f0162d69317d5d26f45119d86c9cd905262781a8e1cc1dc47ee70f540e6e4f3",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "temperature-extension",
+      "input_sha256": "770ddf40f8cbf2a4c74ba63462af9996b1b3e84c12e0fb3ef5c31ff08a7e0341",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "temperature-modified",
+      "input_sha256": "6917ff011cd9991f3a1588151b1f89f1c77ce50115dc5d14e4571ece69efa82c",
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "temperature-shared",
+      "input_sha256": "3363effe60458462818bdfcde07bf7fa73b1ad53bf54c83a43882fc46a445daa",
+      "reason": ""
+    }
+  ],
+  "corpus_sha256": "9cc6acce877677ded13d0ea56a4bd2072e790071326d38949a25e62590e37060",
+  "reviewer": {
+    "affiliation": "",
+    "date": "",
+    "independent_of_implementation_and_labels": false,
+    "name": ""
+  },
+  "schema_version": 1
+}
