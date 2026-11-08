@@ -75,7 +75,7 @@ That is the adoption path we can demonstrate today.
 | Say | Scope |
 | --- | --- |
 | Existing scripts can pass through unchanged. | Legacy compilation preserves bytes; partial validation can still diagnose known errors. |
-| The recorded corpus has 998 identical round trips and zero rejections. | Selected inputs at pinned revisions; see [methods and results](corpus.md). |
+| The recorded corpus has 998 identical round trips and zero rejections. | Selected inputs at pinned revisions; see [methods and results](../docs/corpus.md). |
 | Stages build individually and run in fresh processes. | Checked command subset, declared resources, and explicit runtime engine; the demo builds without running MD. |
 | Agents receive deterministic diagnostics. | Repeated input and options produce the same diagnostics for the same resolved resources and target profile. |
 | The compiler catches supported contract violations. | A successful check does not prove complete coverage, physical validity, or numerical stability. |
@@ -83,7 +83,7 @@ That is the adoption path we can demonstrate today.
 Checkpoint restoration, workflow invocation DAGs, full provenance, and numerical
 reproducibility guarantees are not implemented. Keep them in the future-work
 discussion rather than the product demonstration. Current module and stage
-limits are listed in [the contract](modules-and-stages.md).
+limits are listed in [the contract](../docs/modules-and-stages.md).
 
 ## Present the implementation
 
@@ -93,7 +93,7 @@ captured source, generated scripts, commands, diagnostics, and evidence. It can
 be shared as a single offline file.
 
 Use the [presenter runbook](https://github.com/lan496/lamlet/blob/main/demo/README.md) for the sequence and the
-[getting-started guide](getting-started.md) for hands-on use.
+[getting-started guide](../docs/getting-started.md) for hands-on use.
 
 ## The research pitch
 
@@ -105,6 +105,6 @@ simulations with an independent evaluator. Test typed Lamlet separately so the
 value of the checker and the value of the language remain distinct questions.
 
 This is a research hypothesis, with no measured improvement claimed. The
-[protocol](agent-evaluation.md) lists the controlled comparison, oracle
+[protocol](../docs/agent-evaluation.md) lists the controlled comparison, oracle
 requirements, and current gaps. The [offline pilot](https://github.com/lan496/lamlet/blob/main/research/holbrook/README.md)
 replays published inputs without model calls or MD execution.

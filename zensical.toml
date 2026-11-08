@@ -27,7 +27,6 @@ nav = [
   ] },
   { "About" = [
     { "Programming model" = "programming-model.md" },
-    { "The pitch" = "pitch.md" },
     { "Compatibility evaluation" = "corpus.md" },
     { "Agent evaluation" = "agent-evaluation.md" },
     { "P3 pilot" = "p3-pilot.md" },

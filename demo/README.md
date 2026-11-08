@@ -56,7 +56,7 @@ the `lamlet-demo` artifact. Hosted CI has not been run for this change locally.
 
 ## Use this five-minute sequence
 
-Read the [30-second pitch](../docs/pitch.md#the-30-second-pitch) on the opening
+Read the [30-second pitch](pitch.md#the-30-second-pitch) on the opening
 scene, then advance through the six verified scenes.
 
 | Approximate time | Scene | Show | Say |

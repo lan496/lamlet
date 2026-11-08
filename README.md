@@ -33,7 +33,7 @@ compiler; no molecular dynamics is executed.
 
 ## Start here
 
-- [The pitch](docs/pitch.md): a 30-second introduction and three-minute spoken pitch.
+- [Presenter notes](demo/pitch.md): a 30-second introduction and three-minute spoken pitch.
 - [The demo](demo/README.md): six verified CLI scenes and a standalone HTML presentation.
 - [Getting started](docs/getting-started.md): build an existing script, add units, and compile two stage instances.
 - [Agent evaluation](docs/agent-evaluation.md): a proposed controlled study and an offline replay of published LAMMPS artifacts.
