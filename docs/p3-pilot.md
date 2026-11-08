@@ -5,13 +5,16 @@ It combines an independent Python oracle, the official LAMMPS Python API, and
 Harbor's separate verifier. The oracle never imports Lamlet or uses its verdict.
 P1 and P2 still have task templates only.
 
-The [recorded admission baseline](https://github.com/lan496/lamlet/blob/main/research/harbor/p3/admission-baseline.json)
+The original protocol-v1 [recorded admission baseline](https://github.com/lan496/lamlet/blob/main/research/harbor/p3/admission-baseline.json)
 contains the oracle and reference hashes, engine pin, 13 native case outcomes,
 and two live Harbor outcomes from 2026-11-08. All expected outcomes matched.
 The Harbor checks also confirmed absent verifier entry points in the agent
 phase and ignored forged reward artifacts. These admission runs used authored
 solutions. A subsequent six-trial Codex A/C pilot is reported on the
-[evaluation page](agent-evaluation.md); all six scientific outcomes remain unresolved.
+[evaluation page](agent-evaluation.md). A post hoc native protocol-v2 regrade
+passes all four unchanged submissions; the two provider-limit trials remain
+unassessed. The [v2 admission evidence](assets/evaluation/2026-11-08-protocol-v2/admission.json)
+records 24/24 expected outcomes. Live Harbor re-admission of v2 has not been run.
 
 ## Understand the pilot contract
 
@@ -24,6 +27,22 @@ The oracle observes the actual atoms, group membership, periodicity, potential
 energy, and the per-atom velocity change. It checks a requested 100 ps, 300 K NVT
 schedule followed by a 2 km/s projectile boost and NVE impact integration.
 It replaces each `run N` with at most two actual steps for admission testing.
+NVT and NVE may each use one all-atom fix or multiple fixes on nonempty,
+disjoint groups that cover every atom exactly once. The evaluator checks actual
+LAMMPS group membership; group names have no special meaning. Every NVT fix
+must request 300 K at both endpoints with positive damping. LAMMPS updates the
+atoms in each fix group, as specified in the [Nose–Hoover documentation](https://docs.lammps.org/fix_nh.html).
+
+Protocol-v2 limits atom count to 100000. Define the resource bound
+`B(lengths) = 2 * product(ceil(length/lattice_spacing) + 4)` for three box lengths.
+The simulation box must have `B <= 5000000`, including vacuum. Before each
+`create_atoms`, existing atom count plus `B` of the intersection between the box
+and the creation region must be at most 100000. The margin includes boundary
+cells; this conservative admission limit can return `Unknown` even below the
+actual atom-count limit. Box coordinates divided by lattice spacing must have
+magnitude at most 100000000 to bound lattice indexing. Static unused regions
+have no separate size cap. These limits replace v1's arbitrary per-region limits
+and are disclosed in newly prepared campaign instructions.
 
 Consequently, `correct` in this pilot means that the implemented protocol checks
 pass. It does not mean that 100 ps of equilibration was executed, that the slabs
@@ -45,11 +64,28 @@ Use a fresh output directory for each admission. The engine pin and build flags
 are in [runtime.json](https://github.com/lan496/lamlet/blob/main/research/harbor/p3/runtime.json).
 The serial build enables MANYBODY and disables MPI and OpenMP.
 
-The admission report covers 13 cases: the reference, two valid alternatives,
-nine deliberate physical errors, and an unsupported shell command. Errors
+The v2 admission report covers 24 cases: eight valid inputs, thirteen deliberate
+physical errors, and three unsupported or resource-limited inputs. Errors
 include the wrong gap, speed, direction, atom count, boundaries, schedule,
 integrators, potential, and replacement of thermal velocities.
-Unsupported syntax returns `Unknown` without executing that syntax.
+Unsupported syntax returns `Unknown` without executing that syntax. Excessive
+atom creation is rejected before allocation. Valid alternatives include large
+vacuum boxes, translated origins, split run schedules, and disjoint NVT/NVE fixes.
+
+## Regrade archived submissions
+
+After successful native admission, regrade the preserved inputs without editing
+them or rerunning the agent:
+
+```sh
+python3 tools/p3_regrade.py --admission target/p3-admission/local --output target/p3-regrade/local
+```
+
+Use a fresh output directory. The command verifies all original archive hashes,
+requires admission of the exact oracle and runtime, checks runtime library
+hashes, and records new assessments alongside the original statuses. It archives
+evaluator source, admission evidence, and checksums. Missing submissions remain
+unassessed. A post hoc regrade is distinct from a new controlled campaign.
 
 ## Build the container task
 
@@ -136,10 +172,10 @@ infrastructure outcomes when interpreting its summary.
 Before further model trials, obtain domain review of the reference, tolerances, gap
 definition, and oracle coverage. Extend runtime checks for the intended
 scientific claims, implement P1 and P2, freeze model settings and budgets, and
-prepare held-out tasks. Repair the region-bound and schedule coverage limits
-observed in the development pilot, admit those changes independently, and retain
-old grades when regrading archived inputs. The current pilot does not establish
-that Lamlet improves scientific correctness.
+prepare held-out tasks. Re-admit protocol-v2 in the separate Harbor verifier
+image before prospective model trials. The native revision and post hoc regrade
+retain all old grades. The current pilot does not establish that Lamlet improves
+scientific correctness.
 
 See the [agent evaluation protocol](agent-evaluation.md) and
 [oracle transport contract](https://github.com/lan496/lamlet/blob/main/research/harbor/oracle-contract.md).

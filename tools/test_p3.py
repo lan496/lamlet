@@ -1,11 +1,14 @@
 """Exercise the independent oracle's input boundary and optional real-engine admission."""
 
+import hashlib
 import json
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 import p3_oracle
 
@@ -14,6 +17,46 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class P3Tests(unittest.TestCase):
+    def test_excessive_creation_is_rejected_before_the_engine_allocates_atoms(self):
+        executed = []
+
+        class Engine:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                pass
+
+            def has_style(self, *args):
+                return True
+
+            def version(self):
+                return 20260930
+
+            def expand(self, line):
+                return line
+
+            def command(self, line):
+                executed.append(line)
+
+            def extract_box(self):
+                return [0, 0, 0], [660, 660, 66], 0, 0, 0, [1, 1, 0], 0
+
+            def get_natoms(self):
+                return 0
+
+        with tempfile.TemporaryDirectory() as temporary:
+            inputs = Path(temporary)
+            potential = b"trusted test potential"
+            (inputs / "prompt3.potential").write_bytes(potential)
+            with patch.dict(sys.modules, lammps=SimpleNamespace(lammps=lambda **kwargs: Engine())), \
+                 patch.object(p3_oracle, "POTENTIAL_SHA256", hashlib.sha256(potential).hexdigest()):
+                source = "units metal\nlattice bcc 3.3\nregion box block 0 200 0 200 0 20 units lattice\ncreate_box 1 box\ncreate_atoms 1 region box"
+                with self.assertRaisesRegex(p3_oracle.Unsupported, "rejected before allocation"):
+                    p3_oracle.observe(p3_oracle.commands(source), inputs, None, 2)
+        self.assertIn("create_box 1 box", executed)
+        self.assertNotIn("create_atoms 1 region box", executed)
+
     def test_shell_and_python_commands_produce_unknown_without_execution(self):
         with tempfile.TemporaryDirectory() as temporary:
             folder = Path(temporary)
@@ -55,6 +98,10 @@ class P3Tests(unittest.TestCase):
             cases = {case["case"]: case for case in report["cases"]}
             self.assertTrue(report["native_admission_passed"])
             self.assertEqual(cases["reference"]["observed"], "correct")
+            self.assertEqual(cases["large-vacuum"]["observed"], "correct")
+            self.assertEqual(cases["disjoint-thermostats"]["observed"], "correct")
+            self.assertEqual(cases["overlapping-thermostats"]["observed"], "incorrect")
+            self.assertEqual(cases["excessive-atom-creation"]["observed"], "unassessed")
             self.assertEqual(cases["wrong-gap"]["observed"], "incorrect")
             self.assertEqual(cases["overwritten-thermal-velocity"]["observed"], "incorrect")
             self.assertEqual(cases["unsupported-shell"]["observed"], "unassessed")

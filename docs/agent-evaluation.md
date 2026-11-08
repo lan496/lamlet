@@ -2,14 +2,57 @@
 
 ## Development pilot results, 8 November 2026
 
+A post hoc regrade with P3 protocol-v2 resolved all four submitted inputs as
+passing the nine implemented protocol criteria. Table 1 retains the two trials
+that produced no input because of provider usage limits. Among submitted inputs,
+both conditions passed 2/2; among assigned trials, both passed 2/3. This small,
+post hoc comparison provides no evidence of an improvement from Lamlet.
+
+*Table 1. Native protocol-v2 regrade of the unchanged development-pilot submissions.
+Provider-limit trials remain in the assigned denominator and are unassessed.*
+
+| Condition | Assigned | Inputs submitted | Protocol pass | Protocol fail | Unassessed |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A: shell and LAMMPS | 3 | 2 | 2 | 0 | 1 |
+| C: A plus Lamlet checker | 3 | 2 | 2 | 0 | 1 |
+
+Protocol-v2 replaces the per-region coordinate and volume limits with bounds on
+atom creation and simulation-box resources. It accepts NVT and NVE fixes on
+nonempty, disjoint groups when actual atom memberships cover every atom exactly
+once. Overlap, incomplete coverage, and non-300 K equilibration remain failures.
+The [P3 contract](p3-pilot.md#understand-the-pilot-contract) defines the limits.
+Native admission matched 24/24 expected outcomes: eight valid inputs, thirteen
+physical mutations, and three unsupported or resource-limited inputs.
+
+The [regrade report](assets/evaluation/2026-11-08-protocol-v2/report.json),
+[admission evidence](assets/evaluation/2026-11-08-protocol-v2/admission.json),
+individual assessments for
+[A1](assets/evaluation/2026-11-08-protocol-v2/A1/assessment.json),
+[A2](assets/evaluation/2026-11-08-protocol-v2/A2/assessment.json),
+[C1](assets/evaluation/2026-11-08-protocol-v2/C1/assessment.json), and
+[C2](assets/evaluation/2026-11-08-protocol-v2/C2/assessment.json), and
+[checksums](assets/evaluation/2026-11-08-protocol-v2/hashes.json) preserve the
+measurements and evaluator source. The source submissions and original archive
+were verified against their original hashes before and after regrading.
+No new model trials were run, and no revised feedback was returned to an agent.
+
+These are native, bounded smoke-test grades: each requested run executes at most
+two steps. Full equilibration and collision dynamics remain unmeasured, and the
+revised verifier has not been re-admitted in a live Harbor container. Both
+conditions have identification bounds of 2/3 to 1 on protocol success when
+unassessed trials are retained; these bounds are not confidence intervals.
+The frozen protocol-v1 outcomes below remain the original campaign record.
+
+### Original protocol-v1 campaign
+
 A six-trial P3 development pilot compared the current Codex configuration with
 and without Lamlet. The comparison did not yield an estimate of Lamlet's effect:
 four submitted inputs exceeded the independent verifier's region bounds, and
 two trials stopped at the provider's usage limit before producing an input.
-Table 1 retains every assigned trial and separates these outcomes from physical
+Table 2 retains every assigned trial and separates these outcomes from physical
 errors. No submission received a scientific correctness label.
 
-*Table 1. Final outcomes under the frozen P3 protocol-v1 verifier.*
+*Table 2. Final outcomes under the frozen P3 protocol-v1 verifier.*
 
 | Condition | Assigned | Inputs submitted | Correct | Incorrect | Unassessed | Provider limit |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -30,12 +73,12 @@ bounded command-subset instructions. Seed 496 randomized condition order within
 three blocks: A1, C1, A2, C2, C3, A3. No model sampling seed or exact backend
 snapshot was available. Token and tool-call ceilings were not separately imposed.
 
-Table 2 reports agent execution intervals and provider-reported usage. Cached
+Table 3 reports agent execution intervals and provider-reported usage. Cached
 tokens are included in input tokens; they must not be added to input totals.
 Both C submissions invoked `lamlet check`. Their diagnostics did not establish
 the requested geometry or physics.
 
-*Table 2. Trial-level execution and usage evidence. Dashes denote unavailable usage.*
+*Table 3. Trial-level execution and usage evidence. Dashes denote unavailable usage.*
 
 | Trial | Agent seconds | Input tokens | Cached tokens | Output tokens | Tool calls | Lamlet check |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -51,9 +94,9 @@ volumes to 2,000,000 in box units or 50,000 in lattice units. The four inputs
 used larger vacuum boxes, yielding `Unknown` before geometry observations.
 Those numeric limits were not disclosed in the task instructions. The verifier
 also recognizes only a narrow all-atom NVT schedule; this does not cover every
-valid implementation of isochoric equilibration. These coverage limits require
-revision and admission tests before another campaign. The current results are
-an operational pilot, not a scientific accuracy comparison.
+valid implementation of isochoric equilibration. Protocol-v2 addresses these two
+coverage limits through the post hoc admission and regrade above. The original results remain an operational pilot rather than
+a scientific accuracy comparison.
 
 Independent admission and checker coverage were measured separately. The native
 oracle matched all 13 expected outcomes: three valid inputs, nine deliberate
@@ -63,13 +106,13 @@ artifacts. Lamlet accepted all 13 native cases with zero errors and zero warning
 including all nine physical mutations. Thus it rejected 0/9 known physical errors
 in this small suite; its absence of a general geometry checker is material here.
 
-The published-artifact replay is summarized in Table 3. Every input passed normal
+The published-artifact replay is summarized in Table 4. Every input passed normal
 and strict checking and was emitted byte-for-byte unchanged; every input also
 contained at least one `Unknown` finding. Replay acceptance establishes neither
 scientific correctness nor diagnostic precision. The replay took 5.179 seconds
 on this host and launched no agents or LAMMPS processes.
 
-*Table 3. Offline replay of the pinned public artifact release.*
+*Table 4. Offline replay of the pinned public artifact release.*
 
 | Artifact set | Inputs | Normal accepted | Strict accepted | Byte-identical | With Unknown |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -377,6 +420,6 @@ The offline replay, Harbor task preparation, and bounded P3 oracle are
 implemented. The P3 reference and wrong-gap mutation have passed live Harbor
 admission with the expected grades. Native admission covers valid alternatives
 and further mutations. P1 and P2 oracles, external scientific review, full
-equilibration and collision validation, an assessable model comparison, general geometry checks,
+equilibration and collision validation, a larger prospective model comparison, general geometry checks,
 and checkpoint guarantees remain outstanding. The [P3 guide](p3-pilot.md)
 defines exactly what its protocol grade establishes.

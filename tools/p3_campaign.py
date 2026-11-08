@@ -31,6 +31,12 @@ atom_style, boundary, variable, lattice, region, create_box, create_atoms, mass,
 group, pair_style, pair_coeff, neighbor, neigh_modify, velocity, timestep, fix,
 unfix, run, thermo, thermo_style, displace_atoms. Use static arithmetic equal
 variables and nvt/nve fixes. Keep model declarations before dynamics begins.
+NVT at 300 K and NVE may use one all-atom fix or disjoint nonempty groups that
+cover every atom exactly once. Resource limits are 100000 atoms and a box bound
+of 2*product(ceil(box_length/lattice_spacing)+4) <= 5000000. Before each atom
+creation, existing atoms plus the same bound on the box/creation-region
+intersection must not exceed 100000. Box coordinates divided by lattice spacing
+must have magnitude <= 100000000. Large unused regions are permitted.
 Includes, loops, immediate expressions, dumps and other commands cannot be
 assessed in this pilot. Do not add them to the final submission. Do not access
 hidden verifier code or another trial's artifacts. Write only within /app.

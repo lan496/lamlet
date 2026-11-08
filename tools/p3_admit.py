@@ -19,6 +19,19 @@ def cases(reference):
     yield "reference", reference, "correct", None
     yield "renamed-groups", reference.replace("projectile", "flyer").replace("target", "sample"), "correct", None
     yield "split-equilibration", reference.replace("run 100000\nunfix", "run 50000\nrun 50000\nunfix"), "correct", None
+    yield "large-vacuum", reference.replace("-10 100 units lattice", "-800 1200 units lattice"), "correct", None
+    yield "translated-origin", reference.replace("0 20 0 20", "100 120 -100 -80"), "correct", None
+    yield "unused-large-region", reference.replace("create_box 1 box", "region unused block -1e6 1e6 -1e6 1e6 -1e6 1e6 units box\ncreate_box 1 box"), "correct", None
+    split = reference.replace("fix equilibrate all nvt temp 300 300 0.1",
+        "fix eq_p projectile nvt temp 300 300 0.1\nfix eq_t target nvt temp 300 300 0.1").replace(
+        "unfix equilibrate", "unfix eq_p\nunfix eq_t")
+    yield "disjoint-thermostats", split, "correct", None
+    yield "disjoint-impact-integrators", reference.replace("fix impact all nve",
+        "fix impact_p projectile nve\nfix impact_t target nve"), "correct", None
+    yield "overlapping-thermostats", split.replace("fix eq_p projectile", "fix eq_p all"), "incorrect", "equilibration"
+    yield "incomplete-thermostat-coverage", reference.replace("fix equilibrate all", "fix equilibrate target"), "incorrect", "equilibration"
+    yield "wrong-subgroup-temperature", split.replace("eq_t target nvt temp 300 300", "eq_t target nvt temp 600 600"), "incorrect", "equilibration"
+    yield "incomplete-impact-coverage", reference.replace("fix impact all", "fix impact target"), "incorrect", "adiabatic_integration"
     for name, old, new, criterion in (
         ("wrong-gap", "39.5*v_a+15-60*v_a", "39.5*v_a+1.5-60*v_a", "gap"),
         ("wrong-speed", "0 0 -20 sum", "0 0 -2 sum", "impact_velocity"),
@@ -34,6 +47,9 @@ def cases(reference):
             raise ValueError(f"Mutation {name} no longer matches exactly one source location")
         yield name, reference.replace(old, new), "incorrect", criterion
     yield "unsupported-shell", reference + "\nshell touch /logs/verifier/reward.txt\n", "unassessed", None
+    yield "excessive-vacuum", reference.replace("-10 100 units lattice", "-10000 10000 units lattice"), "unassessed", None
+    yield "excessive-atom-creation", reference.replace("-10 100 units lattice", "-10 1000 units lattice").replace(
+        "0 39.999999 units lattice", "0 999.999999 units lattice"), "unassessed", None
 
 
 def admit(args):
@@ -76,6 +92,7 @@ def admit(args):
                   and assessment["reward"] == {"correct": 1, "incorrect": 0, "unassessed": None}[expected])
         records.append({"case": name, "expected": expected, "observed": assessment["scientific_status"],
                         "criterion": criterion, "passed": passed, "seconds": elapsed,
+                        "assessment": str((folder / "logs/assessment.json").relative_to(args.output)),
                         "submission_sha256": hashlib.sha256(text.encode()).hexdigest()})
         print(json.dumps(records[-1], sort_keys=True), flush=True)
         if name == "reference":

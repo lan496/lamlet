@@ -1,0 +1,12 @@
+{
+  "A1/assessment.json": "7e42a51d561a20eaa63b65db0822c65afd14073faff91cfbb841d238cc9c6ef4",
+  "A2/assessment.json": "5504d216768255f179f3533e5de44e1ab6492add29384e02c38b507319882f7b",
+  "C1/assessment.json": "4ed84056d152240034489b24ff8846868b18f5017c91ad1dd8fba1ee442761f6",
+  "C2/assessment.json": "9de2a71fc1d4993e187d8c0c099059406ae2582afe3fb490aa4d25f94b2c79f5",
+  "admission.json": "f89a3982e143c3a4155f7c673c435ccff6a6c0d217835e20c5ff43fe99abef1c",
+  "harbor_verifier.py": "60cfcdb7b1210c08e42c2d6c3b251100506f2658eee404b3a2683b8777b4d2b9",
+  "p3_admit.py": "b5791b40cf9ee48e26a70eaa40038aec9296bb88cf2cbfc3697b490068a69bc8",
+  "p3_oracle.py": "8cfb4e804a4e897c635d1d76d3d1baf2fe7402065fc3711ff1b3c037eca1c338",
+  "p3_regrade.py": "bf85c57ee0db0fc4e85d59e4d727575ace2d425569baf030b4a07042c3b83f8a",
+  "report.json": "05ebf2df17ff98311276519e7b10221c9bcaca4c9112bc6aa013398e3e49d949"
+}

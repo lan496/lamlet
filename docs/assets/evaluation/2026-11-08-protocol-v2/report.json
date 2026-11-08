@@ -1,0 +1,122 @@
+{
+  "conditions": {
+    "A": {
+      "assigned": 3,
+      "confirmed_success_fraction": 0.6666666666666666,
+      "correct": 2,
+      "incorrect": 0,
+      "inputs_submitted": 2,
+      "success_bounds": [
+        0.6666666666666666,
+        1.0
+      ],
+      "unassessed": 1
+    },
+    "C": {
+      "assigned": 3,
+      "confirmed_success_fraction": 0.6666666666666666,
+      "correct": 2,
+      "incorrect": 0,
+      "inputs_submitted": 2,
+      "success_bounds": [
+        0.6666666666666666,
+        1.0
+      ],
+      "unassessed": 1
+    }
+  },
+  "container_validation": "not_run",
+  "full_equilibration_executed": false,
+  "model_trials_run": false,
+  "oracle_sha256": "8cfb4e804a4e897c635d1d76d3d1baf2fe7402065fc3711ff1b3c037eca1c338",
+  "oracle_version": "p3-protocol-v2",
+  "original_archive_hashes_sha256": "0e74caa8f8d6f145ecbcae0d79ab67c1a27d2bb999840a1a13a0e9f6a4b77682",
+  "original_pilot_sha256": "bdce63bfde029af32cace9c14bafa8ec472e4f374b13a49caaeb214eef672ba0",
+  "post_hoc": true,
+  "runtime": {
+    "cmake_options": [
+      "-DBUILD_MPI=off",
+      "-DBUILD_OMP=off",
+      "-DBUILD_SHARED_LIBS=on",
+      "-DPKG_MANYBODY=on",
+      "-DCMAKE_BUILD_TYPE=Release"
+    ],
+    "lammps_commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+    "lammps_repository": "https://github.com/lammps/lammps.git",
+    "libraries": {
+      "liblammps.0.dylib": "0682323fc2315208fa9c2f8f623ce4e9c2571a894184ddf89082cc4f1209c9ee",
+      "liblammps.pc": "4afabc355fca8479c1df906d6a25319ed492f38d8bc3917864afc70818cea84f"
+    },
+    "schema_version": 1
+  },
+  "schema_version": 1,
+  "submissions_modified": false,
+  "trials": [
+    {
+      "adapter_exit": 0,
+      "assessment": "A1/assessment.json",
+      "condition": "A",
+      "id": "A1",
+      "input_submitted": true,
+      "original_status": "unassessed",
+      "scientific_status": "correct",
+      "seconds": 0.8050519160460681,
+      "submission_sha256": "5376cf85dfa9ac11157d85b95c957a78b347120333e35810a4e809973e6fc66c"
+    },
+    {
+      "adapter_exit": 0,
+      "assessment": "C1/assessment.json",
+      "condition": "C",
+      "id": "C1",
+      "input_submitted": true,
+      "original_status": "unassessed",
+      "scientific_status": "correct",
+      "seconds": 0.6469745421782136,
+      "submission_sha256": "cdd4a34265c7d5436f48fd506ade47a6d69b48652ce85e3d79ef994653a4d443"
+    },
+    {
+      "adapter_exit": 0,
+      "assessment": "A2/assessment.json",
+      "condition": "A",
+      "id": "A2",
+      "input_submitted": true,
+      "original_status": "unassessed",
+      "scientific_status": "correct",
+      "seconds": 0.640472040977329,
+      "submission_sha256": "4b431428fc8d866db6fc9ad6e41e5514a85fd6dfd20d984c8cdcb09b8222c405"
+    },
+    {
+      "adapter_exit": 0,
+      "assessment": "C2/assessment.json",
+      "condition": "C",
+      "id": "C2",
+      "input_submitted": true,
+      "original_status": "unassessed",
+      "scientific_status": "correct",
+      "seconds": 0.6327578751370311,
+      "submission_sha256": "25d572bd32d49f9f2bef103e5e58e930dd2eb26eaf3e5be4a5818eaa32a764c9"
+    },
+    {
+      "condition": "C",
+      "id": "C3",
+      "input_submitted": false,
+      "original_status": "unassessed",
+      "provider_errors": [
+        "You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/settings/usage to purchase more credits or try again at 5:58 AM."
+      ],
+      "reason": "Original trial produced no submission",
+      "scientific_status": "unassessed"
+    },
+    {
+      "condition": "A",
+      "id": "A3",
+      "input_submitted": false,
+      "original_status": "unassessed",
+      "provider_errors": [
+        "You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/settings/usage to purchase more credits or try again at 5:58 AM."
+      ],
+      "reason": "Original trial produced no submission",
+      "scientific_status": "unassessed"
+    }
+  ]
+}

@@ -13,7 +13,9 @@ import sys
 import tempfile
 
 
-VERSION = "p3-protocol-v1"
+VERSION = "p3-protocol-v2"
+MAX_ATOMS = 100_000
+MAX_BOX_SITES = 5_000_000
 POTENTIAL_SHA256 = "d02816ad43e6d9a0f5e76656b95567678683d467a30f75f9d67b602cb86a7c7a"
 CRITERIA = ("structure", "potential", "groups", "boundaries", "gap", "equilibration",
             "impact_velocity", "thermal_velocity_retained", "adiabatic_integration")
@@ -86,9 +88,26 @@ def finding(ok, evidence):
     return {"status": "pass" if ok else "fail", "evidence": [evidence]}
 
 
+def bcc_site_bound(bounds, spacing):
+    # Include boundary cells and round-off margins for both BCC basis sites.
+    return 2 * math.prod(math.ceil((bounds[j + 1] - bounds[j]) / spacing) + 4
+                         for j in (0, 2, 4))
+
+
+def check_creation_budget(box, region, spacing, existing):
+    if bcc_site_bound(box, spacing) > MAX_BOX_SITES:
+        raise Unsupported("Simulation box exceeds the 5000000-site resource bound (including vacuum)")
+    overlap = [value for j in (0, 2, 4)
+               for value in (max(box[j], region[j]), min(box[j + 1], region[j + 1]))]
+    upper = 0 if any(overlap[j] > overlap[j + 1] for j in (0, 2, 4)) else bcc_site_bound(overlap, spacing)
+    if existing + upper > MAX_ATOMS:
+        raise Unsupported("Atom creation could exceed 100000 atoms; rejected before allocation")
+    return upper
+
+
 def snapshot(engine, groups):
     n = engine.extract_setting("nlocal")
-    if n > 100_000:
+    if n > MAX_ATOMS:
         raise Unsupported("More than 100000 atoms")
     ids = engine.extract_atom("id")
     types = engine.extract_atom("type")
@@ -153,7 +172,8 @@ def observe(lines, inputs, runtime, smoke_steps):
     if hashlib.sha256(potential.read_bytes()).hexdigest() != POTENTIAL_SHA256:
         raise RuntimeError("Trusted potential does not match the pinned SHA-256")
     facts = {"groups": [], "runs": [], "velocity_changes": [], "potential_used": False}
-    fixes = {}
+    fixes, regions = {}, {}
+    spacing = None
     metal_units = False
     with lammps(cmdargs=["-screen", "none", "-log", "none", "-nocite"]) as engine:
         if not engine.has_style("pair", "eam/alloy"):
@@ -191,17 +211,32 @@ def observe(lines, inputs, runtime, smoke_steps):
                     raise Unsupported("Lattice constant outside the pilot observation bounds")
                 if len(p) > 3 and p[3:] != "orient x 1 0 0 orient y 0 1 0 orient z 0 0 1".split():
                     raise Unsupported("Unsupported lattice orientation")
+                spacing = numbers(p[2:3])[0]
             elif name == "region":
                 if len(p) != 11 or p[2] != "block" or p[9] != "units" or p[10] not in ("box", "lattice"):
                     raise Unsupported("Only static block regions with explicit units are supported")
                 bounds = numbers(p[3:9])
-                volume = math.prod(abs(bounds[j + 1] - bounds[j]) for j in (0, 2, 4))
-                if any(abs(v) > 1000 for v in bounds) or volume > (50000 if p[10] == "lattice" else 2e6):
-                    raise Unsupported("Region exceeds pilot resource bounds")
-            elif name == "create_box" and (len(p) != 3 or p[1] != "1"):
-                raise Unsupported("Only one Nb atom type is supported")
-            elif name == "create_atoms" and (len(p) != 4 or p[1:3] != ["1", "region"]):
-                raise Unsupported("Only lattice creation in a region is supported")
+                if any(bounds[j] >= bounds[j + 1] for j in (0, 2, 4)):
+                    raise Unsupported("Block bounds must be increasing")
+                if p[10] == "lattice":
+                    if spacing is None:
+                        raise Unsupported("Define the BCC lattice before using lattice units")
+                    bounds = [v * spacing for v in bounds]
+                if not all(math.isfinite(v) for v in bounds):
+                    raise Unsupported("Nonfinite block bounds after unit conversion")
+                regions[p[1]] = bounds
+            elif name == "create_box":
+                if len(p) != 3 or p[1] != "1" or p[2] not in regions:
+                    raise Unsupported("Only one Nb atom type and a declared block region are supported")
+            elif name == "create_atoms":
+                if len(p) != 4 or p[1:3] != ["1", "region"] or p[3] not in regions or spacing is None:
+                    raise Unsupported("Only BCC lattice creation in a declared region is supported")
+                lo, hi, *_ = engine.extract_box()
+                box = [value for j in range(3) for value in (lo[j], hi[j])]
+                check_creation_budget(box, regions[p[3]], spacing, engine.get_natoms())
+                # LAMMPS indexes lattice cells with C++ ints, even in a small translated box.
+                if any(abs(v / spacing) > 100_000_000 for v in box):
+                    raise Unsupported("Box origin exceeds the lattice index resource bound")
             elif name == "group":
                 if len(p) < 4 or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", p[1]) or p[2] not in ("region", "union", "subtract", "intersect", "type"):
                     raise Unsupported("Unsupported group declaration")
@@ -258,11 +293,21 @@ def observe(lines, inputs, runtime, smoke_steps):
                                       "pe_eV": engine.get_thermo("pe")})
                 continue
             engine.command(line)
-            if name == "create_atoms" and engine.get_natoms() > 100000:
+            if name == "create_atoms" and engine.get_natoms() > MAX_ATOMS:
                 raise Unsupported("More than 100000 atoms")
             if name == "velocity" and facts["runs"]:
                 facts["velocity_changes"][-1][1] = snapshot(engine, facts["groups"])
         return facts
+
+
+def integrates_once(fixes, members, style):
+    covered = set()
+    for fix in fixes:
+        ids = members.get(fix[0], set())
+        if fix[1] != style or not ids or covered & ids:
+            return False
+        covered.update(ids)
+    return bool(covered) and covered == members["all"]
 
 
 def evaluate(facts):
@@ -291,16 +336,17 @@ def evaluate(facts):
                                   f"Initial outermost-plane separation = {gap:.12g} Angstrom; required 15 +/- 1e-6")
     else:
         result["structure"] = finding(False, "Expected slab populations and partition were not observed")
-    eq = [r for r in runs if len(r["fixes"]) == 1 and r["fixes"][0][:2] == ["all", "nvt"]]
+    eq = [r for r in runs if integrates_once(r["fixes"], state["members"], "nvt")]
     eq_time = sum(r["steps"] * r["dt_ps"] for r in eq)
-    eq_ok = (bool(eq) and all(numbers(r["fixes"][0][3:5]) == [300, 300] for r in eq)
+    eq_ok = (bool(eq) and all(numbers(fix[3:5]) == [300, 300] and numbers(fix[5:6])[0] > 0
+                            for r in eq for fix in r["fixes"])
              and abs(eq_time - 100) < 1e-8 and runs[0] in eq)
     result["equilibration"] = finding(eq_ok,
-        f"Requested all-atom NVT schedule at 300 K: {eq_time:.12g} ps; full equilibration not executed")
+        f"Requested NVT schedule covering every atom exactly once at 300 K: {eq_time:.12g} ps; full equilibration not executed")
     impact = [r for r in runs if r not in eq]
     changes = facts["velocity_changes"]
     result["adiabatic_integration"] = finding(bool(impact) and all(
-        r["steps"] > 0 and r["fixes"] == [["all", "nve"]] for r in impact)
+        r["steps"] > 0 and integrates_once(r["fixes"], state["members"], "nve") for r in impact)
         and runs[-1] in impact and len(changes) == 1 and changes[0][2] == len(eq)
         and runs[:len(eq)] == eq,
         f"Requested impact integration fixes: {[r['fixes'] for r in impact]}; smoke steps only")
@@ -339,7 +385,8 @@ def main():
     data = args.input.read_bytes()
     payload = {"schema_version": 1, "task": args.task,
                "submission_sha256": hashlib.sha256(data).hexdigest(), "oracle_version": VERSION,
-               "execution": {"mode": "instrumented_smoke", "full_equilibration_executed": False}}
+               "execution": {"mode": "instrumented_smoke", "full_equilibration_executed": False,
+                             "max_atoms": MAX_ATOMS, "max_box_sites": MAX_BOX_SITES}}
     try:
         lines = commands(data.decode("utf-8"))
         inputs = args.inputs_dir.resolve()
