@@ -46,6 +46,15 @@
       "status": "implemented"
     },
     {
+      "page": "fix_nh.rst",
+      "reason": "The documented ensemble and conservation effects of nonzero drag are warned about. Damping adequacy and empirical parameter ranges are not inferred.",
+      "rules": [
+        "LML-MAN-NH-DRAG"
+      ],
+      "sha256": "49e7d4bd5c5bea04f57d141361b7da554fce374b06be63d6d68e1ec72819270d",
+      "status": "partial"
+    },
+    {
       "page": "fix_tgnh_drude.rst",
       "reason": "Dimension and static-group restrictions are checked. Package availability requires an explicit target profile and is separate from these rules.",
       "rules": [
@@ -74,12 +83,13 @@
       "status": "partial"
     },
     {
-      "page": "mass.rst",
-      "reason": "The after-box requirement is checked when the box state is known.",
+      "page": "lattice.rst",
+      "reason": "Literal orient components are checked as integers. Custom primitive vectors are not constrained by this predicate. Known literal orientation vectors are checked for orthogonality, handedness and two-dimensional plane restrictions. Unsupported syntax and arithmetic overflow remain Unknown.",
       "rules": [
-        "LML-MAN-MASS-AFTER-BOX"
+        "LML-MAN-LATTICE-ORIENT-INTEGERS",
+        "LML-MAN-LATTICE-ORIENTATION"
       ],
-      "sha256": "ce1d994a6c4ed8011ef8ecd3a06c0568849680b91482e84e3c9728393b147b2f",
+      "sha256": "992cd4caf1028626ab6dd6c828c88b7e4cbf0490eaccda897f20ff90bac21f10",
       "status": "implemented"
     },
     {
@@ -92,6 +102,15 @@
       "status": "implemented"
     },
     {
+      "page": "mass.rst",
+      "reason": "The after-box requirement is checked when the box state is known.",
+      "rules": [
+        "LML-MAN-MASS-AFTER-BOX"
+      ],
+      "sha256": "ce1d994a6c4ed8011ef8ecd3a06c0568849680b91482e84e3c9728393b147b2f",
+      "status": "implemented"
+    },
+    {
       "page": "neigh_modify.rst",
       "reason": "Known delay and every values are checked together, including settings from earlier commands.",
       "rules": [
@@ -99,6 +118,15 @@
       ],
       "sha256": "1d4c0d742b2b8f1b5b42a6aebc41df7b27ad8e4bae32d8e0c428a602eed0a77e",
       "status": "implemented"
+    },
+    {
+      "page": "neigh_modify.rst",
+      "reason": "Known active Ewald/PPPM styles and literal neighbor exclusions are checked at plain run/minimize sites. Other solvers, atom membership and numerical compensation are not inferred.",
+      "rules": [
+        "LML-MAN-KSPACE-EXCLUSIONS"
+      ],
+      "sha256": "2389b8de8866779d90867321d3d18e956bf4c48012a51ef91210c34af3ee3244",
+      "status": "partial"
     },
     {
       "page": "neigh_modify.rst",

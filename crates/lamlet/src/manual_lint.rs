@@ -61,6 +61,8 @@ pub struct Rule {
     pub autofix: bool,
     pub source: Citation,
     pub examples: Vec<Example>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub discussions: Vec<String>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -146,6 +148,10 @@ pub enum Predicate {
     PairUnsupported {
         option: String,
     },
+    LatticeOrientIntegers,
+    LatticeOrientation,
+    NhDrag,
+    KspaceExclusions,
 }
 
 pub fn catalog() -> &'static Catalog {
@@ -205,6 +211,8 @@ pub(crate) struct Engine {
     pair: [Option<bool>; 2],     // shift, tail
     pair_style: Option<String>,
     comm: Option<String>,
+    exclusions: Option<bool>,
+    kspace: Option<bool>,
     dumps: BTreeMap<String, Span>,
     fixes: BTreeMap<String, (String, Span)>,
     inventory_known: bool,
@@ -223,6 +231,8 @@ impl Default for Engine {
             pair: [Some(false); 2],
             pair_style: Some("none".into()),
             comm: Some("brick".into()),
+            exclusions: Some(false),
+            kspace: Some(false),
             dumps: BTreeMap::new(),
             fixes: BTreeMap::new(),
             inventory_known: true,
@@ -242,6 +252,8 @@ impl Engine {
         self.pair = [None; 2];
         self.pair_style = None;
         self.comm = None;
+        self.exclusions = None;
+        self.kspace = None;
         self.dumps.clear();
         self.fixes.clear();
         self.inventory_known = false;
@@ -422,6 +434,38 @@ impl Engine {
                         _ => None,
                     }
                 }),
+            Predicate::LatticeOrientIntegers => {
+                lattice_orientation(command).map(|orientation| orientation.integers)
+            }
+            Predicate::LatticeOrientation => lattice_orientation(command).and_then(|orientation| {
+                if !orientation.integers {
+                    return None;
+                }
+                let mut vectors = [[0_i128; 3]; 3];
+                for (values, axis) in vectors.iter_mut().zip(orientation.axes) {
+                    for (value, text) in values.iter_mut().zip(axis) {
+                        *value = i128::from(text.parse::<i64>().ok()?);
+                    }
+                }
+                if !right_handed_orthogonal(vectors)? {
+                    return Some(false);
+                }
+                let planar = vectors[0][2] == 0
+                    && vectors[1][2] == 0
+                    && vectors[2][0] == 0
+                    && vectors[2][1] == 0;
+                if planar {
+                    Some(true)
+                } else {
+                    self.dimension.map(|d| d == 3)
+                }
+            }),
+            Predicate::NhDrag => nh_drag(command).map(|drag| drag == 0.0),
+            Predicate::KspaceExclusions => match (self.exclusions, self.kspace) {
+                (Some(false), _) | (_, Some(false)) => Some(true),
+                (Some(true), Some(true)) => Some(false),
+                _ => None,
+            },
         };
         decide(result)
     }
@@ -457,6 +501,7 @@ impl Engine {
                 Predicate::Dimension { .. }
                 | Predicate::DimensionalArgument { .. }
                 | Predicate::DiscDimension => &["dimension"],
+                Predicate::LatticeOrientation => &["dimension"],
                 Predicate::NeighborDelay => &["neighbor_delay", "neighbor_every"],
                 Predicate::NeighborPage => &["neighbor_page", "neighbor_one"],
                 Predicate::PairShiftTail => &["pair_shift", "pair_tail", "pair_style"],
@@ -465,6 +510,7 @@ impl Engine {
                 Predicate::CommMulti => &["comm"],
                 Predicate::Units { .. } => &["units"],
                 Predicate::PairUnsupported { .. } => &["pair_style"],
+                Predicate::KspaceExclusions => &["neighbor_exclusions", "kspace"],
                 _ => &[],
             };
             for key in keys {
@@ -580,6 +626,18 @@ impl Engine {
                 self.state_sources.insert("box", command.line.span);
             }
             Some("neigh_modify") => {
+                match neighbor_exclusions(command) {
+                    Some(ExclusionSetting::Unchanged) => {}
+                    Some(setting) => {
+                        self.exclusions = Some(matches!(setting, ExclusionSetting::Enabled));
+                        self.state_sources
+                            .insert("neighbor_exclusions", command.line.span);
+                    }
+                    None => {
+                        self.exclusions = None;
+                        self.state_sources.remove("neighbor_exclusions");
+                    }
+                }
                 self.neighbors = self.neighbor_settings(command);
                 if let Some(options) = simple_options(command, 1, NEIGHBOR_OPTIONS) {
                     for (key, _) in options {
@@ -593,6 +651,21 @@ impl Engine {
                         self.state_sources.insert(field, command.line.span);
                     }
                 }
+            }
+            Some("kspace_style") => {
+                self.kspace = match literal(command, 1) {
+                    Some("none") if command.arguments.len() == 2 => Some(false),
+                    Some(
+                        "ewald" | "ewald/gpu" | "ewald/omp" | "pppm" | "pppm/gpu" | "pppm/intel"
+                        | "pppm/kk" | "pppm/omp",
+                    ) if command.arguments.len() == 3
+                        && number(command, 2).is_some_and(|n| n.is_finite() && n > 0.0) =>
+                    {
+                        Some(true)
+                    }
+                    _ => None,
+                };
+                self.state_sources.insert("kspace", command.line.span);
             }
             Some("pair_modify") => {
                 self.pair = self.pair_settings(command);
@@ -759,6 +832,137 @@ const PAIR_OPTIONS: &[&str] = &[
     "compute/tally",
     "neigh/trim",
 ];
+
+struct LatticeOrientation<'a> {
+    axes: [[&'a str; 3]; 3],
+    integers: bool,
+}
+
+fn lattice_orientation(command: &Command) -> Option<LatticeOrientation<'_>> {
+    if !matches!(
+        literal(command, 1)?,
+        "sc" | "bcc" | "fcc" | "hcp" | "diamond" | "sq" | "sq2" | "hex" | "custom"
+    ) {
+        return None;
+    }
+    literal(command, 2)?;
+    let mut axes = [["1", "0", "0"], ["0", "1", "0"], ["0", "0", "1"]];
+    let mut integers = true;
+    let mut i = 3;
+    while i < command.arguments.len() {
+        let count = match literal(command, i)? {
+            "orient" => {
+                let axis = match literal(command, i + 1)? {
+                    "x" => 0,
+                    "y" => 1,
+                    "z" => 2,
+                    _ => return None,
+                };
+                axes[axis] = [
+                    literal(command, i + 2)?,
+                    literal(command, i + 3)?,
+                    literal(command, i + 4)?,
+                ];
+                integers &= axes[axis].iter().all(|v| v.parse::<i64>().is_ok());
+                4
+            }
+            "origin" | "spacing" | "a1" | "a2" | "a3" | "basis" => 3,
+            "triclinic/general" => 0,
+            _ => return None,
+        };
+        if i + count >= command.arguments.len() {
+            return None;
+        }
+        i += count + 1;
+    }
+    Some(LatticeOrientation { axes, integers })
+}
+
+fn checked_dot(a: [i128; 3], b: [i128; 3]) -> Option<i128> {
+    a.into_iter()
+        .zip(b)
+        .try_fold(0_i128, |sum, (a, b)| sum.checked_add(a.checked_mul(b)?))
+}
+
+fn right_handed_orthogonal([x, y, z]: [[i128; 3]; 3]) -> Option<bool> {
+    for (a, b) in [(x, y), (x, z), (y, z)] {
+        if checked_dot(a, b)? != 0 {
+            return Some(false);
+        }
+    }
+    let mut cross = [0; 3];
+    for (i, (a, b)) in [(1, 2), (2, 0), (0, 1)].into_iter().enumerate() {
+        cross[i] = x[a]
+            .checked_mul(y[b])?
+            .checked_sub(x[b].checked_mul(y[a])?)?;
+    }
+    checked_dot(cross, z).map(|determinant| determinant > 0)
+}
+
+fn nh_drag(command: &Command) -> Option<f64> {
+    let mut drag = 0.0;
+    let mut i = 4;
+    while i < command.arguments.len() {
+        let count = match literal(command, i)? {
+            "temp" | "iso" | "aniso" | "tri" | "x" | "y" | "z" | "xy" | "xz" | "yz"
+            | "fixedpoint" => 3,
+            "drag" => {
+                drag = number(command, i + 1).filter(|n| n.is_finite())?;
+                1
+            }
+            "couple" | "tchain" | "pchain" | "mtk" | "tloop" | "ploop" | "nreset" | "ptemp"
+            | "dilate" | "scalexy" | "scaleyz" | "scalexz" | "flip" | "isochoric" | "update" => 1,
+            _ => return None,
+        };
+        if i + count >= command.arguments.len() {
+            return None;
+        }
+        i += count + 1;
+    }
+    Some(drag)
+}
+
+enum ExclusionSetting {
+    Unchanged,
+    Enabled,
+    Disabled,
+}
+
+fn neighbor_exclusions(command: &Command) -> Option<ExclusionSetting> {
+    let mut setting = ExclusionSetting::Unchanged;
+    let mut i = 1;
+    while i < command.arguments.len() {
+        let key = literal(command, i)?;
+        let count = match key {
+            "exclude" => match literal(command, i + 1)? {
+                "none" => {
+                    setting = ExclusionSetting::Disabled;
+                    1
+                }
+                "type" | "group" => {
+                    setting = ExclusionSetting::Enabled;
+                    3
+                }
+                "molecule/intra" | "molecule/inter" => {
+                    setting = ExclusionSetting::Enabled;
+                    2
+                }
+                _ => return None,
+            },
+            "collection/type" | "collection/interval" => literal(command, i + 1)?
+                .parse::<usize>()
+                .ok()?
+                .checked_add(1)?,
+            key if NEIGHBOR_OPTIONS.contains(&key) => 1,
+            _ => return None,
+        };
+        if i.checked_add(count)? >= command.arguments.len() {
+            return None;
+        }
+        i += count + 1;
+    }
+    Some(setting)
+}
 
 fn simple_options<'a>(
     command: &'a Command,

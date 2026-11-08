@@ -102,7 +102,7 @@ cleanup at block exit. `@drop ID` releases a resource early. Ordinary LAMMPS
 resource commands retain manual lifetime management. See [scoped resources](docs/scopes.md)
 for ownership, dependency, and control-flow restrictions.
 
-The checker includes ten physical and idiom rules and 282 executable constraints
+The checker includes ten physical and idiom rules and 286 executable constraints
 derived from a pinned LAMMPS manual. They check command ordering, numeric bounds,
 averaging intervals, dimension and unit restrictions, pair options, and resource
 state. Findings include source evidence, manual citations, and suggested actions.
