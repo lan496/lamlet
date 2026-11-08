@@ -36,7 +36,7 @@ compiler; no molecular dynamics is executed.
 - [Presenter notes](demo/pitch.md): a 30-second introduction and three-minute spoken pitch.
 - [The demo](demo/README.md): six verified CLI scenes and a standalone HTML presentation.
 - [Getting started](docs/getting-started.md): build an existing script, add units, and compile two stage instances.
-- [Agent evaluation](docs/agent-evaluation.md): a proposed controlled study and an offline replay of published LAMMPS artifacts.
+- [Agent evaluation](docs/agent-evaluation.md): six A/C pilot outcomes, published-artifact replay, and the proposed controlled study.
 - [Harbor prototype](research/harbor/README.md): P1–P3 task preparation, separate verification, and an independent-oracle interface.
 
 ## Build and use

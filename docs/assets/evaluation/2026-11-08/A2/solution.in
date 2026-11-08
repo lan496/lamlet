@@ -1,0 +1,63 @@
+# Nb [001] flyer impact using the Fellinger-Park-Wilkins EAM potential.
+# metal units: length Angstrom, time ps, velocity Angstrom/ps.
+units metal
+dimension 3
+atom_style atomic
+boundary p p f
+
+# Static geometry. The supplied potential specifies a = 3.3079 Angstrom.
+variable a equal 3.3079
+variable lx equal 20.0*v_a
+variable ly equal 20.0*v_a
+variable projectile_lo equal -0.25*v_a
+variable interface_cut equal 19.75*v_a
+variable target_hi equal 59.75*v_a
+variable gap equal 15.0
+variable target_shift equal v_gap-0.5*v_a
+
+lattice bcc ${a} orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+region simulation block 0.0 ${lx} 0.0 ${ly} -2000.0 4000.0 units box
+create_box 1 simulation
+
+# Cuts between (001) planes avoid extra surface layers at free boundaries.
+# Projectile: 20 x 20 x 20 conventional BCC cells, 16000 atoms.
+region projectile_region block 0.0 ${lx} 0.0 ${ly} ${projectile_lo} ${interface_cut} units box
+create_atoms 1 region projectile_region
+group projectile region projectile_region
+
+# Target: 20 x 20 x 40 conventional BCC cells, 32000 atoms.
+region target_region block 0.0 ${lx} 0.0 ${ly} ${interface_cut} ${target_hi} units box
+create_atoms 1 region target_region
+group target region target_region
+
+# Before this shift, the facing planes are separated by a/2.
+# Afterwards the outermost projectile and target planes are 15 Angstrom apart.
+displace_atoms target move 0.0 0.0 ${target_shift} units box
+
+mass 1 92.90638
+pair_style eam/alloy
+pair_coeff * * /app/inputs/prompt3.potential Nb
+neighbor 2.0 bin
+neigh_modify delay 0 every 1 check yes
+
+# Initialize each body's thermal velocities with zero center-of-mass velocity.
+velocity projectile create 300.0 4928459 mom yes rot no dist gaussian
+velocity target create 300.0 8372911 mom yes rot no dist gaussian
+timestep 0.001
+thermo 1000
+thermo_style custom step time atoms temp pe ke etotal press
+
+# Isochoric equilibration at 300 K for 100 ps (100000 steps at 1 fs).
+fix equil_projectile projectile nvt temp 300.0 300.0 0.1
+fix equil_target target nvt temp 300.0 300.0 0.1
+run 100000
+unfix equil_projectile
+unfix equil_target
+
+# Add +2 km/s along [001] to all projectile atoms, retaining thermal motion.
+# 2 km/s = 20 Angstrom/ps; the target is initially stationary on average.
+velocity projectile set 0.0 0.0 20.0 sum yes units box
+
+# Adiabatic impact and subsequent expansion for 50 ps, with no thermostat.
+fix impact all nve
+run 50000

@@ -1,0 +1,32 @@
+{
+  "cases": [
+    {
+      "agent_verifier_absence_checked": true,
+      "assessment": "target/p3-harbor/evaluation-20261108/reference/jobs/admission/nb-impact__mLDnWiD/verifier/assessment.json",
+      "case": "reference",
+      "expected": "correct",
+      "forged_artifact_reward_ignored": true,
+      "observed": "correct",
+      "passed": true,
+      "reward": 1
+    },
+    {
+      "agent_verifier_absence_checked": true,
+      "assessment": "target/p3-harbor/evaluation-20261108/wrong-gap/jobs/admission/nb-impact__MAo8Z6U/verifier/assessment.json",
+      "case": "wrong-gap",
+      "expected": "incorrect",
+      "forged_artifact_reward_ignored": true,
+      "observed": "incorrect",
+      "passed": true,
+      "reward": 0
+    }
+  ],
+  "full_equilibration_executed": false,
+  "harbor_admission_passed": true,
+  "images": {
+    "runtime": "sha256:4c686f4a6d3895a0a271f343e8d7a9551de8e81f132c823bc551a3d271ac5d45",
+    "verifier": "sha256:a899b5898a075eb85731d390514e77a20166e0cdcabee1d1d267efebe34d7a00"
+  },
+  "model_trials_run": false,
+  "schema_version": 1
+}

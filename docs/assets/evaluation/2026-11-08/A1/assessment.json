@@ -1,0 +1,74 @@
+{
+  "oracle": {
+    "criteria": {
+      "adiabatic_integration": {
+        "evidence": [
+          "Region exceeds pilot resource bounds"
+        ],
+        "status": "unknown"
+      },
+      "boundaries": {
+        "evidence": [
+          "Region exceeds pilot resource bounds"
+        ],
+        "status": "unknown"
+      },
+      "equilibration": {
+        "evidence": [
+          "Region exceeds pilot resource bounds"
+        ],
+        "status": "unknown"
+      },
+      "gap": {
+        "evidence": [
+          "Region exceeds pilot resource bounds"
+        ],
+        "status": "unknown"
+      },
+      "groups": {
+        "evidence": [
+          "Region exceeds pilot resource bounds"
+        ],
+        "status": "unknown"
+      },
+      "impact_velocity": {
+        "evidence": [
+          "Region exceeds pilot resource bounds"
+        ],
+        "status": "unknown"
+      },
+      "potential": {
+        "evidence": [
+          "Region exceeds pilot resource bounds"
+        ],
+        "status": "unknown"
+      },
+      "structure": {
+        "evidence": [
+          "Region exceeds pilot resource bounds"
+        ],
+        "status": "unknown"
+      },
+      "thermal_velocity_retained": {
+        "evidence": [
+          "Region exceeds pilot resource bounds"
+        ],
+        "status": "unknown"
+      }
+    },
+    "execution": {
+      "full_equilibration_executed": false,
+      "mode": "instrumented_smoke"
+    },
+    "oracle_version": "p3-protocol-v1",
+    "schema_version": 1,
+    "submission_sha256": "5376cf85dfa9ac11157d85b95c957a78b347120333e35810a4e809973e6fc66c",
+    "task": "P3"
+  },
+  "oracle_sha256": "71dd0c286ba9a312692107f53a4bc9ee6c83502b81a43239499f0258ff6d3a09",
+  "reward": null,
+  "schema_version": 1,
+  "scientific_status": "unassessed",
+  "submission_sha256": "5376cf85dfa9ac11157d85b95c957a78b347120333e35810a4e809973e6fc66c",
+  "task": "P3"
+}

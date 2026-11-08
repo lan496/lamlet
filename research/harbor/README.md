@@ -7,8 +7,10 @@ tests, and a live Harbor reference run. The pilot checks a requested protocol
 using instrumented smoke execution. It does not execute full equilibration.
 P1 and P2 still lack scientific oracles and reference solutions.
 
-The generic preparation report keeps `ready_for_trials: false`. No model
-campaign or Lamlet-versus-baseline comparison has been run.
+The generic preparation report keeps `ready_for_trials: false`. A six-trial
+Codex A/C development pilot has run on P3. Four submissions exceeded verifier
+coverage and two trials hit a provider usage limit; the pilot cannot estimate
+Lamlet's effect. See the [recorded results](../../docs/agent-evaluation.md).
 
 The [evaluation protocol](../../docs/agent-evaluation.md) separates the checker
 comparison from the typed-language comparison and defines the independent

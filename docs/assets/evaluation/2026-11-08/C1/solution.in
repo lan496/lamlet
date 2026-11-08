@@ -1,0 +1,60 @@
+# Nb [001] impact: Fellinger, Park and Wilkins, PRB 81, 144119 (2010).
+# Metal units: length Angstrom, time ps, velocity Angstrom/ps.
+units metal
+dimension 3
+atom_style atomic
+boundary p p f
+
+# Axis-aligned conventional BCC cells; lattice constant from the potential.
+variable a equal 3.3079
+variable lateral equal 20.0*v_a
+variable projectile_hi equal 19.75*v_a
+variable target_lo equal 20.0*v_a
+variable target_hi equal 59.75*v_a
+variable gap_shift equal 15.0-0.5*v_a
+
+lattice bcc ${a} orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+# Fixed vacuum boundaries allow free surfaces and expansion along z.
+region simulation_box block 0 ${lateral} 0 ${lateral} -2500.0 4000.0 units box
+create_box 1 simulation_box
+
+# Upper region cuts lie between lattice planes, avoiding extra surface atoms.
+# Projectile: 20 x 20 x 20 BCC cells = 16000 atoms, z = 0 ... 19.5*a.
+region projectile_block block 0 ${lateral} 0 ${lateral} 0 ${projectile_hi} units box
+create_atoms 1 region projectile_block
+group projectile region projectile_block
+
+# Target: 20 x 20 x 40 BCC cells = 32000 atoms, z = 20*a ... 59.5*a.
+region target_block block 0 ${lateral} 0 ${lateral} ${target_lo} ${target_hi} units box
+create_atoms 1 region target_block
+group target region target_block
+# The unshifted plane gap is a/2; add 15-a/2 to obtain exactly 15 Angstrom.
+displace_atoms target move 0.0 0.0 ${gap_shift} units box
+
+mass 1 92.90638
+pair_style eam/alloy
+pair_coeff * * /app/inputs/prompt3.potential Nb
+neighbor 2.0 bin
+neigh_modify delay 0 every 1 check yes
+
+timestep 0.001
+thermo 1000
+thermo_style custom step time atoms temp pe ke etotal pxx pyy pzz
+
+# Initialize each stationary slab at 300 K with zero center-of-mass velocity.
+velocity projectile create 300.0 192837 mom yes rot no dist gaussian units box
+velocity target create 300.0 918273 mom yes rot no dist gaussian units box
+
+# Isochoric, isothermal equilibration: 100000 x 0.001 ps = 100 ps.
+fix equilibrate all nvt temp 300.0 300.0 0.1
+run 100000
+unfix equilibrate
+
+# Add the 2 km/s impact speed to the existing projectile thermal velocities.
+# Projectile is below the target, so positive z is toward the target.
+velocity projectile set 0.0 0.0 20.0 sum yes units box
+
+# Adiabatic impact and subsequent expansion: 100 ps with no thermostat.
+fix impact all nve
+run 100000
+unfix impact

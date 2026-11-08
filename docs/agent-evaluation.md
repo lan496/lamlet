@@ -1,18 +1,117 @@
 # Evaluating Lamlet as an agent validation tool
 
+## Development pilot results, 8 November 2026
+
+A six-trial P3 development pilot compared the current Codex configuration with
+and without Lamlet. The comparison did not yield an estimate of Lamlet's effect:
+four submitted inputs exceeded the independent verifier's region bounds, and
+two trials stopped at the provider's usage limit before producing an input.
+Table 1 retains every assigned trial and separates these outcomes from physical
+errors. No submission received a scientific correctness label.
+
+*Table 1. Final outcomes under the frozen P3 protocol-v1 verifier.*
+
+| Condition | Assigned | Inputs submitted | Correct | Incorrect | Unassessed | Provider limit |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| A: shell and LAMMPS | 3 | 2 | 0 | 0 | 3 | 1 |
+| C: A plus Lamlet checker | 3 | 2 | 0 | 0 | 3 | 1 |
+
+Confirmed success was 0/3 in each condition. With all scientific outcomes
+unresolved, the corresponding identification bounds are 0–100%, rather than
+confidence intervals or evidence of equal performance. Infrastructure outcomes
+were retained without replacement. The region limit was not changed after
+observing submissions, and no oracle feedback was returned to the agents.
+
+The pilot used `gpt-6.1-sol`, `xhigh` reasoning effort, the local `fast` service
+tier setting, Codex CLI 0.166.0, and Harbor 0.25.0. Each fresh container had two
+CPUs, 4096 MB memory, and a 600-second agent limit. Both conditions wrote ordinary
+LAMMPS inputs and received the same public P3 prompt, pinned potential, and
+bounded command-subset instructions. Seed 496 randomized condition order within
+three blocks: A1, C1, A2, C2, C3, A3. No model sampling seed or exact backend
+snapshot was available. Token and tool-call ceilings were not separately imposed.
+
+Table 2 reports agent execution intervals and provider-reported usage. Cached
+tokens are included in input tokens; they must not be added to input totals.
+Both C submissions invoked `lamlet check`. Their diagnostics did not establish
+the requested geometry or physics.
+
+*Table 2. Trial-level execution and usage evidence. Dashes denote unavailable usage.*
+
+| Trial | Agent seconds | Input tokens | Cached tokens | Output tokens | Tool calls | Lamlet check |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| A1 | 81.911 | 90,901 | 79,232 | 4,435 | 5 | No |
+| C1 | 116.501 | 200,946 | 170,240 | 6,383 | 7 | Yes |
+| A2 | 125.169 | 225,322 | 213,376 | 6,281 | 10 | No |
+| C2 | 96.515 | 192,401 | 157,440 | 5,167 | 6 | Yes |
+| C3 | 5.078 | — | — | — | 0 | No; provider limit |
+| A3 | 3.851 | — | — | — | 0 | No; provider limit |
+
+The frozen verifier limited region coordinates to magnitude 1000 and region
+volumes to 2,000,000 in box units or 50,000 in lattice units. The four inputs
+used larger vacuum boxes, yielding `Unknown` before geometry observations.
+Those numeric limits were not disclosed in the task instructions. The verifier
+also recognizes only a narrow all-atom NVT schedule; this does not cover every
+valid implementation of isochoric equilibration. These coverage limits require
+revision and admission tests before another campaign. The current results are
+an operational pilot, not a scientific accuracy comparison.
+
+Independent admission and checker coverage were measured separately. The native
+oracle matched all 13 expected outcomes: three valid inputs, nine deliberate
+physical errors, and one unsupported command. Two live Harbor admission runs
+produced the expected reference/wrong-gap grades and ignored forged assessment
+artifacts. Lamlet accepted all 13 native cases with zero errors and zero warnings,
+including all nine physical mutations. Thus it rejected 0/9 known physical errors
+in this small suite; its absence of a general geometry checker is material here.
+
+The published-artifact replay is summarized in Table 3. Every input passed normal
+and strict checking and was emitted byte-for-byte unchanged; every input also
+contained at least one `Unknown` finding. Replay acceptance establishes neither
+scientific correctness nor diagnostic precision. The replay took 5.179 seconds
+on this host and launched no agents or LAMMPS processes.
+
+*Table 3. Offline replay of the pinned public artifact release.*
+
+| Artifact set | Inputs | Normal accepted | Strict accepted | Byte-identical | With Unknown |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Published one-shot P1 | 80 | 80 | 80 | 80 | 80 |
+| Published one-shot P2 | 80 | 80 | 80 | 80 | 80 |
+| Published one-shot P3 | 80 | 80 | 80 | 80 | 80 |
+| Published agent examples, P1–P3 | 6 | 6 | 6 | 6 | 6 |
+
+The [pilot manifest and trial summary](assets/evaluation/2026-11-08/pilot.json),
+[complete replay diagnostics](assets/evaluation/2026-11-08/replay.json.gz),
+[replay summary](assets/evaluation/2026-11-08/replay-summary.json),
+[native admission](assets/evaluation/2026-11-08/native-admission.json),
+[Harbor admission](assets/evaluation/2026-11-08/harbor-admission.json), and
+[static mutation checks](assets/evaluation/2026-11-08/static-mutations.json)
+archive the measured outcomes. The archive includes final inputs and tool evidence
+for [A1](assets/evaluation/2026-11-08/A1/tools.json),
+[C1](assets/evaluation/2026-11-08/C1/tools.json),
+[A2](assets/evaluation/2026-11-08/A2/tools.json), and
+[C2](assets/evaluation/2026-11-08/C2/tools.json), the
+[A instructions](assets/evaluation/2026-11-08/A-instruction.md),
+[C instructions](assets/evaluation/2026-11-08/C-instruction.md), and
+[SHA-256 checksums](assets/evaluation/2026-11-08/hashes.json).
+Private model reasoning and credentials are excluded. The
+[P3 guide](p3-pilot.md#run-the-six-trial-codex-pilot) describes reproduction.
+
+Full equilibration and collision dynamics, expert scientific review, Pass@1,
+repair iterations, CPU time, and actual monetary cost were not measured. There
+are no B/D trials or held-out tasks. The larger study below remains proposed.
+
 ## Research question
 
 Can compiler feedback improve the scientific correctness of molecular dynamics
 inputs generated by a coding agent, within a fixed resource budget?
 
-The first comparison uses ordinary LAMMPS inputs in both conditions. One agent
+The planned primary comparison uses ordinary LAMMPS inputs in both conditions. One agent
 receives the published LAMMPS-AST skill. The other receives Lamlet diagnostics.
 This tests the value of the validation tools. A later comparison lets the agent
 write typed Lamlet and tests the value of the language separately.
 
-This document is a proposed protocol. No controlled agent experiment has been
-run. The [offline replay](https://github.com/lan496/lamlet/blob/main/research/holbrook/README.md) measures current checker
-behavior on published artifacts and provides a reproducible starting point.
+The A/C development pilot above precedes this proposed B/C study. The
+[offline replay](https://github.com/lan496/lamlet/blob/main/research/holbrook/README.md)
+provides a separate compatibility measurement on published artifacts.
 
 ## Published baseline
 
@@ -140,7 +239,8 @@ properties still need review. See the official [separate verifier guide](https:/
 The [P3 pilot](p3-pilot.md) adds a bounded independent oracle, native mutation
 admission, and a live reference run through separate Harbor containers. Its
 instrumented runs establish the implemented protocol checks, without executing
-100 ps of equilibration. P1 and P2 remain templates, and no model campaign has run.
+100 ps of equilibration. P1 and P2 remain templates; the six-trial development
+campaign above used only P3.
 
 Scientific assessment is a separate outcome from the runner's reward. Missing
 oracle code, engine failures, incomplete evidence, and unresolved criteria must
@@ -272,6 +372,6 @@ The offline replay, Harbor task preparation, and bounded P3 oracle are
 implemented. The P3 reference and wrong-gap mutation have passed live Harbor
 admission with the expected grades. Native admission covers valid alternatives
 and further mutations. P1 and P2 oracles, external scientific review, full
-equilibration and collision validation, model trials, general geometry checks,
+equilibration and collision validation, an assessable model comparison, general geometry checks,
 and checkpoint guarantees remain outstanding. The [P3 guide](p3-pilot.md)
 defines exactly what its protocol grade establishes.

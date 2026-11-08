@@ -1,0 +1,240 @@
+{
+  "conditions": {
+    "A": {
+      "assigned": 3,
+      "confirmed_success_fraction": 0.0,
+      "correct": 0,
+      "incorrect": 0,
+      "success_bounds": [
+        0.0,
+        1.0
+      ],
+      "unassessed": 3
+    },
+    "C": {
+      "assigned": 3,
+      "confirmed_success_fraction": 0.0,
+      "correct": 0,
+      "incorrect": 0,
+      "success_bounds": [
+        0.0,
+        1.0
+      ],
+      "unassessed": 3
+    }
+  },
+  "manifest": {
+    "agent_seconds": 600,
+    "codex_version": "0.166.0",
+    "cpus": 2,
+    "exclusions": "none; infrastructure failures remain in the assigned denominator",
+    "full_equilibration_executed": false,
+    "harbor_version": "0.25.0",
+    "images": {
+      "A": {
+        "id": "sha256:2662225e6a26a873fdcd72b542b543003851896d9b32c4c75e7a1bd9112b2bad",
+        "tag": "lamlet-p3-campaign-a:2662225e6a26a873fdcd72b542b543003851896d9b32c4c75e7a1bd9112b2bad"
+      },
+      "C": {
+        "id": "sha256:6f0c19d2ffd11562715fe0fa77f36f51c15d1be563998fead0cbb7ef8e025203",
+        "tag": "lamlet-p3-campaign-c:6f0c19d2ffd11562715fe0fa77f36f51c15d1be563998fead0cbb7ef8e025203"
+      },
+      "verifier": {
+        "id": "sha256:a899b5898a075eb85731d390514e77a20166e0cdcabee1d1d267efebe34d7a00",
+        "tag": "lamlet-p3-campaign-verifier:a899b5898a075eb85731d390514e77a20166e0cdcabee1d1d267efebe34d7a00"
+      }
+    },
+    "instructions": {
+      "A": "46732fe232f1855f062a803172c797ba30cc22864dce44ee668039f80bcb0e07",
+      "C": "c8b8295729860ad12a4f62dec8ab3404fabdea33a91e47f9e4a614453b6bc4ae"
+    },
+    "memory_mb": 4096,
+    "model": "gpt-6.1-sol",
+    "model_snapshot": "provider model name; backend snapshot not exposed",
+    "network": "public agent network; no-network separate verifier",
+    "oracle_sha256": "71dd0c286ba9a312692107f53a4bc9ee6c83502b81a43239499f0258ff6d3a09",
+    "reasoning_effort": "xhigh",
+    "schema_version": 1,
+    "seed": 496,
+    "service_tier": "fast",
+    "split": "development",
+    "stopping_rule": "agent completion or 600-second execution timeout",
+    "task": "P3",
+    "trials": [
+      {
+        "block": 1,
+        "condition": "A",
+        "id": "A1"
+      },
+      {
+        "block": 1,
+        "condition": "C",
+        "id": "C1"
+      },
+      {
+        "block": 2,
+        "condition": "A",
+        "id": "A2"
+      },
+      {
+        "block": 2,
+        "condition": "C",
+        "id": "C2"
+      },
+      {
+        "block": 3,
+        "condition": "C",
+        "id": "C3"
+      },
+      {
+        "block": 3,
+        "condition": "A",
+        "id": "A3"
+      }
+    ],
+    "unmeasured": [
+      "Pass@1",
+      "repair iterations",
+      "CPU time",
+      "dollar cost"
+    ]
+  },
+  "trials": [
+    {
+      "agent_seconds": 81.910611,
+      "block": 1,
+      "condition": "A",
+      "exception": {
+        "exception_message": "No reward file found at $REPO/target/p3-campaign/20261108/jobs/A1/nb-impact__bF4n8pZ/verifier/reward.txt or $REPO/target/p3-campaign/20261108/jobs/A1/nb-impact__bF4n8pZ/verifier/reward.json",
+        "exception_type": "RewardFileNotFoundError"
+      },
+      "id": "A1",
+      "lamlet_check_invoked": false,
+      "provider_errors": [],
+      "reward": null,
+      "scientific_status": "unassessed",
+      "success": false,
+      "tokens": {
+        "n_cache_tokens": 79232,
+        "n_input_tokens": 90901,
+        "n_output_tokens": 4435
+      },
+      "tool_calls": 5,
+      "verifier_seconds": 15.796612
+    },
+    {
+      "agent_seconds": 116.501169,
+      "block": 1,
+      "condition": "C",
+      "exception": {
+        "exception_message": "No reward file found at $REPO/target/p3-campaign/20261108/jobs/C1/nb-impact__GpdanTp/verifier/reward.txt or $REPO/target/p3-campaign/20261108/jobs/C1/nb-impact__GpdanTp/verifier/reward.json",
+        "exception_type": "RewardFileNotFoundError"
+      },
+      "id": "C1",
+      "lamlet_check_invoked": true,
+      "provider_errors": [],
+      "reward": null,
+      "scientific_status": "unassessed",
+      "success": false,
+      "tokens": {
+        "n_cache_tokens": 170240,
+        "n_input_tokens": 200946,
+        "n_output_tokens": 6383
+      },
+      "tool_calls": 7,
+      "verifier_seconds": 17.354695
+    },
+    {
+      "agent_seconds": 125.16872,
+      "block": 2,
+      "condition": "A",
+      "exception": {
+        "exception_message": "No reward file found at $REPO/target/p3-campaign/20261108/jobs/A2/nb-impact__sjpXV53/verifier/reward.txt or $REPO/target/p3-campaign/20261108/jobs/A2/nb-impact__sjpXV53/verifier/reward.json",
+        "exception_type": "RewardFileNotFoundError"
+      },
+      "id": "A2",
+      "lamlet_check_invoked": false,
+      "provider_errors": [],
+      "reward": null,
+      "scientific_status": "unassessed",
+      "success": false,
+      "tokens": {
+        "n_cache_tokens": 213376,
+        "n_input_tokens": 225322,
+        "n_output_tokens": 6281
+      },
+      "tool_calls": 10,
+      "verifier_seconds": 15.610618
+    },
+    {
+      "agent_seconds": 96.515437,
+      "block": 2,
+      "condition": "C",
+      "exception": {
+        "exception_message": "No reward file found at $REPO/target/p3-campaign/20261108/jobs/C2/nb-impact__ArEzMgv/verifier/reward.txt or $REPO/target/p3-campaign/20261108/jobs/C2/nb-impact__ArEzMgv/verifier/reward.json",
+        "exception_type": "RewardFileNotFoundError"
+      },
+      "id": "C2",
+      "lamlet_check_invoked": true,
+      "provider_errors": [],
+      "reward": null,
+      "scientific_status": "unassessed",
+      "success": false,
+      "tokens": {
+        "n_cache_tokens": 157440,
+        "n_input_tokens": 192401,
+        "n_output_tokens": 5167
+      },
+      "tool_calls": 6,
+      "verifier_seconds": 15.990979
+    },
+    {
+      "agent_seconds": 5.077524,
+      "block": 3,
+      "condition": "C",
+      "exception": {
+        "exception_message": "Codex execution failed; see provider_errors",
+        "exception_type": "NonZeroAgentExitCodeError"
+      },
+      "id": "C3",
+      "lamlet_check_invoked": false,
+      "provider_errors": [
+        "You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/settings/usage to purchase more credits or try again at 5:58 AM."
+      ],
+      "reward": 0.0,
+      "scientific_status": "unassessed",
+      "success": false,
+      "tokens": {
+        "n_cache_tokens": null,
+        "n_input_tokens": null,
+        "n_output_tokens": null
+      },
+      "tool_calls": 0,
+      "verifier_seconds": 15.68447
+    },
+    {
+      "agent_seconds": 3.851336,
+      "block": 3,
+      "condition": "A",
+      "exception": {
+        "exception_message": "Codex execution failed; see provider_errors",
+        "exception_type": "NonZeroAgentExitCodeError"
+      },
+      "id": "A3",
+      "lamlet_check_invoked": false,
+      "provider_errors": [
+        "You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/settings/usage to purchase more credits or try again at 5:58 AM."
+      ],
+      "reward": 0.0,
+      "scientific_status": "unassessed",
+      "success": false,
+      "tokens": {
+        "n_cache_tokens": null,
+        "n_input_tokens": null,
+        "n_output_tokens": null
+      },
+      "tool_calls": 0,
+      "verifier_seconds": 15.622007
+    }
+  ]
+}

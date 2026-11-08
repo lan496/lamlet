@@ -1,0 +1,143 @@
+{
+  "cases": [
+    {
+      "case": "reference",
+      "criterion": null,
+      "expected": "correct",
+      "observed": "correct",
+      "passed": true,
+      "seconds": 1.1338334581814706,
+      "submission_sha256": "ce9e5729e235ee7cd6a11450e75ab0c1c346931cd7fe987643600906abf58bc4"
+    },
+    {
+      "case": "renamed-groups",
+      "criterion": null,
+      "expected": "correct",
+      "observed": "correct",
+      "passed": true,
+      "seconds": 0.7579197499435395,
+      "submission_sha256": "362058b24b53cc86a077412875c981dda87e1936d089c6f4fdde3b5e4d5f14e5"
+    },
+    {
+      "case": "split-equilibration",
+      "criterion": null,
+      "expected": "correct",
+      "observed": "correct",
+      "passed": true,
+      "seconds": 1.104947583982721,
+      "submission_sha256": "7868428f59a922b6a1dd5aebddf9800f28715b691092a56f28521c0727132d56"
+    },
+    {
+      "case": "wrong-gap",
+      "criterion": "gap",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.8773403749801219,
+      "submission_sha256": "880887a3b0f9dd292d1db9e7d217dd5c8e3952bedecf6aa652f4c60da53ee75f"
+    },
+    {
+      "case": "wrong-speed",
+      "criterion": "impact_velocity",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.7609655000269413,
+      "submission_sha256": "eef764fa906ae06ae7cdeea3c87d142e933f23ea317ba41433d79baa52ca74ca"
+    },
+    {
+      "case": "wrong-direction",
+      "criterion": "impact_velocity",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6687079160474241,
+      "submission_sha256": "d09338b26d9962c9ea4d8661756487f439104c1af5ab6959907430e6df2150af"
+    },
+    {
+      "case": "overwritten-thermal-velocity",
+      "criterion": "thermal_velocity_retained",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.7558240410871804,
+      "submission_sha256": "fe35bb511e1ff97645e161dbb87141798ad96a97c5dd3bdd7a1df8b88534ebf6"
+    },
+    {
+      "case": "wrong-projectile-size",
+      "criterion": "groups",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.45699812518432736,
+      "submission_sha256": "f9c66693c8946fbd6acdb8f3f0966a3c631bcb5142f9c2bd2542c26d4d906483"
+    },
+    {
+      "case": "periodic-impact-axis",
+      "criterion": "boundaries",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6581699580419809,
+      "submission_sha256": "aea41fe58755cf294a79c11a814c4856ad5cd3065392c32eb7c0bdae89f4954e"
+    },
+    {
+      "case": "short-equilibration",
+      "criterion": "equilibration",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6882420419715345,
+      "submission_sha256": "38b3d88c9aa35d8aed9dc2dc4a081c6fe5441a222fd7292459b69d08945ff914"
+    },
+    {
+      "case": "overlapping-integrators",
+      "criterion": "adiabatic_integration",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.6754825001116842,
+      "submission_sha256": "7ccf9f466112631b00fa4a123f8015fe84d05a42bf460180d724f076589b4c73"
+    },
+    {
+      "case": "substituted-potential",
+      "criterion": "potential",
+      "expected": "incorrect",
+      "observed": "incorrect",
+      "passed": true,
+      "seconds": 0.09805258293636143,
+      "submission_sha256": "96bfce5ca86e26e8c4488de63f4de085d54055179e4c1f076681983a2c10405f"
+    },
+    {
+      "case": "unsupported-shell",
+      "criterion": null,
+      "expected": "unassessed",
+      "observed": "unassessed",
+      "passed": true,
+      "seconds": 0.07363304099999368,
+      "submission_sha256": "d214c4ecfe3eb00a91350b3b810950249fb61d1d5f651da099408585ecfdb646"
+    }
+  ],
+  "container_validation": "not_run",
+  "full_equilibration_executed": false,
+  "model_trials_run": false,
+  "native_admission_passed": true,
+  "oracle_sha256": "71dd0c286ba9a312692107f53a4bc9ee6c83502b81a43239499f0258ff6d3a09",
+  "runtime": {
+    "cmake_options": [
+      "-DBUILD_MPI=off",
+      "-DBUILD_OMP=off",
+      "-DBUILD_SHARED_LIBS=on",
+      "-DPKG_MANYBODY=on",
+      "-DCMAKE_BUILD_TYPE=Release"
+    ],
+    "lammps_commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+    "lammps_repository": "https://github.com/lammps/lammps.git",
+    "libraries": {
+      "liblammps.0.dylib": "0682323fc2315208fa9c2f8f623ce4e9c2571a894184ddf89082cc4f1209c9ee",
+      "liblammps.pc": "4afabc355fca8479c1df906d6a25319ed492f38d8bc3917864afc70818cea84f"
+    },
+    "schema_version": 1
+  },
+  "schema_version": 1
+}

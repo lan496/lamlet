@@ -1,0 +1,57 @@
+# Nb [001] plate impact using the Fellinger-Park-Wilkins EAM/alloy potential.
+# Metal units: Angstrom, ps, eV; 2 km/s = 20 Angstrom/ps.
+units metal
+dimension 3
+atom_style atomic
+boundary p p f
+
+# BCC lattice parameter from the supplied potential header.
+variable a equal 3.3079
+variable lx equal 20*v_a
+variable ly equal 20*v_a
+# Exclude the next z plane to retain precisely 20 and 40 BCC cells.
+variable projectile_hi equal 20*v_a-0.25*v_a
+variable target_lo equal 20*v_a
+variable target_hi equal 60*v_a-0.25*v_a
+# Before displacement the facing planes are a/2 apart.
+variable gap equal 15.0
+variable target_shift equal v_gap-0.5*v_a
+variable dt equal 0.001
+variable equil_steps equal 100000
+variable impact_steps equal 50000
+variable impact_speed equal 20.0
+
+lattice bcc ${a} orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+# Vacuum at both free surfaces accommodates subsequent expansion.
+region domain block 0 ${lx} 0 ${ly} -1500.0 2500.0 units box
+create_box 1 domain
+region projectile_region block 0 ${lx} 0 ${ly} 0 ${projectile_hi} units box
+region target_region block 0 ${lx} 0 ${ly} ${target_lo} ${target_hi} units box
+create_atoms 1 region projectile_region
+create_atoms 1 region target_region
+mass 1 92.90638
+group projectile region projectile_region
+group target region target_region
+displace_atoms target move 0.0 0.0 ${target_shift} units box
+
+pair_style eam/alloy
+pair_coeff * * /app/inputs/prompt3.potential Nb
+neighbor 2.0 bin
+neigh_modify every 1 delay 0 check yes
+timestep ${dt}
+thermo 1000
+thermo_style custom step time atoms temp pe ke etotal pxx pyy pzz
+
+# Independent zero-drift thermal velocities for the two initially free slabs.
+velocity projectile create 300.0 371923 mom yes rot no dist gaussian
+velocity target create 300.0 891247 mom yes rot no dist gaussian
+# Isochoric equilibration: 100000 steps * 0.001 ps = 100 ps.
+fix equilibration all nvt temp 300.0 300.0 0.1
+run ${equil_steps}
+unfix equilibration
+
+# Add the impact velocity to the existing projectile thermal velocities.
+velocity projectile set 0.0 0.0 ${impact_speed} sum yes units box
+# Adiabatic impact and release/expansion: 50 ps of unthermostatted NVE.
+fix impact all nve
+run ${impact_steps}

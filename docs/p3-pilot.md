@@ -9,7 +9,9 @@ The [recorded admission baseline](https://github.com/lan496/lamlet/blob/main/res
 contains the oracle and reference hashes, engine pin, 13 native case outcomes,
 and two live Harbor outcomes from 2026-11-08. All expected outcomes matched.
 The Harbor checks also confirmed absent verifier entry points in the agent
-phase and ignored forged reward artifacts. No model trials were run.
+phase and ignored forged reward artifacts. These admission runs used authored
+solutions. A subsequent six-trial Codex A/C pilot is reported on the
+[evaluation page](agent-evaluation.md); all six scientific outcomes remain unresolved.
 
 ## Understand the pilot contract
 
@@ -100,13 +102,44 @@ dynamic schedules, arbitrary styles, and changes to the model after dynamics
 begins are outside the pilot. This restriction belongs to the evaluator;
 Lamlet's legacy parser remains permissive.
 
-## Prepare a scientific campaign
+## Run the six-trial Codex pilot
 
-Before model trials, obtain domain review of the reference, tolerances, gap
+The [campaign Dockerfile](https://github.com/lan496/lamlet/blob/main/research/harbor/p3/Campaign.Dockerfile)
+builds a common shell/LAMMPS image (`common`) and adds the Linux Lamlet CLI
+(`checker`). Supply the admitted runtime image as `RUNTIME_IMAGE`. Build from a
+small context containing that Dockerfile, `Cargo.toml`, `Cargo.lock`, and `crates/`.
+Use the same common image for A and C; only C adds Lamlet. APT dependencies are
+not snapshot-pinned, so archive the resulting images for exact environment reuse.
+
+With those images tagged `lamlet-p3-campaign-a:v1` and
+`lamlet-p3-campaign-c:v1`, and the admitted container directory available:
+
+```sh
+python3 tools/p3_campaign.py prepare --container target/p3-container/local --output target/p3-campaign/local
+python3 tools/p3_campaign.py run --output target/p3-campaign/local
+```
+
+The runner uses the current Codex `auth.json`, or `CODEX_AUTH_JSON_PATH` when
+set. Authentication is supplied to Harbor without copying it into public
+evidence. The prepared manifest freezes model settings, image IDs, instruction
+hashes, ordering, and the oracle hash. Six trials run serially without replacement;
+results and a resumable `state.md` are written after each trial.
+
+The `static` subcommand checks the native admission inputs with the real Lamlet
+CLI. The `publish` subcommand archives a completed campaign, replay, admissions,
+and static report. Use `--help` for explicit input paths. It publishes tool calls
+and observations, not model reasoning or credentials. Retain unassessed and
+infrastructure outcomes when interpreting its summary.
+
+## Prepare a larger scientific campaign
+
+Before further model trials, obtain domain review of the reference, tolerances, gap
 definition, and oracle coverage. Extend runtime checks for the intended
 scientific claims, implement P1 and P2, freeze model settings and budgets, and
-prepare held-out tasks. This pilot has no measured agent success rate and does
-not establish that Lamlet improves scientific correctness.
+prepare held-out tasks. Repair the region-bound and schedule coverage limits
+observed in the development pilot, admit those changes independently, and retain
+old grades when regrading archived inputs. The current pilot does not establish
+that Lamlet improves scientific correctness.
 
 See the [agent evaluation protocol](agent-evaluation.md) and
 [oracle transport contract](https://github.com/lan496/lamlet/blob/main/research/harbor/oracle-contract.md).

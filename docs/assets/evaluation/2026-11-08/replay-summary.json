@@ -1,0 +1,98 @@
+{
+  "agent_trials_run": 0,
+  "binary": {
+    "sha256": "18607c5255854c375b47295fa29e84235fe102e932bab8acc9c9d179569b9dd3",
+    "version": "lamlet-cli 0.1.0"
+  },
+  "commands": [
+    "lamlet check INPUT --language lammps --format json",
+    "lamlet check INPUT --language lammps --format json --strict",
+    "lamlet build INPUT --language lammps --format json -o OUTPUT"
+  ],
+  "diagnostic_precision": null,
+  "experiment": "published_script_replay",
+  "false_positive_rate": null,
+  "independent_oracle": "not_implemented",
+  "lammps_launches": 0,
+  "schema_version": 1,
+  "selection": {
+    "case": null,
+    "complete": true,
+    "limit": null
+  },
+  "source": {
+    "commit": "05fa329f175a8d50a1ac938ac55cc59791fd3e4c",
+    "paper": "https://arxiv.org/abs/2603.20630",
+    "repository": "https://github.com/ethanholbrook/LAMMPS-AST.git"
+  },
+  "success_at_budget": null,
+  "summary": {
+    "agent/P1": {
+      "files": 2,
+      "files_with_unknowns": 2,
+      "round_trip": {
+        "identical": 2
+      },
+      "scientific_assessed": 0,
+      "scientific_correct": null,
+      "standard_accepted": 2,
+      "strict_accepted": 2
+    },
+    "agent/P2": {
+      "files": 2,
+      "files_with_unknowns": 2,
+      "round_trip": {
+        "identical": 2
+      },
+      "scientific_assessed": 0,
+      "scientific_correct": null,
+      "standard_accepted": 2,
+      "strict_accepted": 2
+    },
+    "agent/P3": {
+      "files": 2,
+      "files_with_unknowns": 2,
+      "round_trip": {
+        "identical": 2
+      },
+      "scientific_assessed": 0,
+      "scientific_correct": null,
+      "standard_accepted": 2,
+      "strict_accepted": 2
+    },
+    "published/P1": {
+      "files": 80,
+      "files_with_unknowns": 80,
+      "round_trip": {
+        "identical": 80
+      },
+      "scientific_assessed": 0,
+      "scientific_correct": null,
+      "standard_accepted": 80,
+      "strict_accepted": 80
+    },
+    "published/P2": {
+      "files": 80,
+      "files_with_unknowns": 80,
+      "round_trip": {
+        "identical": 80
+      },
+      "scientific_assessed": 0,
+      "scientific_correct": null,
+      "standard_accepted": 80,
+      "strict_accepted": 80
+    },
+    "published/P3": {
+      "files": 80,
+      "files_with_unknowns": 80,
+      "round_trip": {
+        "identical": 80
+      },
+      "scientific_assessed": 0,
+      "scientific_correct": null,
+      "standard_accepted": 80,
+      "strict_accepted": 80
+    }
+  },
+  "wall_seconds": 5.179043625015765
+}
