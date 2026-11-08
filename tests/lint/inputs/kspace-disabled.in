@@ -1,0 +1,3 @@
+kspace_style none
+neigh_modify exclude type 1 2
+run 0

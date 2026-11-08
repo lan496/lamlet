@@ -1,0 +1,2 @@
+compute thermal all temp
+fix sample all ave/time 2 5 10 c_thermal

@@ -1,5 +1,8 @@
 # LAMMPS lint rules
 
+The [lint mutation evaluation](lint-evaluation.md) measures detection, false
+warnings, and Unknown outcomes for seven reviewed rules through the actual CLI.
+
 Lamlet has ten physical and idiom rules and 286 additional executable constraints
 derived from the official LAMMPS manual. They emit warnings with source evidence
 and suggested actions. Warnings remain

@@ -1,0 +1,3 @@
+fix first all nve
+fix second all langevin 300 300 0.1 12345
+run 10
