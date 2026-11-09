@@ -16,7 +16,8 @@ support narrower condition tests, but independent review remains pending and no
 case is yet admitted as a gold defect pair. A separate, prospectively bounded
 discovery cohort recorded 90 topic listings and captured 12 complete discussions.
 Model-assisted screening retained two input reports with missing evidence and
-excluded ten topics concerning other issues. None met the replay-preparation
+excluded ten topics concerning other issues. Subsequent public-source recovery
+obtained three reference files but left both reports short of replay-preparation
 criteria. No checker accuracy or agent benefit was measured.
 
 ## Introduction
@@ -107,6 +108,21 @@ their records. These are Codex model-assisted development decisions, not
 independent human adjudications. Metadata validation checks declared coverage
 and source integrity; it cannot establish that reading occurred or that an
 interpretation is scientifically correct.
+
+### Public dependency recovery
+
+Follow-up examined six public URLs for the two deferred input reports. These
+comprised the NIST distribution page and its two potential files [17], a
+commit-pinned parameter table and README [18], and the tempering report's external
+Drive folder. Each request had a 30-second timeout and a 16-MiB response limit.
+Successful responses, HTTP errors, retrieval times, resolved URLs, and response
+hashes were retained. Requests used anonymous access without executing downloads.
+
+Current reference files were distinguished from the reporter's original files.
+File anchors and recovery assessments were recorded separately from the frozen
+screening manifest. This model-assisted follow-up used previously exposed sources;
+it was neither blinded nor an independent adjudication. No native calculation,
+checker observation, or agent trial accompanied source recovery.
 
 ### Native replay and independent measurements
 
@@ -295,6 +311,35 @@ granular-history thread [15] also attributes the failure to an engine bugfix.
 Neither discussion is an incorrect-input label. No engine patch or reported
 physical result from these threads was independently reproduced in this screening.
 
+### Dependency recovery
+
+The six requests produced five successful HTTP responses and one HTTP error.
+Three reference files were obtained, but neither report gained a complete
+original dataset. Table 5 separates reference recovery from original-file
+provenance and remaining replay requirements.
+
+**Table 5.** Public dependency recovery for the two deferred input reports.
+Retrieved reference files are identified by response hashes. They do not
+establish the exact files used by a source author.
+
+| Report | Retrieved evidence | Remaining replay requirements |
+| --- | --- | --- |
+| Ga-In MEAM | Current NIST potential and library; revision-pinned alloy parameter table | Original inputs and structures, original-file hash confirmation, explicit corrected variants, and independent condition tests |
+| NPT tempering restart | Anonymous Drive response with HTTP 404 | Replacement dataset, includes, PLUMED input and executable, original restarts, partition launch mapping, and corrected scripts |
+
+The downloaded NIST potential contains Ga-In cross terms
+`Ec(1,2) = 2.8405`, `re(1,2) = 2.8276`, and `alpha(1,2) = 3.87486077`.
+The revision-pinned alloy table leaves the Ga-In alpha field empty, consistent
+with the final forum correction. These file inspections locate reproducible
+reference bytes for a future model reconstruction. They do not verify the
+proposed parameter edit, the reported bulk modulus, or liquid mixing enthalpy.
+The reference repository itself disclaims parameter accuracy [18].
+
+The Drive folder returned HTTP 404 during this anonymous retrieval. This outcome
+does not establish permanent deletion or determine the owner's access. No
+folder contents were recovered. The earlier attached tempering scripts remain
+source evidence, with the same missing dependencies as at screening.
+
 ## Discussion
 
 The GCMC result illustrates a useful natural negative condition: successful
@@ -332,8 +377,11 @@ The bounded discovery cohort makes selection and capture losses inspectable,
 but does not estimate defect prevalence. Its activity-ordered listing includes
 topics without reported input failures. Complete-thread screening removed those
 topics from input-defect admission, but missing dependencies still prevent
-replay preparation for both retained reports. This result identifies a source
-recovery requirement before further execution. The discovery cohort and the
+replay preparation for both retained reports. Public-source recovery resolved
+current reference-file availability for the Ga-In case, but exact original
+provenance and complete inputs remain missing. A new B1 model would require a
+separately registered reconstruction rather than an original-input replay.
+The discovery cohort and the
 20 purposefully selected pilot discussions have different selection procedures
 and cannot be pooled to estimate defect prevalence or diagnostic precision.
 
@@ -367,6 +415,8 @@ discussion content alone does not ensure a ready input-defect replay.
 14. matsci.org, [Rigid-body remapping and geometry](https://matsci.org/t/question-about-remap-ordering-and-rigid-body-geometry-in-fix-rigid-npt-small/67566).
 15. matsci.org, [Granular-history lookup failure](https://matsci.org/t/cannot-find-fix-storing-granular-history/67617).
 16. LAMMPS, [world-style variables](https://docs.lammps.org/variable.html).
+17. NIST Interatomic Potentials Repository, [2009 Ga-In-N potential distribution](https://www.ctcms.nist.gov/potentials/entry/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/).
+18. L. Hale, [meam2nn reference repository at revision 62f4308](https://github.com/lmhale99/meam2nn/tree/62f4308d646b05ae15881ebdaa1b6c30aceb06c0).
 
 ## Appendix: artifacts and reproduction
 
@@ -486,3 +536,31 @@ The second additionally verifies source bytes and short post/attachment anchors
 against the exact local cache. Neither command executes inputs, runs a checker,
 or adjudicates a reported correction. Existing native and diagnostic archives
 were not changed or rerun for this screening.
+
+### Dependency recovery artifacts
+
+The [dependency receipts](assets/defect-dependencies/2026-11-09/snapshot.json)
+retain all six request outcomes, including the failed Drive request. The
+[recovery report](assets/defect-dependencies/2026-11-09/report.json) pins the plan,
+receipts, and
+[assessment](https://github.com/lan496/lamlet/blob/main/research/defects/dependency-assessment.json).
+Only metadata and short anchors are published; third-party response bodies stay
+in the ignored local cache. No redistribution permission is inferred from public
+access. The original discovery and screening archives remain unchanged.
+
+```sh
+python3 tools/defect_dependencies.py verify \
+  --snapshot docs/assets/defect-dependencies/2026-11-09/snapshot.json \
+  --report docs/assets/defect-dependencies/2026-11-09/report.json
+python3 tools/defect_dependencies.py verify \
+  --snapshot docs/assets/defect-dependencies/2026-11-09/snapshot.json \
+  --report docs/assets/defect-dependencies/2026-11-09/report.json \
+  --cache target/dependency-recovery/capture
+```
+
+Verification without the cache checks metadata and deterministic report agreement.
+The exact cache also checks response bytes and literal reference anchors. Neither
+mode establishes original-file provenance or scientific validity. The collector
+exited 1 because a source request failed; integrity verification can exit 0 while
+preserving that failure. Fresh collection and its exit codes are described in the
+[collection protocol](https://github.com/lan496/lamlet/blob/main/research/defects/README.md#recover-missing-public-dependencies).
