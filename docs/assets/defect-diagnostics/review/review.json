@@ -1,0 +1,59 @@
+{
+  "cases": [
+    {
+      "decision": "pending",
+      "id": "orientation",
+      "input_sha256": {
+        "after": "7f9d7da9579c3730b72c1caa864dde4cef3cffa1b9ee9ae3afe3cf3d1a9d9394",
+        "before": "6b2044f318fdc2814b095b49739ff3add2f4d77fe3cd3722df51bc1428feb62c"
+      },
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "averaging",
+      "input_sha256": {
+        "after": "cbcbc711816fb6175722c41e563c739d3ffa2d8455fbf2944ec50ce87254b6fc",
+        "before": "829b3a1b7d24ff982bf1299bb145b7a5eeb44cb23e976200a8afd33169d3ebfa"
+      },
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "gcmc-original",
+      "input_sha256": {
+        "after": "5fc6f13881c3e9485c25a52e2b14928d285b527006c80a39f6409a1d05484c1f",
+        "before": "ae609861e7e5e9e241ef4a67d8d6027471c14549ae41b2311a71337511d5d718"
+      },
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "gcmc-instrumented",
+      "input_sha256": {
+        "after": "83d8e7694f76c2ebe3b106953139e128f0813c4c2b8b437ca515e4a496e03ba6",
+        "before": "4657b4decaec307855b303abec222b0d80cb5869774fcbce1f69ac69dc106779"
+      },
+      "reason": ""
+    },
+    {
+      "decision": "pending",
+      "id": "velocity",
+      "input_sha256": {
+        "after": "7b34c6b723b71adf5c94a5467bdb73b34efc40286da405f42d19c263997d1781",
+        "before": "0c0dcdda7d9f01a48c7b0da84fb0553cd3bcd3e91ba7e82b5cc0ac22db822911"
+      },
+      "reason": ""
+    }
+  ],
+  "native_report_sha256": "f60772daa61165a76e6133b6d1bdf83cb58c3a690e77ee98a79c3e04e91225e1",
+  "packet_sha256": "20a2a0e757e1c4d28ebd6434641c0d96251fedcd12f2a9049bac652cae30f03c",
+  "plan_sha256": "4d71df27066a2dbe816c964135cd761093c41825bdcf00bddcbf7b8455ef7a0c",
+  "reviewer": {
+    "affiliation": "",
+    "date": "",
+    "independent": false,
+    "name": ""
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,128 @@
+{
+  "report": {
+    "diagnostics": [
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/orientation-before.in",
+        "message": "'lattice' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 71,
+          "end_column": 1,
+          "end_line": 2,
+          "start_byte": 0,
+          "start_column": 1,
+          "start_line": 1
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+        "evidence": [
+          {
+            "definition": "lattice fcc 4.05 orient x 0.8 0.6 0 orient y -0.6 0.8 0 orient z 0 0 1",
+            "span": {
+              "end_byte": 71,
+              "end_column": 1,
+              "end_line": 2,
+              "start_byte": 0,
+              "start_column": 1,
+              "start_line": 1
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "expected": null,
+        "file": "inputs/orientation-before.in",
+        "message": "Lattice orient components must be integer literals",
+        "notes": [
+          "LAMMPS 30 Sep 2026: https://github.com/lammps/lammps/blob/0165101ce505734e8fb249694b22e295a7ab4182/doc/src/lattice.rst#L178"
+        ],
+        "severity": "warning",
+        "span": {
+          "end_byte": 71,
+          "end_column": 1,
+          "end_line": 2,
+          "start_byte": 0,
+          "start_column": 1,
+          "start_line": 1
+        },
+        "suggested_actions": [
+          "Review the cited manual constraint and the intended input before changing it"
+        ],
+        "suggestion": null
+      }
+    ],
+    "input": "inputs/orientation-before.in",
+    "physical_findings": [
+      {
+        "evidence": [
+          {
+            "definition": "lattice fcc 4.05 orient x 0.8 0.6 0 orient y -0.6 0.8 0 orient z 0 0 1",
+            "span": {
+              "end_byte": 71,
+              "end_column": 1,
+              "end_line": 2,
+              "start_byte": 0,
+              "start_column": 1,
+              "start_line": 1
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "violated",
+        "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+        "span": {
+          "end_byte": 71,
+          "end_column": 1,
+          "end_line": 2,
+          "start_byte": 0,
+          "start_column": 1,
+          "start_line": 1
+        },
+        "suggested_actions": [
+          "Review the cited manual constraint and the intended input before changing it"
+        ]
+      },
+      {
+        "evidence": [
+          {
+            "definition": "lattice fcc 4.05 orient x 0.8 0.6 0 orient y -0.6 0.8 0 orient z 0 0 1",
+            "span": {
+              "end_byte": 71,
+              "end_column": 1,
+              "end_line": 2,
+              "start_byte": 0,
+              "start_column": 1,
+              "start_line": 1
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "unknown",
+        "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+        "span": {
+          "end_byte": 71,
+          "end_column": 1,
+          "end_line": 2,
+          "start_byte": 0,
+          "start_column": 1,
+          "start_line": 1
+        },
+        "suggested_actions": []
+      }
+    ],
+    "schema_version": 1,
+    "status": "warning",
+    "summary": {
+      "errors": 0,
+      "unknowns": 1,
+      "warnings": 1
+    }
+  },
+  "status": "collected"
+}

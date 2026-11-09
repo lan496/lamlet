@@ -1,0 +1,539 @@
+{
+  "report": {
+    "diagnostics": [
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 186,
+          "end_column": 1,
+          "end_line": 5,
+          "start_byte": 168,
+          "start_column": 1,
+          "start_line": 4
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "'lattice' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 208,
+          "end_column": 1,
+          "end_line": 6,
+          "start_byte": 186,
+          "start_column": 1,
+          "start_line": 5
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "'region' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 250,
+          "end_column": 1,
+          "end_line": 7,
+          "start_byte": 208,
+          "start_column": 1,
+          "start_line": 6
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 267,
+          "end_column": 1,
+          "end_line": 8,
+          "start_byte": 250,
+          "start_column": 1,
+          "start_line": 7
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "'create_atoms' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 305,
+          "end_column": 1,
+          "end_line": 9,
+          "start_byte": 267,
+          "start_column": 1,
+          "start_line": 8
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "'mass' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 319,
+          "end_column": 1,
+          "end_line": 10,
+          "start_byte": 305,
+          "start_column": 1,
+          "start_line": 9
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 339,
+          "end_column": 1,
+          "end_line": 11,
+          "start_byte": 319,
+          "start_column": 1,
+          "start_line": 10
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 354,
+          "end_column": 1,
+          "end_line": 12,
+          "start_byte": 339,
+          "start_column": 1,
+          "start_line": 11
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "'velocity' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 391,
+          "end_column": 1,
+          "end_line": 13,
+          "start_byte": 354,
+          "start_column": 1,
+          "start_line": 12
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 415,
+          "end_column": 1,
+          "end_line": 14,
+          "start_byte": 391,
+          "start_column": 1,
+          "start_line": 13
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "'thermo_style' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 451,
+          "end_column": 1,
+          "end_line": 15,
+          "start_byte": 415,
+          "start_column": 1,
+          "start_line": 14
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/velocity-after.in",
+        "message": "'thermo_modify' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 484,
+          "end_column": 1,
+          "end_line": 16,
+          "start_byte": 451,
+          "start_column": 1,
+          "start_line": 15
+        },
+        "suggestion": null
+      }
+    ],
+    "input": "inputs/velocity-after.in",
+    "physical_findings": [
+      {
+        "evidence": [
+          {
+            "definition": "units metal",
+            "span": {
+              "end_byte": 168,
+              "end_column": 1,
+              "end_line": 4,
+              "start_byte": 156,
+              "start_column": 1,
+              "start_line": 3
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "unknown",
+        "rule_id": "LML-MAN-UNITS-BEFORE-BOX",
+        "span": {
+          "end_byte": 168,
+          "end_column": 1,
+          "end_line": 4,
+          "start_byte": 156,
+          "start_column": 1,
+          "start_line": 3
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "atom_style atomic",
+            "span": {
+              "end_byte": 186,
+              "end_column": 1,
+              "end_line": 5,
+              "start_byte": 168,
+              "start_column": 1,
+              "start_line": 4
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "unknown",
+        "rule_id": "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+        "span": {
+          "end_byte": 186,
+          "end_column": 1,
+          "end_line": 5,
+          "start_byte": 168,
+          "start_column": 1,
+          "start_line": 4
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "lattice sc 3.13400196",
+            "span": {
+              "end_byte": 208,
+              "end_column": 1,
+              "end_line": 6,
+              "start_byte": 186,
+              "start_column": 1,
+              "start_line": 5
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+        "span": {
+          "end_byte": 208,
+          "end_column": 1,
+          "end_line": 6,
+          "start_byte": 186,
+          "start_column": 1,
+          "start_line": 5
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "lattice sc 3.13400196",
+            "span": {
+              "end_byte": 208,
+              "end_column": 1,
+              "end_line": 6,
+              "start_byte": 186,
+              "start_column": 1,
+              "start_line": 5
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+        "span": {
+          "end_byte": 208,
+          "end_column": 1,
+          "end_line": 6,
+          "start_byte": 186,
+          "start_column": 1,
+          "start_line": 5
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "mass 1 183.84",
+            "span": {
+              "end_byte": 319,
+              "end_column": 1,
+              "end_line": 10,
+              "start_byte": 305,
+              "start_column": 1,
+              "start_line": 9
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-MASS",
+        "span": {
+          "end_byte": 319,
+          "end_column": 1,
+          "end_line": 10,
+          "start_byte": 305,
+          "start_column": 1,
+          "start_line": 9
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "mass 1 183.84",
+            "span": {
+              "end_byte": 319,
+              "end_column": 1,
+              "end_line": 10,
+              "start_byte": 305,
+              "start_column": 1,
+              "start_line": 9
+            },
+            "subject": "LAMMPS command"
+          },
+          {
+            "definition": "create_box 1 box",
+            "span": {
+              "end_byte": 267,
+              "end_column": 1,
+              "end_line": 8,
+              "start_byte": 250,
+              "start_column": 1,
+              "start_line": 7
+            },
+            "subject": "box"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-MASS-AFTER-BOX",
+        "span": {
+          "end_byte": 319,
+          "end_column": 1,
+          "end_line": 10,
+          "start_byte": 305,
+          "start_column": 1,
+          "start_line": 9
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "pair_coeff * *",
+            "span": {
+              "end_byte": 354,
+              "end_column": 1,
+              "end_line": 12,
+              "start_byte": 339,
+              "start_column": 1,
+              "start_line": 11
+            },
+            "subject": "LAMMPS command"
+          },
+          {
+            "definition": "create_box 1 box",
+            "span": {
+              "end_byte": 267,
+              "end_column": 1,
+              "end_line": 8,
+              "start_byte": 250,
+              "start_column": 1,
+              "start_line": 7
+            },
+            "subject": "box"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-PAIR_COEFF-AFTER-BOX",
+        "span": {
+          "end_byte": 354,
+          "end_column": 1,
+          "end_line": 12,
+          "start_byte": 339,
+          "start_column": 1,
+          "start_line": 11
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "thermo_style custom step c_measured",
+            "span": {
+              "end_byte": 451,
+              "end_column": 1,
+              "end_line": 15,
+              "start_byte": 415,
+              "start_column": 1,
+              "start_line": 14
+            },
+            "subject": "LAMMPS command"
+          },
+          {
+            "definition": "create_box 1 box",
+            "span": {
+              "end_byte": 267,
+              "end_column": 1,
+              "end_line": 8,
+              "start_byte": 250,
+              "start_column": 1,
+              "start_line": 7
+            },
+            "subject": "box"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-THERMO_STYLE-AFTER-BOX",
+        "span": {
+          "end_byte": 451,
+          "end_column": 1,
+          "end_line": 15,
+          "start_byte": 415,
+          "start_column": 1,
+          "start_line": 14
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "run 0",
+            "span": {
+              "end_byte": 490,
+              "end_column": 1,
+              "end_line": 17,
+              "start_byte": 484,
+              "start_column": 1,
+              "start_line": 16
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "unknown",
+        "rule_id": "LML-MAN-KSPACE-EXCLUSIONS",
+        "span": {
+          "end_byte": 490,
+          "end_column": 1,
+          "end_line": 17,
+          "start_byte": 484,
+          "start_column": 1,
+          "start_line": 16
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "run 0",
+            "span": {
+              "end_byte": 490,
+              "end_column": 1,
+              "end_line": 17,
+              "start_byte": 484,
+              "start_column": 1,
+              "start_line": 16
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-RUN-LIMIT",
+        "span": {
+          "end_byte": 490,
+          "end_column": 1,
+          "end_line": 17,
+          "start_byte": 484,
+          "start_column": 1,
+          "start_line": 16
+        },
+        "suggested_actions": []
+      }
+    ],
+    "schema_version": 1,
+    "status": "warning",
+    "summary": {
+      "errors": 0,
+      "unknowns": 12,
+      "warnings": 0
+    }
+  },
+  "status": "collected"
+}

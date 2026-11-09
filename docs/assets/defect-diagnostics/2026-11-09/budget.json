@@ -1,0 +1,7 @@
+{
+  "estimated_remaining_seconds": 0.2323488788679242,
+  "first_input_three_modes_seconds": 0.025816542096436024,
+  "heterogeneous_inputs": true,
+  "per_command_timeout_seconds": 30,
+  "remaining_inputs": 9
+}
