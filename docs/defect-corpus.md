@@ -16,6 +16,10 @@ support narrower condition tests, but independent review remains pending and no
 case is yet admitted as a gold defect pair. No checker accuracy or agent benefit
 was measured.
 
+A separate, prospectively bounded discovery cohort recorded 90 topic listings
+and captured 12 complete discussions. All 12 await screening; these captures
+add no validated defect pairs.
+
 ## Introduction
 
 Synthetic mutations can test a known diagnostic boundary without showing whether
@@ -59,6 +63,30 @@ an author's confirmation; a proposed fix lacks that confirmation. Neither is an
 independent validity label. Unresolved cases, engine bugs, and counterexamples are
 retained in the screened denominator. Raw third-party scripts remain in ignored
 local caches because public access does not establish redistribution permission.
+
+### Bounded category discovery
+
+A second collection used the LAMMPS category listing [11], rather than selected
+failure reports. Its plan was committed at
+[`72230a4`](https://github.com/lan496/lamlet/commit/72230a4)
+before collection. It requested pages 0–2 and selected the first 12 unique,
+non-pinned topics absent from the previous 20-topic manifest. Selection followed
+page and row order, without keywords or checker findings. Every listing slot,
+duplicate occurrence, excluded topic, deferred topic, and failed request was
+retained. Failed captures would not be replaced.
+
+The listing reflects forum activity, including subcategories, rather than a
+random sample of failure reports. Successive pages are not an atomic snapshot;
+concurrent activity can produce duplicates or gaps. The frozen receipts define
+the observed cohort. API-shape inspection preceded the plan, and all sources
+are development data. Neither blinded discovery nor held-out evaluation is
+claimed.
+
+Selected topics used the same complete-post-stream and attachment collector as
+the first pilot. Code blocks and attachments were counted structurally, without
+assigning intent, a defect, or a correction. The screening form initially leaves
+all decisions pending. No checker, native simulation, or agent was run for this
+cohort.
 
 ### Native replay and independent measurements
 
@@ -168,6 +196,38 @@ lattice spacing. Explicit box units produced 95.26836 eV. This is a measured uni
 interpretation effect in the reconstruction, not a replay of the original
 irradiation calculation.
 
+### Discovery cohort
+
+All three requested listing pages and all 12 selected threads were captured on
+9 November 2026. Table 3 reports the observed listing and capture outcomes,
+separately from the 20 screened pilot discussions and ten native variants.
+
+**Table 3.** Bounded discovery outcomes. Counts are derived from archived
+listing and complete-thread receipts; they do not measure defect yield.
+
+| Outcome or structural property | Count |
+| --- | ---: |
+| Listing slots / unique topics | 90 / 90 |
+| Duplicate slots | 0 |
+| Pinned topics excluded | 2 |
+| Previously screened topics excluded | 0 |
+| Topics selected / completely captured | 12 / 12 |
+| Failed listing requests / failed thread captures | 0 / 0 |
+| Topics deferred by the capture limit | 76 |
+| Posts in captured threads | 67 |
+| Code blocks across captured threads | 17 |
+| Threads containing code blocks | 7 |
+| Downloaded attachments / threads containing attachments | 9 / 2 |
+| Unavailable forum attachments | 0 |
+| Topics screened / independently adjudicated | 0 / 0 |
+| Gold defect pairs admitted | 0 |
+
+Eight captured threads contained either code blocks or downloaded attachments.
+Code blocks include quotations and material other than LAMMPS inputs; attachment
+presence does not establish complete dependencies. These structural observations
+therefore do not count runnable inputs or negative examples. The published queue
+retains all 90 topic identities and all 12 pending screening records.
+
 ## Discussion
 
 The GCMC result illustrates a useful natural negative condition: successful
@@ -201,6 +261,13 @@ mutations must share a split; related mechanisms also require grouping when
 testing generalization. This separates reproducible condition evidence from
 claims about complete scientific calculations.
 
+The bounded discovery cohort makes selection and capture losses inspectable,
+but does not estimate defect prevalence. Its activity-ordered listing includes
+topics without reported input failures. Complete-thread screening and dependency
+assessment remain necessary before specifying replay conditions. The 12 pending
+captures must not be pooled with the 20 screened discussions to calculate a
+screening success rate or diagnostic precision.
+
 ## Conclusions
 
 Public reports supplied recoverable inputs and measurable defect mechanisms,
@@ -223,6 +290,7 @@ than a measurement of Lamlet's scientific accuracy.
 8. matsci.org, [Ordering of SHAKE and NPT](https://matsci.org/t/ordering-of-fix-shake-and-fix-npt/16297).
 9. matsci.org, [Fixed groups in NEMD](https://matsci.org/t/group-virtual-fixed-problems-in-nonequilibrium-molecular-dynamics-nemd/49575).
 10. matsci.org, [LAMMPS exiting without results](https://matsci.org/t/lammps-exiting-without-error-and-without-results/50684).
+11. matsci.org, [LAMMPS category](https://matsci.org/c/lammps/40).
 
 ## Appendix: artifacts and reproduction
 
@@ -280,3 +348,40 @@ The source path refers to the existing pinned checkout used by
 CMake. Fresh execution must use a new output directory and retains unsuccessful
 outcomes. CI checks the public receipts and archived measurements offline; it
 does not refetch forum posts or rerun these simulations.
+
+### Discovery artifacts
+
+The separate discovery archive contains the
+[frozen plan](assets/defect-discovery/2026-11-09/plan.json),
+[listing receipts](assets/defect-discovery/2026-11-09/listing.json),
+[thread and attachment receipts](assets/defect-discovery/2026-11-09/sources.json),
+[candidate report](assets/defect-discovery/2026-11-09/report.json),
+[pending screening form](assets/defect-discovery/2026-11-09/screening.json),
+[screening instructions](assets/defect-discovery/2026-11-09/packet.md), and
+[file inventory](assets/defect-discovery/2026-11-09/inventory.json).
+Raw posts and attachments remain in the ignored source cache.
+The collector was committed at
+[`c22da43`](https://github.com/lan496/lamlet/commit/c22da43a9adc021f9393ed35503ae50c39448ea3)
+before capture. The [capture receipt](assets/defect-discovery/2026-11-09/capture.json)
+records retrieval time and the collector script hash.
+
+The first listing request took 0.616 s, giving a prospective estimate of 1.232 s
+for the remaining two pages. The first complete-thread capture took 0.712 s,
+giving an estimate of 7.836 s for the remaining 11 threads. These are initial-case
+measurements and extrapolations, recorded in the
+[budget receipt](assets/defect-discovery/2026-11-09/budget.json), not measured
+total durations or throughput estimates for other cohorts.
+
+```sh
+python3 tools/defect_discovery.py verify --archive docs/assets/defect-discovery/2026-11-09
+python3 tools/defect_discovery.py verify --archive docs/assets/defect-discovery/2026-11-09 \
+  --cache target/defect-discovery/2026-11-09
+```
+
+Offline verification recomputes candidate selection, structural counts, and the
+pending queue from published metadata. Supplying the exact cache also verifies
+listing bytes, complete post streams, and attachment bytes against receipts.
+Neither mode authenticates the forum authors or adjudicates scientific claims.
+Fresh collection uses a new directory and can yield a different cohort; the
+[collection protocol](https://github.com/lan496/lamlet/blob/main/research/defects/README.md)
+provides capture and publication commands.

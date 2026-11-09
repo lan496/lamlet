@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "cohort": "lammps-category-2026-11-09",
+  "category_url": "https://matsci.org/c/lammps/40",
+  "pages": [0, 1, 2],
+  "capture_limit": 12,
+  "selection": "First unique non-pinned, previously unscreened topics in captured page and row order; no keyword or checker filter.",
+  "previously_screened_topic_ids": [14833, 16297, 16568, 18394, 26594, 29050, 32097, 32615, 34056, 34193, 37447, 47968, 49414, 49575, 50684, 54057, 56524, 60431, 63309, 66390],
+  "prior_manifest_sha256": "a4b5be100585dfab583b1487d3a99d5d36e8ad2946bfe5376ace9e259abb31c6",
+  "listing_failures": "Retain each requested page, including unavailable or malformed responses. Continue the bounded page list without replacement.",
+  "capture_failures": "Retain every selected topic outcome. Do not replace a failed capture with another topic.",
+  "exposure": "Development discovery cohort. Existing source exposure and API-shape inspection are not blinded; no held-out claim.",
+  "labels": "All captured topics await screening. Code blocks, attachment counts, and accepted-answer flags do not establish a defect, correction, or gold label.",
+  "budget": "Time the first listing request and the first selected complete-thread capture before estimating remaining work. Serial requests, 30-second timeout and 16-MiB limit per response, inherited from the source collector. No simulations or checker invocations."
+}
