@@ -3,7 +3,7 @@
 The [lint mutation evaluation](lint-evaluation.md) measures detection, false
 warnings, and Unknown outcomes for seven reviewed rules through the actual CLI.
 
-Lamlet has ten physical and idiom rules and 286 additional executable constraints
+Lamlet has twelve physical and idiom rules and 286 additional executable constraints
 derived from the official LAMMPS manual. They emit warnings with source evidence
 and suggested actions. Warnings remain
 nonfatal in strict mode. The compiler does not reorder commands, change physical
@@ -21,6 +21,8 @@ parameters, or insert corrections in response to a warning.
 | `LML-PHYS-004` | A barostatted dimension is nonperiodic. | Known boundary and `npt` or `nph` pressure keywords; tilt requires periodicity in its second axis. Two-dimensional `iso` and `aniso` omit z. | [nvt/npt/nph restrictions](https://docs.lammps.org/fix_nh.html#restrictions) |
 | `LML-PHYS-005` | A two-dimensional simulation has nonperiodic z boundaries. | Known dimension and boundary at `create_box` or `read_data`. | [boundary](https://docs.lammps.org/boundary.html), [dimension](https://docs.lammps.org/dimension.html) |
 | `LML-PHYS-006` | Langevin force control has no known integrator for its group. | Positive literal `run`, complete fix inventory, and reviewed fix roles; partial group coverage remains Unknown. | [langevin](https://docs.lammps.org/fix_langevin.html) |
+| `LML-PHYS-007` | SHAKE precedes a force modifier on potentially overlapping atoms. | Positive literal `run`; reviewed Langevin and setforce modifiers, effective fix order, and same-group or `all` overlap. | [SHAKE](https://docs.lammps.org/fix_shake.html), [fix order](https://docs.lammps.org/fix.html) |
+| `LML-PHYS-008` | RATTLE precedes an integrator or force modifier on potentially overlapping atoms. | Same execution and overlap limits; ordinary `nve`, `nvt`, `npt`, `nph`, Langevin, and setforce. | [RATTLE](https://docs.lammps.org/fix_shake.html), [fix order](https://docs.lammps.org/fix.html) |
 | `LML-LINT-001` | `thermo_style` resets earlier `thermo_modify` settings. | A known modification followed by a style command. A deliberate reset is valid. | [thermo_style](https://docs.lammps.org/thermo_style.html) |
 | `LML-LINT-002` | A random seed is not positive. | Integer literals in `velocity ... create` and `fix ... langevin`. | [velocity](https://docs.lammps.org/velocity.html), [langevin](https://docs.lammps.org/fix_langevin.html) |
 | `LML-LINT-003` | A combined region specifies fewer than two regions. | Integer literal counts in `region ... union` and `intersect`. | [region](https://docs.lammps.org/region.html) |
@@ -32,6 +34,48 @@ The integrator and thermostat checks recognize the standard `gpu`, `intel`, `kk`
 `omp`, and `opt` suffixes on the listed styles. Other styles have unreviewed roles.
 Distinct group names do not prove disjointness. Empty groups and specialized
 integration schemes require review even when the group names match.
+
+### Constraint fix order
+
+SHAKE uses the current forces to compute its constraint correction. A later
+Langevin or setforce fix on the same atoms can invalidate that correction, even
+when the simulation runs. RATTLE also constrains velocities and must follow
+time integrators such as NVT. Lamlet checks these as separate requirements;
+it does not impose a general SHAKE-versus-NVT order.
+
+For example, this order triggers `LML-PHYS-007` at `run`:
+
+```lammps
+fix step all nve
+fix bonds all shake 0.0001 20 0 b 1
+fix bath all langevin 300 300 0.1 123
+run 100
+```
+
+Define `bath` before `bonds` to satisfy this ordering requirement. Repeating the
+same fix ID and style later in the file retains its original position in LAMMPS;
+it does not move the fix. An explicit `unfix` followed by recreation establishes
+a new position. Diagnostics cite current definitions and the declarations that
+established their effective positions. Lamlet never performs either edit.
+
+Only active fixes at a plain positive literal `run` are checked. Removing a
+conflicting fix before the run avoids the warning. Managed `@fix` and `@drop`
+commands use the same tracking after expansion. `run 0`, minimization, run options,
+and specialized integration schemes are outside the selector.
+
+Ordering conclusions require a complete reviewed inventory: ordinary
+`nve`/`nvt`/`npt`/`nph`, `langevin`, `setforce`, `shake`, and `rattle`, including
+the standard accelerator suffixes. Other fix styles or an uncertain replacement
+style make the result Unknown. Distinct literal groups with unresolved overlap
+also produce Unknown when their order could matter. Empty groups and actual
+constrained atom membership remain unverified. Opaque commands discard tracked
+facts; absence of a later finding does not establish safety.
+
+Fixes run at different callback stages. In particular, placing an end-of-step
+velocity modifier such as `momentum` before RATTLE in the input does not prove
+that it executes before the constraint correction. Such modifiers remain
+Unknown here. This check does not model their stage-dependent compatibility,
+other force modifiers, or the quality of SHAKE/RATTLE convergence.
 
 A deliberate velocity reset is valid. For example, freezing a subgroup after
 adding random motion to `all` can trigger `LML-LINT-004`. The warning describes
@@ -114,7 +158,7 @@ lamlet schema LML-MAN-NEIGHBOR-DELAY --format json
 lamlet schema pair_style/eam --format json
 ```
 
-`schema` includes the existing temperature rule in `physical_rules`, nine
+`schema` includes the existing temperature rule in `physical_rules`, eleven
 additional rules in `lint_rules`, executable constraints in `manual_rules`,
 and manual provenance in `documentation`. `manual_review` reports review counts
 and a completeness flag. The generated rules also appear in `diagnostic_codes`.
@@ -196,7 +240,7 @@ The source documents that contain autodoc directives are included.
 Full text and candidate paragraphs remain in ignored `target/lammps-manual/`.
 The committed catalog stores provenance and navigation metadata. Indexing all
 source documents does not mean that all prose has been semantically reviewed or
-implemented. Most manual constraints remain unimplemented. The ten physical and
+implemented. Most manual constraints remain unimplemented. The twelve physical and
 idiom rules and 286 generated constraints are the current executable lint coverage;
 command schemas, capability checks, and ownership checks are separate.
 
