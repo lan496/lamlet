@@ -96,6 +96,51 @@ code-block counts, attachments, titles, nor accepted-answer flags assign a label
 All 12 captured topics initially await screening. Screening and later independent
 pair admission are separate stages; discovery produces zero gold defect pairs.
 
+## Screen the complete discovery cohort
+
+`screening-plan.json` pins the discovery inventory and decision criteria. It was
+committed before complete-thread reading, after titles and structural counts
+were visible. `screened-cohort.json` records the subsequent model-assisted
+screening of all twelve selected topics and 67 captured posts. The original
+discovery archive and its pending form remain unchanged. The separate screening
+record preserves the evidence available at that snapshot, not later forum edits.
+
+The classifications describe each discussion. An `input_report` can become a
+`replay_candidate` when its intent, condition, correction, input, and dependencies
+support preparation. `needs_evidence` records an input report with a concrete
+gap. `excluded` preserves engine reports, build/environment issues, usage
+questions, announcements, and feature requests outside input-defect admission.
+Exclusion does not establish that an input is valid. None of these decisions
+admits a gold pair or establishes scientific correctness.
+
+```sh
+python3 tools/defect_screening.py verify \
+  --report docs/assets/defect-screening/2026-11-09/report.json
+python3 tools/defect_screening.py verify \
+  --report docs/assets/defect-screening/2026-11-09/report.json \
+  --cache target/defect-discovery/2026-11-09
+python3 tools/defect_screening.py report
+```
+
+`report` recomputes deterministic JSON. `verify` compares it with `--report` and
+exits 2 on an integrity or form error. Both exit 0 on successful verification;
+that exit code does not grade a defect claim. Optional `--manifest` and `--plan`
+paths select a separate version. Preserve existing evidence when extending it.
+
+The validator requires every selected topic, exact captured post-number coverage,
+the final captured reply among cited evidence, attachment inspection records,
+source receipts, and reasons for each decision. It rejects replay promotion with
+declared evidence gaps. This protocol also requires zero native replays, agent
+trials, gold pairs, and independent adjudications. Without `--cache`, anchors
+are unchecked text tied to known source post numbers. The exact cache adds
+post/attachment byte checks and literal anchor matching. Neither mode proves
+that reading occurred, authenticates a reviewer, or assesses an interpretation.
+All screening is identified as Codex model-assisted development work, with no
+independent human adjudication. Two input reports need evidence, ten topics are
+excluded, and none is ready for replay preparation. The
+[results](../../docs/defect-corpus.md#discovery-screening) explain the retained
+conditions and gaps.
+
 ## Pair admission
 
 A proposed negative condition needs a recoverable original input, all relevant

@@ -1,0 +1,36 @@
+{
+  "agent_trials": 0,
+  "checker_evaluated": false,
+  "cohort": "lammps-category-2026-11-09",
+  "discovery_inventory_sha256": "9964724ed98925565e6347f6102c1651ead3d232ea7b4c0ba11f22819e7f88af",
+  "gold_defect_pairs": 0,
+  "independently_adjudicated": 0,
+  "manifest_sha256": "8c1a90e7b99c9fbdc9cf2e19053ccbc826a9ca5a610f2e6e435e570f7ab2e7e3",
+  "native_replays": 0,
+  "plan_sha256": "71305959d830a527b37fa410cee0b947f45d0bc02e05f7413af1d0d4f40273df",
+  "review": {
+    "agent": "Codex",
+    "independent": false,
+    "kind": "model_assisted"
+  },
+  "schema_version": 1,
+  "split": "development",
+  "summary": {
+    "classifications": {
+      "announcement": 2,
+      "build_environment": 3,
+      "engine_report": 2,
+      "feature_request": 1,
+      "input_report": 2,
+      "usage_question": 2
+    },
+    "covered_posts": 67,
+    "decisions": {
+      "excluded": 10,
+      "needs_evidence": 2,
+      "replay_candidate": 0
+    },
+    "screened_topics": 12,
+    "selected_topics": 12
+  }
+}
