@@ -30,6 +30,65 @@ fn json_output(output: &Output, code: i32) -> Value {
 
 const STAGE_SOURCE: &str = "@stage relax(structure: InputFile, result: OutputFile) {\nunits metal\natom_style atomic\nread_data @{structure} nocoeff\npair_style lj/cut 2.5\npair_coeff * * 1 1\nminimize 1e-8 1e-10 10 100\nwrite_data @{result}\n}\n@stage invalid() {\nrun 100\n}\n";
 #[test]
+fn constraint_order_warnings_have_deterministic_json_and_preserve_legacy_builds() {
+    let dir = tempfile::tempdir().unwrap();
+    for (constraint, modifier, code) in [
+        ("shake", "langevin 300 300 0.1 123", "LML-PHYS-007"),
+        ("rattle", "nvt temp 300 300 0.1", "LML-PHYS-008"),
+    ] {
+        let input = format!(
+            "# retain CRLF\r\nfix bonds all {constraint} 0.0001 20 0 b 1\r\nfix update all {modifier}\r\nrun 10\r\n"
+        );
+        fs::write(dir.path().join("legacy.in"), &input).unwrap();
+        let args = ["check", "legacy.in", "--strict", "--format=json"];
+        let first = cli(&args, dir.path());
+        assert_eq!(first.stdout, cli(&args, dir.path()).stdout);
+        let checked = json_output(&first, 0);
+        let diagnostic = checked["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|d| d["code"] == code)
+            .unwrap();
+        assert_eq!(diagnostic["severity"], "warning");
+        assert_eq!(diagnostic["span"]["start_line"], 4);
+        assert!(
+            diagnostic["evidence"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|e| e["subject"] == "fix update")
+        );
+        let schema = json_output(&cli(&["schema", code, "--format=json"], dir.path()), 0);
+        let rule = schema["lint_rules"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|r| r["id"] == code)
+            .unwrap();
+        assert_eq!(rule["autofix"], false);
+        json_output(
+            &cli(
+                &[
+                    "build",
+                    "legacy.in",
+                    "--strict",
+                    "-o",
+                    "copy.in",
+                    "--format=json",
+                ],
+                dir.path(),
+            ),
+            0,
+        );
+        assert_eq!(
+            fs::read(dir.path().join("copy.in")).unwrap(),
+            input.as_bytes()
+        );
+    }
+}
+
+#[test]
 fn manual_rules_are_queryable_and_warning_builds_preserve_legacy_bytes() {
     let dir = tempfile::tempdir().unwrap();
     let args = ["schema", "LML-MAN-NEIGHBOR-DELAY", "--format=json"];

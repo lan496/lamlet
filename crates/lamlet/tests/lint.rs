@@ -90,6 +90,153 @@ fn temperature_controllers_are_distinct_from_integrators() {
 }
 
 #[test]
+fn shake_follows_force_modifiers_but_has_no_blanket_nvt_order_requirement() {
+    warning(
+        "fix bonds all shake 0.0001 20 0 b 1\nfix bath all langevin 300 300 0.1 123\nfix step all nve\nrun 10\n",
+        "LML-PHYS-007",
+        true,
+    );
+    warning(
+        "fix bonds all shake 0.0001 20 0 b 1\nfix freeze all setforce 0 0 0\nrun 10\n",
+        "LML-PHYS-007",
+        true,
+    );
+    for text in [
+        "fix bath all langevin 300 300 0.1 123\nfix bonds all shake 0.0001 20 0 b 1\nfix step all nve\nrun 10\n",
+        "fix bonds all shake 0.0001 20 0 b 1\nfix bath all nvt temp 300 300 0.1\nrun 10\n",
+        "fix bath all nvt temp 300 300 0.1\nfix bonds all shake 0.0001 20 0 b 1\nrun 10\n",
+        "fix bonds all shake 0.0001 20 0 b 1\nfix bath all langevin 300 300 0.1 123\nunfix bath\nrun 10\n",
+        "fix bonds all shake 0.0001 20 0 b 1\nfix bath all langevin 300 300 0.1 123\nrun 0\n",
+    ] {
+        warning(text, "LML-PHYS-007", false);
+    }
+}
+
+#[test]
+fn rattle_follows_integrators_and_post_force_modifiers() {
+    for style in [
+        "nve",
+        "nvt temp 300 300 0.1",
+        "npt temp 300 300 0.1 iso 0 0 1",
+        "nph iso 0 0 1",
+        "langevin 300 300 0.1 123",
+        "setforce 0 0 0",
+    ] {
+        warning(
+            &format!("fix bonds all rattle 0.0001 20 0 b 1\nfix update all {style}\nrun 10\n"),
+            "LML-PHYS-008",
+            true,
+        );
+        warning(
+            &format!("fix update all {style}\nfix bonds all rattle 0.0001 20 0 b 1\nrun 10\n"),
+            "LML-PHYS-008",
+            false,
+        );
+    }
+}
+
+#[test]
+fn same_id_replacement_preserves_order_but_unfix_and_recreate_moves_it() {
+    let start = "fix bonds all shake 0.0001 20 0 b 1\nfix bath all langevin 300 300 0.1 123\n";
+    warning(
+        &format!("{start}fix bonds all shake 0.00001 40 0 b 1\nrun 10\n"),
+        "LML-PHYS-007",
+        true,
+    );
+    warning(
+        &format!("{start}unfix bonds\nfix bonds all shake 0.00001 40 0 b 1\nrun 10\n"),
+        "LML-PHYS-007",
+        false,
+    );
+    warning(
+        "fix bath all langevin 300 300 0.1 123\nfix bonds all shake 0.0001 20 0 b 1\nfix bath all langevin 400 400 0.1 123\nrun 10\n",
+        "LML-PHYS-007",
+        false,
+    );
+    let result = check(&format!(
+        "{start}fix bonds all shake 0.00001 40 0 b 1\nrun 10\n"
+    ));
+    let diagnostic = result
+        .diagnostics
+        .iter()
+        .find(|d| d.code == "LML-PHYS-007")
+        .unwrap();
+    assert_eq!(diagnostic.span.start_line, 4);
+    let original = diagnostic
+        .evidence
+        .iter()
+        .find(|e| e.subject == "fix bonds effective order")
+        .unwrap();
+    let current = diagnostic
+        .evidence
+        .iter()
+        .find(|e| e.subject == "fix bonds")
+        .unwrap();
+    assert_eq!(original.span.start_line, 1);
+    assert_eq!(current.span.start_line, 3);
+}
+
+#[test]
+fn uncertain_constraint_order_stays_unknown_without_rejecting_legacy() {
+    for text in [
+        "fix bonds left shake 0.0001 20 0 b 1\nfix bath right langevin 300 300 0.1 123\nrun 10\n",
+        "fix bonds all rattle 0.0001 20 0 b 1\nfix bath all custom/plugin\nfix step all nve\nrun 10\n",
+        "fix momentum all momentum 1 linear 1 1 1\nfix bonds all rattle 0.0001 20 0 b 1\nrun 10\n",
+    ] {
+        let result = check(text);
+        let order_findings: Vec<_> = result
+            .physical_findings
+            .iter()
+            .filter(|f| matches!(f.rule_id, "LML-PHYS-007" | "LML-PHYS-008"))
+            .collect();
+        assert!(!order_findings.is_empty());
+        assert!(order_findings.iter().all(|f| f.outcome == Outcome::Unknown));
+    }
+    warning(
+        "fix bonds all shake 0.0001 20 0 b 1\ninclude state.in\nfix bath all langevin 300 300 0.1 123\nrun 10\n",
+        "LML-PHYS-007",
+        false,
+    );
+}
+
+#[test]
+fn constraint_order_tracks_clear_aliases_and_managed_cleanup() {
+    warning(
+        "fix bonds all shake/omp 0.0001 20 0 b 1\nfix bath all langevin/omp 300 300 0.1 123\nrun 10\n",
+        "LML-PHYS-007",
+        true,
+    );
+    let result = check(
+        "include state.in\nclear\nfix bath all nvt temp 300 300 0.1\nfix bonds all rattle 0.0001 20 0 b 1\nrun 10\n",
+    );
+    let finding = result
+        .physical_findings
+        .iter()
+        .find(|f| f.rule_id == "LML-PHYS-008")
+        .unwrap();
+    assert_eq!(finding.outcome, Outcome::Satisfied);
+
+    let text = "@scope {\n@fix step all nve\n@scope {\n@fix bonds all shake 0.0001 20 0 b 1\n@fix bath all langevin 300 300 0.1 123\n@drop bonds\n@fix bonds all shake 0.0001 20 0 b 1\nrun 10\n}\nrun 10\n}\n";
+    let result = compile_with_options(
+        &Source::new("input.lamlet", text.as_bytes().to_vec()),
+        &Options {
+            language: Language::Lamlet,
+            strict: true,
+            ..Options::default()
+        },
+    );
+    assert!(!result.has_errors(), "{:?}", result.diagnostics);
+    assert!(!result.diagnostics.iter().any(|d| d.code == "LML-PHYS-007"));
+    let findings: Vec<_> = result
+        .physical_findings
+        .iter()
+        .filter(|f| f.rule_id == "LML-PHYS-007")
+        .collect();
+    assert_eq!(findings.len(), 1);
+    assert!(findings.iter().all(|f| f.outcome == Outcome::Satisfied));
+}
+
+#[test]
 fn barostat_axes_respect_periodicity_and_two_dimensional_shorthand() {
     warning(
         "boundary p p f\nfix a all npt temp 300 300 0.1 iso 0 0 1\nrun 10\n",

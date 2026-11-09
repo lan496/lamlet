@@ -101,6 +101,38 @@ pub const LANGEVIN_INTEGRATION: Rule = rule!(
     ["fix_langevin", "fix_nve"],
     "Only when every active fix has a reviewed role and no known integrator overlaps the Langevin group. Unknown fix styles, group overlap, or opaque effects prevent an absence claim. run 0 is excluded."
 );
+pub const SHAKE_ORDER: Rule = rule!(
+    "LML-PHYS-007",
+    "SHAKE follows force modifiers",
+    "physical-consistency",
+    ["fix:shake", "fix:langevin", "fix:setforce", "run"],
+    ["fix_shake", "fix", "fix_langevin", "fix_setforce"],
+    "At positive literal run commands with a complete reviewed fix inventory. SHAKE must follow overlapping Langevin and setforce fixes. NVT alone imposes no SHAKE ordering requirement. Same-ID/style replacement retains its effective position. Other force modifiers, distinct group overlap, opaque effects, and specialized integration remain unverified."
+);
+pub const RATTLE_ORDER: Rule = rule!(
+    "LML-PHYS-008",
+    "RATTLE follows integration and force modifiers",
+    "physical-consistency",
+    [
+        "fix:rattle",
+        "fix:nve",
+        "fix:nvt",
+        "fix:npt",
+        "fix:nph",
+        "fix:langevin",
+        "fix:setforce",
+        "run"
+    ],
+    [
+        "fix_shake",
+        "fix",
+        "fix_nve",
+        "fix_nh",
+        "fix_langevin",
+        "fix_setforce"
+    ],
+    "Same execution, inventory, group, and replacement limits as SHAKE ordering. Checks ordinary nve/nvt/npt/nph integration and Langevin/setforce post-force updates. End-of-step velocity modifiers and other callback stages remain unverified, even if declared before RATTLE."
+);
 pub static RULES: &[Rule] = &[
     INTEGRATION,
     THERMOSTATS,
@@ -111,7 +143,33 @@ pub static RULES: &[Rule] = &[
     REGION_COUNT,
     VELOCITY_REPLACE,
     LANGEVIN_INTEGRATION,
+    SHAKE_ORDER,
+    RATTLE_ORDER,
 ];
+
+#[derive(Clone, Copy)]
+struct FixOrder {
+    position: usize,
+    span: Span,
+}
+
+#[derive(Clone, Copy)]
+enum FixRole {
+    Integrate,
+    PostForce,
+    Shake,
+    Rattle,
+}
+
+fn ordering_role(style: &str) -> Option<FixRole> {
+    match style {
+        "nve" | "nvt" | "npt" | "nph" => Some(FixRole::Integrate),
+        "langevin" | "setforce" => Some(FixRole::PostForce),
+        "shake" => Some(FixRole::Shake),
+        "rattle" => Some(FixRole::Rattle),
+        _ => None,
+    }
+}
 
 #[derive(Clone)]
 struct Fix {
@@ -122,11 +180,13 @@ struct Fix {
     known: bool,
     axes: Option<Vec<usize>>,
     span: Span,
+    order: Option<FixOrder>,
 }
 
 pub(crate) struct Engine {
     fixes: BTreeMap<String, Fix>,
     fix_inventory_known: bool,
+    next_fix_position: usize,
     dimension: Option<u8>,
     periodic: [Option<bool>; 3],
     thermo_modified: Option<Span>,
@@ -138,6 +198,7 @@ impl Default for Engine {
         Self {
             fixes: BTreeMap::new(),
             fix_inventory_known: true,
+            next_fix_position: 0,
             dimension: Some(3),
             periodic: [Some(true); 3],
             thermo_modified: None,
@@ -317,6 +378,15 @@ impl Engine {
                 );
                 let known =
                     integrates || thermostats || matches!(style, "momentum" | "shake" | "setforce");
+                let order = match self.fixes.get(args[1]) {
+                    Some(previous) if previous.style == style => previous.order,
+                    Some(_) => None,
+                    None => Some(FixOrder {
+                        position: self.next_fix_position,
+                        span,
+                    }),
+                };
+                self.next_fix_position += 1;
                 self.fixes.insert(
                     args[1].into(),
                     Fix {
@@ -329,6 +399,7 @@ impl Engine {
                             .then(|| pressure_axes(&args[4..], self.dimension))
                             .flatten(),
                         span,
+                        order,
                     },
                 );
                 if style == "langevin" {
@@ -483,6 +554,57 @@ impl Engine {
             span: source.located(fix.span),
         };
         for (i, (id, fix)) in fixes.iter().enumerate() {
+            if let Some(role @ (FixRole::Shake | FixRole::Rattle)) = ordering_role(&fix.style) {
+                let rule = if matches!(role, FixRole::Shake) {
+                    &SHAKE_ORDER
+                } else {
+                    &RATTLE_ORDER
+                };
+                let complete = self.fix_inventory_known
+                    && fixes
+                        .iter()
+                        .all(|(_, f)| f.order.is_some() && ordering_role(&f.style).is_some());
+                let mut outcome = if complete {
+                    Outcome::Satisfied
+                } else {
+                    Outcome::Unknown
+                };
+                let mut facts = vec![evidence(id, fix)];
+                for (other_id, other) in &fixes {
+                    let relevant = matches!(ordering_role(&other.style), Some(FixRole::PostForce))
+                        || (matches!(role, FixRole::Rattle)
+                            && matches!(ordering_role(&other.style), Some(FixRole::Integrate)));
+                    if !relevant {
+                        continue;
+                    }
+                    facts.push(evidence(other_id, other));
+                    if let (Some(constraint_order), Some(other_order)) = (fix.order, other.order) {
+                        for (subject, order) in [(id, constraint_order), (other_id, other_order)] {
+                            facts.push(Evidence {
+                                subject: format!("fix {subject} effective order"),
+                                definition: format!(
+                                    "Position {}; same-ID/style replacement retains this position",
+                                    order.position
+                                ),
+                                span: source.located(order.span),
+                            });
+                        }
+                        if complete && other_order.position > constraint_order.position {
+                            match overlap(&fix.group, &other.group) {
+                                Some(true) => outcome = Outcome::Violated,
+                                None if outcome != Outcome::Violated => outcome = Outcome::Unknown,
+                                _ => {}
+                            }
+                        }
+                    }
+                }
+                self.report(source, span, rule, outcome, facts,
+                    if matches!(role, FixRole::Shake) {
+                        "SHAKE precedes an overlapping force modifier; later forces may violate its constraints. Review effective fix order before the run"
+                    } else {
+                        "RATTLE precedes an overlapping integration or force-modifying fix; review effective fix order before the run"
+                    }, diagnostics);
+            }
             for (other_id, other) in fixes.iter().skip(i + 1) {
                 let outcome = if self.fixes.values().all(|f| f.known)
                     && overlap(&fix.group, &other.group) == Some(true)
