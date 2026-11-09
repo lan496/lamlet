@@ -1,0 +1,50 @@
+{
+  "integrator-dev": {
+    "input": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix thermal all nvt temp 0.85 0.85 0.3\nrun 20\nfix ballistic all nve\nrun 40\n",
+    "instruction": "Repair the transition from NVT equilibration to NVE production. Every atom must be integrated exactly once in both phases. Keep every existing command, ID, parameter, and run length. You may insert unfix commands only. The first phase must remain NVT and the second must be NVE.",
+    "kind": "integrator",
+    "reference": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix thermal all nvt temp 0.85 0.85 0.3\nrun 20\nunfix thermal\nfix ballistic all nve\nrun 40\n",
+    "rule": "LML-PHYS-001",
+    "split": "development"
+  },
+  "integrator-reserve": {
+    "input": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix thermal all nvt temp 0.85 0.85 0.3\nrun 30\nfix ballistic all nve\nrun 60\n",
+    "instruction": "Repair the transition from NVT equilibration to NVE production. Every atom must be integrated exactly once in both phases. Keep every existing command, ID, parameter, and run length. You may insert unfix commands only. The first phase must remain NVT and the second must be NVE.",
+    "kind": "integrator",
+    "reference": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix thermal all nvt temp 0.85 0.85 0.3\nrun 30\nunfix thermal\nfix ballistic all nve\nrun 60\n",
+    "rule": "LML-PHYS-001",
+    "split": "held_out"
+  },
+  "orientation-dev": {
+    "input": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83 orient x 1 1 0 orient y 0 1 0 orient z 0 0 1\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix integration all nve\nrun 40\n",
+    "instruction": "Repair the crystal orientation. Keep the specified x and z directions and change only the three integer components of orient y. The directions must be nonzero, mutually orthogonal, and right handed. Preserve every other command, physical parameter, and run length.",
+    "kind": "orientation",
+    "reference": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83 orient x 1 1 0 orient y -1 1 0 orient z 0 0 1\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix integration all nve\nrun 40\n",
+    "rule": "LML-MAN-LATTICE-ORIENTATION",
+    "split": "development"
+  },
+  "orientation-reserve": {
+    "input": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83 orient x 1 0 1 orient y 0 0 1 orient z 0 1 0\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix integration all nve\nrun 40\n",
+    "instruction": "Repair the crystal orientation. Keep the specified x and z directions and change only the three integer components of orient y. The directions must be nonzero, mutually orthogonal, and right handed. Preserve every other command, physical parameter, and run length.",
+    "kind": "orientation",
+    "reference": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83 orient x 1 0 1 orient y 1 0 -1 orient z 0 1 0\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix integration all nve\nrun 40\n",
+    "rule": "LML-MAN-LATTICE-ORIENTATION",
+    "split": "held_out"
+  },
+  "sampling-dev": {
+    "input": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix integration all nve\ncompute kinetic all ke\nfix stats all ave/time 4 7 26 c_kinetic file averages.dat\nrun 120\n",
+    "instruction": "Repair time averaging. Retain 7 samples spaced 4 steps apart and report once at the end of each nonoverlapping sampling window. Change only the output-frequency argument of the stats fix. Keep every other command and parameter, including the run length and output file.",
+    "kind": "sampling",
+    "reference": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix integration all nve\ncompute kinetic all ke\nfix stats all ave/time 4 7 28 c_kinetic file averages.dat\nrun 120\n",
+    "rule": "LML-MAN-AVE-TIME",
+    "split": "development"
+  },
+  "sampling-reserve": {
+    "input": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix integration all nve\ncompute kinetic all ke\nfix stats all ave/time 5 6 32 c_kinetic file averages.dat\nrun 120\n",
+    "instruction": "Repair time averaging. Retain 6 samples spaced 5 steps apart and report once at the end of each nonoverlapping sampling window. Change only the output-frequency argument of the stats fix. Keep every other command and parameter, including the run length and output file.",
+    "kind": "sampling",
+    "reference": "units lj\natom_style atomic\nboundary p p p\nlattice fcc 0.83\nregion cell block 0 4 0 4 0 4 units lattice\ncreate_box 1 cell\ncreate_atoms 1 box\nmass 1 1\npair_style lj/cut 2.5\npair_coeff * * 1 1 2.5\nneighbor 0.3 bin\nneigh_modify delay 0 every 1 check yes\nvelocity all create 0.85 1938472 mom yes rot yes dist gaussian\ntimestep 0.003\nthermo 10\nthermo_style custom step atoms temp pe etotal press\nfix integration all nve\ncompute kinetic all ke\nfix stats all ave/time 5 6 30 c_kinetic file averages.dat\nrun 120\n",
+    "rule": "LML-MAN-AVE-TIME",
+    "split": "held_out"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "cases": [
+    {
+      "agent_verifier_absence": true,
+      "assessment": {
+        "engine_exit": 0,
+        "engine_launches": 1,
+        "engine_stderr": "",
+        "engine_stdout": "LAMMPS (30 Sep 2026 - Development)\nLattice spacing in x,y,z = 1.6891205 1.6891205 1.6891205\nCreated orthogonal box = (0 0 0) to (6.756482 6.756482 6.756482)\n  1 by 1 by 1 MPI processor grid\nCreated 256 atoms\n  using lattice units in orthogonal box = (0 0 0) to (6.756482 6.756482 6.756482)\n  create_atoms CPU = 0.000 seconds\nGenerated 0 of 0 mixed pair_coeff terms from geometric mixing rule\nNeighbor list info ...\n  update: every = 1 steps, delay = 0 steps, check = yes\n  max neighbors/atom: 2000, page size: 100000\n  master list distance cutoff = 2.8\n  ghost atom cutoff = 2.8\n  binsize = 1.4, bins = 5 5 5\n  1 neighbor lists, perpetual/occasional/extra = 1 0 0\n  (1) pair lj/cut, perpetual\n      attributes: half, newton on\n      pair build: half/bin/atomonly/newton\n      stencil: half/bin/3d\n      bin: standard\nSetting up Verlet run ...\n  Unit style    : lj\n  Current step  : 0\n  Time step     : 0.003\nPer MPI rank memory allocation (min/avg/max) = 3.119 | 3.119 | 3.119 Mbytes\n   Step        Atoms         Temp          PotEng         TotEng         Press     \n         0         256   0.85          -6.6467467     -5.3767272     -5.552956     \n        10         256   0.80451866    -6.578428      -5.376364      -5.1270645    \n        20         256   0.63402315    -6.3168116     -5.3694919     -3.7548765    \nLoop time of 0.00171282 on 1 procs for 20 steps with 256 atoms\n\nPerformance: 3026593.034 tau/day, 11676.671 timesteps/s, 2.989 Matom-step/s\n100.0% CPU use with 1 MPI tasks x no OpenMP threads\n\nMPI task timing breakdown:\nSection |  min time  |  avg time  |  max time  |%varavg| %total\n---------------------------------------------------------------\nPair    | 0.0012059  | 0.0012059  | 0.0012059  |   0.0 | 70.40\nNeigh   | 0.00033441 | 0.00033441 | 0.00033441 |   0.0 | 19.52\nComm    | 8.1582e-05 | 8.1582e-05 | 8.1582e-05 |   0.0 |  4.76\nOutput  | 5.833e-06  | 5.833e-06  | 5.833e-06  |   0.0 |  0.34\nModify  | 6.3459e-05 | 6.3459e-05 | 6.3459e-05 |   0.0 |  3.70\nOther   |            | 2.163e-05  |            |       |  1.26\n\nNlocal:            256 ave         256 max         256 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\nNghost:           1431 ave        1431 max        1431 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\nNeighs:           9964 ave        9964 max        9964 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\n\nTotal # of neighbors = 9964\nAve neighs/atom = 38.921875\nNeighbor list builds = 1\nDangerous builds = 0\nGenerated 0 of 0 mixed pair_coeff terms from geometric mixing rule\nSetting up Verlet run ...\n  Unit style    : lj\n  Current step  : 20\n  Time step     : 0.003\nPer MPI rank memory allocation (min/avg/max) = 3.119 | 3.119 | 3.119 Mbytes\n   Step        Atoms         Temp          PotEng         TotEng         Press     \n        20         256   0.63402315    -6.3168116     -5.3694919     -3.7548765    \n        30         256   0.40085292    -5.9676023     -5.3686717     -2.0698975    \n        40         256   0.35541998    -5.9017798     -5.3707324     -1.5987661    \n        50         256   0.40605078    -5.9784235     -5.3717265     -1.8433586    \n        60         256   0.43215746    -6.0192852     -5.3735812     -2.0244262    \nLoop time of 0.00357942 on 1 procs for 40 steps with 256 atoms\n\nPerformance: 2896555.423 tau/day, 11174.982 timesteps/s, 2.861 Matom-step/s\n99.9% CPU use with 1 MPI tasks x no OpenMP threads\n\nMPI task timing breakdown:\nSection |  min time  |  avg time  |  max time  |%varavg| %total\n---------------------------------------------------------------\nPair    | 0.0030074  | 0.0030074  | 0.0030074  |   0.0 | 84.02\nNeigh   | 0.00031954 | 0.00031954 | 0.00031954 |   0.0 |  8.93\nComm    | 0.00014829 | 0.00014829 | 0.00014829 |   0.0 |  4.14\nOutput  | 1.0375e-05 | 1.0375e-05 | 1.0375e-05 |   0.0 |  0.29\nModify  | 5.4708e-05 | 5.4708e-05 | 5.4708e-05 |   0.0 |  1.53\nOther   |            | 3.908e-05  |            |       |  1.09\n\nNlocal:            256 ave         256 max         256 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\nNghost:           1431 ave        1431 max        1431 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\nNeighs:           9618 ave        9618 max        9618 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\n\nTotal # of neighbors = 9618\nAve neighs/atom = 37.570312\nNeighbor list builds = 1\nDangerous builds = 0\nTotal wall time: 0:00:00\n",
+        "full_scientific_validation": false,
+        "reason": "One intended integrator in each phase",
+        "status": "correct",
+        "submission_sha256": "bff90552078eeae13cc04fafe5a1042d23570b2d88ce7bea670aeb686c9f199b"
+      },
+      "exception_type": null,
+      "expected": "correct",
+      "id": "integrator-dev-reference",
+      "passed": true,
+      "reward": 1.0,
+      "seconds": 32.29238112503663,
+      "separate_verifier": true
+    },
+    {
+      "agent_verifier_absence": true,
+      "assessment": {
+        "engine_launches": 0,
+        "full_scientific_validation": false,
+        "reason": "Each phase requires exactly its intended integrator",
+        "status": "incorrect",
+        "submission_sha256": "9475fd837530e17f714263298a08a1388aff038d8d5f9fa3a6668d5acdbf25b8"
+      },
+      "exception_type": null,
+      "expected": "incorrect",
+      "id": "integrator-dev-input",
+      "passed": true,
+      "reward": 0.0,
+      "seconds": 30.822970791021362,
+      "separate_verifier": true
+    },
+    {
+      "agent_verifier_absence": true,
+      "assessment": {
+        "engine_exit": 0,
+        "engine_launches": 1,
+        "engine_stderr": "",
+        "engine_stdout": "LAMMPS (30 Sep 2026 - Development)\nLattice spacing in x,y,z = 2.3887771 2.3887771 1.6891205\nCreated orthogonal box = (0 0 0) to (9.5551085 9.5551085 6.756482)\n  1 by 1 by 1 MPI processor grid\nCreated 512 atoms\n  using lattice units in orthogonal box = (0 0 0) to (9.5551085 9.5551085 6.756482)\n  create_atoms CPU = 0.000 seconds\nGenerated 0 of 0 mixed pair_coeff terms from geometric mixing rule\nNeighbor list info ...\n  update: every = 1 steps, delay = 0 steps, check = yes\n  max neighbors/atom: 2000, page size: 100000\n  master list distance cutoff = 2.8\n  ghost atom cutoff = 2.8\n  binsize = 1.4, bins = 7 7 5\n  1 neighbor lists, perpetual/occasional/extra = 1 0 0\n  (1) pair lj/cut, perpetual\n      attributes: half, newton on\n      pair build: half/bin/atomonly/newton\n      stencil: half/bin/3d\n      bin: standard\nSetting up Verlet run ...\n  Unit style    : lj\n  Current step  : 0\n  Time step     : 0.003\nPer MPI rank memory allocation (min/avg/max) = 3.15 | 3.15 | 3.15 Mbytes\n   Step        Atoms         Temp          PotEng         TotEng         Press     \n         0         512   0.85          -6.6467467     -5.3742369     -5.5515781    \n        10         512   0.80276587    -6.5758531     -5.3740561     -5.1170121    \n        20         512   0.62010029    -6.2976968     -5.369363      -3.6952971    \n        30         512   0.38912807    -5.9501686     -5.3676165     -2.0501072    \n        40         512   0.35933832    -5.907324      -5.3693693     -1.7004919    \nLoop time of 0.00737627 on 1 procs for 40 steps with 512 atoms\n\nPerformance: 1405587.699 tau/day, 5422.792 timesteps/s, 2.776 Matom-step/s\n100.0% CPU use with 1 MPI tasks x no OpenMP threads\n\nMPI task timing breakdown:\nSection |  min time  |  avg time  |  max time  |%varavg| %total\n---------------------------------------------------------------\nPair    | 0.0057845  | 0.0057845  | 0.0057845  |   0.0 | 78.42\nNeigh   | 0.0011917  | 0.0011917  | 0.0011917  |   0.0 | 16.16\nComm    | 0.00021167 | 0.00021167 | 0.00021167 |   0.0 |  2.87\nOutput  | 1.4334e-05 | 1.4334e-05 | 1.4334e-05 |   0.0 |  0.19\nModify  | 0.00011808 | 0.00011808 | 0.00011808 |   0.0 |  1.60\nOther   |            | 5.591e-05  |            |       |  0.76\n\nNlocal:            512 ave         512 max         512 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\nNghost:           1825 ave        1825 max        1825 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\nNeighs:          19496 ave       19496 max       19496 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\n\nTotal # of neighbors = 19496\nAve neighs/atom = 38.078125\nNeighbor list builds = 2\nDangerous builds = 0\nTotal wall time: 0:00:00\n",
+        "full_scientific_validation": false,
+        "reason": "Orthogonal right-handed integer orientation",
+        "status": "correct",
+        "submission_sha256": "6440ddf28865d2b96ef357672e1a5e8438654fd83dab308e166166383c8ae2ef"
+      },
+      "exception_type": null,
+      "expected": "correct",
+      "id": "orientation-dev-reference",
+      "passed": true,
+      "reward": 1.0,
+      "seconds": 31.451839666813612,
+      "separate_verifier": true
+    },
+    {
+      "agent_verifier_absence": true,
+      "assessment": {
+        "engine_launches": 0,
+        "full_scientific_validation": false,
+        "reason": "Directions must be nonzero and orthogonal",
+        "status": "incorrect",
+        "submission_sha256": "75bec9f3ce36ed259144f1853af366c9ed1097949284267fd42f715de43fc693"
+      },
+      "exception_type": null,
+      "expected": "incorrect",
+      "id": "orientation-dev-input",
+      "passed": true,
+      "reward": 0.0,
+      "seconds": 31.031042583985254,
+      "separate_verifier": true
+    },
+    {
+      "agent_verifier_absence": true,
+      "assessment": {
+        "engine_exit": 0,
+        "engine_launches": 1,
+        "engine_stderr": "",
+        "engine_stdout": "LAMMPS (30 Sep 2026 - Development)\nLattice spacing in x,y,z = 1.6891205 1.6891205 1.6891205\nCreated orthogonal box = (0 0 0) to (6.756482 6.756482 6.756482)\n  1 by 1 by 1 MPI processor grid\nCreated 256 atoms\n  using lattice units in orthogonal box = (0 0 0) to (6.756482 6.756482 6.756482)\n  create_atoms CPU = 0.000 seconds\nGenerated 0 of 0 mixed pair_coeff terms from geometric mixing rule\nNeighbor list info ...\n  update: every = 1 steps, delay = 0 steps, check = yes\n  max neighbors/atom: 2000, page size: 100000\n  master list distance cutoff = 2.8\n  ghost atom cutoff = 2.8\n  binsize = 1.4, bins = 5 5 5\n  1 neighbor lists, perpetual/occasional/extra = 1 0 0\n  (1) pair lj/cut, perpetual\n      attributes: half, newton on\n      pair build: half/bin/atomonly/newton\n      stencil: half/bin/3d\n      bin: standard\nSetting up Verlet run ...\n  Unit style    : lj\n  Current step  : 0\n  Time step     : 0.003\nPer MPI rank memory allocation (min/avg/max) = 3.119 | 3.119 | 3.119 Mbytes\n   Step        Atoms         Temp          PotEng         TotEng         Press     \n         0         256   0.85          -6.6467467     -5.3767272     -5.552956     \n        10         256   0.80444957    -6.5784292     -5.3764685     -5.1271298    \n        20         256   0.63304087    -6.3169325     -5.3710804     -3.7563454    \n        30         256   0.4001993     -5.9682144     -5.3702604     -2.073536     \n        40         256   0.35485615    -5.9025251     -5.3723201     -1.6031565    \n        50         256   0.40545699    -5.9791878     -5.373378      -1.8477796    \n        60         256   0.43156757    -6.0199907     -5.375168      -2.0287866    \n        70         256   0.41619035    -5.9984245     -5.3765776     -1.9781765    \n        80         256   0.4064856     -5.9828768     -5.3755302     -1.9341288    \n        90         256   0.42414032    -6.0101444     -5.3764192     -2.0228726    \n       100         256   0.41825064    -6.0009368     -5.3760115     -1.9767421    \n       110         256   0.40546987    -5.9818675     -5.3760384     -1.8983944    \n       120         256   0.41646628    -5.9970519     -5.3747927     -1.9652497    \nLoop time of 0.0132643 on 1 procs for 120 steps with 256 atoms\n\nPerformance: 2344933.507 tau/day, 9046.811 timesteps/s, 2.316 Matom-step/s\n99.3% CPU use with 1 MPI tasks x no OpenMP threads\n\nMPI task timing breakdown:\nSection |  min time  |  avg time  |  max time  |%varavg| %total\n---------------------------------------------------------------\nPair    | 0.010638   | 0.010638   | 0.010638   |   0.0 | 80.20\nNeigh   | 0.0018159  | 0.0018159  | 0.0018159  |   0.0 | 13.69\nComm    | 0.00045312 | 0.00045312 | 0.00045312 |   0.0 |  3.42\nOutput  | 2.806e-05  | 2.806e-05  | 2.806e-05  |   0.0 |  0.21\nModify  | 0.00021919 | 0.00021919 | 0.00021919 |   0.0 |  1.65\nOther   |            | 0.0001099  |            |       |  0.83\n\nNlocal:            256 ave         256 max         256 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\nNghost:           1419 ave        1419 max        1419 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\nNeighs:           9542 ave        9542 max        9542 min\nHistogram: 1 0 0 0 0 0 0 0 0 0\n\nTotal # of neighbors = 9542\nAve neighs/atom = 37.273438\nNeighbor list builds = 6\nDangerous builds = 0\nTotal wall time: 0:00:00\n",
+        "full_scientific_validation": false,
+        "reason": "Averaging windows are contiguous and nonoverlapping",
+        "status": "correct",
+        "submission_sha256": "9c22553929246faa7e045e0f71b3a83996ff439460033107badbc77f9e2b0bb5"
+      },
+      "exception_type": null,
+      "expected": "correct",
+      "id": "sampling-dev-reference",
+      "passed": true,
+      "reward": 1.0,
+      "seconds": 32.37884395895526,
+      "separate_verifier": true
+    },
+    {
+      "agent_verifier_absence": true,
+      "assessment": {
+        "engine_launches": 0,
+        "full_scientific_validation": false,
+        "reason": "The output frequency does not equal the sampling window",
+        "status": "incorrect",
+        "submission_sha256": "845e74e8135de6e22181d97358a07a9e6285ff81e0340979be2944329d3d662e"
+      },
+      "exception_type": null,
+      "expected": "incorrect",
+      "id": "sampling-dev-input",
+      "passed": true,
+      "reward": 0.0,
+      "seconds": 31.66493537509814,
+      "separate_verifier": true
+    },
+    {
+      "agent_verifier_absence": true,
+      "assessment": {
+        "engine_launches": 0,
+        "full_scientific_validation": false,
+        "reason": "Outside the restricted static contract: Dynamic expressions and continuations are outside this repair contract",
+        "status": "unassessed",
+        "submission_sha256": "0f56e0607cc02d87b6c5909ab2c4ddefcc957c7b2ed2cbbac37ea1e7574b1fd6"
+      },
+      "exception_type": "RewardFileNotFoundError",
+      "expected": "unassessed",
+      "id": "sampling-dev-unsupported",
+      "passed": true,
+      "reward": null,
+      "seconds": 33.12077562487684,
+      "separate_verifier": true
+    }
+  ],
+  "manifest_sha256": "cfb5e28b6f4e6effebf504847e605f1ad4bcc97db0cd85a5264948ee572c53e9",
+  "model_trials": 0,
+  "passed": true
+}

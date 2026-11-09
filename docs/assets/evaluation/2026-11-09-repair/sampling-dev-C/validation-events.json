@@ -1,0 +1,12 @@
+[
+  {
+    "candidate_sha256": "9c22553929246faa7e045e0f71b3a83996ff439460033107badbc77f9e2b0bb5",
+    "time_ns": 1794198654016612808,
+    "tool": "lmp"
+  },
+  {
+    "candidate_sha256": "9c22553929246faa7e045e0f71b3a83996ff439460033107badbc77f9e2b0bb5",
+    "time_ns": 1794198654017399532,
+    "tool": "lamlet"
+  }
+]

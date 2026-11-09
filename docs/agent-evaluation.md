@@ -1,5 +1,16 @@
 # Evaluating Lamlet as an agent validation tool
 
+## Prospective repair pilot, 9 November 2026
+
+A separate [six-trial repair pilot](repair-pilot.md) used frozen tasks, checker,
+verifier, and budgets. A completed 3/3 assigned trials; C completed 2/3, with one
+environment-setup failure before Codex execution. All five submitted inputs
+passed their independent repair contracts and short trajectories. No revision
+after validation feedback was observed. These results do not establish an
+improvement from Lamlet; independent human review and a broader comparison remain
+outstanding. The report retains missing outcomes, usage evidence, and the timing
+inconsistency that prevents an agent-runtime comparison.
+
 ## Development pilot results, 8 November 2026
 
 A post hoc regrade with P3 protocol-v2 resolved all four submitted inputs as

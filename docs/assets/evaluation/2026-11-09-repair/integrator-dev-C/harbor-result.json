@@ -1,0 +1,14 @@
+{
+  "agent_execution": null,
+  "agent_setup": {
+    "finished_at": "2026-11-09T02:24:02.015640Z",
+    "started_at": "2026-11-09T02:18:40.629443Z"
+  },
+  "environment_setup": {
+    "finished_at": "2026-11-09T02:18:40.629355Z",
+    "started_at": "2026-11-09T02:18:38.717502Z"
+  },
+  "verifier": null,
+  "verifier_environment_mode": "separate",
+  "verifier_result": null
+}

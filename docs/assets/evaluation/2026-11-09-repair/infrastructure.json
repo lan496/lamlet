@@ -1,0 +1,12 @@
+{
+  "integrator-dev-C": {
+    "agent_execution_started": false,
+    "diagnostic_excerpt": [
+      "#####################                                                     30.0%curl: (18) HTTP/2 stream 1 was not closed cleanly before end of the underlying stream",
+      "download from https://nodejs.org/dist/v22.23.4/node-v22.23.4-linux-arm64.tar.xz failed"
+    ],
+    "node_download_failure": true,
+    "replacement_trial": false,
+    "type": "NetworkConnectionError"
+  }
+}

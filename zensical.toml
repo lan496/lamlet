@@ -35,6 +35,7 @@ nav = [
     { "Lint evaluation" = "lint-evaluation.md" },
     { "Processing benchmarks" = "performance.md" },
     { "Agent evaluation" = "agent-evaluation.md" },
+    { "Repair pilot" = "repair-pilot.md" },
     { "P3 pilot" = "p3-pilot.md" },
   ] },
 ]

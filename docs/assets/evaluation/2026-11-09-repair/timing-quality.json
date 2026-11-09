@@ -1,0 +1,11 @@
+{
+  "agent_execution_seconds_measured": false,
+  "all_successes_whole_trial_within_180_seconds": true,
+  "inconsistent_trials": [
+    "orientation-dev-C",
+    "orientation-dev-A",
+    "sampling-dev-C"
+  ],
+  "reason": "Harbor wall timestamp intervals exceed monotonic whole-trial durations; retain raw intervals but do not use them as execution times",
+  "whole_trial_seconds_clock": "host time.perf_counter, including setup and verification"
+}

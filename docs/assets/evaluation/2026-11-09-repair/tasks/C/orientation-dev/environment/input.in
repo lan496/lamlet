@@ -1,0 +1,18 @@
+units lj
+atom_style atomic
+boundary p p p
+lattice fcc 0.83 orient x 1 1 0 orient y 0 1 0 orient z 0 0 1
+region cell block 0 4 0 4 0 4 units lattice
+create_box 1 cell
+create_atoms 1 box
+mass 1 1
+pair_style lj/cut 2.5
+pair_coeff * * 1 1 2.5
+neighbor 0.3 bin
+neigh_modify delay 0 every 1 check yes
+velocity all create 0.85 1938472 mom yes rot yes dist gaussian
+timestep 0.003
+thermo 10
+thermo_style custom step atoms temp pe etotal press
+fix integration all nve
+run 40

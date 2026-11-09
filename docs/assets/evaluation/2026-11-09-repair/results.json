@@ -1,0 +1,166 @@
+{
+  "complete": true,
+  "conditions": {
+    "A": {
+      "assigned": 3,
+      "correct": 3,
+      "engine_launches": 3,
+      "success_at_180_seconds": {
+        "denominator": 3,
+        "numerator": 3
+      },
+      "tool_calls": 9
+    },
+    "C": {
+      "assigned": 3,
+      "correct": 2,
+      "engine_launches": 3,
+      "success_at_180_seconds": {
+        "denominator": 3,
+        "numerator": 2
+      },
+      "tool_calls": 8,
+      "unassessed": 1
+    }
+  },
+  "trials": [
+    {
+      "agent_seconds": null,
+      "agent_seconds_reliable": false,
+      "condition": "A",
+      "engine_launches": 1,
+      "exception_type": null,
+      "harbor_timestamp_interval_seconds": 18.84457,
+      "id": "integrator-dev-A",
+      "lamlet_checks": 0,
+      "provider_error_count": 0,
+      "reward": 1.0,
+      "status": "correct",
+      "success": true,
+      "task": "integrator-dev",
+      "tokens": {
+        "cached_input_tokens": 29056,
+        "input_tokens": 50731,
+        "output_tokens": 557
+      },
+      "tool_calls": 3,
+      "validated_candidate_transitions": 0,
+      "wall_seconds": 113.82284116605297
+    },
+    {
+      "agent_seconds": null,
+      "agent_seconds_reliable": false,
+      "condition": "C",
+      "engine_launches": 0,
+      "exception_type": "NetworkConnectionError",
+      "harbor_timestamp_interval_seconds": null,
+      "id": "integrator-dev-C",
+      "lamlet_checks": 0,
+      "provider_error_count": 0,
+      "reward": null,
+      "status": "unassessed",
+      "success": false,
+      "task": "integrator-dev",
+      "tokens": {
+        "cached_input_tokens": null,
+        "input_tokens": null,
+        "output_tokens": null
+      },
+      "tool_calls": 0,
+      "validated_candidate_transitions": null,
+      "wall_seconds": 72.36053937487304
+    },
+    {
+      "agent_seconds": null,
+      "agent_seconds_reliable": false,
+      "condition": "C",
+      "engine_launches": 2,
+      "exception_type": null,
+      "harbor_timestamp_interval_seconds": 1028.484734,
+      "id": "orientation-dev-C",
+      "lamlet_checks": 2,
+      "provider_error_count": 0,
+      "reward": 1.0,
+      "status": "correct",
+      "success": true,
+      "task": "orientation-dev",
+      "tokens": {
+        "cached_input_tokens": 35328,
+        "input_tokens": 68620,
+        "output_tokens": 1282
+      },
+      "tool_calls": 4,
+      "validated_candidate_transitions": 0,
+      "wall_seconds": 136.61446858313866
+    },
+    {
+      "agent_seconds": null,
+      "agent_seconds_reliable": false,
+      "condition": "A",
+      "engine_launches": 1,
+      "exception_type": null,
+      "harbor_timestamp_interval_seconds": 1057.266731,
+      "id": "orientation-dev-A",
+      "lamlet_checks": 0,
+      "provider_error_count": 0,
+      "reward": 1.0,
+      "status": "correct",
+      "success": true,
+      "task": "orientation-dev",
+      "tokens": {
+        "cached_input_tokens": 24832,
+        "input_tokens": 50369,
+        "output_tokens": 574
+      },
+      "tool_calls": 3,
+      "validated_candidate_transitions": 0,
+      "wall_seconds": 141.99655233393423
+    },
+    {
+      "agent_seconds": null,
+      "agent_seconds_reliable": false,
+      "condition": "A",
+      "engine_launches": 1,
+      "exception_type": null,
+      "harbor_timestamp_interval_seconds": 18.628324,
+      "id": "sampling-dev-A",
+      "lamlet_checks": 0,
+      "provider_error_count": 0,
+      "reward": 1.0,
+      "status": "correct",
+      "success": true,
+      "task": "sampling-dev",
+      "tokens": {
+        "cached_input_tokens": 42880,
+        "input_tokens": 52504,
+        "output_tokens": 572
+      },
+      "tool_calls": 3,
+      "validated_candidate_transitions": 0,
+      "wall_seconds": 142.435374249937
+    },
+    {
+      "agent_seconds": null,
+      "agent_seconds_reliable": false,
+      "condition": "C",
+      "engine_launches": 1,
+      "exception_type": null,
+      "harbor_timestamp_interval_seconds": 985.565468,
+      "id": "sampling-dev-C",
+      "lamlet_checks": 1,
+      "provider_error_count": 0,
+      "reward": 1.0,
+      "status": "correct",
+      "success": true,
+      "task": "sampling-dev",
+      "tokens": {
+        "cached_input_tokens": 71552,
+        "input_tokens": 72888,
+        "output_tokens": 819
+      },
+      "tool_calls": 4,
+      "validated_candidate_transitions": 0,
+      "wall_seconds": 158.70963708288036
+    }
+  ]
+}
