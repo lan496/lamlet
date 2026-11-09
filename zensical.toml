@@ -39,6 +39,7 @@ nav = [
     { "Repair pilot" = "repair-pilot.md" },
     { "Constraint validation" = "constraint-validation.md" },
     { "Natural defect corpus" = "defect-corpus.md" },
+    { "Natural-report diagnostic audit" = "natural-diagnostic-audit.md" },
     { "P3 pilot" = "p3-pilot.md" },
   ] },
 ]

@@ -26,6 +26,10 @@ which evidence is needed to convert such reports into reproducible defect and
 correction pairs. It complements the [fixed lint-condition evaluation](lint-evaluation.md)
 and the [controlled constraint calculations](constraint-validation.md).
 
+A separate [diagnostic audit](natural-diagnostic-audit.md) compares the frozen
+replays with the existing checker. Its observations and compatibility checks are
+reported separately from this native collection experiment.
+
 The criterion is a demonstrated violation of a stated condition, followed by a
 correction that satisfies the same condition. Normal termination alone is
 insufficient. A report of unexpected behavior also does not establish an input

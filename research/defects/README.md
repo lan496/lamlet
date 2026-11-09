@@ -122,6 +122,45 @@ omits source inputs and generated simulation files; the engine was launched
 with `-echo none`. Its executable hash is recorded, but the runner does not
 verify the declared engine source revision automatically.
 
+## Frozen diagnostic audit
+
+The checker audit plan in `diagnostic-audit.json` was committed before collecting
+Lamlet observations. It pins the native evidence, checker source revision,
+target rules and subjects, and conditions excluded from native comparisons.
+The CLI is unchanged. The audit retains absent targets, Unknown findings,
+infrastructure failures, and compatibility outcomes separately. The velocity
+reconstruction has external intent and no assumed static detector.
+
+```sh
+python3 tools/defect_diagnostics.py run \
+  --cache target/defect-pilot-20261109/sources --output target/diagnostic-audit-new
+python3 tools/defect_diagnostics.py verify \
+  --archive docs/assets/defect-diagnostics/2026-11-09
+python3 tools/defect_diagnostics.py prepare-review --output target/condition-review-new
+python3 tools/defect_diagnostics.py validate-review \
+  --review docs/assets/defect-diagnostics/review/review.json
+```
+
+`run` requires the exact original cache and a new output directory. It reproduces
+the input hashes, records the binary hash and declared source revision, and
+captures normal, strict, and build CLI JSON plus emitted-file hashes. The runner
+does not independently establish the binary's declared source revision. Its
+exit 0 indicates collection and legacy controls succeeded; failed diagnostic
+predictions remain observations. Exit 1 records per-mode infrastructure or
+compatibility failures, and exit 2 records invalid inputs or integrity failures.
+
+Offline `verify` checks the full inventory and recomputes the report, without
+rerunning the binary or verifying uncached source bytes. The
+[results page](../../docs/natural-diagnostic-audit.md) reports a missed GCMC
+normalization condition and preserved legacy compatibility. Historical native
+evidence remains unchanged.
+
+The review packet omits checker observations. The published review is pending,
+so `validate-review` exits 1. Named, independence-attested reviewers must give a
+reason for every non-pending decision. The validator checks evidence hashes and
+form completeness, not reviewer identity or scientific truth. Even an all-agree
+form does not automatically admit gold defect pairs.
+
 ## Future evaluation splits
 
 Freeze the case selection, labels, independent tests, and executable profile

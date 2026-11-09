@@ -1,0 +1,69 @@
+{
+  "cases": [
+    {
+      "basis": "command_acceptance",
+      "expected_target": {
+        "after": "satisfied",
+        "before": "violated"
+      },
+      "id": "orientation",
+      "scope": "Argument acceptance for one extracted command; reconstructed integer-scaled correction, no complete crystal.",
+      "target_rule": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+      "target_subject": null
+    },
+    {
+      "basis": "execution_only",
+      "expected_target": {
+        "after": null,
+        "before": null
+      },
+      "id": "averaging",
+      "scope": "Historical write_dump failure did not reproduce on the pinned modern engine. Successful execution is not a physical-validity label.",
+      "target_rule": null,
+      "target_subject": null
+    },
+    {
+      "basis": "unassessed",
+      "expected_target": {
+        "after": "satisfied",
+        "before": "violated"
+      },
+      "id": "gcmc-original",
+      "scope": "Both million-step variants timed out. Static observations are retained but excluded from native-condition comparisons.",
+      "target_rule": "LML-PHYS-010",
+      "target_subject": "fix NVT temperature selection"
+    },
+    {
+      "basis": "temperature_normalization",
+      "expected_target": {
+        "after": "satisfied",
+        "before": "violated"
+      },
+      "id": "gcmc-instrumented",
+      "scope": "A 400-step derivative tests the thermostat compute normalization, not equilibration or the reported long-time freezing.",
+      "target_rule": "LML-PHYS-010",
+      "target_subject": "fix NVT temperature selection"
+    },
+    {
+      "basis": "kinetic_energy",
+      "expected_target": {
+        "after": null,
+        "before": null
+      },
+      "id": "velocity",
+      "scope": "New one-atom reconstruction with an externally stated box-unit speed. The legacy command alone does not state the intended units; no detector is assumed.",
+      "target_rule": null,
+      "target_subject": null
+    }
+  ],
+  "checker_source_commit": "3b6e05aede55550604ce871bd57439b7bf568911",
+  "gold_defect_pairs": 0,
+  "independent_review": "pending",
+  "native_archive": "docs/assets/defect-corpus/2026-11-09",
+  "native_inventory_sha256": "ca62fcd473f3e4c14ad064b4bc957caa72ede7780c71cbcd013cb5a42676bfb2",
+  "native_report_sha256": "f60772daa61165a76e6133b6d1bdf83cb58c3a690e77ee98a79c3e04e91225e1",
+  "schema_version": 1,
+  "source_lock_sha256": "2d9d269d6693e805a481f8248d8b235ae27c073c4824492a1c0f58b5417da49c",
+  "source_manifest_sha256": "a4b5be100585dfab583b1487d3a99d5d36e8ad2946bfe5376ace9e259abb31c6",
+  "split": "development"
+}
