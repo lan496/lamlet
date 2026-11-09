@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "cohort": "lammps-category-2026-11-09",
+  "discovery_archive": "docs/assets/defect-discovery/2026-11-09",
+  "discovery_inventory_sha256": "9964724ed98925565e6347f6102c1651ead3d232ea7b4c0ba11f22819e7f88af",
+  "coverage": "Read every captured post for all twelve selected topics, including final replies, corrections, and retractions. Retain every topic in the screening denominator.",
+  "classification": ["input_report", "engine_report", "build_environment", "usage_question", "announcement", "feature_request"],
+  "decisions": {
+    "replay_candidate": "A reported input condition has a stated intent, bounded test, explicit source-backed correction, recoverable original input and relevant dependencies. This authorizes preparation, not a validity label.",
+    "needs_evidence": "An input report may support a bounded condition but lacks a correction, recoverable input, relevant dependency, or sufficiently specified intent. Record the gap and a specific next action.",
+    "excluded": "The discussion concerns engine behavior, compilation/environment, an announcement, a feature request, or a usage question without a reported incorrect input. Preserve its evidence and reason; exclusion does not assert input validity."
+  },
+  "evidence": "Record complete post-number coverage, cited post numbers with short exact text anchors, artifact receipts, intent, condition, proposed correction, dependency gaps, rationale, and next action. Examine captured text artifacts only as data; do not execute or unpack attachments.",
+  "review": "Codex model-assisted development screening. No independent human adjudication or proof of reviewer identity. The validator checks evidence integrity and form consistency, not the truth of interpretations or that reading occurred.",
+  "exposure": "Titles and structural counts were visible during discovery. Criteria are fixed before complete-thread screening. These are development sources; no blinded or held-out evaluation is claimed.",
+  "bounds": "No native simulations, checker observations, or agent trials. No automatic gold admission. Original discovery metadata, pending form, and historical archives remain unchanged."
+}
