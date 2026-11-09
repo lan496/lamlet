@@ -1,0 +1,438 @@
+{
+  "agent_trials": 0,
+  "binary": {
+    "declared_source_commit": "0c658e13bf00770086fe8ca11679555046f4f00c",
+    "sha256": "a9004de69ea905dadc1f6656a67ab7aee7f0c35601eb98b186131c8ff099c1df",
+    "version": "lamlet-cli 0.1.0"
+  },
+  "cases": [
+    {
+      "declared_target_matched": true,
+      "diagnostics_sha256": {
+        "build": "cafbeca26fa0e219c1643e04eb90ff9f272ebc5c315f74b9e76f2b2097d49748",
+        "check": "cafbeca26fa0e219c1643e04eb90ff9f272ebc5c315f74b9e76f2b2097d49748",
+        "strict": "cafbeca26fa0e219c1643e04eb90ff9f272ebc5c315f74b9e76f2b2097d49748"
+      },
+      "id": "orientation/before",
+      "infrastructure_failures": 0,
+      "input_sha256": "6b2044f318fdc2814b095b49739ff3add2f4d77fe3cd3722df51bc1428feb62c",
+      "kind": "source_fragment_with_reconstructed_correction",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [
+          "violated"
+        ],
+        "target_state": "violated",
+        "target_warned": true,
+        "unknown_rules": [
+          "LML-MAN-LATTICE-ORIENTATION"
+        ],
+        "warnings": [
+          "LML-MAN-LATTICE-ORIENT-INTEGERS"
+        ]
+      },
+      "reference_status": "violated",
+      "source": "m18394",
+      "target_rule": "LML-MAN-LATTICE-ORIENT-INTEGERS"
+    },
+    {
+      "declared_target_matched": true,
+      "diagnostics_sha256": {
+        "build": "94af34f70f55e3cd2b68421355e92dbc4b2be3105d82d49da61a7d8dcd3ebb86",
+        "check": "94af34f70f55e3cd2b68421355e92dbc4b2be3105d82d49da61a7d8dcd3ebb86",
+        "strict": "94af34f70f55e3cd2b68421355e92dbc4b2be3105d82d49da61a7d8dcd3ebb86"
+      },
+      "id": "orientation/after",
+      "infrastructure_failures": 0,
+      "input_sha256": "7f9d7da9579c3730b72c1caa864dde4cef3cffa1b9ee9ae3afe3cf3d1a9d9394",
+      "kind": "source_fragment_with_reconstructed_correction",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [
+          "satisfied"
+        ],
+        "target_state": "satisfied",
+        "target_warned": false,
+        "unknown_rules": [],
+        "warnings": []
+      },
+      "reference_status": "satisfied",
+      "source": "m18394",
+      "target_rule": "LML-MAN-LATTICE-ORIENT-INTEGERS"
+    },
+    {
+      "declared_target_matched": null,
+      "diagnostics_sha256": {
+        "build": "79571955fb1867f1b29b49aebd5e8ead7240bdd7b52ed93f565edba2f4787c85",
+        "check": "79571955fb1867f1b29b49aebd5e8ead7240bdd7b52ed93f565edba2f4787c85",
+        "strict": "79571955fb1867f1b29b49aebd5e8ead7240bdd7b52ed93f565edba2f4787c85"
+      },
+      "id": "averaging/before",
+      "infrastructure_failures": 0,
+      "input_sha256": "829b3a1b7d24ff982bf1299bb145b7a5eeb44cb23e976200a8afd33169d3ebfa",
+      "kind": "complete_attachment_with_proposed_correction",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [],
+        "target_state": "unmapped",
+        "target_warned": false,
+        "unknown_rules": [
+          "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+          "LML-MAN-KSPACE-EXCLUSIONS",
+          "LML-MAN-NEIGHBOR-PAGE",
+          "LML-MAN-PAIR_COEFF-AFTER-BOX",
+          "LML-MAN-UNITS-BEFORE-BOX"
+        ],
+        "warnings": []
+      },
+      "reference_status": "execution_only",
+      "source": "m34056",
+      "target_rule": null
+    },
+    {
+      "declared_target_matched": null,
+      "diagnostics_sha256": {
+        "build": "0ba7cfae099856927fe9ee8531e87015969d122b851051274e7610dfbb7c6fa1",
+        "check": "0ba7cfae099856927fe9ee8531e87015969d122b851051274e7610dfbb7c6fa1",
+        "strict": "0ba7cfae099856927fe9ee8531e87015969d122b851051274e7610dfbb7c6fa1"
+      },
+      "id": "averaging/after",
+      "infrastructure_failures": 0,
+      "input_sha256": "cbcbc711816fb6175722c41e563c739d3ffa2d8455fbf2944ec50ce87254b6fc",
+      "kind": "complete_attachment_with_proposed_correction",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [],
+        "target_state": "unmapped",
+        "target_warned": false,
+        "unknown_rules": [
+          "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+          "LML-MAN-KSPACE-EXCLUSIONS",
+          "LML-MAN-NEIGHBOR-PAGE",
+          "LML-MAN-PAIR_COEFF-AFTER-BOX",
+          "LML-MAN-UNITS-BEFORE-BOX"
+        ],
+        "warnings": []
+      },
+      "reference_status": "execution_only",
+      "source": "m34056",
+      "target_rule": null
+    },
+    {
+      "declared_target_matched": true,
+      "diagnostics_sha256": {
+        "build": "31038746659f95c5064fb62375b596e2f888f1583a8dfbc174d2ce146a23c25d",
+        "check": "31038746659f95c5064fb62375b596e2f888f1583a8dfbc174d2ce146a23c25d",
+        "strict": "31038746659f95c5064fb62375b596e2f888f1583a8dfbc174d2ce146a23c25d"
+      },
+      "id": "gcmc-original/before",
+      "infrastructure_failures": 0,
+      "input_sha256": "ae609861e7e5e9e241ef4a67d8d6027471c14549ae41b2311a71337511d5d718",
+      "kind": "complete_inline_with_reported_correction",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [
+          "violated"
+        ],
+        "target_state": "violated",
+        "target_warned": true,
+        "unknown_rules": [
+          "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+          "LML-MAN-BOUNDARY-BEFORE-BOX",
+          "LML-MAN-FIX-GCMC-3D",
+          "LML-MAN-FIX-GCMC-SEED",
+          "LML-MAN-KSPACE-EXCLUSIONS",
+          "LML-MAN-MASS-AFTER-BOX",
+          "LML-MAN-NH-DRAG",
+          "LML-MAN-PAIR_COEFF-AFTER-BOX",
+          "LML-MAN-THERMO_STYLE-AFTER-BOX",
+          "LML-MAN-UNITS-BEFORE-BOX",
+          "LML-PHYS-002",
+          "LML-PHYS-010"
+        ],
+        "warnings": [
+          "LML-PHYS-010"
+        ]
+      },
+      "reference_status": "unassessed",
+      "source": "m37447",
+      "target_rule": "LML-PHYS-010"
+    },
+    {
+      "declared_target_matched": true,
+      "diagnostics_sha256": {
+        "build": "ed520bd562dd15c18c19aff693ea7ba9056853d6dccb76747e01128c87000f1f",
+        "check": "ed520bd562dd15c18c19aff693ea7ba9056853d6dccb76747e01128c87000f1f",
+        "strict": "ed520bd562dd15c18c19aff693ea7ba9056853d6dccb76747e01128c87000f1f"
+      },
+      "id": "gcmc-original/after",
+      "infrastructure_failures": 0,
+      "input_sha256": "5fc6f13881c3e9485c25a52e2b14928d285b527006c80a39f6409a1d05484c1f",
+      "kind": "complete_inline_with_reported_correction",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [
+          "satisfied"
+        ],
+        "target_state": "satisfied",
+        "target_warned": false,
+        "unknown_rules": [
+          "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+          "LML-MAN-BOUNDARY-BEFORE-BOX",
+          "LML-MAN-FIX-GCMC-3D",
+          "LML-MAN-FIX-GCMC-SEED",
+          "LML-MAN-KSPACE-EXCLUSIONS",
+          "LML-MAN-MASS-AFTER-BOX",
+          "LML-MAN-NH-DRAG",
+          "LML-MAN-PAIR_COEFF-AFTER-BOX",
+          "LML-MAN-THERMO_STYLE-AFTER-BOX",
+          "LML-MAN-UNITS-BEFORE-BOX",
+          "LML-PHYS-002",
+          "LML-PHYS-010"
+        ],
+        "warnings": []
+      },
+      "reference_status": "unassessed",
+      "source": "m37447",
+      "target_rule": "LML-PHYS-010"
+    },
+    {
+      "declared_target_matched": true,
+      "diagnostics_sha256": {
+        "build": "9ad75de08e1bdc2d0d6fbfbada46d7a16e43d2a123f5ac5750300492e6c8514b",
+        "check": "9ad75de08e1bdc2d0d6fbfbada46d7a16e43d2a123f5ac5750300492e6c8514b",
+        "strict": "9ad75de08e1bdc2d0d6fbfbada46d7a16e43d2a123f5ac5750300492e6c8514b"
+      },
+      "id": "gcmc-instrumented/before",
+      "infrastructure_failures": 0,
+      "input_sha256": "4657b4decaec307855b303abec222b0d80cb5869774fcbce1f69ac69dc106779",
+      "kind": "shortened_instrumented_replay",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [
+          "violated"
+        ],
+        "target_state": "violated",
+        "target_warned": true,
+        "unknown_rules": [
+          "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+          "LML-MAN-BOUNDARY-BEFORE-BOX",
+          "LML-MAN-FIX-GCMC-3D",
+          "LML-MAN-FIX-GCMC-SEED",
+          "LML-MAN-KSPACE-EXCLUSIONS",
+          "LML-MAN-MASS-AFTER-BOX",
+          "LML-MAN-NH-DRAG",
+          "LML-MAN-PAIR_COEFF-AFTER-BOX",
+          "LML-MAN-THERMO_STYLE-AFTER-BOX",
+          "LML-MAN-UNITS-BEFORE-BOX",
+          "LML-PHYS-002"
+        ],
+        "warnings": [
+          "LML-PHYS-010"
+        ]
+      },
+      "reference_status": "violated",
+      "source": "m37447",
+      "target_rule": "LML-PHYS-010"
+    },
+    {
+      "declared_target_matched": true,
+      "diagnostics_sha256": {
+        "build": "bbd525fd1800c9a7d7368bd70adbb24e9e3cac24d11457ac1fb352c11d9bafe2",
+        "check": "bbd525fd1800c9a7d7368bd70adbb24e9e3cac24d11457ac1fb352c11d9bafe2",
+        "strict": "bbd525fd1800c9a7d7368bd70adbb24e9e3cac24d11457ac1fb352c11d9bafe2"
+      },
+      "id": "gcmc-instrumented/after",
+      "infrastructure_failures": 0,
+      "input_sha256": "83d8e7694f76c2ebe3b106953139e128f0813c4c2b8b437ca515e4a496e03ba6",
+      "kind": "shortened_instrumented_replay",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [
+          "satisfied"
+        ],
+        "target_state": "satisfied",
+        "target_warned": false,
+        "unknown_rules": [
+          "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+          "LML-MAN-BOUNDARY-BEFORE-BOX",
+          "LML-MAN-FIX-GCMC-3D",
+          "LML-MAN-FIX-GCMC-SEED",
+          "LML-MAN-KSPACE-EXCLUSIONS",
+          "LML-MAN-MASS-AFTER-BOX",
+          "LML-MAN-NH-DRAG",
+          "LML-MAN-PAIR_COEFF-AFTER-BOX",
+          "LML-MAN-THERMO_STYLE-AFTER-BOX",
+          "LML-MAN-UNITS-BEFORE-BOX",
+          "LML-PHYS-002"
+        ],
+        "warnings": []
+      },
+      "reference_status": "satisfied",
+      "source": "m37447",
+      "target_rule": "LML-PHYS-010"
+    },
+    {
+      "declared_target_matched": null,
+      "diagnostics_sha256": {
+        "build": "4c8c1ffd583dec29c29309b5125b291cc42651b273ea5b3397fa7e51eb9c88b7",
+        "check": "4c8c1ffd583dec29c29309b5125b291cc42651b273ea5b3397fa7e51eb9c88b7",
+        "strict": "4c8c1ffd583dec29c29309b5125b291cc42651b273ea5b3397fa7e51eb9c88b7"
+      },
+      "id": "velocity/before",
+      "infrastructure_failures": 0,
+      "input_sha256": "0c0dcdda7d9f01a48c7b0da84fb0553cd3bcd3e91ba7e82b5cc0ac22db822911",
+      "kind": "model_reconstruction",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [],
+        "target_state": "unmapped",
+        "target_warned": false,
+        "unknown_rules": [
+          "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+          "LML-MAN-KSPACE-EXCLUSIONS",
+          "LML-MAN-UNITS-BEFORE-BOX"
+        ],
+        "warnings": []
+      },
+      "reference_status": "violated",
+      "source": "m56524",
+      "target_rule": null
+    },
+    {
+      "declared_target_matched": null,
+      "diagnostics_sha256": {
+        "build": "15dbfb032e5c97d715290746c65a6e0fc84fa99ad8f4a7b584b0cae7bf23e277",
+        "check": "15dbfb032e5c97d715290746c65a6e0fc84fa99ad8f4a7b584b0cae7bf23e277",
+        "strict": "15dbfb032e5c97d715290746c65a6e0fc84fa99ad8f4a7b584b0cae7bf23e277"
+      },
+      "id": "velocity/after",
+      "infrastructure_failures": 0,
+      "input_sha256": "7b34c6b723b71adf5c94a5467bdb73b34efc40286da405f42d19c263997d1781",
+      "kind": "model_reconstruction",
+      "observed": {
+        "assessed": true,
+        "legacy": {
+          "build_accepted": true,
+          "byte_identical": true,
+          "check_accepted": true,
+          "diagnostics_agree": true,
+          "strict_accepted": true
+        },
+        "target_outcomes": [],
+        "target_state": "unmapped",
+        "target_warned": false,
+        "unknown_rules": [
+          "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+          "LML-MAN-KSPACE-EXCLUSIONS",
+          "LML-MAN-UNITS-BEFORE-BOX"
+        ],
+        "warnings": []
+      },
+      "reference_status": "satisfied",
+      "source": "m56524",
+      "target_rule": null
+    }
+  ],
+  "checker_accuracy": null,
+  "experiment": "natural_report_diagnostic_audit",
+  "gold_defect_pairs": 0,
+  "independent_review": "pending",
+  "new_lammps_launches": 0,
+  "plan_sha256": "4d71df27066a2dbe816c964135cd761093c41825bdcf00bddcbf7b8455ef7a0c",
+  "schema_version": 1,
+  "scientific_correctness": null,
+  "split": "development",
+  "summary": {
+    "declared_targets": 6,
+    "declared_targets_matched": 6,
+    "infrastructure_failures": 0,
+    "inputs": 10,
+    "inputs_with_any_warning": 3,
+    "inputs_with_unknown": 9,
+    "legacy": {
+      "build_accepted": 10,
+      "byte_identical": 10,
+      "check_accepted": 10,
+      "diagnostics_agree": 10,
+      "strict_accepted": 10
+    },
+    "mapped_cli_unavailable": 0,
+    "mapped_satisfied": 2,
+    "mapped_satisfied_warned": 0,
+    "mapped_target_absent": 0,
+    "mapped_target_unknown": 0,
+    "mapped_violated": 2,
+    "mapped_violated_warned": 2,
+    "reference_statuses": {
+      "execution_only": 2,
+      "satisfied": 3,
+      "unassessed": 2,
+      "violated": 3
+    },
+    "source_threads": 4
+  }
+}

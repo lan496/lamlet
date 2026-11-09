@@ -58,6 +58,7 @@ jobs:
       - run: python3 tools/defect_corpus.py audit
       - run: python3 tools/defect_replay.py verify --run docs/assets/defect-corpus/2026-11-09
       - run: python3 tools/defect_diagnostics.py verify --archive docs/assets/defect-diagnostics/2026-11-09
+      - run: python3 tools/defect_diagnostics.py verify --archive docs/assets/defect-diagnostics/2026-11-09-gcmc
       - run: python3 tools/lint_evaluation.py --baseline docs/assets/lint-evaluation/report.json
       - run: python3 tools/lint_evaluation.py --report target/lint-evaluation/repeated.json
       - run: cmp target/lint-evaluation/report.json target/lint-evaluation/repeated.json

@@ -1,0 +1,89 @@
+{
+  "report": {
+    "diagnostics": [
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/orientation-after.in",
+        "message": "'lattice' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 63,
+          "end_column": 1,
+          "end_line": 2,
+          "start_byte": 0,
+          "start_column": 1,
+          "start_line": 1
+        },
+        "suggestion": null
+      }
+    ],
+    "input": "inputs/orientation-after.in",
+    "physical_findings": [
+      {
+        "evidence": [
+          {
+            "definition": "lattice fcc 4.05 orient x 4 3 0 orient y -3 4 0 orient z 0 0 1",
+            "span": {
+              "end_byte": 63,
+              "end_column": 1,
+              "end_line": 2,
+              "start_byte": 0,
+              "start_column": 1,
+              "start_line": 1
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+        "span": {
+          "end_byte": 63,
+          "end_column": 1,
+          "end_line": 2,
+          "start_byte": 0,
+          "start_column": 1,
+          "start_line": 1
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "lattice fcc 4.05 orient x 4 3 0 orient y -3 4 0 orient z 0 0 1",
+            "span": {
+              "end_byte": 63,
+              "end_column": 1,
+              "end_line": 2,
+              "start_byte": 0,
+              "start_column": 1,
+              "start_line": 1
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+        "span": {
+          "end_byte": 63,
+          "end_column": 1,
+          "end_line": 2,
+          "start_byte": 0,
+          "start_column": 1,
+          "start_line": 1
+        },
+        "suggested_actions": []
+      }
+    ],
+    "schema_version": 1,
+    "status": "warning",
+    "summary": {
+      "errors": 0,
+      "unknowns": 1,
+      "warnings": 0
+    }
+  },
+  "status": "collected"
+}
