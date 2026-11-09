@@ -41,6 +41,56 @@ fn warning(text: &str, code: &str, expected: bool) {
 }
 
 #[test]
+fn box_controllers_conflict_on_cell_components_independently_of_atom_groups() {
+    for (a, b) in [
+        ("npt temp 300 300 0.1 iso 0 0 1", "nph x 0 0 1"),
+        ("nph xy 0 0 1", "nph xy 0 0 1"),
+        ("nph x 0 0 1", "deform 1 x erate 0.001 units box"),
+    ] {
+        warning(
+            &format!("fix a left {a}\nfix b right {b}\nrun 10\n"),
+            "LML-PHYS-009",
+            true,
+        );
+    }
+    for text in [
+        "fix a all nph x 0 0 1\nfix b all nph y 0 0 1\nrun 10\n",
+        "fix a all nph xy 0 0 1\nfix b all nph y 0 0 1\nrun 10\n",
+        "fix a all nph x 0 0 1\nfix b all deform 1 y erate 0.001\nrun 10\n",
+        "fix a all nph x 0 0 1\nfix b all nph x 0 0 1\nunfix b\nrun 10\n",
+        "fix a all nph x 0 0 1\nfix b all nph x 0 0 1\nrun 0\n",
+    ] {
+        warning(text, "LML-PHYS-009", false);
+    }
+}
+
+#[test]
+fn unknown_box_grammar_does_not_invent_component_boundaries() {
+    for style in [
+        "nph x 0 0 1 custom x",
+        "nph x 0 0 1 isochoric y",
+        "deform 1 x unknown 0.1",
+        "deform/pressure 1 x pressure 0 1 1",
+    ] {
+        let result = check(&format!(
+            "fix a all nph x 0 0 1\nfix b all {style}\nrun 10\n"
+        ));
+        let finding = result
+            .physical_findings
+            .iter()
+            .find(|f| f.rule_id == "LML-PHYS-009")
+            .unwrap();
+        assert_eq!(finding.outcome, Outcome::Unknown, "{style}");
+        assert!(!result.diagnostics.iter().any(|d| d.code == "LML-PHYS-009"));
+    }
+    warning(
+        "fix a all nph x 0 0 1\ninclude opaque.in\nfix b all nph x 0 0 1\nrun 10\n",
+        "LML-PHYS-009",
+        false,
+    );
+}
+
+#[test]
 fn ordinary_integrators_are_warned_without_rejecting_or_rewriting_legacy() {
     warning(
         "fix a all nve\nfix b all nvt temp 300 300 0.1\nrun 10\n",

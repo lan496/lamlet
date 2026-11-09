@@ -133,6 +133,14 @@ pub const RATTLE_ORDER: Rule = rule!(
     ],
     "Same execution, inventory, group, and replacement limits as SHAKE ordering. Checks ordinary nve/nvt/npt/nph integration and Langevin/setforce post-force updates. End-of-step velocity modifiers and other callback stages remain unverified, even if declared before RATTLE."
 );
+pub const BOX_CONTROLLERS: Rule = rule!(
+    "LML-PHYS-009",
+    "Competing simulation box controllers",
+    "physical-consistency",
+    ["fix:npt", "fix:nph", "fix:deform", "run"],
+    ["fix_nh", "fix_deform"],
+    "Positive literal run; explicit cell components in reviewed npt/nph and deform grammar, independent of atom-group overlap. Distinct components satisfy only this narrow condition, not general box compatibility. Isochoric coupling, deform/pressure, press/berendsen, unknown options and opaque effects remain unverified."
+);
 pub static RULES: &[Rule] = &[
     INTEGRATION,
     THERMOSTATS,
@@ -145,6 +153,7 @@ pub static RULES: &[Rule] = &[
     LANGEVIN_INTEGRATION,
     SHAKE_ORDER,
     RATTLE_ORDER,
+    BOX_CONTROLLERS,
 ];
 
 #[derive(Clone, Copy)]
@@ -179,6 +188,7 @@ struct Fix {
     thermostats: bool,
     known: bool,
     axes: Option<Vec<usize>>,
+    box_components: Option<Vec<&'static str>>,
     span: Span,
     order: Option<FixOrder>,
 }
@@ -250,6 +260,73 @@ fn pressure_axes(args: &[&str], dimension: Option<u8>) -> Option<Vec<usize>> {
     axes.sort_unstable();
     axes.dedup();
     Some(axes)
+}
+
+fn is_box_controller(style: &str) -> bool {
+    matches!(
+        style,
+        "npt" | "nph" | "deform" | "deform/pressure" | "press/berendsen"
+    )
+}
+
+fn box_components(style: &str, args: &[&str], dimension: Option<u8>) -> Option<Vec<&'static str>> {
+    let pressure = matches!(style, "npt" | "nph");
+    let mut i = if pressure {
+        pressure_axes(args, dimension)?;
+        0
+    } else if style == "deform" && args.first()?.parse::<u64>().ok()? > 0 {
+        1
+    } else {
+        return None;
+    };
+    let mut components = vec![];
+    while i < args.len() {
+        let selected: &[&str] = match args[i] {
+            "iso" | "aniso" if pressure && dimension == Some(2) => &["x", "y"],
+            "iso" | "aniso" if pressure && dimension == Some(3) => &["x", "y", "z"],
+            "tri" if pressure => &["x", "y", "z", "xy", "xz", "yz"],
+            "x" => &["x"],
+            "y" => &["y"],
+            "z" => &["z"],
+            "xy" => &["xy"],
+            "xz" => &["xz"],
+            "yz" => &["yz"],
+            _ => &[],
+        };
+        let count = if pressure {
+            if args[i] == "isochoric" && args.get(i + 1) != Some(&"none") {
+                return None;
+            }
+            if !selected.is_empty() || args[i] == "temp" || args[i] == "fixedpoint" {
+                3
+            } else {
+                1
+            }
+        } else if !selected.is_empty() {
+            let diagonal = matches!(args[i], "x" | "y" | "z");
+            1 + match *args.get(i + 1)? {
+                "final" | "delta" if diagonal => 2,
+                "final" | "delta" | "vel" | "erate" | "trate" | "scale" => 1,
+                "erate/rescale" if !diagonal => 1,
+                "volume" if diagonal => 0,
+                "wiggle" | "variable" => 2,
+                _ => return None,
+            }
+        } else {
+            match args[i] {
+                "remap" | "flip" | "units" => 1,
+                _ => return None,
+            }
+        };
+        if i + count >= args.len() {
+            return None;
+        }
+        components.extend_from_slice(selected);
+        i += count + 1;
+    }
+    components.sort_unstable();
+    components.dedup();
+    (!components.is_empty()).then_some(components)
 }
 
 impl Engine {
@@ -398,6 +475,7 @@ impl Engine {
                         axes: matches!(style, "npt" | "nph")
                             .then(|| pressure_axes(&args[4..], self.dimension))
                             .flatten(),
+                        box_components: box_components(style, &args[4..], self.dimension),
                         span,
                         order,
                     },
@@ -606,6 +684,28 @@ impl Engine {
                     }, diagnostics);
             }
             for (other_id, other) in fixes.iter().skip(i + 1) {
+                if is_box_controller(&fix.style) && is_box_controller(&other.style) {
+                    let outcome = match (&fix.box_components, &other.box_components) {
+                        (Some(a), Some(b)) if a.iter().any(|component| b.contains(component)) => {
+                            Outcome::Violated
+                        }
+                        (Some(_), Some(_)) => Outcome::Satisfied,
+                        _ => Outcome::Unknown,
+                    };
+                    let mut facts = vec![evidence(id, fix), evidence(other_id, other)];
+                    for (name, controller) in [(id, fix), (other_id, other)] {
+                        facts.push(Evidence {
+                            subject: format!("fix {name} box components"),
+                            definition: controller.box_components.as_ref().map_or_else(
+                                || "unknown cell components".into(),
+                                |components| components.join(", "),
+                            ),
+                            span: source.located(controller.span),
+                        });
+                    }
+                    self.report(source, span, &BOX_CONTROLLERS, outcome, facts,
+                        "Multiple fixes change the same simulation box component; atom-group separation does not isolate the box", diagnostics);
+                }
                 let outcome = if self.fixes.values().all(|f| f.known)
                     && overlap(&fix.group, &other.group) == Some(true)
                 {

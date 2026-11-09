@@ -30,6 +30,78 @@ fn json_output(output: &Output, code: i32) -> Value {
 
 const STAGE_SOURCE: &str = "@stage relax(structure: InputFile, result: OutputFile) {\nunits metal\natom_style atomic\nread_data @{structure} nocoeff\npair_style lj/cut 2.5\npair_coeff * * 1 1\nminimize 1e-8 1e-10 10 100\nwrite_data @{result}\n}\n@stage invalid() {\nrun 100\n}\n";
 #[test]
+fn physical_state_rules_expose_deterministic_warnings_and_unknown_findings() {
+    let dir = tempfile::tempdir().unwrap();
+    for (code, text) in [
+        (
+            "LML-PHYS-009",
+            "fix a all nph x 0 0 1\nfix b all deform 1 x erate 0.001\nrun 100\n",
+        ),
+        (
+            "LML-PHYS-010",
+            "compute T all temp\nthermo_modify temp T\nfix exchange all evaporate 10 1 incoming 123\nrun 100\n",
+        ),
+    ] {
+        fs::write(dir.path().join("legacy.in"), text).unwrap();
+        let args = ["check", "legacy.in", "--strict", "--format=json"];
+        let output = cli(&args, dir.path());
+        assert_eq!(output.stdout, cli(&args, dir.path()).stdout);
+        let result = json_output(&output, 0);
+        let warning = result["diagnostics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|d| d["code"] == code)
+            .unwrap();
+        assert_eq!(warning["severity"], "warning");
+        assert!(!warning["evidence"].as_array().unwrap().is_empty());
+        let metadata = json_output(&cli(&["schema", code, "--format=json"], dir.path()), 0);
+        let rule = metadata["physical_rules"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .chain(metadata["lint_rules"].as_array().unwrap())
+            .find(|rule| rule["id"] == code)
+            .unwrap();
+        assert_eq!(rule["autofix"], false);
+        json_output(
+            &cli(
+                &[
+                    "build",
+                    "legacy.in",
+                    "--strict",
+                    "-o",
+                    "copy.in",
+                    "--format=json",
+                ],
+                dir.path(),
+            ),
+            0,
+        );
+        assert_eq!(
+            fs::read(dir.path().join("copy.in")).unwrap(),
+            text.as_bytes()
+        );
+    }
+    fs::write(
+        dir.path().join("legacy.in"),
+        "fix a all nph x 0 0 1\nfix b all deform 1 x custom 1\nrun 100\n",
+    )
+    .unwrap();
+    let result = json_output(
+        &cli(&["check", "legacy.in", "--format=json"], dir.path()),
+        0,
+    );
+    let finding = result["physical_findings"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|f| f["rule_id"] == "LML-PHYS-009")
+        .unwrap();
+    assert_eq!(finding["outcome"], "unknown");
+}
+
+#[test]
 fn constraint_order_warnings_have_deterministic_json_and_preserve_legacy_builds() {
     let dir = tempfile::tempdir().unwrap();
     for (constraint, modifier, code) in [
