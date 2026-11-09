@@ -38,6 +38,7 @@ nav = [
     { "Agent evaluation" = "agent-evaluation.md" },
     { "Repair pilot" = "repair-pilot.md" },
     { "Constraint validation" = "constraint-validation.md" },
+    { "Natural defect corpus" = "defect-corpus.md" },
     { "P3 pilot" = "p3-pilot.md" },
   ] },
 ]

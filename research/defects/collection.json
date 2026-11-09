@@ -1,0 +1,38 @@
+{
+  "cached_bytes_verified": true,
+  "capture_failures": 0,
+  "captured": 20,
+  "checker_evaluated": false,
+  "dispositions": {
+    "counterexample": 2,
+    "engine_bug": 1,
+    "proposed_fix": 7,
+    "reported_fix": 6,
+    "unresolved": 4
+  },
+  "downloaded_attachments": 23,
+  "families": {
+    "bond-capacity": 1,
+    "boundary-topology": 1,
+    "constraint-order": 1,
+    "engine-neighbor-lists": 1,
+    "ensemble-sampling": 1,
+    "forcefield-units-memory": 2,
+    "immediate-command": 1,
+    "lattice-orientation": 2,
+    "model-geometry": 1,
+    "multiple-integration": 1,
+    "output-scheduling": 1,
+    "rigid-virial": 1,
+    "temperature-normalization": 3,
+    "unit-transfer": 1,
+    "velocity-units": 2
+  },
+  "gold_defect_pairs": 0,
+  "held_out_cases": 0,
+  "independently_adjudicated": 0,
+  "manifest_sha256": "a4b5be100585dfab583b1487d3a99d5d36e8ad2946bfe5376ace9e259abb31c6",
+  "schema_version": 1,
+  "screened": 20,
+  "unavailable_attachments": 0
+}

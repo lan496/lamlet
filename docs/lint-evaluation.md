@@ -19,6 +19,9 @@ avoid warnings, and whether incomplete information remains unresolved. It covers
 the four forum-motivated rules together with integrator overlap, temperature
 definition consistency, and averaging intervals. The [compatibility evaluation](corpus.md)
 and [agent evaluation](agent-evaluation.md) address separate questions.
+The [natural defect collection pilot](defect-corpus.md) examines public failure
+reports and bounded native replays; it does not use this mutation set as evidence
+of accuracy on research inputs.
 
 ## Methods
 

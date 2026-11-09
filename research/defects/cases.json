@@ -1,0 +1,681 @@
+{
+  "schema_version": 1,
+  "selection": "Purposeful feasibility sample of public discussions, selected without running Lamlet. All cases are development data.",
+  "cases": [
+    {
+      "id": "m37447",
+      "url": "https://matsci.org/t/gcmc-of-confined-lj-fluid/37447",
+      "family": "temperature-normalization",
+      "disposition": "reported_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": "8 Apr 2021",
+      "intent": "Maintain the prescribed temperature during GCMC insertion and deletion.",
+      "condition": "The NVT thermostat's own temperature compute must update its atom-count normalization.",
+      "reason": "A reply identifies the thermostat compute and the author reports recovery. No original-version replay has been completed.",
+      "blockers": [
+        "Historical executable unavailable.",
+        "GCMC trajectory and temperature behavior need independent verification."
+      ],
+      "evidence": [
+        {
+          "post": 2,
+          "anchor": "compute_modify  NVT_temp dynamic/dof yes",
+          "role": "correction"
+        },
+        {
+          "post": 3,
+          "anchor": "works perfectly as intended",
+          "role": "confirmation"
+        }
+      ],
+      "input_kind": "complete_inline",
+      "dependencies": [
+        "No external data file is named in the inline input."
+      ]
+    },
+    {
+      "id": "m49414",
+      "url": "https://matsci.org/t/fix-nvt-continous-vs-interval/49414",
+      "family": "temperature-normalization",
+      "disposition": "proposed_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Obtain consistent evaporation behavior for continuous and segmented NVT runs.",
+      "condition": "Atom loss may require updating the temperature normalization used by the thermostat.",
+      "reason": "The reply proposes dynamic atom-count normalization but explicitly does not reproduce the full comparison.",
+      "blockers": [
+        "The reported comparison requires 40 million steps.",
+        "Causality and equivalence of the two protocols remain unverified."
+      ],
+      "evidence": [
+        {
+          "post": 1,
+          "anchor": "40000000",
+          "role": "report"
+        },
+        {
+          "post": 2,
+          "anchor": "dynamic/dof",
+          "role": "diagnosis"
+        }
+      ],
+      "input_kind": "complete_attachment",
+      "dependencies": [
+        "Initial nanoparticle data and both input scripts are attached."
+      ]
+    },
+    {
+      "id": "m54057",
+      "url": "https://matsci.org/t/there-is-a-contradiction-in-the-system-s-energy-after-fix-evaporate/54057",
+      "family": "temperature-normalization",
+      "disposition": "reported_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": "2 Aug 2023 Update 1",
+      "intent": "Interpret the energy changes during water evaporation from a copper surface.",
+      "condition": "NVT temperature normalization and the declared NVE or NVT protocol must match the intended experiment.",
+      "reason": "The author acknowledges NVT was active and reports improvement after the compute correction. A separate hang is reported in the same thread.",
+      "blockers": [
+        "Multiple claims and fixes must be separated.",
+        "The originally uploaded data file was replaced in post 5.",
+        "Original run has 15 million steps and requires KSPACE and MANYBODY."
+      ],
+      "evidence": [
+        {
+          "post": 4,
+          "anchor": "the entire simulation is NVT integration",
+          "role": "confirmation"
+        },
+        {
+          "post": 8,
+          "anchor": "everything became consistent",
+          "role": "confirmation"
+        },
+        {
+          "post": 7,
+          "anchor": "no crash or error message",
+          "role": "separate_issue"
+        }
+      ],
+      "input_kind": "complete_inline",
+      "dependencies": [
+        "Use corrected out.data from post 5, not data.out from post 3.",
+        "Cu potential and a second water reproducer are attached."
+      ]
+    },
+    {
+      "id": "m16297",
+      "url": "https://matsci.org/t/ordering-of-fix-shake-and-fix-npt/16297",
+      "family": "constraint-order",
+      "disposition": "counterexample",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Determine whether SHAKE must precede NPT.",
+      "condition": "A blanket SHAKE versus NPT ordering requirement is not established by this discussion.",
+      "reason": "The final reply reports unchanged pressure and dynamics after swapping the fixes. Earlier speculation is superseded.",
+      "blockers": [
+        "The historical benchmark input and exact executable are not pinned.",
+        "No independent local replay of this comparison."
+      ],
+      "evidence": [
+        {
+          "post": 3,
+          "anchor": "no ordering issue between the 2",
+          "role": "diagnosis"
+        },
+        {
+          "post": 4,
+          "anchor": "no difference in pressure or dynamics",
+          "role": "counterevidence"
+        }
+      ],
+      "input_kind": "narrative",
+      "dependencies": [
+        "bench/in.rhodo is referenced without a revision."
+      ]
+    },
+    {
+      "id": "m26594",
+      "url": "https://matsci.org/t/warning-one-or-more-atoms-are-time-integrated-more-than-once/26594",
+      "family": "multiple-integration",
+      "disposition": "proposed_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Apply rigid motion and thermostats without integrating atoms twice.",
+      "condition": "Rigid-body and NVT integration may overlap for the specified atom groups.",
+      "reason": "The reply diagnoses an overlap. Atom membership and a complete corrected input are not independently established.",
+      "blockers": [
+        "Original atom data and ReaxFF parameter file are missing.",
+        "A single reply is insufficient to establish membership or a complete corrected model."
+      ],
+      "evidence": [
+        {
+          "post": 2,
+          "anchor": "fix rigid overlaps with fix nvt",
+          "role": "diagnosis"
+        }
+      ],
+      "input_kind": "complete_inline",
+      "dependencies": [
+        "haslab_2.data and CHONSMgPNaCuCl_v2.ff are named but not attached."
+      ]
+    },
+    {
+      "id": "m56524",
+      "url": "https://matsci.org/t/inconsisten-kinetic-energy-calculation/56524",
+      "family": "velocity-units",
+      "disposition": "reported_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Assign the kinetic energy computed for a tungsten primary knock-on atom.",
+      "condition": "A physical velocity supplied to velocity set must use the intended box-unit interpretation.",
+      "reason": "The reply identifies default lattice scaling and the author acknowledges the default was misread.",
+      "blockers": [
+        "Bonny_WHHe.txt is not attached.",
+        "Original Python and potential dependent workflow has not been reproduced.",
+        "A reduced one-atom calculation would be a reconstruction."
+      ],
+      "evidence": [
+        {
+          "post": 2,
+          "anchor": "units box",
+          "role": "correction"
+        },
+        {
+          "post": 3,
+          "anchor": "misread",
+          "role": "confirmation"
+        }
+      ],
+      "input_kind": "complete_inline",
+      "dependencies": [
+        "Bonny_WHHe.txt is named but not attached.",
+        "Python wrapper supplies three velocity variables."
+      ]
+    },
+    {
+      "id": "m16568",
+      "url": "https://matsci.org/t/shock-modeling-in-lammps/16568",
+      "family": "velocity-units",
+      "disposition": "reported_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Set the intended impact velocity in an aluminum shock calculation.",
+      "condition": "Implicit lattice scaling changes the applied velocity.",
+      "reason": "The author reports improved behavior after explicit velocity units. An earlier dimensional-conversion claim is retracted within the thread.",
+      "blockers": [
+        "Original potential revision and executable are not pinned.",
+        "The reply also changes a group name; the correction is not a complete drop-in script.",
+        "Subsequent shock behavior requires a separate physical interpretation."
+      ],
+      "evidence": [
+        {
+          "post": 10,
+          "anchor": "I was wrong",
+          "role": "retraction"
+        },
+        {
+          "post": 13,
+          "anchor": "units box",
+          "role": "correction"
+        },
+        {
+          "post": 14,
+          "anchor": "does not increasing so rapidly",
+          "role": "confirmation"
+        }
+      ],
+      "input_kind": "complete_inline",
+      "dependencies": [
+        "Al99.eam.alloy is named without a revision.",
+        "A visualization is attached, not a corrected input."
+      ]
+    },
+    {
+      "id": "m47968",
+      "url": "https://matsci.org/t/setforce-and-addforce-but-no-move/47968",
+      "family": "unit-transfer",
+      "disposition": "unresolved",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Move polymer slabs over a physically meaningful duration under applied force.",
+      "condition": "Copied numerical time and force settings must be converted with the unit system.",
+      "reason": "The author acknowledges copied units, but no specific corrected input or quantitative displacement comparison is provided.",
+      "blockers": [
+        "Polymer data and force-field coefficients are unavailable.",
+        "The intended physical duration and force are not quantified."
+      ],
+      "evidence": [
+        {
+          "post": 7,
+          "anchor": "different time units",
+          "role": "acknowledgement"
+        },
+        {
+          "post": 9,
+          "anchor": "convert the values used accordingly",
+          "role": "qualification"
+        }
+      ],
+      "input_kind": "complete_inline",
+      "dependencies": [
+        "Full atom data and interaction coefficients are not supplied."
+      ]
+    },
+    {
+      "id": "m34056",
+      "url": "https://matsci.org/t/fix-ave-atom-issues-deciphering-dump-custom-and-fix-not-at-compatible-times/34056",
+      "family": "output-scheduling",
+      "disposition": "proposed_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Write time-averaged per-atom values after a run.",
+      "condition": "Access to fix ave/atom output depends on sampling times and the engine's write_dump implementation.",
+      "reason": "The final reply attributes the standalone output failure to write_dump internals and proposes regular dump output.",
+      "blockers": [
+        "Historical executable version is not specified.",
+        "Modern behavior may differ from the reported 2020 implementation."
+      ],
+      "evidence": [
+        {
+          "post": 3,
+          "anchor": "write_dump all custom foo2",
+          "role": "report"
+        },
+        {
+          "post": 4,
+          "anchor": "for technical reasons",
+          "role": "diagnosis"
+        }
+      ],
+      "input_kind": "complete_attachment",
+      "dependencies": [
+        "The complete in.lj input and its original stdout are attached."
+      ]
+    },
+    {
+      "id": "m50684",
+      "url": "https://matsci.org/t/lammps-exiting-without-error-and-without-results/50684",
+      "family": "engine-neighbor-lists",
+      "disposition": "engine_bug",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Minimize a bilayer graphene structure with overlaid pair styles.",
+      "condition": "A neighbor-list implementation defect must not become an input-language error label.",
+      "reason": "A maintainer reproduces a crash and the final reply links the upstream fix. The workaround later becomes unnecessary.",
+      "blockers": [
+        "Data files are behind an external Google Drive link and were not captured.",
+        "Exact failing engine revision is not specified.",
+        "A second geometry error in the thread is a separate issue."
+      ],
+      "evidence": [
+        {
+          "post": 4,
+          "anchor": "I can reproduce the crash",
+          "role": "diagnosis"
+        },
+        {
+          "post": 8,
+          "anchor": "workaround above is no longer necessary",
+          "role": "resolution"
+        }
+      ],
+      "input_kind": "complete_inline",
+      "dependencies": [
+        "POSCAR data and force-field files are linked externally.",
+        "LAMMPS PR 3941 is identified as the engine fix."
+      ]
+    },
+    {
+      "id": "m49575",
+      "url": "https://matsci.org/t/group-virtual-fixed-problems-in-nonequilibrium-molecular-dynamics-nemd/49575",
+      "family": "model-geometry",
+      "disposition": "unresolved",
+      "split": "development",
+      "review": "pending",
+      "reported_version": "22 Dec 2022",
+      "intent": "Model heat transport through connected graphene sheets and nanotubes.",
+      "condition": "A visual stabilization command does not establish correctness of periodic connectivity or heat transport.",
+      "reason": "The claimed recenter solution is challenged; the author later changes the model without publishing a controlled correction pair.",
+      "blockers": [
+        "The model was changed, so the proposed fix has no isolated causal comparison.",
+        "Input and data are linked through Google Drive rather than attached."
+      ],
+      "evidence": [
+        {
+          "post": 6,
+          "anchor": "Case solved!",
+          "role": "claimed_resolution"
+        },
+        {
+          "post": 7,
+          "anchor": "I don’t think so",
+          "role": "counterevidence"
+        },
+        {
+          "post": 10,
+          "anchor": "changed to a different model",
+          "role": "qualification"
+        }
+      ],
+      "input_kind": "narrative",
+      "dependencies": [
+        "An external Google Drive archive is linked in post 3."
+      ]
+    },
+    {
+      "id": "m60431",
+      "url": "https://matsci.org/t/possible-memory-problem-with-reaxff-when-the-total-atom-number-increased/60431",
+      "family": "forcefield-units-memory",
+      "disposition": "reported_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": "19 Nov 2024",
+      "intent": "Run ReaxFF alumina simulations with valid units and manageable memory usage.",
+      "condition": "Force-field units and ReaxFF allocation parameters cause separate problems.",
+      "reason": "The author reports improved temperature fluctuations after a unit correction and later resolves allocation failure by reducing safezone.",
+      "blockers": [
+        "Two independent corrections must be tested separately.",
+        "The 90000-atom run is outside the small pilot budget.",
+        "The original target build differs in KOKKOS threading capabilities."
+      ],
+      "evidence": [
+        {
+          "post": 4,
+          "anchor": "changing them to units real",
+          "role": "confirmation"
+        },
+        {
+          "post": 9,
+          "anchor": "changed it to 1.6",
+          "role": "confirmation"
+        }
+      ],
+      "input_kind": "complete_attachment",
+      "dependencies": [
+        "Original archive and subsequent input and log attachments are available."
+      ]
+    },
+    {
+      "id": "m29050",
+      "url": "https://matsci.org/t/units-metal-vs-real-reaxff/29050",
+      "family": "forcefield-units-memory",
+      "disposition": "proposed_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": "11 Aug 2017",
+      "intent": "Interpret ReaxFF energies using the units in which parameters were fitted.",
+      "condition": "Changing units without converting the force-field parameters changes the physical interpretation.",
+      "reason": "Replies explain why numerical energies can look unchanged. No completed correction pair or rerun is reported.",
+      "blockers": [
+        "The external ffield file is not attached.",
+        "Modern ReaxFF may enforce additional unit checks.",
+        "Original engine unavailable."
+      ],
+      "evidence": [
+        {
+          "post": 2,
+          "anchor": "contain parameters in real units",
+          "role": "diagnosis"
+        },
+        {
+          "post": 3,
+          "anchor": "Errors appear when these numbers are interpreted",
+          "role": "diagnosis"
+        }
+      ],
+      "input_kind": "complete_attachment",
+      "dependencies": [
+        "calc_fcc.in is attached; it references an external force-field file."
+      ]
+    },
+    {
+      "id": "m32097",
+      "url": "https://matsci.org/t/problems-with-fix-bond-create-for-cross-linking-polymer-systems/32097",
+      "family": "bond-capacity",
+      "disposition": "proposed_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": "2 Aug 2018 MPI",
+      "intent": "Create cross-links using an additional bond type.",
+      "condition": "Bond-type allocation, parameter assignment, and data-file headers must be consistent.",
+      "reason": "Several successive input and data changes expose different failures. The final reply explains the coefficient and header requirements without a confirmed final rerun.",
+      "blockers": [
+        "Multiple evolving errors prevent a single undifferentiated negative label.",
+        "No author-confirmed final corrected pair.",
+        "CLASS2 and MC styles are needed for the original model."
+      ],
+      "evidence": [
+        {
+          "post": 5,
+          "anchor": "1 extra/bond/types",
+          "role": "correction"
+        },
+        {
+          "post": 7,
+          "anchor": "MUST also increase",
+          "role": "diagnosis"
+        }
+      ],
+      "input_kind": "complete_attachment",
+      "dependencies": [
+        "Several versions of data and input are attached; post identity must be retained."
+      ]
+    },
+    {
+      "id": "m34193",
+      "url": "https://matsci.org/t/periodic-boundaries-and-shake-atoms-missing/34193",
+      "family": "boundary-topology",
+      "disposition": "proposed_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": "16 Mar 2018",
+      "intent": "Expand a periodic water box while preserving molecular coordinates.",
+      "condition": "Coordinate remapping and periodic molecular topology must match the intended liquid-vapor preparation.",
+      "reason": "Replies propose remedies, but none is followed by a confirmed corrected run. The intent explicitly excludes coordinate rescaling.",
+      "blockers": [
+        "No confirmed correction.",
+        "Original distributed simulation is too large for an unchanged pilot replay.",
+        "Historical remapping behavior must be checked against the selected version."
+      ],
+      "evidence": [
+        {
+          "post": 3,
+          "anchor": "retain their absolute position",
+          "role": "intent"
+        },
+        {
+          "post": 5,
+          "anchor": "group none empty",
+          "role": "proposed_correction"
+        }
+      ],
+      "input_kind": "complete_attachment",
+      "dependencies": [
+        "Water input and data are attached."
+      ]
+    },
+    {
+      "id": "m18394",
+      "url": "https://matsci.org/t/lattice-orient-these-vectors-must-be-orthogonal/18394",
+      "family": "lattice-orientation",
+      "disposition": "reported_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Rotate an FCC lattice using the stated orthogonal directions.",
+      "condition": "The orient arguments require integer crystallographic directions.",
+      "reason": "The reply identifies the argument restriction and the author acknowledges it. An integer-scaled correction can be reconstructed but is not supplied as a complete input.",
+      "blockers": [
+        "Original full script and version are absent.",
+        "The reported error text can differ in modern versions.",
+        "Any complete simulation or explicit corrected command must be labelled reconstructed."
+      ],
+      "evidence": [
+        {
+          "post": 1,
+          "anchor": "0.8 0.6 0",
+          "role": "report"
+        },
+        {
+          "post": 2,
+          "anchor": "must be integer values",
+          "role": "diagnosis"
+        },
+        {
+          "post": 3,
+          "anchor": "saved me an hour",
+          "role": "confirmation"
+        }
+      ],
+      "input_kind": "fragment",
+      "dependencies": [
+        "One lattice command is inline; no external file is needed for that fragment."
+      ]
+    },
+    {
+      "id": "m14833",
+      "url": "https://matsci.org/t/lattice-orient-vector-error/14833",
+      "family": "lattice-orientation",
+      "disposition": "unresolved",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Build an HCP crystal in a specified rotated basis.",
+      "condition": "Integer orient directions and arbitrary lattice basis vectors have different meanings.",
+      "reason": "A mistaken diagnosis is corrected in post 4, but the later HCP geometry problem remains unresolved.",
+      "blockers": [
+        "No confirmed correct rotated HCP geometry.",
+        "Variable syntax and geometric intent need separate review.",
+        "The earlier integer diagnosis does not validate the later custom lattice."
+      ],
+      "evidence": [
+        {
+          "post": 4,
+          "anchor": "My bad",
+          "role": "retraction"
+        },
+        {
+          "post": 5,
+          "anchor": "crystal generated is incorrect",
+          "role": "remaining_issue"
+        },
+        {
+          "post": 6,
+          "anchor": "calculate some atom coords by hand",
+          "role": "proposed_verification"
+        }
+      ],
+      "input_kind": "fragment",
+      "dependencies": [
+        "Several inline variable and lattice fragments are present."
+      ]
+    },
+    {
+      "id": "m32615",
+      "url": "https://matsci.org/t/details-on-fix-npt-nph-drag/32615",
+      "family": "ensemble-sampling",
+      "disposition": "counterexample",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Understand how an explicitly selected drag term changes sampling.",
+      "condition": "Nonzero drag changes the equations and sampling but its deliberate use is not inherently an input error.",
+      "reason": "The discussion concerns interpretation and equilibration choices; it supplies no unintended-defect claim or corrected input pair.",
+      "blockers": [
+        "No input pair.",
+        "Observable impact depends on the model and sampling protocol."
+      ],
+      "evidence": [
+        {
+          "post": 4,
+          "anchor": "settle your system into the right average pressure",
+          "role": "valid_use"
+        }
+      ],
+      "input_kind": "narrative",
+      "dependencies": [
+        "No runnable input is supplied."
+      ]
+    },
+    {
+      "id": "m66390",
+      "url": "https://matsci.org/t/question-on-pressure-calculation-for-fix-rigid/66390",
+      "family": "rigid-virial",
+      "disposition": "unresolved",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Understand pressure and intramolecular contributions in a rigid charged molecular model.",
+      "condition": "Similar averaged pressures do not by themselves establish a faulty virial calculation.",
+      "reason": "The final reply explains constraint virials and real-space versus reciprocal-space compensation. It does not demonstrate a defect in the original model.",
+      "blockers": [
+        "Original input and data are absent.",
+        "No corrected pair or independent pressure comparison.",
+        "Special-bonds weighting and neighbor exclusions must be treated separately."
+      ],
+      "evidence": [
+        {
+          "post": 3,
+          "anchor": "have not applied",
+          "role": "qualification"
+        },
+        {
+          "post": 5,
+          "anchor": "The body force is still correct",
+          "role": "qualification"
+        }
+      ],
+      "input_kind": "narrative",
+      "dependencies": [
+        "Source-code links are supplied, but no runnable molecular model."
+      ]
+    },
+    {
+      "id": "m63309",
+      "url": "https://matsci.org/t/rescaling-the-velocities-in-lammps/63309",
+      "family": "immediate-command",
+      "disposition": "proposed_fix",
+      "split": "development",
+      "review": "pending",
+      "reported_version": null,
+      "intent": "Rescale velocities repeatedly for atoms in a spatial zone.",
+      "condition": "A velocity command executes when encountered, while repeated rescaling needs an explicit execution schedule.",
+      "reason": "A reply provides a working minimal example and the author reports improvement, but the original claimed loop is not supplied.",
+      "blockers": [
+        "Original loop and full model are missing.",
+        "The responder's example is a different model, not a verified correction of the original input."
+      ],
+      "evidence": [
+        {
+          "post": 2,
+          "anchor": "acted on immediately",
+          "role": "diagnosis"
+        },
+        {
+          "post": 4,
+          "anchor": "Here is such a minimal reproducer",
+          "role": "example"
+        },
+        {
+          "post": 6,
+          "anchor": "your looping code was incorrect",
+          "role": "qualification"
+        }
+      ],
+      "input_kind": "fragment",
+      "dependencies": [
+        "An inline responder-provided complete example accompanies an incomplete original fragment."
+      ]
+    }
+  ]
+}

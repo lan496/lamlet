@@ -1,0 +1,16 @@
+# Lamlet-authored free-particle reconstruction of a velocity-unit mechanism.
+# It does not reproduce the source's potential, crystal, or irradiation model.
+units metal
+atom_style atomic
+lattice sc {lattice_spacing}
+region box block 0 10 0 10 0 10 units box
+create_box 1 box
+create_atoms 1 single 5 5 5 units box
+mass 1 {mass}
+pair_style zero 1.0
+pair_coeff * *
+velocity all set {velocity} 0 0 {units_option}
+compute measured all ke
+thermo_style custom step c_measured
+thermo_modify format float %.17g
+run 0
