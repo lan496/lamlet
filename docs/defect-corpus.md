@@ -13,12 +13,11 @@ within floating-point precision. A single-atom reconstruction reproduced a
 velocity-unit energy error, whereas a historical averaging failure did not recur
 on the current engine. Full GCMC runs exceeded the time limit. These observations
 support narrower condition tests, but independent review remains pending and no
-case is yet admitted as a gold defect pair. No checker accuracy or agent benefit
-was measured.
-
-A separate, prospectively bounded discovery cohort recorded 90 topic listings
-and captured 12 complete discussions. All 12 await screening; these captures
-add no validated defect pairs.
+case is yet admitted as a gold defect pair. A separate, prospectively bounded
+discovery cohort recorded 90 topic listings and captured 12 complete discussions.
+Model-assisted screening retained two input reports with missing evidence and
+excluded ten topics concerning other issues. None met the replay-preparation
+criteria. No checker accuracy or agent benefit was measured.
 
 ## Introduction
 
@@ -87,6 +86,27 @@ the first pilot. Code blocks and attachments were counted structurally, without
 assigning intent, a defect, or a correction. The screening form initially leaves
 all decisions pending. No checker, native simulation, or agent was run for this
 cohort.
+
+### Screening the discovery cohort
+
+A separate protocol, committed at
+[`85f7a04`](https://github.com/lan496/lamlet/commit/85f7a04)
+before complete-thread reading, fixed screening criteria and the discovery
+inventory hash. All 67 captured posts were read, including replies with
+nonconsecutive post numbers. The records declare the post coverage, short source
+anchors, intent, bounded condition, correction, dependencies, and next action.
+The two attached tempering input scripts were inspected as text. Engine patches
+were retained as receipts, and compressed reproducer archives were not unpacked.
+
+Topics were classified as input reports, engine reports, build/environment
+issues, usage questions, announcements, or feature requests. Input reports with
+recoverable inputs, dependencies, a condition, and a source-backed correction
+could enter replay preparation. Missing evidence deferred preparation. Other
+discussion types were excluded from input-defect admission while retaining
+their records. These are Codex model-assisted development decisions, not
+independent human adjudications. Metadata validation checks declared coverage
+and source integrity; it cannot establish that reading occurred or that an
+interpretation is scientifically correct.
 
 ### Native replay and independent measurements
 
@@ -202,8 +222,9 @@ All three requested listing pages and all 12 selected threads were captured on
 9 November 2026. Table 3 reports the observed listing and capture outcomes,
 separately from the 20 screened pilot discussions and ten native variants.
 
-**Table 3.** Bounded discovery outcomes. Counts are derived from archived
-listing and complete-thread receipts; they do not measure defect yield.
+**Table 3.** Bounded discovery outcomes at initial capture. Counts are derived
+from archived listing and complete-thread receipts; they do not measure defect
+yield. The initial pending queue remains frozen.
 
 | Outcome or structural property | Count |
 | --- | ---: |
@@ -227,6 +248,52 @@ Code blocks include quotations and material other than LAMMPS inputs; attachment
 presence does not establish complete dependencies. These structural observations
 therefore do not count runnable inputs or negative examples. The published queue
 retains all 90 topic identities and all 12 pending screening records.
+
+### Discovery screening
+
+Complete-thread screening assigned all twelve selected topics a disposition.
+Table 4 gives the discussion classifications. Two input reports were retained
+with evidence gaps; none met the criteria for replay preparation. The remaining
+ten discussions were excluded from input-defect admission without declaring
+their inputs valid.
+
+**Table 4.** Model-assisted screening of the twelve-topic discovery cohort.
+Classifications describe discussion content. They are not independently
+adjudicated defect labels.
+
+| Discussion classification | Topics | Screening disposition |
+| --- | ---: | --- |
+| Input report | 2 | Needs evidence |
+| Engine report | 2 | Excluded from input-defect admission |
+| Build/environment | 3 | Excluded from input-defect admission |
+| Usage question | 2 | Excluded from input-defect admission |
+| Announcement | 2 | Excluded from input-defect admission |
+| Feature request | 1 | Excluded from input-defect admission |
+
+The Ga–In report [12] concerns negative mixing enthalpies and disagreement with
+a published bulk modulus. Its author reports that changing a MEAM parameter
+recovered the B1 bulk modulus, but the liquid mixing-enthalpy result remains
+unconfirmed. The final reply corrects an earlier claim about which parameters
+the referenced database lists. Exact potential-file versions and complete
+original inputs were not captured. The bulk-modulus check and the liquid
+thermodynamic claim therefore require separate conditions and source recovery.
+
+The tempering report [13] includes two scripts using literal restart filenames.
+The author confirms a naming correction based on a per-replica world variable.
+Such variables can provide distinct values to MPI partitions [16]. Inspection
+also shows that production dumps already use a world variable, whereas the
+initial minimization dump has a shared name. A blanket claim that all attached
+trajectory filenames collide would exceed the evidence. The missing includes,
+structure, PLUMED input, original restarts, launch settings, and corrected scripts
+prevent a full replay. Replica-file isolation is a candidate condition to test
+separately from trajectory stability.
+
+The rigid-body discussion [14] illustrates why complete-thread reading matters.
+Its first reported geometry correction is followed by further center-of-mass,
+MPI, and integration-coefficient issues before a cumulative engine patch. The
+granular-history thread [15] also attributes the failure to an engine bugfix.
+Neither discussion is an incorrect-input label. No engine patch or reported
+physical result from these threads was independently reproduced in this screening.
 
 ## Discussion
 
@@ -263,10 +330,12 @@ claims about complete scientific calculations.
 
 The bounded discovery cohort makes selection and capture losses inspectable,
 but does not estimate defect prevalence. Its activity-ordered listing includes
-topics without reported input failures. Complete-thread screening and dependency
-assessment remain necessary before specifying replay conditions. The 12 pending
-captures must not be pooled with the 20 screened discussions to calculate a
-screening success rate or diagnostic precision.
+topics without reported input failures. Complete-thread screening removed those
+topics from input-defect admission, but missing dependencies still prevent
+replay preparation for both retained reports. This result identifies a source
+recovery requirement before further execution. The discovery cohort and the
+20 purposefully selected pilot discussions have different selection procedures
+and cannot be pooled to estimate defect prevalence or diagnostic precision.
 
 ## Conclusions
 
@@ -276,7 +345,9 @@ instrumented GCMC case exposed a 66-fold temperature-normalization mismatch
 that the reported correction removed. Version-dependent non-reproduction,
 missing dependencies, and full-input timeouts materially limited pair admission.
 The resulting collection is development evidence for further review, rather
-than a measurement of Lamlet's scientific accuracy.
+than a measurement of Lamlet's scientific accuracy. Bounded category discovery
+made the collection process inspectable, while screening showed that recoverable
+discussion content alone does not ensure a ready input-defect replay.
 
 ## References
 
@@ -291,6 +362,11 @@ than a measurement of Lamlet's scientific accuracy.
 9. matsci.org, [Fixed groups in NEMD](https://matsci.org/t/group-virtual-fixed-problems-in-nonequilibrium-molecular-dynamics-nemd/49575).
 10. matsci.org, [LAMMPS exiting without results](https://matsci.org/t/lammps-exiting-without-error-and-without-results/50684).
 11. matsci.org, [LAMMPS category](https://matsci.org/c/lammps/40).
+12. matsci.org, [Ga–In mixing enthalpy and MEAM parameters](https://matsci.org/t/unexpected-negative-mixing-enthalpy-using-a-ga-in-n-meam-potential/67595).
+13. matsci.org, [Resuming NPT tempering calculations](https://matsci.org/t/error-resuming-npt-tempering-calculations/67540).
+14. matsci.org, [Rigid-body remapping and geometry](https://matsci.org/t/question-about-remap-ordering-and-rigid-body-geometry-in-fix-rigid-npt-small/67566).
+15. matsci.org, [Granular-history lookup failure](https://matsci.org/t/cannot-find-fix-storing-granular-history/67617).
+16. LAMMPS, [world-style variables](https://docs.lammps.org/variable.html).
 
 ## Appendix: artifacts and reproduction
 
@@ -385,3 +461,28 @@ Neither mode authenticates the forum authors or adjudicates scientific claims.
 Fresh collection uses a new directory and can yield a different cohort; the
 [collection protocol](https://github.com/lan496/lamlet/blob/main/research/defects/README.md)
 provides capture and publication commands.
+
+### Screening artifacts
+
+The separate
+[screening protocol](https://github.com/lan496/lamlet/blob/main/research/defects/screening-plan.json)
+and [case records](https://github.com/lan496/lamlet/blob/main/research/defects/screened-cohort.json)
+pin the original discovery inventory. The
+[screening report](assets/defect-screening/2026-11-09/report.json)
+records the manifest hash, screening counts, 67-post coverage, model-assisted
+review status, and zero independent adjudications, native replays, or gold pairs.
+It is a later record; the initial discovery queue remains unchanged.
+
+```sh
+python3 tools/defect_screening.py verify \
+  --report docs/assets/defect-screening/2026-11-09/report.json
+python3 tools/defect_screening.py verify \
+  --report docs/assets/defect-screening/2026-11-09/report.json \
+  --cache target/defect-discovery/2026-11-09
+```
+
+The first command checks metadata and deterministic report agreement offline.
+The second additionally verifies source bytes and short post/attachment anchors
+against the exact local cache. Neither command executes inputs, runs a checker,
+or adjudicates a reported correction. Existing native and diagnostic archives
+were not changed or rerun for this screening.

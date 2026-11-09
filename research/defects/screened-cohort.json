@@ -1,0 +1,530 @@
+{
+  "schema_version": 1,
+  "cohort": "lammps-category-2026-11-09",
+  "plan_sha256": "71305959d830a527b37fa410cee0b947f45d0bc02e05f7413af1d0d4f40273df",
+  "review": {
+    "kind": "model_assisted",
+    "agent": "Codex",
+    "independent": false
+  },
+  "split": "development",
+  "checker_evaluated": false,
+  "independently_adjudicated": 0,
+  "gold_defect_pairs": 0,
+  "native_replays": 0,
+  "agent_trials": 0,
+  "cases": [
+    {
+      "id": "m67595",
+      "url": "https://matsci.org/t/unexpected-negative-mixing-enthalpy-using-a-ga-in-n-meam-potential/67595",
+      "read_post_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "classification": "input_report",
+      "decision": "needs_evidence",
+      "input_provenance": "command_fragment",
+      "intent": "Calculate liquid Ga-In mixing enthalpy at 1000 K and reproduce the published 0 K B1 bulk modulus.",
+      "condition": "Compare the stated B1 bulk modulus and mixing-enthalpy reference with the exact MEAM parameter files; the reported alpha edit confirms only the modulus.",
+      "proposed_correction": "Post 6 proposes alpha(1,2)=4.6326; post 8 reports 48.11 GPa after the change. Post 9 corrects the claim that the parameter table lists alpha.",
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "negative mixing enthalpies"
+        },
+        {
+          "post_number": 5,
+          "anchor": "remaining around 37–38 GPa."
+        },
+        {
+          "post_number": 8,
+          "anchor": "bulk modulus of B1 Ga50In50 at 0K is 48.11 GPa"
+        },
+        {
+          "post_number": 9,
+          "anchor": "row doesn’t list alpha."
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [
+        "Exact potential-file versions and bytes",
+        "Complete B1 and liquid input scripts and structures",
+        "Independent reference and test for mixing enthalpy"
+      ],
+      "reason": "The author reports a corrected B1 modulus, but the liquid result remains unconfirmed. No complete input or parameter file was captured, and the final reply revises the parameter-table evidence.",
+      "next_action": "Pin both parameter files and original inputs; separate the B1 modulus test from the unresolved liquid mixing-enthalpy claim before replay preparation."
+    },
+    {
+      "id": "m67605",
+      "url": "https://matsci.org/t/compiling-lammps-with-recent-versions-of-python-failing-on-cython-distutils-setuptools-import-problem/67605",
+      "read_post_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "classification": "build_environment",
+      "decision": "excluded",
+      "input_provenance": "not_applicable",
+      "intent": "Compile LAMMPS with Python 3.14 support.",
+      "condition": null,
+      "proposed_correction": null,
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "failed import of distutils.extension"
+        },
+        {
+          "post_number": 7,
+          "anchor": "I’ll investigate why this wasn’t happening"
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [],
+      "reason": "The reported distutils import failure concerns the build environment. Another installation succeeds, and the final author reply continues investigating the build process.",
+      "next_action": "Retain as build-environment evidence; request a minimal build reproducer if investigating it outside the input-defect corpus."
+    },
+    {
+      "id": "m67617",
+      "url": "https://matsci.org/t/cannot-find-fix-storing-granular-history/67617",
+      "read_post_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "classification": "engine_report",
+      "decision": "excluded",
+      "input_provenance": "not_captured",
+      "intent": "Run the granular tableting example on the reported Windows GUI installation.",
+      "condition": "Explain the granular-history lookup failure on the reported older executable.",
+      "proposed_correction": "The final maintainer reply identifies engine bugfix commit 39f69d8a853cb289fa768844cb9aabc4d246fdb5 and recommends an updated executable.",
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "Cannot find fix storing granular history"
+        },
+        {
+          "post_number": 5,
+          "anchor": "get the granular neighbor history fix from the pair style"
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [
+        "Referenced example input/data and affected executable were not captured"
+      ],
+      "reason": "The final reply attributes the failure to an engine lookup bug, not an incorrect user input. The quoted commit has not been independently replayed here.",
+      "next_action": "Preserve the version-specific engine issue; pin the example, executable, and upstream change for a separate engine regression."
+    },
+    {
+      "id": "m67566",
+      "url": "https://matsci.org/t/question-about-remap-ordering-and-rigid-body-geometry-in-fix-rigid-npt-small/67566",
+      "read_post_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "classification": "engine_report",
+      "decision": "excluded",
+      "input_provenance": "not_captured",
+      "intent": "Preserve rigid-body internal geometry and center-of-mass evolution during barostatted integration.",
+      "condition": "Investigate the reported rigid-body remapping and MPI synchronization behavior across successive engine patches.",
+      "proposed_correction": "The discussion revises engine patches through remap4 and a cumulative patch; the final replies plan an upstream pull request.",
+      "evidence": [
+        {
+          "post_number": 6,
+          "anchor": "geometry issue"
+        },
+        {
+          "post_number": 7,
+          "anchor": "center-of-mass mapping"
+        },
+        {
+          "post_number": 9,
+          "anchor": "COM synchronization"
+        },
+        {
+          "post_number": 14,
+          "anchor": "three further discrepancies"
+        },
+        {
+          "post_number": 15,
+          "anchor": "plan to create a pull request"
+        },
+        {
+          "post_number": 16,
+          "anchor": "planning to submit the fixes upstream"
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "attachment-931927f9e6fbb4b5",
+          "status": "downloaded",
+          "sha256": "294671be8af558050918fed9e07cef700f3188cdd41ffb80358078b8cee44953",
+          "inspection": "receipt_only",
+          "role": "Unopened engine reproducer archive",
+          "anchors": []
+        },
+        {
+          "file": "attachment-a42f97227a977f8a",
+          "status": "downloaded",
+          "sha256": "17268fd1b2f140e3ca7c5d72a92e5c9d7be0222ee277e7665aacc5ab2edc7042",
+          "inspection": "receipt_only",
+          "role": "Engine patch receipt; content not reviewed",
+          "anchors": []
+        },
+        {
+          "file": "attachment-8303341507e3848d",
+          "status": "downloaded",
+          "sha256": "fdac518bab68a26e97833e3bab406e9f6767c2b1406d7123dbf4c3bab312eac0",
+          "inspection": "receipt_only",
+          "role": "Engine patch receipt; content not reviewed",
+          "anchors": []
+        },
+        {
+          "file": "attachment-09a7b1f5f600146b",
+          "status": "downloaded",
+          "sha256": "9716d94b4b5c2e34530d5e576c9e1bbcb0f4e9971fb4877f8de7532f8792c06a",
+          "inspection": "receipt_only",
+          "role": "Unopened engine reproducer archive",
+          "anchors": []
+        },
+        {
+          "file": "attachment-e38ca872a6008308",
+          "status": "downloaded",
+          "sha256": "79ae84d87f4100a138f1fac3bd817ed74f8cc2de3648c927a7cf36b1c5988ad8",
+          "inspection": "receipt_only",
+          "role": "Engine patch receipt; content not reviewed",
+          "anchors": []
+        },
+        {
+          "file": "attachment-e5aaf7b430914a7d",
+          "status": "downloaded",
+          "sha256": "757efa68c4a8148062776d4330d365d61cbe5839e47e5a0e71dc07d652748da4",
+          "inspection": "receipt_only",
+          "role": "Engine patch receipt; content not reviewed",
+          "anchors": []
+        },
+        {
+          "file": "attachment-9b4d88aaef7d50a7",
+          "status": "downloaded",
+          "sha256": "e6c858876cba1747d441e16c0f15e56cbd5c04007a0cf7a37f279d7980e1b5d7",
+          "inspection": "receipt_only",
+          "role": "Engine patch receipt; content not reviewed",
+          "anchors": []
+        }
+      ],
+      "dependency_gaps": [
+        "Zip reproducer contents were not unpacked or inspected",
+        "Exact affected and final patched engine revisions are not pinned"
+      ],
+      "reason": "The source concerns engine integration changes. The first reported geometry fix is followed by COM, MPI, and integration-coefficient issues. Its early success is not a final validated correction.",
+      "next_action": "Keep this as engine-regression evidence; review the final cumulative patch and pin both engine revisions before any separate native test."
+    },
+    {
+      "id": "m67588",
+      "url": "https://matsci.org/t/lammps-gui-paper-and-lammps-gui-release-3-1-2/67588",
+      "read_post_numbers": [
+        1,
+        2,
+        3
+      ],
+      "classification": "announcement",
+      "decision": "excluded",
+      "input_provenance": "not_applicable",
+      "intent": null,
+      "condition": null,
+      "proposed_correction": null,
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "official paper describing LAMMPS-GUI."
+        },
+        {
+          "post_number": 3,
+          "anchor": "work needed on GitHub for LAMMPS"
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [],
+      "reason": "The thread announces the GUI paper and maintenance release, followed by teaching and tutorial discussion. It supplies no reported input defect.",
+      "next_action": "Retain the exclusion in the cohort denominator; no input-defect replay is proposed."
+    },
+    {
+      "id": "m67597",
+      "url": "https://matsci.org/t/group-atoms-that-are-bonded/67597",
+      "read_post_numbers": [
+        1,
+        2
+      ],
+      "classification": "usage_question",
+      "decision": "excluded",
+      "input_provenance": "not_applicable",
+      "intent": "Select type-2 atoms bonded to a polymer before changing their types.",
+      "condition": null,
+      "proposed_correction": "The reply suggests investigating compute fragment/atom.",
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "fillter only the bonded ones."
+        },
+        {
+          "post_number": 2,
+          "anchor": "compute fragment/atom"
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [],
+      "reason": "The thread asks how to express an atom selection and provides neither a failed input nor a defect/correction pair.",
+      "next_action": "Retain as a usage question; request a concrete input and intended selection if a later failure is reported."
+    },
+    {
+      "id": "m67558",
+      "url": "https://matsci.org/t/anyone-have-template-for-h-file-for-new-pair-style/67558",
+      "read_post_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "classification": "build_environment",
+      "decision": "excluded",
+      "input_provenance": "not_applicable",
+      "intent": "Implement and compile a new C++ pair style.",
+      "condition": null,
+      "proposed_correction": "The source author reports success after receiving working C++ header and implementation examples.",
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "template for the header file."
+        },
+        {
+          "post_number": 6,
+          "anchor": "I am up and running"
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [],
+      "reason": "The errors and correction concern extension source structure. The code blocks are C++ examples, not complete simulation inputs.",
+      "next_action": "Retain as extension-development evidence, outside the input-defect replay corpus."
+    },
+    {
+      "id": "m67547",
+      "url": "https://matsci.org/t/lammps-howto-updates/67547",
+      "read_post_numbers": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "classification": "announcement",
+      "decision": "excluded",
+      "input_provenance": "not_applicable",
+      "intent": null,
+      "condition": null,
+      "proposed_correction": null,
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "updated several Howto documents"
+        },
+        {
+          "post_number": 4,
+          "anchor": "list is now updated"
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [],
+      "reason": "The thread announces documentation changes and discusses browser compatibility, without a simulation input failure.",
+      "next_action": "Retain the exclusion in the cohort denominator; no input-defect replay is proposed."
+    },
+    {
+      "id": "m67553",
+      "url": "https://matsci.org/t/is-kokkos-gpu-acceleration-planned-for-fix-qeq-rel-reaxff/67553",
+      "read_post_numbers": [
+        1,
+        2,
+        4
+      ],
+      "classification": "feature_request",
+      "decision": "excluded",
+      "input_provenance": "not_applicable",
+      "intent": "Use KOKKOS GPU acceleration for QEqR with ReaxFF.",
+      "condition": null,
+      "proposed_correction": "A maintainer points to a candidate upstream implementation pending review; no released implementation is established by this snapshot.",
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "a KOKKOS GPU implementation"
+        },
+        {
+          "post_number": 2,
+          "anchor": "candidate now"
+        },
+        {
+          "post_number": 4,
+          "anchor": "possible inclusion"
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [],
+      "reason": "The question concerns planned acceleration support. The final reply anticipates possible inclusion rather than reporting a repaired input.",
+      "next_action": "Keep as capability-planning evidence and check a pinned target separately if this feature is needed."
+    },
+    {
+      "id": "m67549",
+      "url": "https://matsci.org/t/question-about-the-setting-and-effect-of-the-nx-parameter-in-fix-atom-swap/67549",
+      "read_post_numbers": [
+        1,
+        2,
+        3
+      ],
+      "classification": "usage_question",
+      "decision": "excluded",
+      "input_provenance": "command_fragment",
+      "intent": "Choose the number of Monte Carlo swap attempts for chemical sampling.",
+      "condition": null,
+      "proposed_correction": null,
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "role of the NX parameter."
+        },
+        {
+          "post_number": 3,
+          "anchor": "general Monte Carlo sampling"
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [],
+      "reason": "The source asks about sampling-parameter selection and later acknowledges it as a general Monte Carlo question. It reports no failed input or demonstrated invariant violation.",
+      "next_action": "Retain as a usage question; do not convert a performance or modeling preference into a negative label."
+    },
+    {
+      "id": "m67540",
+      "url": "https://matsci.org/t/error-resuming-npt-tempering-calculations/67540",
+      "read_post_numbers": [
+        1,
+        2,
+        3
+      ],
+      "classification": "input_report",
+      "decision": "needs_evidence",
+      "input_provenance": "attached_scripts",
+      "intent": "Resume a multi-partition NPT replica-exchange calculation using each replica's own saved state.",
+      "condition": "Ensure restart read/write paths identify the intended replica rather than sharing one literal restart name.",
+      "proposed_correction": "The maintainer recommends distinct restart filenames using a world variable; the author reports that this naming change resolved the issue.",
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "simulation box has become unstable"
+        },
+        {
+          "post_number": 2,
+          "anchor": "different restart file for each replica"
+        },
+        {
+          "post_number": 3,
+          "anchor": "seems to have done the trick."
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "attachment-95129ee2260e4c4a",
+          "status": "downloaded",
+          "sha256": "06ff01318c767463338abb979ae9d7956207668d403c0291a01b6a28a8f1bf67",
+          "inspection": "text_read",
+          "role": "Initial tempering input",
+          "anchors": [
+            "write_restart restart",
+            "traj_${w}.dcd"
+          ]
+        },
+        {
+          "file": "attachment-0acaa2c01c96b530",
+          "status": "downloaded",
+          "sha256": "88d4ace46cb7cc94c0e6f80d2ba1e8fd0e0d69f8432731a75e1f765d54afa8f5",
+          "inspection": "text_read",
+          "role": "Restart tempering input",
+          "anchors": [
+            "read_restart restart",
+            "write_restart restart",
+            "traj_${w}.dcd"
+          ]
+        }
+      ],
+      "dependency_gaps": [
+        "system.in.init, system.data, system.in.settings, and system.in.charges",
+        "PLUMED.dat and required PLUMED-enabled executable",
+        "Original restart files, partition launch settings, and exact corrected scripts",
+        "External Google Drive contents were not captured"
+      ],
+      "reason": "Both captured scripts use literal restart paths. Production dumps already contain ${w}, while the initial minimization dump has a shared name. The reported naming correction lacks a captured corrected input and the dependencies needed for a full replay.",
+      "next_action": "Obtain the original restart sets, launch mapping, includes, PLUMED files, and corrected scripts; test replica-file isolation separately from trajectory stability."
+    },
+    {
+      "id": "m67537",
+      "url": "https://matsci.org/t/extra-pair-force-package-how-to-include-in-build-script/67537",
+      "read_post_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "classification": "build_environment",
+      "decision": "excluded",
+      "input_provenance": "not_applicable",
+      "intent": "Compile a custom pair style into the executable used on a cluster.",
+      "condition": null,
+      "proposed_correction": null,
+      "evidence": [
+        {
+          "post_number": 1,
+          "anchor": "Unrecognized pair style"
+        },
+        {
+          "post_number": 4,
+          "anchor": "no details provided about the actual execution"
+        },
+        {
+          "post_number": 7,
+          "anchor": "Will do, Axel!"
+        }
+      ],
+      "artifacts": [],
+      "dependency_gaps": [
+        "Custom pair source and complete successful build/launch logs are not captured"
+      ],
+      "reason": "The unrecognized style is discussed as a source-installation or build-selection problem. The final exchange requests local software help without establishing an incorrect simulation-input condition.",
+      "next_action": "Preserve as an unresolved build-environment report; do not label the custom style invalid because the selected executable lacks it."
+    }
+  ]
+}
