@@ -29,6 +29,88 @@ fn json_output(output: &Output, code: i32) -> Value {
 }
 
 const STAGE_SOURCE: &str = "@stage relax(structure: InputFile, result: OutputFile) {\nunits metal\natom_style atomic\nread_data @{structure} nocoeff\npair_style lj/cut 2.5\npair_coeff * * 1 1\nminimize 1e-8 1e-10 10 100\nwrite_data @{result}\n}\n@stage invalid() {\nrun 100\n}\n";
+
+#[test]
+fn parameterized_exchange_reports_selected_temperature_without_rewriting_legacy() {
+    let dir = tempfile::tempdir().unwrap();
+    for (setting, expected) in [
+        ("fix_modify bath dynamic/dof yes", "violated"),
+        ("compute_modify bath_temp dynamic/dof yes", "satisfied"),
+        ("include opaque.in", "unknown"),
+    ] {
+        let text = format!(
+            "variable T equal 300\r\nfix bath all nvt temp ${{T}} ${{T}} 0.1\r\n{setting}\r\nregion incoming block 0 10 0 10 0 10\r\nfix exchange all gcmc 10 10 10 1 123 ${{T}} -1 0.1\r\nthermo_style custom step\r\nrestart 5000 state.1 state.2\r\nrun 100\r\n"
+        );
+        fs::write(dir.path().join("legacy.in"), &text).unwrap();
+        let output = cli(&["check", "legacy.in", "--format=json"], dir.path());
+        let checked = json_output(&output, 0);
+        let findings = checked["physical_findings"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|f| {
+                f["rule_id"] == "LML-PHYS-010"
+                    && f["evidence"]
+                        .as_array()
+                        .unwrap()
+                        .iter()
+                        .any(|e| e["subject"] == "fix bath temperature selection")
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(
+            findings
+                .iter()
+                .map(|f| f["outcome"].as_str().unwrap())
+                .collect::<Vec<_>>(),
+            vec![expected],
+            "{setting}"
+        );
+        assert_eq!(
+            checked["diagnostics"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|d| d["code"] == "LML-PHYS-010" && d["severity"] == "warning"),
+            expected == "violated"
+        );
+        assert_eq!(
+            output.stdout,
+            cli(&["check", "legacy.in", "--format=json"], dir.path()).stdout
+        );
+        assert_eq!(
+            checked,
+            json_output(
+                &cli(
+                    &["check", "legacy.in", "--strict", "--format=json"],
+                    dir.path()
+                ),
+                0
+            )
+        );
+        assert_eq!(
+            checked,
+            json_output(
+                &cli(
+                    &[
+                        "build",
+                        "legacy.in",
+                        "--strict",
+                        "-o",
+                        "copy.in",
+                        "--format=json"
+                    ],
+                    dir.path()
+                ),
+                0
+            )
+        );
+        assert_eq!(
+            fs::read(dir.path().join("copy.in")).unwrap(),
+            text.as_bytes()
+        );
+    }
+}
+
 #[test]
 fn physical_state_rules_expose_deterministic_warnings_and_unknown_findings() {
     let dir = tempfile::tempdir().unwrap();

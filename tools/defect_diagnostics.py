@@ -170,8 +170,11 @@ def assemble(directory, binary):
             "new_lammps_launches": 0, "agent_trials": 0}
 
 
-def run(binary, cache, output):
+def run(binary, cache, output, checker_source_commit=None):
     plan, native, config = context(cache=cache)
+    revision = checker_source_commit or plan["checker_source_commit"]
+    if len(revision) != 40 or any(c not in "0123456789abcdef" for c in revision):
+        raise ValueError("Checker source revision must be a full lowercase commit hash")
     lock = json.loads((replay.FIXTURES / "source-lock.json").read_bytes())
     inputs = {case["id"]: replay.scripts(case, cache, lock) for case in config["cases"]}
     for case in native["cases"]:
@@ -183,7 +186,7 @@ def run(binary, cache, output):
     version = subprocess.run([str(binary), "--version"], capture_output=True, text=True,
                              check=True, timeout=30).stdout.strip()
     receipt = {"version": version, "sha256": digest(binary),
-               "declared_source_commit": plan["checker_source_commit"]}
+               "declared_source_commit": revision}
     write_json(output / "capture.json", {"binary": receipt, "plan_sha256": digest(PLAN),
         "source_transformations_verified": True,
         "tool_sha256": {name: digest(ROOT / "tools" / name)
@@ -328,6 +331,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("run", "verify", "prepare-review", "validate-review"))
     parser.add_argument("--binary", type=Path, default=ROOT / "target/release/lamlet")
+    parser.add_argument("--checker-source-commit", help="Declare a new checker revision; frozen conditions are unchanged")
     parser.add_argument("--cache", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--archive", type=Path)
@@ -338,7 +342,8 @@ def main():
         if args.command == "run":
             if args.cache is None or args.output is None:
                 parser.error("run requires --cache and a new --output directory")
-            result = run(args.binary.resolve(strict=True), args.cache, args.output)["summary"]
+            result = run(args.binary.resolve(strict=True), args.cache, args.output,
+                         args.checker_source_commit)["summary"]
             if result["infrastructure_failures"] or any(n != result["inputs"] for n in result["legacy"].values()):
                 exit_code = 1
         elif args.command == "verify":

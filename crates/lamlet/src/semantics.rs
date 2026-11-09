@@ -72,8 +72,13 @@ pub const DYNAMIC_DOF: Rule = Rule {
         "https://docs.lammps.org/compute_temp.html",
         "https://docs.lammps.org/fix_deposit.html",
         "https://docs.lammps.org/fix_evaporate.html",
+        "https://docs.lammps.org/fix_nh.html",
+        "https://docs.lammps.org/fix_modify.html",
+        "https://docs.lammps.org/Commands_parse.html",
+        "https://docs.lammps.org/region.html",
+        "https://docs.lammps.org/restart.html",
     ],
-    limitations: "Positive literal run with active deposit/pour/gcmc/evaporate and selected thermo or nvt/npt temperature. Known temp/temp/com default dynamic/dof no and literal modifications only. Atom exchange and group membership may be conditional; no actual count change is proven. Different groups, unknown compute definitions/options and opaque effects are Unknown. No correction is inserted.",
+    limitations: "Positive literal run with observed deposit/pour/gcmc/evaporate and selected thermo or nvt/npt temperature. Literal fix ID/group/style prefixes establish roles even with runtime arguments; substitutions are not evaluated or assumed to produce one word. Known temp/temp/com default dynamic/dof no and literal modifications only. Region definitions and restart output preserve these facts. Atom exchange and group membership may be conditional; no actual count change is proven. Opaque effects retain previously observed roles as Unknown until redeclared, removed or cleared. Different groups and unknown compute definitions/options are Unknown. No correction is inserted.",
 };
 pub static RULES: &[Rule] = &[TEMPERATURE_CONSISTENCY, DYNAMIC_DOF];
 
@@ -103,11 +108,13 @@ struct Temperature {
 struct Thermostat {
     temperature: Option<String>,
     span: Span,
+    known_active: bool,
 }
 struct AtomExchange {
     group: String,
     style: String,
     span: Span,
+    known_active: bool,
 }
 
 pub(crate) struct Engine {
@@ -145,12 +152,15 @@ impl Default for Engine {
 impl Engine {
     fn weaken(&mut self) {
         self.computes.clear();
-        self.exchanges.clear();
+        for exchange in self.exchanges.values_mut() {
+            exchange.known_active = false;
+        }
         self.thermo = None;
         self.thermo_computes.clear();
         self.displays_temp = None;
         for fix in self.thermostats.values_mut() {
             fix.temperature = None;
+            fix.known_active = false;
         }
     }
     pub fn command(
@@ -163,7 +173,19 @@ impl Engine {
         let Some(first) = args.first() else {
             return;
         };
-        if !command.unambiguous {
+        // Substitution can add arguments, so only the prefix before its first
+        // occurrence can establish an identity or style. Tail values stay opaque.
+        let literal_prefix = args
+            .iter()
+            .take_while(|arg| !arg.dynamic && !arg.quoted && arg.interpolation.is_none())
+            .count();
+        let fixed_effect = match first.text.as_str() {
+            "fix" => literal_prefix >= 4,
+            "variable" => literal_prefix >= 3 && matches!(args[2].text.as_str(), "equal" | "index"),
+            "region" | "restart" => literal_prefix >= 1,
+            _ => false,
+        };
+        if !command.unambiguous && !fixed_effect {
             self.weaken();
             return;
         }
@@ -235,6 +257,7 @@ impl Engine {
                             group: args[2].text.clone(),
                             style: args[3].text.clone(),
                             span: command.line.span,
+                            known_active: true,
                         },
                     );
                 } else {
@@ -258,6 +281,7 @@ impl Engine {
                         Thermostat {
                             temperature: Some(temperature),
                             span: command.line.span,
+                            known_active: true,
                         },
                     );
                 } else {
@@ -274,7 +298,10 @@ impl Engine {
                     if args.len() == 4 && args[2].text == "temp" {
                         fix.temperature = Some(args[3].text.clone());
                         fix.span = command.line.span;
-                    } else {
+                    } else if !(args.len() == 4
+                        && args[2].text == "dynamic/dof"
+                        && matches!(args[3].text.as_str(), "yes" | "no"))
+                    {
                         fix.temperature = None;
                     }
                 }
@@ -313,7 +340,8 @@ impl Engine {
                 }
             }
             "units" | "atom_style" | "timestep" | "thermo" | "dump" | "undump" | "dump_modify"
-            | "print" | "label" | "variable" | "log" | "write_data" | "write_restart" => {}
+            | "print" | "label" | "variable" | "log" | "write_data" | "write_restart"
+            | "region" | "restart" => {}
             _ => self.weaken(),
         }
     }
@@ -342,7 +370,7 @@ impl Engine {
             let b = self.thermo.as_ref().and_then(|id| self.computes.get(id));
             let outcome = match (a, b, self.displays_temp) {
                 (Some(a), Some(b), Some(true))
-                    if a.group == b.group && a.unmodified && b.unmodified =>
+                    if fix.known_active && a.group == b.group && a.unmodified && b.unmodified =>
                 {
                     if a.style == b.style {
                         Outcome::Satisfied
@@ -398,9 +426,14 @@ impl Engine {
         diagnostics: &mut Vec<Diagnostic>,
     ) {
         let mut selected: BTreeMap<Option<&str>, Vec<(String, Span)>> = BTreeMap::new();
-        if self.displays_temp == Some(true) {
+        if self.displays_temp != Some(false) {
+            let id = if self.displays_temp == Some(true) {
+                self.thermo.as_deref()
+            } else {
+                None
+            };
             selected
-                .entry(self.thermo.as_deref())
+                .entry(id)
                 .or_default()
                 .push(("thermo temp".into(), span));
         }
@@ -414,17 +447,22 @@ impl Engine {
             }
         }
         for (id, thermostat) in &self.thermostats {
+            let temperature = if thermostat.known_active {
+                thermostat.temperature.as_deref()
+            } else {
+                None
+            };
             selected
-                .entry(thermostat.temperature.as_deref())
+                .entry(temperature)
                 .or_default()
                 .push((format!("fix {id} temperature selection"), thermostat.span));
         }
         for (exchange_id, exchange) in &self.exchanges {
             for (id, uses) in &selected {
                 let temperature = id.and_then(|id| self.computes.get(id));
-                let outcome = match temperature {
-                    Some(t) if t.dynamic_dof == Some(true) => Outcome::Satisfied,
-                    Some(t)
+                let outcome = match (exchange.known_active, temperature) {
+                    (true, Some(t)) if t.dynamic_dof == Some(true) => Outcome::Satisfied,
+                    (true, Some(t))
                         if t.dynamic_dof == Some(false)
                             && (t.group == exchange.group
                                 || t.group == "all"
@@ -438,8 +476,14 @@ impl Engine {
                     Evidence {
                         subject: format!("fix {exchange_id} atom exchange"),
                         definition: format!(
-                            "{}, group {}; atom count may change during the run",
-                            exchange.style, exchange.group
+                            "{}, group {}; {}",
+                            exchange.style,
+                            exchange.group,
+                            if exchange.known_active {
+                                "atom count may change during the run"
+                            } else {
+                                "previously observed; current style and activity are unknown after opaque effects"
+                            }
                         ),
                         span: source.located(exchange.span),
                     },

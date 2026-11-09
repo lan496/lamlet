@@ -10,6 +10,142 @@ fn check(text: &str) -> lamlet::Compilation {
     )
 }
 
+const EXCHANGE_SETUP: &str = "fix bath all nvt temp 300 300 0.1\nfix exchange all gcmc 10 10 10 1 123 300 -1 0.1\nthermo_style custom step\n";
+
+#[test]
+fn dynamic_dof_preserves_facts_independent_of_runtime_parameters() {
+    for command in [
+        "fix bath all nvt temp ${T} ${T} ${damping}",
+        "fix bath all npt ${settings}",
+        "fix exchange all gcmc 10 10 10 1 123 ${T} ${mu} ${displacement}",
+        "variable damping equal 100*${dt}",
+        "region incoming block 0 10 0 10 0 10",
+        "region incoming block 0 ${L} 0 ${L} 0 ${L}",
+        "restart 5000 state.1 state.2",
+        "restart ${frequency} ${file}",
+        "fix_modify bath dynamic/dof yes",
+    ] {
+        let text = format!("{EXCHANGE_SETUP}{command}\nrun 100\n");
+        let result = check(&text);
+        assert!(!result.has_errors(), "{command}: {:?}", result.diagnostics);
+        assert_eq!(result.output, text.as_bytes());
+        let findings = result
+            .physical_findings
+            .iter()
+            .filter(|finding| {
+                finding.rule_id == "LML-PHYS-010"
+                    && finding
+                        .evidence
+                        .iter()
+                        .any(|e| e.subject == "fix bath temperature selection")
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(findings.len(), 1, "{command}");
+        assert_eq!(
+            findings.iter().map(|f| f.outcome).collect::<Vec<_>>(),
+            vec![Outcome::Violated],
+            "{command}"
+        );
+        assert!(
+            result.diagnostics.iter().any(|d| d.code == "LML-PHYS-010"),
+            "{command}"
+        );
+    }
+}
+
+#[test]
+fn dynamic_dof_preserves_uncertainty_across_opaque_effects() {
+    for command in [
+        "include opaque.in",
+        "${command} arbitrary arguments",
+        "fix ${id} all nvt temp 300 300 0.1",
+        "fix bath ${group} nvt temp 300 300 0.1",
+        "fix exchange all ${style} 10 1 incoming 123",
+        "compute_modify bath_temp ${options}",
+        "compute_modify bath_temp dynamic/dof ${policy}",
+        "fix_modify bath temp ${selection}",
+        "fix_modify bath ${options}",
+    ] {
+        let text = format!("{EXCHANGE_SETUP}{command}\nrun 100\n");
+        let result = check(&text);
+        assert!(!result.has_errors(), "{command}");
+        assert_eq!(result.output, text.as_bytes());
+        let outcomes = result
+            .physical_findings
+            .iter()
+            .filter(|finding| {
+                finding.rule_id == "LML-PHYS-010"
+                    && finding
+                        .evidence
+                        .iter()
+                        .any(|e| e.subject == "fix bath temperature selection")
+            })
+            .map(|f| f.outcome)
+            .collect::<Vec<_>>();
+        assert_eq!(outcomes, vec![Outcome::Unknown], "{command}");
+        assert!(
+            !result.diagnostics.iter().any(|d| d.code == "LML-PHYS-010"),
+            "{command}"
+        );
+    }
+}
+
+#[test]
+fn dynamic_dof_cannot_restore_resource_roles_with_only_compute_updates() {
+    let result = check(&format!(
+        "{EXCHANGE_SETUP}include opaque.in\ncompute T all temp/com\nfix_modify bath temp T\nthermo_modify temp T\nrun 100\n"
+    ));
+    assert!(!result.has_errors());
+    let outcomes = result
+        .physical_findings
+        .iter()
+        .filter(|f| matches!(f.rule_id, "LML-PHYS-010" | "LML-PHYS-002"))
+        .map(|f| f.outcome)
+        .collect::<Vec<_>>();
+    assert!(!outcomes.is_empty());
+    assert!(outcomes.iter().all(|o| *o == Outcome::Unknown));
+    for suffix in ["unfix exchange", "clear", "fix exchange all nve"] {
+        let result = check(&format!(
+            "{EXCHANGE_SETUP}include opaque.in\n{suffix}\nrun 100\n"
+        ));
+        assert!(!result.has_errors());
+        assert!(
+            !result
+                .physical_findings
+                .iter()
+                .any(|f| f.rule_id == "LML-PHYS-010"),
+            "{suffix}"
+        );
+    }
+}
+
+#[test]
+fn dynamic_dof_requires_new_definitions_to_restore_roles_after_opaque_effects() {
+    let result = check(&format!(
+        "{EXCHANGE_SETUP}include opaque.in\n{EXCHANGE_SETUP}compute_modify bath_temp dynamic/dof yes\nrun 100\n"
+    ));
+    assert!(!result.has_errors());
+    let outcomes = result
+        .physical_findings
+        .iter()
+        .filter(|f| f.rule_id == "LML-PHYS-010")
+        .map(|f| f.outcome)
+        .collect::<Vec<_>>();
+    assert_eq!(outcomes, vec![Outcome::Satisfied]);
+
+    let result =
+        check("fix exchange all gcmc 10 10 10 1 123 300 -1 0.1\ninclude opaque.in\nrun 100\n");
+    assert!(!result.has_errors());
+    let outcomes = result
+        .physical_findings
+        .iter()
+        .filter(|f| f.rule_id == "LML-PHYS-010")
+        .map(|f| f.outcome)
+        .collect::<Vec<_>>();
+    assert_eq!(outcomes, vec![Outcome::Unknown]);
+    assert!(!result.diagnostics.iter().any(|d| d.code == "LML-PHYS-010"));
+}
+
 #[test]
 fn changing_atom_count_requires_dynamic_dof_for_selected_temperatures() {
     for exchange in [
@@ -80,12 +216,7 @@ fn dynamic_dof_tracks_final_selection_cleanup_and_unknown_groups() {
             expected
         );
     }
-    for suffix in [
-        "unfix exchange\nrun 100\n",
-        "run 0\n",
-        "include opaque.in\nrun 100\n",
-        "clear\nrun 100\n",
-    ] {
+    for suffix in ["unfix exchange\nrun 100\n", "run 0\n", "clear\nrun 100\n"] {
         let result = check(&format!(
             "compute T all temp\nthermo_modify temp T\nfix exchange all evaporate 10 1 incoming 123\n{suffix}"
         ));
