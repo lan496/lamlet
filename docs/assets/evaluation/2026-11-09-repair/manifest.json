@@ -1,0 +1,179 @@
+{
+  "agent_seconds": 180,
+  "backend_snapshot": "not exposed",
+  "budget_estimate": "At most 1080 agent seconds plus setup and verification; dollar cost unmeasured",
+  "campaign": "repair-development-20261109",
+  "checker_source_commit": "ab7c321165a9f2384f12543175516eb02d98d3b5",
+  "checker_sources": {
+    "Cargo.lock": "4445d3539763907d68e23facd9ef2348f20edcdd1bae142d86a2deb64934b448",
+    "Cargo.toml": "0ca4e822880a7259da5bc4b4b14dbe3597e35b14ced2c65cdacbbe82f59a65ca",
+    "crates/lamlet-cli/Cargo.toml": "76308033abd2fff41f13ce9bbd5ebb28a40e2954925221eec24df7ad36d6ee9f",
+    "crates/lamlet-cli/src/main.rs": "792e75df9c3660a236fef1a1425881f26a1e9aa5438a06c2279d3b59fa530573",
+    "crates/lamlet-cli/src/target.rs": "c0f982c90b53844775285200d3e16d19d212dc1b5dc00fd32fcd6c9e87df29ae",
+    "crates/lamlet-cli/tests/cli.rs": "6dea57247a1159fab4180dff912486319c3ed12c3d674a0ab1368aaa2f8c8e33",
+    "crates/lamlet/Cargo.toml": "d016951e67074b0d911a117f2f6eda68704538cb40d960cb69f4bbf42b04779f",
+    "crates/lamlet/data/lammps_docs.json": "bd0d815e7cc4a384bdeba1f17741d93b6d9a3474039ecd4db0651adeaf7af061",
+    "crates/lamlet/data/manual_rules.json": "4f130684e9b0f7dd7da7d93c577d3298928c8079b5c0b3c32df7ab4d83477de2",
+    "crates/lamlet/examples/benchmark.rs": "5eb16cc9d1001caab4914cdcb43839defe8c4c32bb113fbf5c72b4cac1f9b69a",
+    "crates/lamlet/src/analysis.rs": "1090bcfe85599ba061322ebf5b0bf6880255fd26e62b568f04eefa2b11ec89a9",
+    "crates/lamlet/src/capability.rs": "952c1209d5afb19dbd1e8214292fca070671f0964af1afd41027e487bdccb592",
+    "crates/lamlet/src/codegen.rs": "4adf0a2e4fb2e5e241585ceca5feca2463c02c267218947d2d15ee3d0007a8ce",
+    "crates/lamlet/src/diagnostic.rs": "0027d2cf27599c2d095f8e651b7692756b5e419974595ff010886b1d4e9b0837",
+    "crates/lamlet/src/documentation.rs": "466f06c1f6ca4aae3c959ee7eaf494c80ab7c4eea2c0f64feda787469ada3312",
+    "crates/lamlet/src/expr.rs": "7f064ebc33e76a93651719e50a0c6df43d14aa8ddb490ba63d4f2c4e8a1334a1",
+    "crates/lamlet/src/hir.rs": "22711d4b129de1804787560c410b987eea00851c76e991274a26d864527bb918",
+    "crates/lamlet/src/lib.rs": "568a95caf5869ec25071d8c4f5ebeb7c14fc8af41c25261d9e254053c071b331",
+    "crates/lamlet/src/lint.rs": "a13eb1449875e454ecc4336ca0e421970344dd777664c00fc513bfb50dee5722",
+    "crates/lamlet/src/lower.rs": "1decdf7c19721b40c3b67efea890f04d6ba546416ab071a75a311b7e1de2be6c",
+    "crates/lamlet/src/manual_lint.rs": "4f700bf8ca65c65420cd653b2271bbaa63425736b0989e11226226402cac507c",
+    "crates/lamlet/src/module.rs": "f2736525db989fed5b323551ae8915a485469433807b03f36f2330f5d1fcf1cb",
+    "crates/lamlet/src/resources.rs": "ed5aab87ea8d89ade7144428d01fb5129f5962d9099fb0bb30cc22c34f835aa3",
+    "crates/lamlet/src/schema.rs": "79f35aa0d10e54f62389e80ee7930c8cb5aacb6e8fbc6bdf5ca43ded0fb0368d",
+    "crates/lamlet/src/scoped.rs": "0a8a8d51cb6c8642ad54baf57e8b28f251cde4ceb5a45d732edf2a6a3684b1c1",
+    "crates/lamlet/src/semantics.rs": "a76c144e2e9e605cd66b0f7025dbcf13caa6b02e34bde54ae0cde657e090f09c",
+    "crates/lamlet/src/source.rs": "de8fac92737d3db7b09907a421490f9b0b9d492b0a998643b8a547572b37bdea",
+    "crates/lamlet/src/stage.rs": "e46a6765651e7df93bd82b498591baec1576372f36aac9437d4ebcf5e2392e55",
+    "crates/lamlet/src/syntax.rs": "35faf8a13b7bd0437277d169f7650c6077c501c4525cae363c5fab1a7486faa8",
+    "crates/lamlet/src/units.rs": "c8989201c6d36f278c78ac3567e3e182f800cf79ff3740150ded7a71d9ebf26d",
+    "crates/lamlet/tests/acceptance.rs": "386a2e61702eb3e97fd0b89c8e08b4e396adf8aa8e54088e406d13781fc59c31",
+    "crates/lamlet/tests/capability.rs": "436b6d175bb78da4b95b371cebdb22c87228eb30e9e1c24eb7aa883b9b332890",
+    "crates/lamlet/tests/compatibility.rs": "e40a82dbfb45c4edaf1874b5a2d35cb410dabeff996ba0e68b3e5b6abc16bf57",
+    "crates/lamlet/tests/forum_lint.rs": "dee63b4c0e5efdfd65a04623253f7d1ce382e03367b7c2abaddf25480d4b4d64",
+    "crates/lamlet/tests/language.rs": "f3f8bea060f7afe012eff131e80450e04a3fc82def64842ec8ba086bbe350d79",
+    "crates/lamlet/tests/lint.rs": "efe556e6472c208bd8becd2b6744d12265e2edc0efec52667bf430dfc9c8acaf",
+    "crates/lamlet/tests/manual_lint.rs": "5a09e4b32182562e30017c562fbdadbe923583305d528762cc798c6050104230",
+    "crates/lamlet/tests/modules.rs": "309ce8c007fdce946ed4160dd0c7e9a362bd672dcb96638e9349787c8e9c2f71",
+    "crates/lamlet/tests/resources.rs": "8d7d7232d3a3aa67a9a027b8bc3fe2e1e1d4740b9c8f8eb79548ff55533d462e",
+    "crates/lamlet/tests/scopes.rs": "ccd2b6994e75190e3307efce0c0b33aa64925d20ea036b4f42dc118d54516181",
+    "crates/lamlet/tests/semantics.rs": "035d0930b7713b45ad863ce00928ed57344bcca02b5395d485ef824629bf2bc3",
+    "crates/lamlet/tests/stages.rs": "1785b34eace06259bdff7099fdadcde9a1f183d85a0512b76f277b8cf16e1059",
+    "crates/lamlet/tests/upstream.rs": "3bf94235fcf150eca4e780dde6d97d3df8f228a461b693e4370261e4486de365",
+    "crates/lamlet/tests/validation.rs": "215231706432dd40bd9c9d1cf8fe395442d14ceb4ec06db4a52f008223faccf9"
+  },
+  "codex_version": "0.166.0",
+  "files": {
+    "admission.json": "db716918b5619c367a3dc08bd9e7fe156c30ea804ba0745b0fe551f724773bf8",
+    "task-contracts.json": "20028fedcf11bd9306b19b37a642f3af29289e52e11aaa6e581de72dd6cda68d",
+    "tasks/A/integrator-dev/environment/Dockerfile": "91f29d741e7141a06ae911108049d06eeffc4affbae6e8d5720326e43f7a2938",
+    "tasks/A/integrator-dev/environment/input.in": "9475fd837530e17f714263298a08a1388aff038d8d5f9fa3a6668d5acdbf25b8",
+    "tasks/A/integrator-dev/instruction.md": "3d42cd7e1835f848ba11f4a34d9b4905c91956d90954b83c268f08ac5a150c02",
+    "tasks/A/integrator-dev/task.toml": "d54fc38066c7c71f3801dd5cb4e50776bb1eb0309d92877cca1d54b1159c284a",
+    "tasks/A/integrator-dev/tests/Dockerfile": "9c0308615ae4cf0a1ebc577d4f4f5451ea706957d4c1cf099271ddea43a95356",
+    "tasks/A/integrator-dev/tests/repair_tasks.py": "a2df2cc05e04f7b2fe02d7839ae12252ee14ed892cb5da7aaca94bb9ec5012db",
+    "tasks/A/integrator-dev/tests/test.sh": "c21da119530801c112e8f8ce959b9d0fb381f3b439e42db603346f76806d355b",
+    "tasks/A/orientation-dev/environment/Dockerfile": "91f29d741e7141a06ae911108049d06eeffc4affbae6e8d5720326e43f7a2938",
+    "tasks/A/orientation-dev/environment/input.in": "75bec9f3ce36ed259144f1853af366c9ed1097949284267fd42f715de43fc693",
+    "tasks/A/orientation-dev/instruction.md": "37c6f5378a0273b26aa5a852e331685022e8ffbbc4c62e8e2a59bc1506a03f59",
+    "tasks/A/orientation-dev/task.toml": "ad839b563c0386012bd7c615eb314e57b2c8b671a33c3a77f8c91ab7da4d1c9f",
+    "tasks/A/orientation-dev/tests/Dockerfile": "9c0308615ae4cf0a1ebc577d4f4f5451ea706957d4c1cf099271ddea43a95356",
+    "tasks/A/orientation-dev/tests/repair_tasks.py": "a2df2cc05e04f7b2fe02d7839ae12252ee14ed892cb5da7aaca94bb9ec5012db",
+    "tasks/A/orientation-dev/tests/test.sh": "288a326ded391eebd14b90eda7991d26928f8a92aa8a080f70827fb97453cb68",
+    "tasks/A/sampling-dev/environment/Dockerfile": "91f29d741e7141a06ae911108049d06eeffc4affbae6e8d5720326e43f7a2938",
+    "tasks/A/sampling-dev/environment/input.in": "845e74e8135de6e22181d97358a07a9e6285ff81e0340979be2944329d3d662e",
+    "tasks/A/sampling-dev/instruction.md": "d6e4d554cf752b8e907986bd58c2635320136a08c07bcf418cce5a1ee9cfa372",
+    "tasks/A/sampling-dev/task.toml": "a7d7536d780d08404c8b771b4894b81bdf01a82c4c43fe4bf6a2f3baa330f1ad",
+    "tasks/A/sampling-dev/tests/Dockerfile": "9c0308615ae4cf0a1ebc577d4f4f5451ea706957d4c1cf099271ddea43a95356",
+    "tasks/A/sampling-dev/tests/repair_tasks.py": "a2df2cc05e04f7b2fe02d7839ae12252ee14ed892cb5da7aaca94bb9ec5012db",
+    "tasks/A/sampling-dev/tests/test.sh": "ba829b3c7c1b4605c76f63959a56f61e1b4ed182e34a6560f7ca345f548442bc",
+    "tasks/C/integrator-dev/environment/Dockerfile": "9e1239daf03888dd5d99bfac07f8211b0731f5d871045c4ee8bbf357a7920b3f",
+    "tasks/C/integrator-dev/environment/input.in": "9475fd837530e17f714263298a08a1388aff038d8d5f9fa3a6668d5acdbf25b8",
+    "tasks/C/integrator-dev/instruction.md": "67ff3ae9229e134ca03a175637ececd59947d238f80d4f25cc7a9ac56208dbbb",
+    "tasks/C/integrator-dev/task.toml": "f4d50cdd1dc6aea1f23cbcde302a4d919d630eb477dfa48058e06e5dd19fd6e4",
+    "tasks/C/integrator-dev/tests/Dockerfile": "9c0308615ae4cf0a1ebc577d4f4f5451ea706957d4c1cf099271ddea43a95356",
+    "tasks/C/integrator-dev/tests/repair_tasks.py": "a2df2cc05e04f7b2fe02d7839ae12252ee14ed892cb5da7aaca94bb9ec5012db",
+    "tasks/C/integrator-dev/tests/test.sh": "c21da119530801c112e8f8ce959b9d0fb381f3b439e42db603346f76806d355b",
+    "tasks/C/orientation-dev/environment/Dockerfile": "9e1239daf03888dd5d99bfac07f8211b0731f5d871045c4ee8bbf357a7920b3f",
+    "tasks/C/orientation-dev/environment/input.in": "75bec9f3ce36ed259144f1853af366c9ed1097949284267fd42f715de43fc693",
+    "tasks/C/orientation-dev/instruction.md": "abdceaf4c4a97d9012cc9dded82be0c471e52d0dd33ab07b8e7ae9e7f0f92694",
+    "tasks/C/orientation-dev/task.toml": "adbd675524792ee842a7e23abc10efb0a1014ccfc4b7051312ed815b4b146508",
+    "tasks/C/orientation-dev/tests/Dockerfile": "9c0308615ae4cf0a1ebc577d4f4f5451ea706957d4c1cf099271ddea43a95356",
+    "tasks/C/orientation-dev/tests/repair_tasks.py": "a2df2cc05e04f7b2fe02d7839ae12252ee14ed892cb5da7aaca94bb9ec5012db",
+    "tasks/C/orientation-dev/tests/test.sh": "288a326ded391eebd14b90eda7991d26928f8a92aa8a080f70827fb97453cb68",
+    "tasks/C/sampling-dev/environment/Dockerfile": "9e1239daf03888dd5d99bfac07f8211b0731f5d871045c4ee8bbf357a7920b3f",
+    "tasks/C/sampling-dev/environment/input.in": "845e74e8135de6e22181d97358a07a9e6285ff81e0340979be2944329d3d662e",
+    "tasks/C/sampling-dev/instruction.md": "b3f01430ab1b2ee41ea9cff18288211bd871c4a55bf9cca3eace64f8774a5173",
+    "tasks/C/sampling-dev/task.toml": "7367750fc35f4c384ab02fc42c32bf342bfe75737202b45723bb0a6f57c4b6fd",
+    "tasks/C/sampling-dev/tests/Dockerfile": "9c0308615ae4cf0a1ebc577d4f4f5451ea706957d4c1cf099271ddea43a95356",
+    "tasks/C/sampling-dev/tests/repair_tasks.py": "a2df2cc05e04f7b2fe02d7839ae12252ee14ed892cb5da7aaca94bb9ec5012db",
+    "tasks/C/sampling-dev/tests/test.sh": "ba829b3c7c1b4605c76f63959a56f61e1b4ed182e34a6560f7ca345f548442bc"
+  },
+  "harbor_version": "0.25.0",
+  "held_out": [
+    "integrator-reserve",
+    "sampling-reserve",
+    "orientation-reserve"
+  ],
+  "images": {
+    "A": {
+      "id": "sha256:3c12607de05585af0ec46556b9ee66ab7f4f390b8b7a6bf347ef2ea5f8238b7b",
+      "tag": "lamlet-repair-a:3c12607de05585af0ec46556b9ee66ab7f4f390b8b7a6bf347ef2ea5f8238b7b"
+    },
+    "C": {
+      "id": "sha256:e48fbcdb2f61a28d3095921106ec65ec65c472d851e03f5e909a8be453935aee",
+      "tag": "lamlet-repair-c:e48fbcdb2f61a28d3095921106ec65ec65c472d851e03f5e909a8be453935aee"
+    }
+  },
+  "independent_human_review": "pending",
+  "maximum_agent_seconds": 1080,
+  "model": "gpt-6.1-sol",
+  "potential_files": [],
+  "reasoning_effort": "xhigh",
+  "runtime": {
+    "lamlet_sha256": "b70f87fa63dce19ed7de6994694bfa8521be3f6d5184f5759b51a9f02e00b40c",
+    "lammps_sha256": "0177d8cf759700aecdb4b76dbf65ec37b9013f8d56725c871dc3d9caebf74795"
+  },
+  "schema_version": 1,
+  "seed": 496,
+  "service_tier": "fast",
+  "sources": {
+    "research/harbor/p3/runtime.json": "e36621872a8ed52775ecf687f65b30a36e4a33981fed358be489c4b56e212dcd",
+    "research/repair/Dockerfile": "8467a152c080059388bc390e2b015e9d0d5257319a8d0f0a50eca4dfb71697eb",
+    "research/repair/protocol.md": "f90f58b6d1c66ee8c368ffa3e52caf3d04a6d9fa4c4402a69aab307848bdee92",
+    "tools/repair_campaign.py": "2e338fba95d330bde0594eeea2e7236d8f5a5fa95343404a7cf2891f5f077c4c",
+    "tools/repair_instrument.py": "101c3a286e14d00d3305647018e7b507305b973a0b2adf8c04b39929734a6139",
+    "tools/repair_tasks.py": "a2df2cc05e04f7b2fe02d7839ae12252ee14ed892cb5da7aaca94bb9ec5012db"
+  },
+  "split": "development",
+  "stopping_rule": "completion or 180-second agent timeout; no replacements",
+  "token_ceiling": null,
+  "tool_call_ceiling": null,
+  "trials": [
+    {
+      "condition": "A",
+      "id": "integrator-dev-A",
+      "task": "integrator-dev"
+    },
+    {
+      "condition": "C",
+      "id": "integrator-dev-C",
+      "task": "integrator-dev"
+    },
+    {
+      "condition": "C",
+      "id": "orientation-dev-C",
+      "task": "orientation-dev"
+    },
+    {
+      "condition": "A",
+      "id": "orientation-dev-A",
+      "task": "orientation-dev"
+    },
+    {
+      "condition": "A",
+      "id": "sampling-dev-A",
+      "task": "sampling-dev"
+    },
+    {
+      "condition": "C",
+      "id": "sampling-dev-C",
+      "task": "sampling-dev"
+    }
+  ],
+  "unmeasured": [
+    "dollar cost",
+    "CPU seconds",
+    "all unobserved source edits",
+    "full scientific correctness"
+  ],
+  "verifier_seconds": 60
+}

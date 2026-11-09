@@ -1,0 +1,8 @@
+{
+  "derived_remaining_wall_seconds": 569.1142058302648,
+  "estimate_is_not_a_measurement": true,
+  "first_trial": "integrator-dev-A",
+  "maximum_remaining_agent_seconds": 900,
+  "measured_wall_seconds": 113.82284116605297,
+  "remaining_assigned": 5
+}

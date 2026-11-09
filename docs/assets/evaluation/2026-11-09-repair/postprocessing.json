@@ -1,0 +1,9 @@
+{
+  "does_not_change_frozen_oracle": true,
+  "precollection_commit": "11b5c7d",
+  "sources": {
+    "tools/repair_diagnostics.py": "e86e342b2e8982bd34f9d6b1f08f40cf03dfc0f5ae869f04094e63788d2045d8",
+    "tools/repair_evidence.py": "3a7c6c9cc612eeef6676b3f1fd7b5f0a62085e3a53503731251d13bff5ce6ab8"
+  },
+  "superseded_preparation": "An earlier preflight reused a stale checker; no model trials were run there."
+}

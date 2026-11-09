@@ -1,0 +1,22 @@
+[
+  {
+    "candidate_sha256": null,
+    "time_ns": 1794192327879082569,
+    "tool": "lamlet"
+  },
+  {
+    "candidate_sha256": null,
+    "time_ns": 1794192327927542077,
+    "tool": "lmp"
+  },
+  {
+    "candidate_sha256": "6440ddf28865d2b96ef357672e1a5e8438654fd83dab308e166166383c8ae2ef",
+    "time_ns": 1794192336705640471,
+    "tool": "lmp"
+  },
+  {
+    "candidate_sha256": "6440ddf28865d2b96ef357672e1a5e8438654fd83dab308e166166383c8ae2ef",
+    "time_ns": 1794192336709782889,
+    "tool": "lamlet"
+  }
+]

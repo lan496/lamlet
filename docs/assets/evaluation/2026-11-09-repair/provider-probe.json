@@ -1,0 +1,12 @@
+{
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "xhigh",
+  "service_tier": "fast",
+  "date": "2026-11-09",
+  "scope": "non-task host-side availability probe, separate from assigned trials",
+  "exit_code": 0,
+  "response": "READY",
+  "usage": {"input_tokens": 30400, "cached_input_tokens": 12288, "output_tokens": 20},
+  "does_not_guarantee_later_availability": true,
+  "superseded_preparation": "repair-pilot-20261109 reused an outdated checker; no model trials assigned or executed there"
+}

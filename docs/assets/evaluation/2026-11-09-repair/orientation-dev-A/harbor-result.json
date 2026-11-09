@@ -1,0 +1,24 @@
+{
+  "agent_execution": {
+    "finished_at": "2026-11-09T03:20:59.224421Z",
+    "started_at": "2026-11-09T03:03:21.957690Z"
+  },
+  "agent_setup": {
+    "finished_at": "2026-11-09T03:03:21.956700Z",
+    "started_at": "2026-11-09T02:46:22.398191Z"
+  },
+  "environment_setup": {
+    "finished_at": "2026-11-09T02:46:22.398109Z",
+    "started_at": "2026-11-09T02:46:20.786498Z"
+  },
+  "verifier": {
+    "finished_at": "2026-11-09T03:21:25.942689Z",
+    "started_at": "2026-11-09T03:21:10.336816Z"
+  },
+  "verifier_environment_mode": "separate",
+  "verifier_result": {
+    "rewards": {
+      "reward": 1.0
+    }
+  }
+}
