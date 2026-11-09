@@ -141,6 +141,48 @@ excluded, and none is ready for replay preparation. The
 [results](../../docs/defect-corpus.md#discovery-screening) explain the retained
 conditions and gaps.
 
+## Recover missing public dependencies
+
+`dependency-plan.json` bounds follow-up to six public URLs for the two deferred
+discovery reports. It discloses prior source exposure and a failed preliminary
+Drive request. `defect_dependencies.py` captures each URL serially, preserving
+HTTP error responses as well as successful responses. No login, recursive folder
+crawl, attachment execution, or simulation is performed.
+
+```sh
+python3 tools/defect_dependencies.py fetch --output target/dependencies-new
+python3 tools/defect_dependencies.py verify \
+  --snapshot docs/assets/defect-dependencies/2026-11-09/snapshot.json \
+  --report docs/assets/defect-dependencies/2026-11-09/report.json
+python3 tools/defect_dependencies.py verify \
+  --snapshot docs/assets/defect-dependencies/2026-11-09/snapshot.json \
+  --report docs/assets/defect-dependencies/2026-11-09/report.json \
+  --cache target/dependency-recovery/capture
+```
+
+`fetch` requires a new directory. It exits 0 when every request returns a 2xx
+response, 1 when any request fails, and 2 on invalid arguments or processing
+errors. An HTTP 200 folder or web page does not establish recovery of its linked
+files. The archived fetch exited 1 because the anonymous Drive request returned
+404. Five other requests succeeded, including the current NIST potential and
+library and a commit-pinned reference table. Their three file receipts do not
+establish the reporter's original bytes.
+
+`dependency-assessment.json` records short file anchors, remaining gaps, and a
+next action for both reports. Neither advances to replay preparation. The Ga-In
+case still lacks the original inputs and structures, confirmation of potential
+hashes, and exact correction. The tempering case needs a replacement dataset,
+includes, PLUMED input, original restarts, and partition launch mapping.
+
+`verify` exits 0 on metadata/report agreement, including recorded source failures,
+and 2 on an integrity error. Without `--cache`, it cannot verify source bytes or
+literal anchors. The exact cache adds those checks. Neither mode validates a
+physical interpretation, confirms original-file provenance, or authorizes gold
+admission. A fresh fetch cannot substitute for the original snapshot; publish
+new receipts and a separate assessment after reviewing the new responses.
+Raw third-party files remain in ignored `target/`. Historical source, native,
+diagnostic, discovery, and screening archives remain unchanged.
+
 ## Pair admission
 
 A proposed negative condition needs a recoverable original input, all relevant

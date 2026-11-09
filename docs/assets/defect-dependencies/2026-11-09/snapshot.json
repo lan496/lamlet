@@ -1,0 +1,73 @@
+{
+  "plan_sha256": "e6b08733316ca5be6ba5b44eb5519cff69b098291c7dccf327e1a0fd4186a697",
+  "retrieved_at": "2026-11-09T14:14:27.100872+00:00",
+  "schema_version": 1,
+  "sources": [
+    {
+      "bytes": 19842,
+      "content_type": "text/html",
+      "http_status": 200,
+      "id": "nist-entry",
+      "outcome": "response",
+      "resolved_url": "https://www.ctcms.nist.gov/potentials/entry/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/",
+      "seconds": 0.788861,
+      "sha256": "7295b89b5ccfddef1364ee6aa235b821beb8e55604b01fca1d13c72d431c6b82",
+      "url": "https://www.ctcms.nist.gov/potentials/entry/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/"
+    },
+    {
+      "bytes": 2391,
+      "content_type": "text/plain",
+      "http_status": 200,
+      "id": "nist-potential",
+      "outcome": "response",
+      "resolved_url": "https://www.ctcms.nist.gov/potentials/Download/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/1/GaInN.meam",
+      "seconds": 0.81527,
+      "sha256": "e6003ade0a59f8d975504c6ed9a4a41a9745a005f306fdec87958a4401c4c934",
+      "url": "https://www.ctcms.nist.gov/potentials/Download/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/1/GaInN.meam"
+    },
+    {
+      "bytes": 895,
+      "content_type": "text/plain",
+      "http_status": 200,
+      "id": "nist-library",
+      "outcome": "response",
+      "resolved_url": "https://www.ctcms.nist.gov/potentials/Download/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/1/library.meam",
+      "seconds": 0.528318,
+      "sha256": "0cef73bcd53308fa57e2ab909c75a3bb8995cadd9a353104db3f685caaad336b",
+      "url": "https://www.ctcms.nist.gov/potentials/Download/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/1/library.meam"
+    },
+    {
+      "bytes": 9933,
+      "content_type": "text/plain",
+      "http_status": 200,
+      "id": "meam-alloy",
+      "outcome": "response",
+      "resolved_url": "https://raw.githubusercontent.com/lmhale99/meam2nn/62f4308d646b05ae15881ebdaa1b6c30aceb06c0/meam2nn/parameters/alloy.csv",
+      "seconds": 0.292126,
+      "sha256": "021a7726bde71fbba208acc2c66e27108ae138a1e73bd5cbc4f296bfa43ceada",
+      "url": "https://raw.githubusercontent.com/lmhale99/meam2nn/62f4308d646b05ae15881ebdaa1b6c30aceb06c0/meam2nn/parameters/alloy.csv"
+    },
+    {
+      "bytes": 209,
+      "content_type": "text/plain",
+      "http_status": 200,
+      "id": "meam-readme",
+      "outcome": "response",
+      "resolved_url": "https://raw.githubusercontent.com/lmhale99/meam2nn/62f4308d646b05ae15881ebdaa1b6c30aceb06c0/README.md",
+      "seconds": 0.268353,
+      "sha256": "ca772ed48c3b5f349ae3eafff16a4b34dd18b635bdfb8ca86c4c259924cdf0e7",
+      "url": "https://raw.githubusercontent.com/lmhale99/meam2nn/62f4308d646b05ae15881ebdaa1b6c30aceb06c0/README.md"
+    },
+    {
+      "bytes": 1755,
+      "content_type": "text/html",
+      "http_status": 404,
+      "id": "tempering-drive",
+      "outcome": "response",
+      "resolved_url": "https://drive.google.com/drive/folders/1pwIvKXxQqMn_0Oy1_NA8e6y8pB15ww9e?usp=sharing",
+      "seconds": 0.31739,
+      "sha256": "56d30f1caf0e1e2b5048fa24cd0a53a2282e98e5db2f751f59356a77fc165dc1",
+      "url": "https://drive.google.com/drive/folders/1pwIvKXxQqMn_0Oy1_NA8e6y8pB15ww9e?usp=sharing"
+    }
+  ]
+}

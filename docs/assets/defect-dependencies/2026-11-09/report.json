@@ -1,0 +1,17 @@
+{
+  "assessment_sha256": "48070dff3a29c59ec10d5cdf02e8b98a9c5eb94e8555fed7c0b6ba16503cf066",
+  "plan_sha256": "e6b08733316ca5be6ba5b44eb5519cff69b098291c7dccf327e1a0fd4186a697",
+  "schema_version": 1,
+  "snapshot_sha256": "7c41fb3da7be8cdb7096e1aea84a0128a6545f46a7237b511935e87b628d2547",
+  "summary": {
+    "cases": 2,
+    "current_reference_files": 3,
+    "gold_defect_pairs": 0,
+    "http_errors": 1,
+    "needs_evidence": 2,
+    "new_replay_candidates": 0,
+    "planned_urls": 6,
+    "successful_http_responses": 5,
+    "unavailable_requests": 0
+  }
+}

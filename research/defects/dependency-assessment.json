@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "snapshot_sha256": "7c41fb3da7be8cdb7096e1aea84a0128a6545f46a7237b511935e87b628d2547",
+  "split": "development",
+  "review": "model_assisted",
+  "native_replays": 0,
+  "checker_runs": 0,
+  "agent_trials": 0,
+  "gold_defect_pairs": 0,
+  "independent_adjudications": 0,
+  "redistribution": "Only receipts and short anchors are published. Public download availability does not establish permission to redistribute potential files, scripts, or reference tables. Raw responses remain in ignored target/.",
+  "cases": [
+    {
+      "id": "m67595",
+      "decision": "needs_evidence",
+      "references": [
+        {
+          "source": "nist-potential",
+          "relation": "current_reference_not_original",
+          "anchors": [
+            "Ec(1,2) =     2.8405",
+            "re(1,2) =     2.8276",
+            "alpha(1,2) =  3.87486077"
+          ]
+        },
+        {
+          "source": "nist-library",
+          "relation": "current_reference_not_original",
+          "anchors": ["'Ga' 'fcc'", "'In' 'fcc'", "'N' 'dim'"]
+        },
+        {
+          "source": "meam-alloy",
+          "relation": "current_reference_not_original",
+          "anchors": [
+            "Ga,In,Ga,In,10.1088/0953-8984/21/32/325801,FCC_B1,-0.1355,2.8276,0.2996,,,"
+          ]
+        }
+      ],
+      "observations": "The current NIST cross terms match the combination discussed in post 6. The revision-pinned alloy table has an empty Ga-In alpha cell, consistent with the post 9 correction. These are file inspections, not a validation of the proposed parameter edit or of liquid mixing enthalpy. The repository README disclaims accuracy.",
+      "remaining_gaps": [
+        "Reporter confirmation that the recovered potential and library hashes match the originals, including any local edits",
+        "Original B1 input, structure, volume perturbations, relaxation constraints, and fitting procedure",
+        "Original liquid and pure-reference inputs, structures, and independently specified mixing-enthalpy comparison",
+        "Exact corrected input and potential variants"
+      ],
+      "reason": "Current distribution files and a reference table are recoverable, but the full reported calculation and its exact original potential bytes remain unknown. Deriving a fresh B1 input would be a reconstruction with different provenance.",
+      "next_action": "Request or locate the author's original B1 and liquid datasets with hashes and explicit correction. If an independently designed B1 check is prepared first, register it separately as a reconstruction and freeze its physical condition before execution."
+    },
+    {
+      "id": "m67540",
+      "decision": "needs_evidence",
+      "references": [],
+      "observations": "The captured anonymous Drive folder response is HTTP 404. This establishes failure of this retrieval, not that the files are permanently deleted or inaccessible to their owner. No folder contents, includes, PLUMED input, or restarts were recovered.",
+      "remaining_gaps": [
+        "Working public archive or author-provided replacement for the linked Drive folder",
+        "system.in.init, system.data, system.in.settings, system.in.charges, and PLUMED.dat",
+        "Original restart sets, partition launch command, world-variable mapping, and exact corrected scripts",
+        "Versioned PLUMED-enabled target executable and runtime requirements"
+      ],
+      "reason": "The two previously captured input scripts remain available, but the linked full dataset could not be retrieved. A shared filename alone does not reproduce the reported trajectory instability.",
+      "next_action": "Obtain a replacement public dataset and exact partition launch mapping. Test replica-file isolation separately from trajectory stability; retain the existing scripts as source evidence rather than a complete replay."
+    }
+  ]
+}

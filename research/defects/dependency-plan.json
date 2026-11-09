@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "screening_sha256": "8c1a90e7b99c9fbdc9cf2e19053ccbc826a9ca5a610f2e6e435e570f7ab2e7e3",
+  "scope": "Public source recovery for both needs_evidence reports from the frozen twelve-topic discovery cohort. Current reference files cannot establish the reporter's original bytes.",
+  "exposure": "The complete threads and both tempering attachments were already read. NIST file contents were visible through web retrieval. A preliminary anonymous Drive request returned HTTP 404. This is development follow-up, not prospective or blinded evaluation.",
+  "bounds": "Six serial requests, 30 seconds and 16 MiB per response. Preserve failures. Do not sign in, crawl other sites, execute or unpack downloads, run simulations, or invoke Lamlet. Keep third-party bytes in target/. No automatic replay or gold admission.",
+  "github_revision": "62f4308d646b05ae15881ebdaa1b6c30aceb06c0",
+  "sources": [
+    {
+      "id": "nist-entry",
+      "case": "m67595",
+      "post_number": 1,
+      "role": "Distribution page linked by the reporter",
+      "kind": "context",
+      "url": "https://www.ctcms.nist.gov/potentials/entry/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/"
+    },
+    {
+      "id": "nist-potential",
+      "case": "m67595",
+      "post_number": 1,
+      "role": "Current GaInN.meam linked from the distribution page",
+      "kind": "reference_file",
+      "url": "https://www.ctcms.nist.gov/potentials/Download/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/1/GaInN.meam"
+    },
+    {
+      "id": "nist-library",
+      "case": "m67595",
+      "post_number": 1,
+      "role": "Current library.meam linked from the distribution page",
+      "kind": "reference_file",
+      "url": "https://www.ctcms.nist.gov/potentials/Download/2009--Do-E-C-Shin-Y-H-Lee-B-J--Ga-In-N/1/library.meam"
+    },
+    {
+      "id": "meam-alloy",
+      "case": "m67595",
+      "post_number": 9,
+      "role": "Revision-pinned alloy parameter table cited in the final correction",
+      "kind": "reference_file",
+      "url": "https://raw.githubusercontent.com/lmhale99/meam2nn/62f4308d646b05ae15881ebdaa1b6c30aceb06c0/meam2nn/parameters/alloy.csv"
+    },
+    {
+      "id": "meam-readme",
+      "case": "m67595",
+      "post_number": 9,
+      "role": "Revision-pinned repository limitations",
+      "kind": "context",
+      "url": "https://raw.githubusercontent.com/lmhale99/meam2nn/62f4308d646b05ae15881ebdaa1b6c30aceb06c0/README.md"
+    },
+    {
+      "id": "tempering-drive",
+      "case": "m67540",
+      "post_number": 1,
+      "role": "External folder linked by the reporter",
+      "kind": "dependency_folder",
+      "url": "https://drive.google.com/drive/folders/1pwIvKXxQqMn_0Oy1_NA8e6y8pB15ww9e?usp=sharing"
+    }
+  ]
+}
