@@ -1,0 +1,198 @@
+
+Large-scale Atomic/Molecular Massively Parallel Simulator - 30 Sep 2026 - Development
+Git info (HEAD / d291d572)
+
+Usage example: /Users/shinohara/sandbox/lamlet/target/defect-runtime/build/lmp -var t 300 -echo screen -in in.alloy
+
+List of command-line options supported by this LAMMPS executable:
+
+-echo none/screen/log/both  : echoing of input script (-e)
+-help                       : print this help message (-h)
+-in none/filename           : read input from file or stdin (default) (-i)
+-kokkos on/off ...          : turn KOKKOS mode on or off (-k)
+-log none/filename          : where to send log output (-l)
+-mdi '<mdi flags>'          : pass flags to the MolSSI Driver Interface
+-mpicolor color             : which exe in a multi-exe mpirun cmd (-m)
+-cite                       : select citation reminder style (-c)
+-nocite                     : disable citation reminder (-nc)
+-nonbuf                     : disable screen/logfile buffering (-nb)
+-package style ...          : invoke package command (-pk)
+-partition size1 size2 ...  : assign partition sizes (-p)
+-plog basename              : basename for partition logs (-pl)
+-pscreen basename           : basename for partition screens (-ps)
+-restart2data rfile dfile ... : convert restart to data file (-r2data)
+-restart2dump rfile dgroup dstyle dfile ... 
+                            : convert restart to dump file (-r2dump)
+-restart2info rfile         : print info about restart rfile (-r2info)
+-reorder topology-specs     : processor reordering (-r)
+-screen none/filename       : where to send screen output (-sc)
+-skiprun                    : skip loops in run and minimize (-sr)
+-suffix gpu/intel/kk/opt/omp: style suffix to apply (-sf)
+-var varname value          : set index style variable (-v)
+
+OS: Darwin 25.5.0 arm64
+
+Compiler: Clang C++ Apple LLVM 21.0.0 (clang-2100.1.1.101) with OpenMP not enabled
+C++ standard: C++17
+Embedded fmt library version: 10.2.0
+Embedded JSON class version: 3.12.0
+
+MPI v1.0: LAMMPS MPI STUBS for LAMMPS version 30 Sep 2026
+
+Accelerator configuration:
+
+
+FFT information:
+
+FFT precision  = double
+FFT engine  = mpiFFT
+FFT library = KISS
+
+Active compile time flags:
+
+-DLAMMPS_SMALLBIG
+sizeof(smallint): 32-bit
+sizeof(imageint): 32-bit
+sizeof(tagint):   32-bit
+sizeof(bigint):   64-bit
+
+Available compression formats:
+
+Extension: .gz     Command: gzip
+Extension: .bz2    Command: bzip2
+Extension: .zst    Command: zstd
+Extension: .xz     Command: xz
+Extension: .lzma   Command: xz
+Extension: .lz4    Command: lz4
+Extension: .br     Command: brotli
+
+FFmpeg executable: /opt/homebrew/bin/ffmpeg
+
+Installed packages:
+
+MC MOLECULE RIGID 
+
+Lists of individual styles included in this LAMMPS executable
+(a trailing * marks a style currently provided by a plugin)
+
+* Atom styles:
+angle   body  charge     full    line       sphere    tri
+atomic  bond  ellipsoid  hybrid  molecular  template
+
+
+* Body styles:
+(none)
+
+
+* Integrate styles:
+respa  verlet
+
+
+* Minimize styles:
+cg  fire  fire/old  hftn  quickmin  sd
+
+
+* Pair styles:
+agni           hbond/dreiding/lj      lj/charmm/coul/charmm/implicit  reax/c
+agni/omp       hbond/dreiding/morse   lj/charmmfsw/coul/charmmfsh     soft
+awpmd/cut      hybrid                 lj/cut                          table
+born           hybrid/molecular       lj/cut/coul/cut                 tip4p/cut
+buck           hybrid/molecular/omp   lj/cut/tip4p/cut                yukawa
+buck/coul/cut  hybrid/omp             lj/expand                       zbl
+coul/cut       hybrid/overlay         meam/c                          zero
+coul/debye     hybrid/overlay/omp     mesont/tpm                      zero/coul
+coul/dsf       hybrid/scaled          morse
+coul/wolf      hybrid/scaled/omp      rann
+dsmc           lj/charmm/coul/charmm  reax
+
+
+* Bond styles:
+fene  fene/expand  gromos  harmonic  hybrid  morse  quartic  table  zero
+
+
+* Angle styles:
+charmm  cosine  cosine/squared  harmonic  hybrid  table  zero
+
+
+* Dihedral styles:
+charmm  charmmfsw  harmonic  hybrid  multi/harmonic  opls  table  zero
+
+
+* Improper styles:
+cvff  harmonic  hybrid  umbrella  zero
+
+
+* KSpace styles:
+zero
+
+
+* Fix styles:
+adapt               ehex                nve/noforce      rigid/small
+addforce            enforce2d           nve/sphere       set
+atc                 evaporate           nvt              setforce
+atom/swap           external            nvt/sllod        shake
+ave/atom            gcmc                nvt/sphere       spring
+ave/chunk           gemc                pair             spring/chunk
+ave/correlate       gravity             planeforce       spring/self
+ave/grid            halt                poems            store/force
+ave/histo           heat                press/berendsen  store/state
+ave/histo/weight    hmc                 press/langevin   temp/berendsen
+ave/spatial         ilves               print            temp/rescale
+ave/spatial/sphere  indent              property/atom    tfmc
+ave/time            langevin            rattle           thermal/conductivity
+aveforce            lb/pc               reax/c/bonds     vector
+balance             lb/rigid/pc/sphere  reax/c/species   viscous
+bond/break          lineforce           recenter         wall/harmonic
+bond/create         mol/swap            restrain         wall/harmonic/outside
+bond/create/angle   momentum            rigid            wall/harmonic/returned
+bond/swap           move                rigid/nph        wall/lj1043
+box/relax           nph                 rigid/nph/small  wall/lj126
+charge/regulation   nph/sphere          rigid/npt        wall/lj93
+cmap                npt                 rigid/npt/small  wall/morse
+deform              npt/sphere          rigid/nve        wall/reflect
+deposit             nve                 rigid/nve/small  wall/region
+dt/reset            nve/awpmd           rigid/nvt        wall/table
+efield              nve/limit           rigid/nvt/small  widom
+
+
+* Compute styles:
+aggregate/atom        dipole               ke/rigid          reduce/region
+angle                 dipole/chunk         mesont            rigid/local
+angle/local           displace/atom        msd               slice
+angmom/chunk          erotate/rigid        msd/chunk         stress/atom
+bond                  erotate/sphere       omega/chunk       temp
+bond/local            erotate/sphere/atom  orientorder/atom  temp/chunk
+centro/atom           fragment/atom        pair              temp/com
+centroid/stress/atom  global/atom          pair/local        temp/deform
+chunk/atom            group/group          pe                temp/partial
+chunk/spread/atom     gyration             pe/atom           temp/profile
+cluster/atom          gyration/chunk       pressure          temp/ramp
+cna/atom              heat/flux            property/atom     temp/region
+com                   improper             property/chunk    temp/sphere
+com/chunk             improper/local       property/grid     torque/chunk
+coord/atom            inertia              property/local    vacf
+count/type            inertia/chunk        rdf               vacf/chunk
+dihedral              ke                   reduce            vcm/chunk
+dihedral/local        ke/atom              reduce/chunk
+
+
+* Region styles:
+block  cone  cylinder  ellipsoid  intersect  plane  prism  sphere  union
+
+
+* Dump styles:
+atom        cfg        custom        grid      local  xyz/mpiio
+atom/mpiio  cfg/mpiio  custom/mpiio  grid/vtk  xyz
+
+
+* Command styles
+angle_write   delete_bonds      kim_query     reset_atom_ids  write_data
+balance       dihedral_write    message       reset_ids       write_dump
+box           displace_atoms    minimize      reset_mol_ids   write_molecule
+change_box    info              read_data     run             write_restart
+create_atoms  kim_init          read_dump     server
+create_bonds  kim_interactions  read_restart  set
+create_box    kim_param         replicate     velocity
+delete_atoms  kim_property      rerun         write_coeff
+
+

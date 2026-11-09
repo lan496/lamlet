@@ -1,0 +1,3 @@
+LAMMPS (30 Sep 2026 - Development - d291d572)
+ERROR: Expected integer parameter instead of '0.8' in input script or data file (src/lattice.cpp:172)
+Last input line: lattice fcc 4.05 orient x 0.8 0.6 0 orient y -0.6 0.8 0 orient z 0 0 1

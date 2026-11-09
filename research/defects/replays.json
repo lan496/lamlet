@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "source_commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+  "timeout_seconds": 10,
+  "relative_tolerance": 1e-8,
+  "metal_mvv2e": 0.00010364269,
+  "real_boltz": 0.0019872067,
+  "cases": [
+    {
+      "id": "orientation",
+      "source": "m18394",
+      "kind": "source_fragment_with_reconstructed_correction",
+      "condition": "Integer crystallographic direction arguments are required.",
+      "before": "lattice fcc 4.05 orient x 0.8 0.6 0 orient y -0.6 0.8 0 orient z 0 0 1",
+      "after": "lattice fcc 4.05 orient x 4 3 0 orient y -3 4 0 orient z 0 0 1"
+    },
+    {
+      "id": "averaging",
+      "source": "m34056",
+      "kind": "complete_attachment_with_proposed_correction",
+      "attachment_url": "https://matsci.org/uploads/short-url/utjEUdU8yp2aHWoEWuCH2pG26jF.lj",
+      "condition": "Standalone write_dump of fix ave/atom output is reported to fail on the historical engine.",
+      "remove": "write_dump all custom foo2 id type mass f_avg[*]"
+    },
+    {
+      "id": "gcmc-original",
+      "source": "m37447",
+      "kind": "complete_inline_with_reported_correction",
+      "code_anchor": "# Confined LJ fluid in a slit pore with LJ walls",
+      "condition": "Record full-input execution outcomes without inferring temperature-control success.",
+      "replace": ["fix_modify      NVT dynamic/dof yes", "compute_modify  NVT_temp dynamic/dof yes"]
+    },
+    {
+      "id": "gcmc-instrumented",
+      "source": "m37447",
+      "kind": "shortened_instrumented_replay",
+      "code_anchor": "# Confined LJ fluid in a slit pore with LJ walls",
+      "condition": "The selected thermostat temperature must agree with instantaneous kinetic normalization after atom exchange.",
+      "replace": ["fix_modify      NVT dynamic/dof yes", "compute_modify  NVT_temp dynamic/dof yes"],
+      "steps": 400,
+      "thermo_columns": "step atoms ke c_NVT_temp c_Tfluid"
+    },
+    {
+      "id": "velocity",
+      "source": "m56524",
+      "kind": "model_reconstruction",
+      "condition": "A prescribed box-unit velocity produces the intended single-atom kinetic energy.",
+      "lattice_spacing": 3.13400196,
+      "mass": 183.84,
+      "velocity": 100.0
+    }
+  ]
+}

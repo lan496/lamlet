@@ -1,0 +1,59 @@
+{
+  "cases": [
+    {
+      "after": "lattice fcc 4.05 orient x 4 3 0 orient y -3 4 0 orient z 0 0 1",
+      "before": "lattice fcc 4.05 orient x 0.8 0.6 0 orient y -0.6 0.8 0 orient z 0 0 1",
+      "condition": "Integer crystallographic direction arguments are required.",
+      "id": "orientation",
+      "kind": "source_fragment_with_reconstructed_correction",
+      "source": "m18394"
+    },
+    {
+      "attachment_url": "https://matsci.org/uploads/short-url/utjEUdU8yp2aHWoEWuCH2pG26jF.lj",
+      "condition": "Standalone write_dump of fix ave/atom output is reported to fail on the historical engine.",
+      "id": "averaging",
+      "kind": "complete_attachment_with_proposed_correction",
+      "remove": "write_dump all custom foo2 id type mass f_avg[*]",
+      "source": "m34056"
+    },
+    {
+      "code_anchor": "# Confined LJ fluid in a slit pore with LJ walls",
+      "condition": "Record full-input execution outcomes without inferring temperature-control success.",
+      "id": "gcmc-original",
+      "kind": "complete_inline_with_reported_correction",
+      "replace": [
+        "fix_modify      NVT dynamic/dof yes",
+        "compute_modify  NVT_temp dynamic/dof yes"
+      ],
+      "source": "m37447"
+    },
+    {
+      "code_anchor": "# Confined LJ fluid in a slit pore with LJ walls",
+      "condition": "The selected thermostat temperature must agree with instantaneous kinetic normalization after atom exchange.",
+      "id": "gcmc-instrumented",
+      "kind": "shortened_instrumented_replay",
+      "replace": [
+        "fix_modify      NVT dynamic/dof yes",
+        "compute_modify  NVT_temp dynamic/dof yes"
+      ],
+      "source": "m37447",
+      "steps": 400,
+      "thermo_columns": "step atoms ke c_NVT_temp c_Tfluid"
+    },
+    {
+      "condition": "A prescribed box-unit velocity produces the intended single-atom kinetic energy.",
+      "id": "velocity",
+      "kind": "model_reconstruction",
+      "lattice_spacing": 3.13400196,
+      "mass": 183.84,
+      "source": "m56524",
+      "velocity": 100.0
+    }
+  ],
+  "metal_mvv2e": 0.00010364269,
+  "real_boltz": 0.0019872067,
+  "relative_tolerance": 1e-08,
+  "schema_version": 1,
+  "source_commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+  "timeout_seconds": 10
+}
