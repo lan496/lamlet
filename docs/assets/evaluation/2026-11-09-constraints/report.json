@@ -1,0 +1,104 @@
+{
+  "cases": [
+    {
+      "checker_exit_code": 0,
+      "constraints_within_threshold": true,
+      "engine_exit_code": 0,
+      "engine_seconds": 0.011837000027298927,
+      "id": "shake-langevin-correct",
+      "measurement": {
+        "frames": 201,
+        "max_radial_relative_velocity": 0.0008551608738770616,
+        "max_relative_bond_error": 2.220446049250313e-16
+      },
+      "order": "correct",
+      "ordering_warning": false,
+      "rule": "LML-PHYS-007",
+      "unassessed_reason": null
+    },
+    {
+      "checker_exit_code": 0,
+      "constraints_within_threshold": false,
+      "engine_exit_code": 0,
+      "engine_seconds": 0.011423124931752682,
+      "id": "shake-langevin-reversed",
+      "measurement": {
+        "frames": 201,
+        "max_radial_relative_velocity": 0.28577212348010106,
+        "max_relative_bond_error": 0.001641189332634574
+      },
+      "order": "reversed",
+      "ordering_warning": true,
+      "rule": "LML-PHYS-007",
+      "unassessed_reason": null
+    },
+    {
+      "checker_exit_code": 0,
+      "constraints_within_threshold": true,
+      "engine_exit_code": 0,
+      "engine_seconds": 0.008773500099778175,
+      "id": "shake-setforce-correct",
+      "measurement": {
+        "frames": 201,
+        "max_radial_relative_velocity": 2.0372592501871626e-14,
+        "max_relative_bond_error": 2.220446049250313e-16
+      },
+      "order": "correct",
+      "ordering_warning": false,
+      "rule": "LML-PHYS-007",
+      "unassessed_reason": null
+    },
+    {
+      "checker_exit_code": 0,
+      "constraints_within_threshold": false,
+      "engine_exit_code": 0,
+      "engine_seconds": 0.008167166961356997,
+      "id": "shake-setforce-reversed",
+      "measurement": {
+        "frames": 201,
+        "max_radial_relative_velocity": 0.30869745325651604,
+        "max_relative_bond_error": 0.16619037896906041
+      },
+      "order": "reversed",
+      "ordering_warning": true,
+      "rule": "LML-PHYS-007",
+      "unassessed_reason": null
+    },
+    {
+      "checker_exit_code": 0,
+      "constraints_within_threshold": false,
+      "engine_exit_code": 0,
+      "engine_seconds": 0.009032749803736806,
+      "id": "rattle-nvt-correct",
+      "measurement": {
+        "frames": 201,
+        "max_radial_relative_velocity": 5.551118320202074e-17,
+        "max_relative_bond_error": 6.870001700853834e-07
+      },
+      "order": "correct",
+      "ordering_warning": false,
+      "rule": "LML-PHYS-008",
+      "unassessed_reason": null
+    },
+    {
+      "checker_exit_code": 0,
+      "constraints_within_threshold": false,
+      "engine_exit_code": 0,
+      "engine_seconds": 0.008378832833841443,
+      "id": "rattle-nvt-reversed",
+      "measurement": {
+        "frames": 201,
+        "max_radial_relative_velocity": 0.002933419432079627,
+        "max_relative_bond_error": 1.4573067444567656e-05
+      },
+      "order": "reversed",
+      "ordering_warning": true,
+      "rule": "LML-PHYS-008",
+      "unassessed_reason": null
+    }
+  ],
+  "checker_sha256": "583d5bcb9904ef639d19f0df3c7ea660400dedb39a7dd78ad8702cf26f89de90",
+  "engine_sha256": "c46a227e66f1a815c9089920350dac80c638b97789db6df2393a3b0717ea7b32",
+  "lammps_source_commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+  "schema_version": 1
+}

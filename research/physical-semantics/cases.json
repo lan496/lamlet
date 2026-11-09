@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "lammps_commit": "d291d572cf3c73a8a720774b78482a7c931304ca",
+  "cmake_options": ["-DBUILD_MPI=off", "-DBUILD_OMP=off", "-DBUILD_SHARED_LIBS=off", "-DPKG_RIGID=on", "-DPKG_MOLECULE=on", "-DCMAKE_BUILD_TYPE=Release"],
+  "steps": 200,
+  "bond_length": 1.0,
+  "distance_threshold": 1e-8,
+  "radial_velocity_threshold": 1e-8,
+  "cases": [
+    {"id": "shake-langevin-correct", "rule": "LML-PHYS-007", "constraint": "shake", "order": "correct", "fixes": ["fix integrate all nve", "fix bath all langevin 0.1 0.1 0.1 12345", "fix constraint all shake 1e-10 100 0 b 1"]},
+    {"id": "shake-langevin-reversed", "rule": "LML-PHYS-007", "constraint": "shake", "order": "reversed", "fixes": ["fix integrate all nve", "fix constraint all shake 1e-10 100 0 b 1", "fix bath all langevin 0.1 0.1 0.1 12345"]},
+    {"id": "shake-setforce-correct", "rule": "LML-PHYS-007", "constraint": "shake", "order": "correct", "fixes": ["fix integrate all nve", "fix force all setforce 0 0 0", "fix constraint all shake 1e-10 100 0 b 1"]},
+    {"id": "shake-setforce-reversed", "rule": "LML-PHYS-007", "constraint": "shake", "order": "reversed", "fixes": ["fix integrate all nve", "fix constraint all shake 1e-10 100 0 b 1", "fix force all setforce 0 0 0"]},
+    {"id": "rattle-nvt-correct", "rule": "LML-PHYS-008", "constraint": "rattle", "order": "correct", "fixes": ["fix integrate all nvt temp 0.1 0.1 0.1", "fix constraint all rattle 1e-10 100 0 b 1"]},
+    {"id": "rattle-nvt-reversed", "rule": "LML-PHYS-008", "constraint": "rattle", "order": "reversed", "fixes": ["fix constraint all rattle 1e-10 100 0 b 1", "fix integrate all nvt temp 0.1 0.1 0.1"]}
+  ]
+}

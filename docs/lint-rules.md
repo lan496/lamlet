@@ -3,7 +3,7 @@
 The [lint mutation evaluation](lint-evaluation.md) measures detection, false
 warnings, and Unknown outcomes for seven reviewed rules through the actual CLI.
 
-Lamlet has twelve physical and idiom rules and 286 additional executable constraints
+Lamlet has fourteen physical and idiom rules and 286 additional executable constraints
 derived from the official LAMMPS manual. They emit warnings with source evidence
 and suggested actions. Warnings remain
 nonfatal in strict mode. The compiler does not reorder commands, change physical
@@ -23,6 +23,8 @@ parameters, or insert corrections in response to a warning.
 | `LML-PHYS-006` | Langevin force control has no known integrator for its group. | Positive literal `run`, complete fix inventory, and reviewed fix roles; partial group coverage remains Unknown. | [langevin](https://docs.lammps.org/fix_langevin.html) |
 | `LML-PHYS-007` | SHAKE precedes a force modifier on potentially overlapping atoms. | Positive literal `run`; reviewed Langevin and setforce modifiers, effective fix order, and same-group or `all` overlap. | [SHAKE](https://docs.lammps.org/fix_shake.html), [fix order](https://docs.lammps.org/fix.html) |
 | `LML-PHYS-008` | RATTLE precedes an integrator or force modifier on potentially overlapping atoms. | Same execution and overlap limits; ordinary `nve`, `nvt`, `npt`, `nph`, Langevin, and setforce. | [RATTLE](https://docs.lammps.org/fix_shake.html), [fix order](https://docs.lammps.org/fix.html) |
+| `LML-PHYS-009` | Multiple fixes change the same simulation box component. | Positive literal `run`; explicit components in reviewed `npt`, `nph`, and `deform` grammar, independent of atom groups. | [nvt/npt/nph](https://docs.lammps.org/fix_nh.html), [deform](https://docs.lammps.org/fix_deform.html) |
+| `LML-PHYS-010` | A selected temperature compute uses fixed atom-count normalization while an active fix may add or remove atoms. | `temp`/`temp/com`, literal `compute_modify`, `deposit`/`pour`/`gcmc`/`evaporate`, selected thermo and ordinary NVT/NPT temperatures. | [compute_modify](https://docs.lammps.org/compute_modify.html), [temp](https://docs.lammps.org/compute_temp.html) |
 | `LML-LINT-001` | `thermo_style` resets earlier `thermo_modify` settings. | A known modification followed by a style command. A deliberate reset is valid. | [thermo_style](https://docs.lammps.org/thermo_style.html) |
 | `LML-LINT-002` | A random seed is not positive. | Integer literals in `velocity ... create` and `fix ... langevin`. | [velocity](https://docs.lammps.org/velocity.html), [langevin](https://docs.lammps.org/fix_langevin.html) |
 | `LML-LINT-003` | A combined region specifies fewer than two regions. | Integer literal counts in `region ... union` and `intersect`. | [region](https://docs.lammps.org/region.html) |
@@ -158,7 +160,7 @@ lamlet schema LML-MAN-NEIGHBOR-DELAY --format json
 lamlet schema pair_style/eam --format json
 ```
 
-`schema` includes the existing temperature rule in `physical_rules`, eleven
+`schema` includes two temperature rules in `physical_rules`, twelve
 additional rules in `lint_rules`, executable constraints in `manual_rules`,
 and manual provenance in `documentation`. `manual_review` reports review counts
 and a completeness flag. The generated rules also appear in `diagnostic_codes`.
@@ -240,7 +242,7 @@ The source documents that contain autodoc directives are included.
 Full text and candidate paragraphs remain in ignored `target/lammps-manual/`.
 The committed catalog stores provenance and navigation metadata. Indexing all
 source documents does not mean that all prose has been semantically reviewed or
-implemented. Most manual constraints remain unimplemented. The twelve physical and
+implemented. Most manual constraints remain unimplemented. The fourteen physical and
 idiom rules and 286 generated constraints are the current executable lint coverage;
 command schemas, capability checks, and ownership checks are separate.
 

@@ -9,6 +9,117 @@ fn check(text: &str) -> lamlet::Compilation {
         },
     )
 }
+
+#[test]
+fn changing_atom_count_requires_dynamic_dof_for_selected_temperatures() {
+    for exchange in [
+        "deposit 10 1 1 123 region incoming",
+        "pour 10 1 123 region incoming",
+        "gcmc 10 10 10 1 123 300 -1 0.1",
+        "evaporate 10 1 incoming 123",
+    ] {
+        for (setting, expected) in [
+            ("", Outcome::Violated),
+            ("compute_modify T dynamic/dof yes\n", Outcome::Satisfied),
+            (
+                "compute_modify T dynamic/dof no extra/dof -1\n",
+                Outcome::Violated,
+            ),
+        ] {
+            let text = format!(
+                "compute T all temp\n{setting}thermo_modify temp T\nfix exchange all {exchange}\nrun 100\n"
+            );
+            let result = check(&text);
+            assert!(!result.has_errors(), "{:?}", result.diagnostics);
+            assert_eq!(result.output, text.as_bytes());
+            let finding = result
+                .physical_findings
+                .iter()
+                .find(|f| f.rule_id == "LML-PHYS-010")
+                .unwrap();
+            assert_eq!(finding.outcome, expected, "{text}");
+            assert_eq!(
+                result.diagnostics.iter().any(|d| d.code == "LML-PHYS-010"),
+                expected == Outcome::Violated
+            );
+        }
+    }
+}
+
+#[test]
+fn dynamic_dof_tracks_final_selection_cleanup_and_unknown_groups() {
+    for (prefix, expected) in [
+        (
+            "compute T mobile temp\nthermo_modify temp T\n",
+            Some(Outcome::Unknown),
+        ),
+        (
+            "compute T all temp\ncompute_modify T custom yes\nthermo_modify temp T\n",
+            Some(Outcome::Unknown),
+        ),
+        (
+            "compute T all temp\ncompute_modify T dynamic/dof yes dynamic/dof no\nthermo_modify temp T\n",
+            Some(Outcome::Violated),
+        ),
+        (
+            "compute T all temp\ncompute_modify T dynamic/dof no dynamic/dof yes\nthermo_modify temp T\n",
+            Some(Outcome::Satisfied),
+        ),
+        ("compute T all temp\nthermo_style custom step\n", None),
+    ] {
+        let result = check(&format!(
+            "{prefix}fix exchange gas evaporate 10 1 incoming 123\nrun 100\n"
+        ));
+        assert!(!result.has_errors());
+        assert_eq!(
+            result
+                .physical_findings
+                .iter()
+                .find(|f| f.rule_id == "LML-PHYS-010")
+                .map(|f| f.outcome),
+            expected
+        );
+    }
+    for suffix in [
+        "unfix exchange\nrun 100\n",
+        "run 0\n",
+        "include opaque.in\nrun 100\n",
+        "clear\nrun 100\n",
+    ] {
+        let result = check(&format!(
+            "compute T all temp\nthermo_modify temp T\nfix exchange all evaporate 10 1 incoming 123\n{suffix}"
+        ));
+        assert!(
+            !result
+                .physical_findings
+                .iter()
+                .any(|f| f.rule_id == "LML-PHYS-010")
+        );
+    }
+}
+
+#[test]
+fn dynamic_dof_follows_thermostat_selection_and_explicit_thermo_compute_fields() {
+    for selection in [
+        "thermo_style custom step c_T\n",
+        "fix bath all nvt temp 300 300 0.1\nfix_modify bath temp T\nthermo_style custom step\n",
+    ] {
+        let text = format!(
+            "compute T all temp/com\n{selection}fix exchange all evaporate 10 1 incoming 123\nrun 100\n"
+        );
+        let result = check(&text);
+        assert!(!result.has_errors());
+        assert_eq!(
+            result
+                .physical_findings
+                .iter()
+                .filter(|f| f.rule_id == "LML-PHYS-010")
+                .map(|f| f.outcome)
+                .collect::<Vec<_>>(),
+            vec![Outcome::Violated]
+        );
+    }
+}
 fn outcome(text: &str, expected: Outcome) -> lamlet::Compilation {
     let c = check(text);
     assert!(!c.has_errors(), "{:?}", c.diagnostics);
