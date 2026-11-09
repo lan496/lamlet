@@ -161,6 +161,29 @@ reason for every non-pending decision. The validator checks evidence hashes and
 form completeness, not reviewer identity or scientific truth. Even an all-agree
 form does not automatically admit gold defect pairs.
 
+## Versioned checker regrades
+
+A changed checker uses the frozen inputs, native criteria, targets, and original
+diagnostic audit plan. Its capture declares the new full source commit separately
+from the plan's baseline revision. Build from a clean checkout at that commit
+before collecting. Use a new output directory and preserve the original archive:
+
+```sh
+cargo build --release --locked
+python3 tools/defect_diagnostics.py run \
+  --checker-source-commit 0c658e13bf00770086fe8ca11679555046f4f00c \
+  --cache target/defect-pilot-20261109/sources \
+  --output target/diagnostic-audit-gcmc-new
+python3 tools/defect_diagnostics.py verify \
+  --archive docs/assets/defect-diagnostics/2026-11-09-gcmc
+```
+
+The [GCMC regrade](../../docs/gcmc-diagnostic-recovery.md) recovers the previously
+absent temperature-normalization finding. Its independent native measurements
+are unchanged. These inputs are development regressions; their reuse cannot
+measure generalization to unseen reports or agent improvement. The review packet
+and its five pending decisions remain unchanged.
+
 ## Future evaluation splits
 
 Freeze the case selection, labels, independent tests, and executable profile

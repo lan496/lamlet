@@ -16,6 +16,10 @@ sample and pending expert review do not support an accuracy estimate.
 
 ## Introduction
 
+The checker revision and observations on this page remain frozen. A
+[separate GCMC regrade](gcmc-diagnostic-recovery.md) records the subsequent
+semantic-state fix against the same inputs and native reference conditions.
+
 The [natural defect collection](defect-corpus.md) preserved source reports,
 proposed corrections, missing dependencies, and native execution evidence. Its
 bounded measurements provide conditions against which checker behavior can be

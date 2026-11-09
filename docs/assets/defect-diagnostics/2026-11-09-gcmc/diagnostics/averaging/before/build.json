@@ -1,0 +1,776 @@
+{
+  "report": {
+    "diagnostics": [
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'variable' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 497,
+          "end_column": 1,
+          "end_line": 15,
+          "start_byte": 471,
+          "start_column": 1,
+          "start_line": 14
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'variable' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 523,
+          "end_column": 1,
+          "end_line": 16,
+          "start_byte": 497,
+          "start_column": 1,
+          "start_line": 15
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'variable' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 549,
+          "end_column": 1,
+          "end_line": 17,
+          "start_byte": 523,
+          "start_column": 1,
+          "start_line": 16
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Runtime substitution or ambiguous token boundaries prevent command analysis",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 581,
+          "end_column": 1,
+          "end_line": 19,
+          "start_byte": 550,
+          "start_column": 1,
+          "start_line": 18
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Runtime substitution or ambiguous token boundaries prevent command analysis",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 612,
+          "end_column": 1,
+          "end_line": 20,
+          "start_byte": 581,
+          "start_column": 1,
+          "start_line": 19
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Runtime substitution or ambiguous token boundaries prevent command analysis",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 643,
+          "end_column": 1,
+          "end_line": 21,
+          "start_byte": 612,
+          "start_column": 1,
+          "start_line": 20
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_COMMAND_ORDER",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Cannot prove that units appears before box creation",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 649,
+          "end_column": 6,
+          "end_line": 22,
+          "start_byte": 644,
+          "start_column": 1,
+          "start_line": 22
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 686,
+          "end_column": 1,
+          "end_line": 24,
+          "start_byte": 663,
+          "start_column": 1,
+          "start_line": 23
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_COMMAND_ORDER",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Cannot prove that atom_style appears before box creation",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 673,
+          "end_column": 11,
+          "end_line": 23,
+          "start_byte": 663,
+          "start_column": 1,
+          "start_line": 23
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'lattice' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 714,
+          "end_column": 1,
+          "end_line": 26,
+          "start_byte": 687,
+          "start_column": 1,
+          "start_line": 25
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Runtime substitution or ambiguous token boundaries prevent command analysis",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 764,
+          "end_column": 1,
+          "end_line": 27,
+          "start_byte": 714,
+          "start_column": 1,
+          "start_line": 26
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 786,
+          "end_column": 1,
+          "end_line": 28,
+          "start_byte": 764,
+          "start_column": 1,
+          "start_line": 27
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'create_atoms' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 808,
+          "end_column": 1,
+          "end_line": 29,
+          "start_byte": 786,
+          "start_column": 1,
+          "start_line": 28
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'mass' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 830,
+          "end_column": 1,
+          "end_line": 30,
+          "start_byte": 808,
+          "start_column": 1,
+          "start_line": 29
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'velocity' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 879,
+          "end_column": 1,
+          "end_line": 32,
+          "start_byte": 831,
+          "start_column": 1,
+          "start_line": 31
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 907,
+          "end_column": 1,
+          "end_line": 34,
+          "start_byte": 880,
+          "start_column": 1,
+          "start_line": 33
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 939,
+          "end_column": 1,
+          "end_line": 35,
+          "start_byte": 907,
+          "start_column": 1,
+          "start_line": 34
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'neighbor' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 964,
+          "end_column": 1,
+          "end_line": 37,
+          "start_byte": 940,
+          "start_column": 1,
+          "start_line": 36
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'neigh_modify' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 1006,
+          "end_column": 1,
+          "end_line": 38,
+          "start_byte": 964,
+          "start_column": 1,
+          "start_line": 37
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 1149,
+          "end_column": 1,
+          "end_line": 42,
+          "start_byte": 1034,
+          "start_column": 1,
+          "start_line": 41
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_PARTIAL_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "Only the documented subset of this command is verified",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 1197,
+          "end_column": 1,
+          "end_line": 43,
+          "start_byte": 1149,
+          "start_column": 1,
+          "start_line": 42
+        },
+        "suggestion": null
+      },
+      {
+        "actual": null,
+        "code": "U_OPAQUE_COMMAND",
+        "expected": null,
+        "file": "inputs/averaging-before.in",
+        "message": "'write_dump' is not verified by Lamlet; tracked state becomes unknown",
+        "notes": [],
+        "severity": "unknown",
+        "span": {
+          "end_byte": 1317,
+          "end_column": 1,
+          "end_line": 46,
+          "start_byte": 1268,
+          "start_column": 1,
+          "start_line": 45
+        },
+        "suggestion": null
+      }
+    ],
+    "input": "inputs/averaging-before.in",
+    "physical_findings": [
+      {
+        "evidence": [
+          {
+            "definition": "87287",
+            "span": {
+              "end_byte": 868,
+              "end_column": 38,
+              "end_line": 31,
+              "start_byte": 863,
+              "start_column": 33,
+              "start_line": 31
+            },
+            "subject": "random seed"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-LINT-002",
+        "span": {
+          "end_byte": 868,
+          "end_column": 38,
+          "end_line": 31,
+          "start_byte": 863,
+          "start_column": 33,
+          "start_line": 31
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "units lj",
+            "span": {
+              "end_byte": 663,
+              "end_column": 1,
+              "end_line": 23,
+              "start_byte": 644,
+              "start_column": 1,
+              "start_line": 22
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "unknown",
+        "rule_id": "LML-MAN-UNITS-BEFORE-BOX",
+        "span": {
+          "end_byte": 663,
+          "end_column": 1,
+          "end_line": 23,
+          "start_byte": 644,
+          "start_column": 1,
+          "start_line": 22
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "atom_style atomic",
+            "span": {
+              "end_byte": 686,
+              "end_column": 1,
+              "end_line": 24,
+              "start_byte": 663,
+              "start_column": 1,
+              "start_line": 23
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "unknown",
+        "rule_id": "LML-MAN-ATOM_STYLE-BEFORE-BOX",
+        "span": {
+          "end_byte": 686,
+          "end_column": 1,
+          "end_line": 24,
+          "start_byte": 663,
+          "start_column": 1,
+          "start_line": 23
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "lattice fcc 0.8442",
+            "span": {
+              "end_byte": 714,
+              "end_column": 1,
+              "end_line": 26,
+              "start_byte": 687,
+              "start_column": 1,
+              "start_line": 25
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-LATTICE-ORIENT-INTEGERS",
+        "span": {
+          "end_byte": 714,
+          "end_column": 1,
+          "end_line": 26,
+          "start_byte": 687,
+          "start_column": 1,
+          "start_line": 25
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "lattice fcc 0.8442",
+            "span": {
+              "end_byte": 714,
+              "end_column": 1,
+              "end_line": 26,
+              "start_byte": 687,
+              "start_column": 1,
+              "start_line": 25
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-LATTICE-ORIENTATION",
+        "span": {
+          "end_byte": 714,
+          "end_column": 1,
+          "end_line": 26,
+          "start_byte": 687,
+          "start_column": 1,
+          "start_line": 25
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "mass 1 1.0",
+            "span": {
+              "end_byte": 830,
+              "end_column": 1,
+              "end_line": 30,
+              "start_byte": 808,
+              "start_column": 1,
+              "start_line": 29
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-MASS",
+        "span": {
+          "end_byte": 830,
+          "end_column": 1,
+          "end_line": 30,
+          "start_byte": 808,
+          "start_column": 1,
+          "start_line": 29
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "mass 1 1.0",
+            "span": {
+              "end_byte": 830,
+              "end_column": 1,
+              "end_line": 30,
+              "start_byte": 808,
+              "start_column": 1,
+              "start_line": 29
+            },
+            "subject": "LAMMPS command"
+          },
+          {
+            "definition": "create_box      1 box",
+            "span": {
+              "end_byte": 786,
+              "end_column": 1,
+              "end_line": 28,
+              "start_byte": 764,
+              "start_column": 1,
+              "start_line": 27
+            },
+            "subject": "box"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-MASS-AFTER-BOX",
+        "span": {
+          "end_byte": 830,
+          "end_column": 1,
+          "end_line": 30,
+          "start_byte": 808,
+          "start_column": 1,
+          "start_line": 29
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "pair_coeff 1 1 1.0 1.0 2.5",
+            "span": {
+              "end_byte": 939,
+              "end_column": 1,
+              "end_line": 35,
+              "start_byte": 907,
+              "start_column": 1,
+              "start_line": 34
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "unknown",
+        "rule_id": "LML-MAN-PAIR_COEFF-AFTER-BOX",
+        "span": {
+          "end_byte": 939,
+          "end_column": 1,
+          "end_line": 35,
+          "start_byte": 907,
+          "start_column": 1,
+          "start_line": 34
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "neigh_modify delay 0 every 20 check no",
+            "span": {
+              "end_byte": 1006,
+              "end_column": 1,
+              "end_line": 38,
+              "start_byte": 964,
+              "start_column": 1,
+              "start_line": 37
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-NEIGHBOR-DELAY",
+        "span": {
+          "end_byte": 1006,
+          "end_column": 1,
+          "end_line": 38,
+          "start_byte": 964,
+          "start_column": 1,
+          "start_line": 37
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "neigh_modify delay 0 every 20 check no",
+            "span": {
+              "end_byte": 1006,
+              "end_column": 1,
+              "end_line": 38,
+              "start_byte": 964,
+              "start_column": 1,
+              "start_line": 37
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "unknown",
+        "rule_id": "LML-MAN-NEIGHBOR-PAGE",
+        "span": {
+          "end_byte": 1006,
+          "end_column": 1,
+          "end_line": 38,
+          "start_byte": 964,
+          "start_column": 1,
+          "start_line": 37
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "fix avg all ave/atom 2 6 100 x y z",
+            "span": {
+              "end_byte": 1149,
+              "end_column": 1,
+              "end_line": 42,
+              "start_byte": 1034,
+              "start_column": 1,
+              "start_line": 41
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-AVE-ATOM",
+        "span": {
+          "end_byte": 1149,
+          "end_column": 1,
+          "end_line": 42,
+          "start_byte": 1034,
+          "start_column": 1,
+          "start_line": 41
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "run 400",
+            "span": {
+              "end_byte": 1267,
+              "end_column": 1,
+              "end_line": 44,
+              "start_byte": 1197,
+              "start_column": 1,
+              "start_line": 43
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "unknown",
+        "rule_id": "LML-MAN-KSPACE-EXCLUSIONS",
+        "span": {
+          "end_byte": 1267,
+          "end_column": 1,
+          "end_line": 44,
+          "start_byte": 1197,
+          "start_column": 1,
+          "start_line": 43
+        },
+        "suggested_actions": []
+      },
+      {
+        "evidence": [
+          {
+            "definition": "run 400",
+            "span": {
+              "end_byte": 1267,
+              "end_column": 1,
+              "end_line": 44,
+              "start_byte": 1197,
+              "start_column": 1,
+              "start_line": 43
+            },
+            "subject": "LAMMPS command"
+          }
+        ],
+        "outcome": "satisfied",
+        "rule_id": "LML-MAN-RUN-LIMIT",
+        "span": {
+          "end_byte": 1267,
+          "end_column": 1,
+          "end_line": 44,
+          "start_byte": 1197,
+          "start_column": 1,
+          "start_line": 43
+        },
+        "suggested_actions": []
+      }
+    ],
+    "schema_version": 1,
+    "status": "warning",
+    "summary": {
+      "errors": 0,
+      "unknowns": 22,
+      "warnings": 0
+    }
+  },
+  "status": "collected"
+}

@@ -1,0 +1,15 @@
+{
+  "binary": {
+    "declared_source_commit": "0c658e13bf00770086fe8ca11679555046f4f00c",
+    "sha256": "a9004de69ea905dadc1f6656a67ab7aee7f0c35601eb98b186131c8ff099c1df",
+    "version": "lamlet-cli 0.1.0"
+  },
+  "plan_sha256": "4d71df27066a2dbe816c964135cd761093c41825bdcf00bddcbf7b8455ef7a0c",
+  "source_transformations_verified": true,
+  "tool_sha256": {
+    "corpus.py": "dfd7103cf654d4982441c432cedf597e4ae433b01f77a9bc95173596a774156e",
+    "defect_corpus.py": "511a240a132d3bf845b54d13981a52aca7294d7661f7541082200754b9a5cc33",
+    "defect_diagnostics.py": "5ba33d690a1277010acee54a2a612ed3e93759dc1ceebc01429f8d6b915947fb",
+    "defect_replay.py": "0db634b2ad81123ccba56eef6640d100beb15c22b3ea49f35e25bbffdb63fe01"
+  }
+}

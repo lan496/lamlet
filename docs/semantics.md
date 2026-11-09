@@ -118,6 +118,31 @@ temperature selections. Known internal default computes are included. Unused
 explicit computes do not trigger this check. Unfix, uncompute, clear, selection
 changes, and thermo-style resets affect subsequent findings.
 
+Literal fix IDs, groups, and styles establish these roles even when later
+arguments contain LAMMPS substitutions. For example,
+`fix bath all nvt temp ${T} ${T} ${damping}` selects the known default
+`bath_temp` compute. The checker neither evaluates the temperature nor assumes
+that a substitution expands to one word. A substitution in the command name,
+ID, group, or style makes the effect opaque.
+LAMMPS performs substitution before splitting arguments into words
+([parsing rules](https://docs.lammps.org/Commands_parse.html)).
+
+[Region definitions](https://docs.lammps.org/region.html),
+[restart output scheduling](https://docs.lammps.org/restart.html), and
+parameterized equal/index variable definitions preserve these resource and
+temperature-selection facts. This limited preservation makes no assertion about
+the numerical trajectory. A literal `fix_modify bath dynamic/dof yes` preserves
+the temperature selection but does not change the selected compute's
+normalization policy. That policy requires `compute_modify bath_temp dynamic/dof
+yes` ([fix_modify](https://docs.lammps.org/fix_modify.html)).
+
+After an opaque effect such as `include`, previously observed thermostat and
+exchange roles remain as Unknown. Subsequent compute definitions and selection
+changes alone cannot establish that those fixes are still active. Explicit fix
+definitions can restore known roles; unfix and clear remove them. The checker
+does not invent identities for resources that have never been observed. Unknown
+findings preserve uncertainty without warning or rejection.
+
 Same-group and `all` relationships support a conditional overlap warning.
 Distinct group names do not prove overlap; an unresolved DOF policy or compute
 definition yields Unknown. Literal repeated `dynamic/dof` options use the final

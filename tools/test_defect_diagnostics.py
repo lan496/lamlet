@@ -11,6 +11,7 @@ import defect_diagnostics as audit
 
 
 ARCHIVE = audit.ROOT / "docs/assets/defect-diagnostics/2026-11-09"
+GCMC_ARCHIVE = audit.ROOT / "docs/assets/defect-diagnostics/2026-11-09-gcmc"
 REVIEW = audit.ROOT / "docs/assets/defect-diagnostics/review"
 
 
@@ -122,6 +123,39 @@ class NaturalDiagnosticTests(unittest.TestCase):
             (at / "diagnostics/orientation/before/check.json").unlink()
             with self.assertRaisesRegex(ValueError, "inventory"):
                 audit.verify(at)
+
+    def test_gcmc_regrade_preserves_inputs_native_outcomes_and_historical_capture(self):
+        self.assertEqual(audit.verify(GCMC_ARCHIVE)["verified_inputs"], 10)
+        old = json.loads((ARCHIVE / "report.json").read_bytes())
+        new = json.loads((GCMC_ARCHIVE / "report.json").read_bytes())
+        self.assertEqual((ARCHIVE / "plan.json").read_bytes(),
+                         (GCMC_ARCHIVE / "plan.json").read_bytes())
+        previous = {case["id"]: case for case in old["cases"]}
+        current = {case["id"]: case for case in new["cases"]}
+        self.assertEqual(set(previous), set(current))
+        for identity, case in current.items():
+            with self.subTest(identity=identity):
+                self.assertEqual(case["input_sha256"], previous[identity]["input_sha256"])
+                self.assertEqual(case["reference_status"], previous[identity]["reference_status"])
+                self.assertTrue(all(case["observed"]["legacy"].values()))
+                if identity.startswith("gcmc-"):
+                    self.assertEqual(previous[identity]["observed"]["target_state"], "absent")
+                    before = identity.endswith("/before")
+                    self.assertEqual(case["observed"]["target_state"], "violated" if before else "satisfied")
+                    self.assertEqual(case["observed"]["target_warned"], before)
+                else:
+                    self.assertEqual(case["observed"]["target_state"], previous[identity]["observed"]["target_state"])
+                    self.assertEqual(case["observed"]["target_warned"], previous[identity]["observed"]["target_warned"])
+        self.assertNotEqual(new["binary"]["declared_source_commit"], old["binary"]["declared_source_commit"])
+        self.assertNotEqual(new["binary"]["sha256"], old["binary"]["sha256"])
+        self.assertEqual(new["summary"]["declared_targets_matched"], 6)
+        self.assertEqual(new["summary"]["mapped_violated_warned"], 2)
+        self.assertEqual(new["summary"]["reference_statuses"], old["summary"]["reference_statuses"])
+        self.assertEqual(new["gold_defect_pairs"], 0)
+        self.assertEqual(new["independent_review"], "pending")
+        self.assertIsNone(new["checker_accuracy"])
+        self.assertEqual(new["new_lammps_launches"], 0)
+        self.assertEqual(new["agent_trials"], 0)
 
 
 class NaturalReviewTests(unittest.TestCase):
