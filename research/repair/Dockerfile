@@ -1,6 +1,10 @@
-ARG CHECKER_IMAGE
 ARG BASELINE_IMAGE
-FROM ${CHECKER_IMAGE} AS previous_checker
+FROM rust:1.85-bookworm@sha256:e51d0265072d2d9d5d320f6a44dde6b9ef13653b035098febd68cce8fa7c0bc4 AS compiler
+WORKDIR /source
+COPY Cargo.toml Cargo.lock ./
+COPY crates/ crates/
+RUN cargo build --release --locked --jobs 2
+
 FROM ${BASELINE_IMAGE} AS common
 USER root
 COPY repair_instrument.py /opt/repair_instrument.py
@@ -9,6 +13,6 @@ USER agent
 
 FROM common AS checker
 USER root
-COPY --from=previous_checker /usr/local/bin/lamlet /opt/lamlet/lamlet
+COPY --from=compiler /source/target/release/lamlet /opt/lamlet/lamlet
 RUN ln -s /opt/repair_instrument.py /usr/local/bin/lamlet
 USER agent

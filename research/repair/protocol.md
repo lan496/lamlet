@@ -33,8 +33,8 @@ and [lattice directions](https://github.com/lammps/lammps/blob/0165101ce505734e8
 
 ## Conditions and budget
 
-A provides the shell and the pinned serial LAMMPS engine. C adds the existing
-Lamlet binary and its invocation instructions. Both start from the same base
+A provides the shell and the pinned serial LAMMPS engine. C adds a Lamlet binary
+built from the frozen current source and its invocation instructions. Both start from the same base
 image, wrappers, starter input, and task instructions. Codex CLI 0.166.0 runs
 `gpt-6.1-sol` with `xhigh` reasoning effort, service tier `fast`, and web search
 disabled. The provider does not expose an exact backend snapshot or sampling

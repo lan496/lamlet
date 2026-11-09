@@ -21,7 +21,6 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCES = ("tools/repair_tasks.py", "tools/repair_campaign.py", "tools/repair_instrument.py",
            "research/repair/Dockerfile", "research/repair/protocol.md", "research/harbor/p3/runtime.json")
 BASELINE = "lamlet-p3-campaign-a:2662225e6a26a873fdcd72b542b543003851896d9b32c4c75e7a1bd9112b2bad"
-CHECKER = "lamlet-p3-campaign-c:6f0c19d2ffd11562715fe0fa77f36f51c15d1be563998fead0cbb7ef8e025203"
 COMMON = """Repair the supplied input at /app/input.in and submit /app/submission/solution.in.
 Work only in /app. Use ordinary, straight-line LAMMPS commands. Whitespace and
 comments may change. Keep the other commands and parameters as required above.
@@ -123,7 +122,13 @@ def prepare(args):
     context.mkdir()
     shutil.copyfile(ROOT / "research/repair/Dockerfile", context / "Dockerfile")
     shutil.copyfile(ROOT / "tools/repair_instrument.py", context / "repair_instrument.py")
-    for parent in (BASELINE, CHECKER):
+    for name in ("Cargo.toml", "Cargo.lock"):
+        shutil.copyfile(ROOT / name, context / name)
+    shutil.copytree(ROOT / "crates", context / "crates")
+    checker_sources = {str(path.relative_to(ROOT)): digest(path) for path in sorted((ROOT / "crates").rglob("*"))
+                       if path.is_file()}
+    checker_sources.update({name: digest(ROOT / name) for name in ("Cargo.toml", "Cargo.lock")})
+    for parent in (BASELINE,):
         actual = subprocess.check_output(["docker", "image", "inspect", parent, "--format", "{{.Id}}"], text=True).strip()
         if actual != "sha256:" + parent.split(":")[-1]:
             raise ValueError("Parent image identity changed")
@@ -131,7 +136,7 @@ def prepare(args):
     for condition, stage in (("A", "common"), ("C", "checker")):
         tag = "lamlet-repair-" + condition.lower() + ":20261109"
         subprocess.run(["docker", "build", "--target", stage, "--build-arg", "BASELINE_IMAGE=" + BASELINE,
-            "--build-arg", "CHECKER_IMAGE=" + CHECKER, "--tag", tag, str(context)], check=True)
+            "--tag", tag, str(context)], check=True)
         identity = subprocess.check_output(["docker", "image", "inspect", tag, "--format", "{{.Id}}"], text=True).strip()
         immutable_tag = "lamlet-repair-" + condition.lower() + ":" + identity.removeprefix("sha256:")
         subprocess.run(["docker", "tag", identity, immutable_tag], check=True)
@@ -152,6 +157,8 @@ def prepare(args):
         "model": args.model, "reasoning_effort": args.effort, "service_tier": "fast",
         "codex_version": "0.166.0", "harbor_version": "0.25.0", "images": images,
         "runtime": runtime,
+        "checker_sources": checker_sources,
+        "checker_source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "sources": {name: digest(ROOT / name) for name in SOURCES}, "files": files,
         "trials": order(496), "agent_seconds": 180, "maximum_agent_seconds": 1080,
         "verifier_seconds": 60, "tool_call_ceiling": None, "token_ceiling": None,
@@ -273,6 +280,7 @@ def run(args):
         if trial["id"] in completed:
             continue
         frozen(ROOT, manifest["sources"])
+        frozen(ROOT, manifest["checker_sources"])
         frozen(output, manifest["files"])
         for image in manifest["images"].values():
             actual = subprocess.check_output(["docker", "image", "inspect", image["tag"], "--format", "{{.Id}}"], text=True).strip()
