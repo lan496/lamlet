@@ -1,0 +1,17 @@
+units lj
+atom_style bond
+boundary p p p
+read_data dimer.data
+pair_style zero 2.5
+pair_coeff * *
+bond_style harmonic
+bond_coeff 1 100 1
+neighbor 0.3 bin
+timestep 0.005
+fix integrate all nve
+fix bath all langevin 0.1 0.1 0.1 12345
+fix constraint all shake 1e-10 100 0 b 1
+thermo 100
+dump positions all custom 1 trajectory.dump id xu yu zu vx vy vz
+dump_modify positions sort id format float %.17g
+run 200

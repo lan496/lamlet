@@ -37,6 +37,7 @@ nav = [
     { "Processing benchmarks" = "performance.md" },
     { "Agent evaluation" = "agent-evaluation.md" },
     { "Repair pilot" = "repair-pilot.md" },
+    { "Constraint validation" = "constraint-validation.md" },
     { "P3 pilot" = "p3-pilot.md" },
   ] },
 ]

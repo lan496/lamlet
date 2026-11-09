@@ -41,6 +41,12 @@ findings are emitted at each evaluated run, in thermostat-ID order.
 
 ## Physical assumptions and limits
 
+The [controlled SHAKE/RATTLE calculation](constraint-validation.md) measures
+bond-length and radial-velocity residuals for both fix orders in six short native
+LAMMPS runs. All runs exit successfully; the residuals expose errors that exit
+codes miss. The correctly ordered RATTLE/NVT case also exceeds the chosen distance
+threshold. The report retains this limitation and all raw measurements.
+
 The [LAMMPS temp definition](https://docs.lammps.org/compute_temp.html) subtracts
 the system dimensionality and applicable fix DOFs by default. In 3D the default
 translation correction is already three; Lamlet does not add another correction
