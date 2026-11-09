@@ -1,0 +1,1459 @@
+{
+  "candidates": [
+    {
+      "category_id": 40,
+      "id": "m67528",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 0
+        }
+      ],
+      "outcome": "pinned",
+      "selection": "pinned",
+      "title": "New LAMMPS stable release 30 September 2026 Update1 and download server reorganization",
+      "url": "https://matsci.org/t/new-lammps-stable-release-30-september-2026-update1-and-download-server-reorganization/67528"
+    },
+    {
+      "category_id": 40,
+      "id": "m49913",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 1
+        }
+      ],
+      "outcome": "pinned",
+      "selection": "pinned",
+      "title": "Please Read This First: Guidelines and Suggestions for posting LAMMPS questions",
+      "url": "https://matsci.org/t/please-read-this-first-guidelines-and-suggestions-for-posting-lammps-questions/49913"
+    },
+    {
+      "category_id": 41,
+      "id": "m67595",
+      "listed_posts_count": 8,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 2
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 1,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 1,
+        "posts": 8,
+        "unavailable_attachments": 0
+      },
+      "title": "Unexpected Negative Mixing Enthalpy Using a Ga-In-N MEAM Potential",
+      "url": "https://matsci.org/t/unexpected-negative-mixing-enthalpy-using-a-ga-in-n-meam-potential/67595"
+    },
+    {
+      "category_id": 40,
+      "id": "m67605",
+      "listed_posts_count": 7,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 3
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 3,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 0,
+        "posts": 7,
+        "unavailable_attachments": 0
+      },
+      "title": "Compiling lammps with recent versions of python failing on cython/distutils/setuptools import problem",
+      "url": "https://matsci.org/t/compiling-lammps-with-recent-versions-of-python-failing-on-cython-distutils-setuptools-import-problem/67605"
+    },
+    {
+      "category_id": 43,
+      "id": "m67617",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 4
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 1,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 0,
+        "posts": 5,
+        "unavailable_attachments": 0
+      },
+      "title": "Cannot find fix storing granular history",
+      "url": "https://matsci.org/t/cannot-find-fix-storing-granular-history/67617"
+    },
+    {
+      "category_id": 40,
+      "id": "m67566",
+      "listed_posts_count": 16,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 5
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 4,
+        "downloaded_attachments": 7,
+        "initial_post_code_blocks": 1,
+        "posts": 16,
+        "unavailable_attachments": 0
+      },
+      "title": "Question about remap ordering and rigid-body geometry in fix rigid/npt/small",
+      "url": "https://matsci.org/t/question-about-remap-ordering-and-rigid-body-geometry-in-fix-rigid-npt-small/67566"
+    },
+    {
+      "category_id": 40,
+      "id": "m67588",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 6
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 0,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 0,
+        "posts": 3,
+        "unavailable_attachments": 0
+      },
+      "title": "LAMMPS-GUI paper and LAMMPS-GUI release 3.1.2",
+      "url": "https://matsci.org/t/lammps-gui-paper-and-lammps-gui-release-3-1-2/67588"
+    },
+    {
+      "category_id": 40,
+      "id": "m67597",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 7
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 0,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 0,
+        "posts": 2,
+        "unavailable_attachments": 0
+      },
+      "title": "Group atoms that are bonded",
+      "url": "https://matsci.org/t/group-atoms-that-are-bonded/67597"
+    },
+    {
+      "category_id": 42,
+      "id": "m67558",
+      "listed_posts_count": 6,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 8
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 2,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 0,
+        "posts": 6,
+        "unavailable_attachments": 0
+      },
+      "title": "Anyone have template for .h file for new pair style",
+      "url": "https://matsci.org/t/anyone-have-template-for-h-file-for-new-pair-style/67558"
+    },
+    {
+      "category_id": 40,
+      "id": "m67547",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 9
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 0,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 0,
+        "posts": 4,
+        "unavailable_attachments": 0
+      },
+      "title": "LAMMPS HowTo updates",
+      "url": "https://matsci.org/t/lammps-howto-updates/67547"
+    },
+    {
+      "category_id": 42,
+      "id": "m67553",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 10
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 0,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 0,
+        "posts": 3,
+        "unavailable_attachments": 0
+      },
+      "title": "Is KOKKOS GPU acceleration planned for fix qeq/rel/reaxff?",
+      "url": "https://matsci.org/t/is-kokkos-gpu-acceleration-planned-for-fix-qeq-rel-reaxff/67553"
+    },
+    {
+      "category_id": 41,
+      "id": "m67549",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 11
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 2,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 2,
+        "posts": 3,
+        "unavailable_attachments": 0
+      },
+      "title": "Question about the setting and effect of the NX parameter in fix atom/swap",
+      "url": "https://matsci.org/t/question-about-the-setting-and-effect-of-the-nx-parameter-in-fix-atom-swap/67549"
+    },
+    {
+      "category_id": 40,
+      "id": "m67540",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 12
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 0,
+        "downloaded_attachments": 2,
+        "initial_post_code_blocks": 0,
+        "posts": 3,
+        "unavailable_attachments": 0
+      },
+      "title": "Error Resuming NPT Tempering Calculations",
+      "url": "https://matsci.org/t/error-resuming-npt-tempering-calculations/67540"
+    },
+    {
+      "category_id": 40,
+      "id": "m67537",
+      "listed_posts_count": 7,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 13
+        }
+      ],
+      "outcome": "captured",
+      "selection": "selected",
+      "structural": {
+        "all_post_code_blocks": 4,
+        "downloaded_attachments": 0,
+        "initial_post_code_blocks": 2,
+        "posts": 7,
+        "unavailable_attachments": 0
+      },
+      "title": "Extra-pair force package - how to include in build script",
+      "url": "https://matsci.org/t/extra-pair-force-package-how-to-include-in-build-script/67537"
+    },
+    {
+      "category_id": 41,
+      "id": "m67533",
+      "listed_posts_count": 6,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 14
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Molecular dynamics simulation of nanobubble nucleation",
+      "url": "https://matsci.org/t/molecular-dynamics-simulation-of-nanobubble-nucleation/67533"
+    },
+    {
+      "category_id": 43,
+      "id": "m67530",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 15
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Interatomic Potentials for LAMMPS Simulations",
+      "url": "https://matsci.org/t/interatomic-potentials-for-lammps-simulations/67530"
+    },
+    {
+      "category_id": 41,
+      "id": "m67526",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 16
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Rigid body distorting during ReaxFF SiO2-SiO2 bonding",
+      "url": "https://matsci.org/t/rigid-body-distorting-during-reaxff-sio2-sio2-bonding/67526"
+    },
+    {
+      "category_id": 40,
+      "id": "m67527",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 17
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Is it possible to implement FC-QEq on LAMMPS?",
+      "url": "https://matsci.org/t/is-it-possible-to-implement-fc-qeq-on-lammps/67527"
+    },
+    {
+      "category_id": 40,
+      "id": "m67408",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 18
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "8 errors in the Reaxff source file of lammps-stable_22Jul2025_update4",
+      "url": "https://matsci.org/t/8-errors-in-the-reaxff-source-file-of-lammps-stable-22jul2025-update4/67408"
+    },
+    {
+      "category_id": 41,
+      "id": "m67405",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 19
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Request for Fogarty 2015 Si/O/H parameter file",
+      "url": "https://matsci.org/t/request-for-fogarty-2015-si-o-h-parameter-file/67405"
+    },
+    {
+      "category_id": 40,
+      "id": "m66898",
+      "listed_posts_count": 34,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 20
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "How can we encourage (more) people to use the forum?",
+      "url": "https://matsci.org/t/how-can-we-encourage-more-people-to-use-the-forum/66898"
+    },
+    {
+      "category_id": 40,
+      "id": "m67516",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 21
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Possible sigma/Rmin conversion issue in OPLS-AA parameters generated by LUNAR for LAMMPS",
+      "url": "https://matsci.org/t/possible-sigma-rmin-conversion-issue-in-opls-aa-parameters-generated-by-lunar-for-lammps/67516"
+    },
+    {
+      "category_id": 40,
+      "id": "m67513",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 22
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": " lj/cut/dipole/cut reports exactly half the expected dipole-dipole energy for a simple 2-particle test",
+      "url": "https://matsci.org/t/lj-cut-dipole-cut-reports-exactly-half-the-expected-dipole-dipole-energy-for-a-simple-2-particle-test/67513"
+    },
+    {
+      "category_id": 40,
+      "id": "m67503",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 23
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Methodological validation of a Geant4 + LAMMPS workflow for radiation-induced changes in hydrated montmorillonite",
+      "url": "https://matsci.org/t/methodological-validation-of-a-geant4-lammps-workflow-for-radiation-induced-changes-in-hydrated-montmorillonite/67503"
+    },
+    {
+      "category_id": 41,
+      "id": "m67497",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 24
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Rhombic distortion of the four-membered ring in a graphene 4–7 defect with REBO/AIREBO",
+      "url": "https://matsci.org/t/rhombic-distortion-of-the-four-membered-ring-in-a-graphene-4-7-defect-with-rebo-airebo/67497"
+    },
+    {
+      "category_id": 40,
+      "id": "m67511",
+      "listed_posts_count": 1,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 25
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Difficulty reproducing Henriksson 2013 Fe–Cr–C potential benchmarks with LAMMPS tersoff/zbl",
+      "url": "https://matsci.org/t/difficulty-reproducing-henriksson-2013-fe-cr-c-potential-benchmarks-with-lammps-tersoff-zbl/67511"
+    },
+    {
+      "category_id": 40,
+      "id": "m67471",
+      "listed_posts_count": 8,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 26
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Optimizing LAMMPS for dipole interaction in large system",
+      "url": "https://matsci.org/t/optimizing-lammps-for-dipole-interaction-in-large-system/67471"
+    },
+    {
+      "category_id": 40,
+      "id": "m67474",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 27
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "ERROR: Expected 6 but found 10 args for pair style meam coefficients (../pair_meam.cpp:242)",
+      "url": "https://matsci.org/t/error-expected-6-but-found-10-args-for-pair-style-meam-coefficients-pair-meam-cpp-242/67474"
+    },
+    {
+      "category_id": 40,
+      "id": "m67472",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 28
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Reliability of Hardness value from Lammps",
+      "url": "https://matsci.org/t/reliability-of-hardness-value-from-lammps/67472"
+    },
+    {
+      "category_id": 41,
+      "id": "m67452",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 0,
+          "row": 29
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Performance comparison of LAMMPS MLIAP and Symmetrix across NVIDIA GPUs",
+      "url": "https://matsci.org/t/performance-comparison-of-lammps-mliap-and-symmetrix-across-nvidia-gpus/67452"
+    },
+    {
+      "category_id": 40,
+      "id": "m67470",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 0
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "New LAMMPS feature release and stable release candidate 2 September 2026 posted",
+      "url": "https://matsci.org/t/new-lammps-feature-release-and-stable-release-candidate-2-september-2026-posted/67470"
+    },
+    {
+      "category_id": 41,
+      "id": "m67449",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 1
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "fix electrode/conp: charge alternates sign between layers of a multilayer graphene electrode. Is it expected?",
+      "url": "https://matsci.org/t/fix-electrode-conp-charge-alternates-sign-between-layers-of-a-multilayer-graphene-electrode-is-it-expected/67449"
+    },
+    {
+      "category_id": 40,
+      "id": "m67458",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 2
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Does fix electrode/conp impose the same voltage difference for systems with different electrode geometries and atom counts?",
+      "url": "https://matsci.org/t/does-fix-electrode-conp-impose-the-same-voltage-difference-for-systems-with-different-electrode-geometries-and-atom-counts/67458"
+    },
+    {
+      "category_id": 40,
+      "id": "m67450",
+      "listed_posts_count": 12,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 3
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Unexpected performance issues with PPPM K-space solver",
+      "url": "https://matsci.org/t/unexpected-performance-issues-with-pppm-k-space-solver/67450"
+    },
+    {
+      "category_id": 42,
+      "id": "m67357",
+      "listed_posts_count": 12,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 4
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Possible memory growth in fix bond/react that scales with MPI rank count",
+      "url": "https://matsci.org/t/possible-memory-growth-in-fix-bond-react-that-scales-with-mpi-rank-count/67357"
+    },
+    {
+      "category_id": 44,
+      "id": "m67456",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 5
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Lammps-Symmetrix crash on rtx6000pro",
+      "url": "https://matsci.org/t/lammps-symmetrix-crash-on-rtx6000pro/67456"
+    },
+    {
+      "category_id": 42,
+      "id": "m67439",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 6
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Gcmc-lammps",
+      "url": "https://matsci.org/t/gcmc-lammps/67439"
+    },
+    {
+      "category_id": 40,
+      "id": "m67226",
+      "listed_posts_count": 12,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 7
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Effect of fix ave/chunk temp/bias options on thermo output from compute temp/com",
+      "url": "https://matsci.org/t/effect-of-fix-ave-chunk-temp-bias-options-on-thermo-output-from-compute-temp-com/67226"
+    },
+    {
+      "category_id": 41,
+      "id": "m67447",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 8
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Simulating the dynamics of active particles in LAMMPS",
+      "url": "https://matsci.org/t/simulating-the-dynamics-of-active-particles-in-lammps/67447"
+    },
+    {
+      "category_id": 42,
+      "id": "m67444",
+      "listed_posts_count": 1,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 9
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Call for LAMMPS bug reports",
+      "url": "https://matsci.org/t/call-for-lammps-bug-reports/67444"
+    },
+    {
+      "category_id": 42,
+      "id": "m59284",
+      "listed_posts_count": 10,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 10
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Some questions to add HNEMD Method",
+      "url": "https://matsci.org/t/some-questions-to-add-hnemd-method/59284"
+    },
+    {
+      "category_id": 41,
+      "id": "m67437",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 11
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Why does the Lammps simulation not reach the end for a lower dumping frequency?",
+      "url": "https://matsci.org/t/why-does-the-lammps-simulation-not-reach-the-end-for-a-lower-dumping-frequency/67437"
+    },
+    {
+      "category_id": 40,
+      "id": "m67407",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 12
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "LAMMPS-GUI beta release 3.0.99",
+      "url": "https://matsci.org/t/lammps-gui-beta-release-3-0-99/67407"
+    },
+    {
+      "category_id": 40,
+      "id": "m67434",
+      "listed_posts_count": 6,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 13
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Thermodynamic Integration with MACE in LAMMPS",
+      "url": "https://matsci.org/t/thermodynamic-integration-with-mace-in-lammps/67434"
+    },
+    {
+      "category_id": 41,
+      "id": "m67432",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 14
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Lammps KOKKOS fix move, ave/atom, stress/atom issues",
+      "url": "https://matsci.org/t/lammps-kokkos-fix-move-ave-atom-stress-atom-issues/67432"
+    },
+    {
+      "category_id": 40,
+      "id": "m67413",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 15
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Kokkos CUDA illegal memory access with pair_style hybrid/overlay, coul/long, and neighbor exclusions",
+      "url": "https://matsci.org/t/kokkos-cuda-illegal-memory-access-with-pair-style-hybrid-overlay-coul-long-and-neighbor-exclusions/67413"
+    },
+    {
+      "category_id": 40,
+      "id": "m67428",
+      "listed_posts_count": 1,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 16
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Feedback request - QuickMDSim (run Lammps in cloud)",
+      "url": "https://matsci.org/t/feedback-request-quickmdsim-run-lammps-in-cloud/67428"
+    },
+    {
+      "category_id": 40,
+      "id": "m67425",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 17
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Inquiry regarding ReaxFF force field parameter files for catalytic DMC hydrolysis simulations",
+      "url": "https://matsci.org/t/inquiry-regarding-reaxff-force-field-parameter-files-for-catalytic-dmc-hydrolysis-simulations/67425"
+    },
+    {
+      "category_id": 41,
+      "id": "m67420",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 18
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Quantum espresso hardware requirements for supercomputer parallel computing",
+      "url": "https://matsci.org/t/quantum-espresso-hardware-requirements-for-supercomputer-parallel-computing/67420"
+    },
+    {
+      "category_id": 40,
+      "id": "m67415",
+      "listed_posts_count": 11,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 19
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Internal lammps positions values change between \"run N\" and subsequent \"run 0\"",
+      "url": "https://matsci.org/t/internal-lammps-positions-values-change-between-run-n-and-subsequent-run-0/67415"
+    },
+    {
+      "category_id": 40,
+      "id": "m67416",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 20
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Help with loading .dcd trajectories",
+      "url": "https://matsci.org/t/help-with-loading-dcd-trajectories/67416"
+    },
+    {
+      "category_id": 41,
+      "id": "m67417",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 21
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Count the number of nonrattlers and output their coordination number",
+      "url": "https://matsci.org/t/count-the-number-of-nonrattlers-and-output-their-coordination-number/67417"
+    },
+    {
+      "category_id": 40,
+      "id": "m67373",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 22
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Zn–Cl–C–H–O ReaxFF parameterization",
+      "url": "https://matsci.org/t/zn-cl-c-h-o-reaxff-parameterization/67373"
+    },
+    {
+      "category_id": 40,
+      "id": "m67406",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 23
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Sixth and final update to the 22 July 2025 stable release posted",
+      "url": "https://matsci.org/t/sixth-and-final-update-to-the-22-july-2025-stable-release-posted/67406"
+    },
+    {
+      "category_id": 40,
+      "id": "m67400",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 24
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Unable to reproduce published elastic constants despite matching cohesive energy and lattice constant",
+      "url": "https://matsci.org/t/unable-to-reproduce-published-elastic-constants-despite-matching-cohesive-energy-and-lattice-constant/67400"
+    },
+    {
+      "category_id": 44,
+      "id": "m67378",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 25
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Exceptions trigger segmentation faults in unit tests (and beyond)",
+      "url": "https://matsci.org/t/exceptions-trigger-segmentation-faults-in-unit-tests-and-beyond/67378"
+    },
+    {
+      "category_id": 43,
+      "id": "m67399",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 26
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Restart file problem",
+      "url": "https://matsci.org/t/restart-file-problem/67399"
+    },
+    {
+      "category_id": 40,
+      "id": "m67374",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 27
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "How to download eam alloy file for pure Ga",
+      "url": "https://matsci.org/t/how-to-download-eam-alloy-file-for-pure-ga/67374"
+    },
+    {
+      "category_id": 40,
+      "id": "m67383",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 28
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Looking for feedback on a possible new LAMMPS-GUI feature",
+      "url": "https://matsci.org/t/looking-for-feedback-on-a-possible-new-lammps-gui-feature/67383"
+    },
+    {
+      "category_id": 41,
+      "id": "m67323",
+      "listed_posts_count": 6,
+      "occurrences": [
+        {
+          "page": 1,
+          "row": 29
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Can TIP4P water be used with fix electrode/conp and pppm/electrode?",
+      "url": "https://matsci.org/t/can-tip4p-water-be-used-with-fix-electrode-conp-and-pppm-electrode/67323"
+    },
+    {
+      "category_id": 40,
+      "id": "m67306",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 0
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "New LAMMPS feature release 4 July 2026 and LAMMPS-GUI version 3.0.7 posted",
+      "url": "https://matsci.org/t/new-lammps-feature-release-4-july-2026-and-lammps-gui-version-3-0-7-posted/67306"
+    },
+    {
+      "category_id": 41,
+      "id": "m67377",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 1
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Beginner in the Field of MD",
+      "url": "https://matsci.org/t/beginner-in-the-field-of-md/67377"
+    },
+    {
+      "category_id": 41,
+      "id": "m67376",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 2
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Simulated density of amorphous silica is too high",
+      "url": "https://matsci.org/t/simulated-density-of-amorphous-silica-is-too-high/67376"
+    },
+    {
+      "category_id": 43,
+      "id": "m67336",
+      "listed_posts_count": 8,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 3
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Lost atoms during NVT heating of BKS silica (LAMMPS)",
+      "url": "https://matsci.org/t/lost-atoms-during-nvt-heating-of-bks-silica-lammps/67336"
+    },
+    {
+      "category_id": 40,
+      "id": "m67351",
+      "listed_posts_count": 6,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 4
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "running NVT ensemble using buckingham forcefield, temperature became zero",
+      "url": "https://matsci.org/t/running-nvt-ensemble-using-buckingham-forcefield-temperature-became-zero/67351"
+    },
+    {
+      "category_id": 44,
+      "id": "m67354",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 5
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Could NOT find MPI (missing: MPI_MPICXX_FOUND MPICXX) (found version \"3.1\")",
+      "url": "https://matsci.org/t/could-not-find-mpi-missing-mpi-mpicxx-found-mpicxx-found-version-3-1/67354"
+    },
+    {
+      "category_id": 40,
+      "id": "m67353",
+      "listed_posts_count": 1,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 6
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Looking for more Visual Research Highlights for the new LAMMPS homepage",
+      "url": "https://matsci.org/t/looking-for-more-visual-research-highlights-for-the-new-lammps-homepage/67353"
+    },
+    {
+      "category_id": 42,
+      "id": "m67350",
+      "listed_posts_count": 6,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 7
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Change in variable behavior between 2024-2026",
+      "url": "https://matsci.org/t/change-in-variable-behavior-between-2024-2026/67350"
+    },
+    {
+      "category_id": 43,
+      "id": "m67341",
+      "listed_posts_count": 8,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 8
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "LAMMPS-GUI slideshow not creating movies",
+      "url": "https://matsci.org/t/lammps-gui-slideshow-not-creating-movies/67341"
+    },
+    {
+      "category_id": 40,
+      "id": "m67340",
+      "listed_posts_count": 6,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 9
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Help with an Error in the Application of the threebody/table style Potential",
+      "url": "https://matsci.org/t/help-with-an-error-in-the-application-of-the-threebody-table-style-potential/67340"
+    },
+    {
+      "category_id": 40,
+      "id": "m67331",
+      "listed_posts_count": 14,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 10
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Redesigned LAMMPS Homepage",
+      "url": "https://matsci.org/t/redesigned-lammps-homepage/67331"
+    },
+    {
+      "category_id": 40,
+      "id": "m67339",
+      "listed_posts_count": 1,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 11
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Gcmc makes simulaton unstable",
+      "url": "https://matsci.org/t/gcmc-makes-simulaton-unstable/67339"
+    },
+    {
+      "category_id": 40,
+      "id": "m67333",
+      "listed_posts_count": 9,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 12
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Displacement with setforce zero in gcmc",
+      "url": "https://matsci.org/t/displacement-with-setforce-zero-in-gcmc/67333"
+    },
+    {
+      "category_id": 43,
+      "id": "m67334",
+      "listed_posts_count": 3,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 13
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Compute ke vs \"direct\" dump file calculation",
+      "url": "https://matsci.org/t/compute-ke-vs-direct-dump-file-calculation/67334"
+    },
+    {
+      "category_id": 43,
+      "id": "m66034",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 14
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Achieving same density with different quench rates for amorphous silica (Vashishta potential)",
+      "url": "https://matsci.org/t/achieving-same-density-with-different-quench-rates-for-amorphous-silica-vashishta-potential/66034"
+    },
+    {
+      "category_id": 40,
+      "id": "m67319",
+      "listed_posts_count": 7,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 15
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Compute overlap distance between particles in 2d",
+      "url": "https://matsci.org/t/compute-overlap-distance-between-particles-in-2d/67319"
+    },
+    {
+      "category_id": 41,
+      "id": "m66691",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 16
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Sputtering/species count",
+      "url": "https://matsci.org/t/sputtering-species-count/66691"
+    },
+    {
+      "category_id": 41,
+      "id": "m67287",
+      "listed_posts_count": 6,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 17
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Kokkos + 2080 GPU Runs out of Shared Memory with 3 Atomic Species",
+      "url": "https://matsci.org/t/kokkos-2080-gpu-runs-out-of-shared-memory-with-3-atomic-species/67287"
+    },
+    {
+      "category_id": 40,
+      "id": "m67303",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 18
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Origin of Ni-O (and other) parameters in ffield.reax.FC",
+      "url": "https://matsci.org/t/origin-of-ni-o-and-other-parameters-in-ffield-reax-fc/67303"
+    },
+    {
+      "category_id": 42,
+      "id": "m67285",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 19
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Does pppm/disp support triclinic simulation boxes?",
+      "url": "https://matsci.org/t/does-pppm-disp-support-triclinic-simulation-boxes/67285"
+    },
+    {
+      "category_id": 40,
+      "id": "m67300",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 20
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Frenkel pair explosion during cyclic irradiation MD simulations in W-based alloys",
+      "url": "https://matsci.org/t/frenkel-pair-explosion-during-cyclic-irradiation-md-simulations-in-w-based-alloys/67300"
+    },
+    {
+      "category_id": 40,
+      "id": "m67271",
+      "listed_posts_count": 6,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 21
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "LAMMPS-GUI Version 3.0 released",
+      "url": "https://matsci.org/t/lammps-gui-version-3-0-released/67271"
+    },
+    {
+      "category_id": 41,
+      "id": "m67276",
+      "listed_posts_count": 5,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 22
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Difficulty reproducing published phosphorene thermal conductivity despite generating the reported structure",
+      "url": "https://matsci.org/t/difficulty-reproducing-published-phosphorene-thermal-conductivity-despite-generating-the-reported-structure/67276"
+    },
+    {
+      "category_id": 40,
+      "id": "m67282",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 23
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Pressure issue in a piston simulation",
+      "url": "https://matsci.org/t/pressure-issue-in-a-piston-simulation/67282"
+    },
+    {
+      "category_id": 41,
+      "id": "m67284",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 24
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Post-simulation analysis- avoiding re-running time integration for missed calculations",
+      "url": "https://matsci.org/t/post-simulation-analysis-avoiding-re-running-time-integration-for-missed-calculations/67284"
+    },
+    {
+      "category_id": 41,
+      "id": "m55895",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 25
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "How to apply force",
+      "url": "https://matsci.org/t/how-to-apply-force/55895"
+    },
+    {
+      "category_id": 41,
+      "id": "m67262",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 26
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Instability in GCMC+MD simulations (N fluctuating near zero and NaN errors)",
+      "url": "https://matsci.org/t/instability-in-gcmc-md-simulations-n-fluctuating-near-zero-and-nan-errors/67262"
+    },
+    {
+      "category_id": 41,
+      "id": "m67267",
+      "listed_posts_count": 2,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 27
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Elastic constant calculation result is not consistent with temperature",
+      "url": "https://matsci.org/t/elastic-constant-calculation-result-is-not-consistent-with-temperature/67267"
+    },
+    {
+      "category_id": 40,
+      "id": "m67266",
+      "listed_posts_count": 8,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 28
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Pair_style hybrid reaxff lj/class2/coul/cut",
+      "url": "https://matsci.org/t/pair-style-hybrid-reaxff-lj-class2-coul-cut/67266"
+    },
+    {
+      "category_id": 40,
+      "id": "m67265",
+      "listed_posts_count": 4,
+      "occurrences": [
+        {
+          "page": 2,
+          "row": 29
+        }
+      ],
+      "outcome": "budget_deferred",
+      "selection": "budget_deferred",
+      "title": "Potential file for zirconia",
+      "url": "https://matsci.org/t/potential-file-for-zirconia/67265"
+    }
+  ],
+  "checker_evaluated": false,
+  "cohort": "lammps-category-2026-11-09",
+  "gold_defect_pairs": 0,
+  "independently_adjudicated": 0,
+  "plan_sha256": "8ebed4a3ed5ed79a790779a7b31d6af55de7966eb2cd5e540e2be90a5d2714ec",
+  "schema_version": 1,
+  "screened_topics": 0,
+  "split": "development",
+  "summary": {
+    "collected_pages": 3,
+    "duplicate_slots": 0,
+    "listing_slots": 90,
+    "outcomes": {
+      "budget_deferred": 76,
+      "captured": 12,
+      "pinned": 2
+    },
+    "requested_pages": 3,
+    "selected_captures": 12,
+    "unique_topics": 90
+  }
+}

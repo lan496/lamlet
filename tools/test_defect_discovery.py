@@ -242,5 +242,30 @@ class DiscoveryTests(unittest.TestCase):
             discovery.verify(at)
 
 
+class PublishedDiscoveryTests(unittest.TestCase):
+    def test_frozen_development_cohort_and_pending_queue_verify_offline(self):
+        archive = discovery.ROOT / "docs/assets/defect-discovery/2026-11-09"
+        self.assertEqual((archive / "plan.json").read_bytes(), discovery.PLAN.read_bytes())
+        report = json.loads((archive / "report.json").read_bytes())
+        self.assertEqual(report["plan_sha256"],
+                         "8ebed4a3ed5ed79a790779a7b31d6af55de7966eb2cd5e540e2be90a5d2714ec")
+        self.assertEqual(report["summary"], dict(requested_pages=3, collected_pages=3,
+            listing_slots=90, unique_topics=90, duplicate_slots=0, selected_captures=12,
+            outcomes=dict(pinned=2, captured=12, budget_deferred=76)))
+        self.assertEqual(report["split"], "development")
+        self.assertEqual(report["independently_adjudicated"], 0)
+        captured = {c["id"] for c in report["candidates"] if c["outcome"] == "captured"}
+        form = json.loads((archive / "screening.json").read_bytes())
+        self.assertEqual({case["id"] for case in form["cases"]}, captured)
+        self.assertIsNone(form["reviewer"])
+        command = [sys.executable, str(discovery.ROOT / "tools/defect_discovery.py"),
+                   "verify", "--archive", str(archive)]
+        first = subprocess.run(command, capture_output=True, check=True)
+        second = subprocess.run(command, capture_output=True, check=True)
+        self.assertEqual(first.stdout, second.stdout)
+        self.assertEqual(json.loads(first.stdout), dict(unique_topics=90, selected_captures=12,
+            cached_bytes_verified=False, screened_topics=0, gold_defect_pairs=0, checker_evaluated=False))
+
+
 if __name__ == "__main__":
     unittest.main()

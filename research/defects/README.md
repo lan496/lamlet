@@ -44,6 +44,58 @@ collection contains bibliographic metadata, short anchors, hashes, and original
 Lamlet-authored reconstructions. A future redistribution requires a recorded
 license or permission for each source artifact.
 
+## Bounded candidate discovery
+
+`discovery-plan.json` defines a separate activity-ordered cohort: three category
+pages and the first 12 unique non-pinned topics not in the frozen pilot manifest.
+The plan was committed before collection. API-shape inspection is disclosed;
+these sources are development data. Selection uses no keyword or Lamlet finding.
+The listing includes subcategories and topics without input failure reports.
+Live pagination is not atomic, so the captured pages describe an observed cohort,
+not every topic active during the interval.
+
+```sh
+python3 tools/defect_discovery.py fetch --output target/defect-discovery-new
+python3 tools/defect_discovery.py publish --cache target/defect-discovery-new \
+  --output target/defect-discovery-public-new
+python3 tools/defect_discovery.py verify --archive docs/assets/defect-discovery/2026-11-09
+python3 tools/defect_discovery.py verify --archive docs/assets/defect-discovery/2026-11-09 \
+  --cache target/defect-discovery/2026-11-09
+```
+
+Use a fresh output directory for `fetch` and `publish`. An optional `--plan`
+selects another committed plan for a new cohort. Requests run serially, using
+the existing collector's 30-second timeout and 16-MiB per-response limit. The
+first listing and first complete-thread capture are timed before estimating
+the remaining work. No simulation, attachment code, or checker is executed.
+
+Every requested page and selected capture has an outcome. Duplicate listing
+occurrences, pinned and previously screened topics, budget deferrals, missing
+attachments, and capture failures remain visible. Failures do not trigger
+replacement. `fetch` exits 1 when any listing page or selected thread cannot be
+captured, retaining its report and queue. Missing attachments are recorded
+separately and do not by themselves make that exit nonzero. Exit 0 indicates
+successful collection, publication, or integrity verification; exit 2 indicates
+invalid arguments or integrity/processing errors. None establishes a valid input
+or a defect.
+
+The dated public archive contains nine metadata files, including a hash inventory,
+all listing identities, source receipts, structural counts, and a pending
+screening form. Raw threads and attachments stay in ignored `target/`.
+`verify` without a cache checks the published inventory and recomputes selection,
+counts, and the pending packet. It does not verify uncached source bytes.
+`--cache` additionally checks the exact original listing responses, complete post
+streams, and downloaded files. Hash agreement establishes artifact integrity,
+not forum authorship or scientific truth. CI verifies the public archive offline.
+
+Follow `packet.md` and fill in a **copy** of `screening.json`; keep the frozen
+archive unchanged. Read the complete discussions, including retractions, and
+record intent, bounded condition, evidence post numbers, correction, and missing
+dependencies. Code blocks include quotations and non-LAMMPS material. Neither
+code-block counts, attachments, titles, nor accepted-answer flags assign a label.
+All 12 captured topics initially await screening. Screening and later independent
+pair admission are separate stages; discovery produces zero gold defect pairs.
+
 ## Pair admission
 
 A proposed negative condition needs a recoverable original input, all relevant

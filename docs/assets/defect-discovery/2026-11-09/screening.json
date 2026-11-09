@@ -1,0 +1,151 @@
+{
+  "cases": [
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67595",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/unexpected-negative-mixing-enthalpy-using-a-ga-in-n-meam-potential/67595"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67605",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/compiling-lammps-with-recent-versions-of-python-failing-on-cython-distutils-setuptools-import-problem/67605"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67617",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/cannot-find-fix-storing-granular-history/67617"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67566",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/question-about-remap-ordering-and-rigid-body-geometry-in-fix-rigid-npt-small/67566"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67588",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/lammps-gui-paper-and-lammps-gui-release-3-1-2/67588"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67597",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/group-atoms-that-are-bonded/67597"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67558",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/anyone-have-template-for-h-file-for-new-pair-style/67558"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67547",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/lammps-howto-updates/67547"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67553",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/is-kokkos-gpu-acceleration-planned-for-fix-qeq-rel-reaxff/67553"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67549",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/question-about-the-setting-and-effect-of-the-nx-parameter-in-fix-atom-swap/67549"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67540",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/error-resuming-npt-tempering-calculations/67540"
+    },
+    {
+      "capture_outcome": "captured",
+      "condition": null,
+      "decision": "pending",
+      "dependency_gaps": [],
+      "evidence_posts": [],
+      "id": "m67537",
+      "intent": null,
+      "proposed_correction": null,
+      "reason": null,
+      "url": "https://matsci.org/t/extra-pair-force-package-how-to-include-in-build-script/67537"
+    }
+  ],
+  "plan_sha256": "8ebed4a3ed5ed79a790779a7b31d6af55de7966eb2cd5e540e2be90a5d2714ec",
+  "reviewer": null,
+  "schema_version": 1
+}
